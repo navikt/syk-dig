@@ -1,0 +1,6 @@
+query ArbeidsgivereTestQuery {
+    arbeidsgivere {
+        navn
+        orgnummer
+    }
+}
