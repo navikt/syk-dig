@@ -1,0 +1,42 @@
+{
+    "name": "syk-dig",
+    "version": "0.1.0",
+    "private": true,
+    "packageManager": "yarn@3.2.3",
+    "scripts": {
+        "start": "next dev | pino-pretty",
+        "build": "next build",
+        "lint": "next lint"
+    },
+    "dependencies": {
+        "@navikt/ds-css": "^1.2.6",
+        "@navikt/ds-icons": "^1.2.6",
+        "@navikt/ds-react": "^1.2.6",
+        "jose": "^4.9.2",
+        "next": "12.2.5",
+        "next-logger": "^3.0.1",
+        "node-cache": "^5.1.2",
+        "openid-client": "^5.1.9",
+        "pino": "^8.5.0",
+        "pino-pretty": "^9.1.0",
+        "react": "18.2.0",
+        "react-dom": "18.2.0"
+    },
+    "devDependencies": {
+        "@navikt/eslint-config-teamsykmelding": "^0.20.0",
+        "@types/node": "18.7.15",
+        "@types/react": "18.0.18",
+        "@types/react-dom": "18.0.6",
+        "eslint": "8.22.0",
+        "eslint-config-next": "12.2.5",
+        "prettier": "^2.7.1",
+        "typescript": "4.8.2"
+    },
+    "prettier": "@navikt/eslint-config-teamsykmelding/prettier",
+    "eslintConfig": {
+        "extends": [
+            "@navikt/eslint-config-teamsykmelding",
+            "next/core-web-vitals"
+        ]
+    }
+}

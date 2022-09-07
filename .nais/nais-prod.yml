@@ -1,0 +1,50 @@
+apiVersion: 'nais.io/v1alpha1'
+kind: 'Application'
+metadata:
+  name: syk-dig
+  namespace: teamsykmelding
+  labels:
+    team: teamsykmelding
+spec:
+  image: {{image}}
+  replicas:
+    min: 2
+    max: 3
+    cpuThresholdPercentage: 90
+  port: 3000
+  liveness:
+    path: /api/internal/is_alive
+  readiness:
+    path: /api/internal/is_ready
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  azure:
+    application:
+      enabled: true
+      tenant: nav.no
+    sidecar:
+      enabled: true
+  ingresses:
+    - 'https://syk-dig.intern.nav.no'
+  accessPolicy:
+    outbound:
+      rules:
+        - application: syk-dig-backend
+  env:
+    - name: ASSET_PREFIX
+      value: "https://teamsykmelding-static-files.nav.no/dinesykmeldte"
+    - name: SYK_DIG_BACKEND_SCOPE
+      value: api://prod-gcp.teamsykmelding.syk-dig-backend/.default
+    - name: SYK_DIG_BACKEND_HOST
+      value: syk-dig-backend
+    - name: MODIACONTEXTHOLDER_SCOPE
+      value: api://prod-fss.personoversikt.modiacontextholder/.default
+    - name: MODIACONTEXTHOLDER_HOST
+      value: modiacontextholder.prod-fss-pub.nais.io
+    - name: RUNTIME_ENVIRONMENT
+      value: production
