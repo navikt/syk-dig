@@ -5,11 +5,17 @@ interface PublicEnv {
 }
 
 type ServerEnv = Record<
+    // nais injected env vars
     | 'AZURE_APP_CLIENT_ID'
     | 'AZURE_APP_CLIENT_SECRET'
     | 'AZURE_OPENID_CONFIG_TOKEN_ENDPOINT'
     | 'AZURE_APP_WELL_KNOWN_URL'
-    | 'AZURE_APP_PRE_AUTHORIZED_APPS',
+    | 'AZURE_APP_PRE_AUTHORIZED_APPS'
+    // naiserator injected env vars
+    | 'SYK_DIG_BACKEND_SCOPE'
+    | 'SYK_DIG_BACKEND_HOST'
+    | 'MODIACONTEXTHOLDER_SCOPE'
+    | 'MODIACONTEXTHOLDER_HOST',
     string
 >;
 

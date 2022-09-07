@@ -19,7 +19,7 @@ export async function getOboAccessToken(userToken: string, scope: string): Promi
     });
 
     if (!oboTokenSet.access_token) {
-        throw new Error('Modia Context OBO Access token is undefined');
+        throw new Error('OBO token from grant is undefined');
     }
 
     return oboTokenSet.access_token;

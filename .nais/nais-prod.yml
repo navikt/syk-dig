@@ -37,7 +37,7 @@ spec:
         - application: syk-dig-backend
   env:
     - name: ASSET_PREFIX
-      value: "https://teamsykmelding-static-files.nav.no/dinesykmeldte"
+      value: "https://teamsykmelding-static-files.nav.no/syk-dig"
     - name: SYK_DIG_BACKEND_SCOPE
       value: api://prod-gcp.teamsykmelding.syk-dig-backend/.default
     - name: SYK_DIG_BACKEND_HOST

@@ -15,6 +15,11 @@ const nextConfig = {
         AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
         AZURE_APP_WELL_KNOWN_URL: process.env.AZURE_APP_WELL_KNOWN_URL,
         AZURE_APP_PRE_AUTHORIZED_APPS: process.env.AZURE_APP_PRE_AUTHORIZED_APPS,
+        // naiserator injected env variables
+        SYK_DIG_BACKEND_SCOPE: process.env.SYK_DIG_BACKEND_SCOPE,
+        SYK_DIG_BACKEND_HOST: process.env.SYK_DIG_BACKEND_HOST,
+        MODIACONTEXTHOLDER_SCOPE: process.env.MODIACONTEXTHOLDER_SCOPE,
+        MODIACONTEXTHOLDER_HOST: process.env.MODIACONTEXTHOLDER_HOST,
     },
     publicRuntimeConfig: {
         runtimeEnv: process.env.RUNTIME_ENVIRONMENT,
