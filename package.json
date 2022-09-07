@@ -9,6 +9,9 @@
         "lint": "next lint",
         "gen": "graphql-codegen"
     },
+    "msw": {
+        "workerDirectory": "public"
+    },
     "dependencies": {
         "@apollo/client": "^3.6.9",
         "@navikt/ds-css": "^1.2.6",
@@ -31,11 +34,12 @@
         "@graphql-codegen/typed-document-node": "^2.3.3",
         "@graphql-codegen/typescript-operations": "^2.5.3",
         "@navikt/eslint-config-teamsykmelding": "^0.20.0",
-        "@types/node": "18.7.15",
+        "@types/node": "18.7.16",
         "@types/react": "18.0.18",
         "@types/react-dom": "18.0.6",
         "eslint": "8.22.0",
         "eslint-config-next": "12.2.5",
+        "msw": "^0.47.0",
         "prettier": "^2.7.1",
         "typescript": "4.8.2"
     },

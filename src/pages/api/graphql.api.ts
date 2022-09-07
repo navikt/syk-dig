@@ -20,11 +20,12 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
     }
 
     if (isLocalOrDemo) {
-        // TODO return some data
+        res.status(418).json({ message: 'Not supported in local or demo, why are you not mocking?' });
         return;
     }
 
     const bearerToken = await getOboAccessToken(accessToken, env.SYK_DIG_BACKEND_SCOPE);
+
     // TODO remove:
     logger.info(`Debug pls remove: OBO token for ${env.SYK_DIG_BACKEND_SCOPE}: ${bearerToken}`);
 
