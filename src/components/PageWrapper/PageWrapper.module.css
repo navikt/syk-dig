@@ -1,0 +1,5 @@
+.mainContent {
+    max-width: 50rem;
+    margin: 0 auto;
+    margin-top: var(--navds-spacing-8)
+}

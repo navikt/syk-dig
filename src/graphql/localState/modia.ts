@@ -1,8 +1,9 @@
-import { ApolloCache } from '@apollo/client';
+import { ApolloCache, ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { Resolver } from '@apollo/client/core/LocalState';
 
 import { ModiaContextDocument, UpdateAktivEnhetMutationVariables } from '../queries/graphql.generated';
-import { ModiaContext } from '../../modia/ModiaService';
+import { ModiaContext, ModiaContextError } from '../../modia/ModiaService';
+import { useEffect } from 'react';
 
 export const modiaLocalResolvers: Record<string, Resolver> = {
     updateModiaEnhet: (
@@ -24,6 +25,7 @@ export const modiaLocalResolvers: Record<string, Resolver> = {
 };
 
 export function setInitialModiaQueryState(cache: ApolloCache<unknown>, modiaContext: ModiaContext): void {
+    const existingContext = cache.readQuery({ query: ModiaContextDocument });
     cache.writeQuery({
         query: ModiaContextDocument,
         data: {
@@ -31,6 +33,7 @@ export function setInitialModiaQueryState(cache: ApolloCache<unknown>, modiaCont
             modia: {
                 __typename: 'ModiaContext',
                 ...modiaContext,
+                aktivEnhet: existingContext?.modia?.aktivEnhet ?? modiaContext.aktivEnhet,
                 enheter: modiaContext.enheter.map((it) => ({
                     __typename: 'ModiaEnhet' as const,
                     ...it,
@@ -38,4 +41,15 @@ export function setInitialModiaQueryState(cache: ApolloCache<unknown>, modiaCont
             },
         },
     });
+}
+
+export function useModiaContextUpdated(
+    apolloClient: ApolloClient<NormalizedCacheObject>,
+    modiaContext: ModiaContext | ModiaContextError | undefined,
+): void {
+    useEffect(() => {
+        if (modiaContext && !('errorType' in modiaContext)) {
+            setInitialModiaQueryState(apolloClient.cache, modiaContext);
+        }
+    }, [apolloClient.cache, modiaContext]);
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Header } from '@navikt/ds-react-internal';
 import { useMutation, useQuery } from '@apollo/client';
 import { Select } from '@navikt/ds-react';
+import Link from 'next/link';
 
 import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/queries/graphql.generated';
 
@@ -13,7 +14,9 @@ function PageHeader(): JSX.Element {
 
     return (
         <Header>
-            <Header.Title href="#thecakeisalie">Digitalisering av sykmeldinger</Header.Title>
+            <Link href="/" passHref>
+                <Header.Title>Digitalisering av sykmeldinger</Header.Title>
+            </Link>
             {data?.modia && (
                 <div className={styles.enhetMenu} data-theme="dark">
                     <Select
