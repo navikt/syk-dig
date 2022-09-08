@@ -6,11 +6,10 @@ import type { AppProps as NextAppProps } from 'next/app';
 
 import { createApolloClient } from '../graphql/apollo';
 import logger from '../utils/logger';
-import { isLocalOrDemo } from '../utils/env';
 import { ModiaContext, ModiaContextError } from '../modia/ModiaService';
 import { useModiaContextUpdated } from '../graphql/localState/modia';
 
-if (isLocalOrDemo) {
+if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
     logger.info('Setting up MSW for local or demo');
     require('../mocks');
 }
