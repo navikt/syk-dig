@@ -1,0 +1,21 @@
+directive @client on FIELD
+
+type ModiaEnhet {
+    enhetId: String!
+    navn: String!
+}
+
+type ModiaContext {
+    ident: String!
+    navn: String!
+    aktivEnhet: String
+    enheter: [ModiaEnhet!]!
+}
+
+extend type Query {
+    modia: ModiaContext
+}
+
+extend type Mutation {
+    updateModiaEnhet(enhetId: String!): ModiaContext
+}

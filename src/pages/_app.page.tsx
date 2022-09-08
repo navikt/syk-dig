@@ -1,20 +1,29 @@
 import '../style/global.css';
 
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { ApolloProvider } from '@apollo/client';
-import type { AppProps } from 'next/app';
+import type { AppProps as NextAppProps } from 'next/app';
 
 import { createApolloClient } from '../graphql/apollo';
 import logger from '../utils/logger';
 import { isLocalOrDemo } from '../utils/env';
+import { ModiaContext, ModiaContextError } from '../modia/ModiaService';
 
 if (isLocalOrDemo) {
     logger.info('Setting up MSW for local or demo');
     require('../mocks');
 }
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-    const [apolloClient] = useState(() => createApolloClient());
+export interface RequiredPageProps {
+    modiaContext?: ModiaContext | ModiaContextError;
+}
+
+export interface AppProps<T> extends Omit<NextAppProps<T>, 'pageProps'> {
+    pageProps: PropsWithChildren & Partial<RequiredPageProps>;
+}
+
+function MyApp({ Component, pageProps }: AppProps<RequiredPageProps>): JSX.Element {
+    const [apolloClient] = useState(() => createApolloClient(pageProps.modiaContext));
 
     return (
         <ApolloProvider client={apolloClient}>

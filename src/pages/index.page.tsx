@@ -5,6 +5,8 @@ import { useQuery } from '@apollo/client';
 
 import { withAuthenticatedPage } from '../auth/withAuth';
 import { ArbeidsgivereTestQueryDocument } from '../graphql/queries/graphql.generated';
+import PageHeader from '../components/PageHeader/PageHeader';
+import { getModiaContext } from '../modia/ModiaService';
 
 const Home: NextPage = () => {
     const { loading, data, error } = useQuery(ArbeidsgivereTestQueryDocument);
@@ -14,6 +16,9 @@ const Home: NextPage = () => {
             <Head>
                 <title>Digitalisering av Sykmeldinger</title>
             </Head>
+
+            <PageHeader />
+
             <main>
                 <Heading size="medium">Digitalisering av Sykmeldinger</Heading>
                 {loading && <Loader />}
@@ -29,6 +34,14 @@ const Home: NextPage = () => {
     );
 };
 
-export const getServerSideProps = withAuthenticatedPage();
+export const getServerSideProps = withAuthenticatedPage(async (context, accessToken) => {
+    const modiaContext = await getModiaContext(accessToken);
+
+    return {
+        props: {
+            modiaContext,
+        },
+    };
+});
 
 export default Home;

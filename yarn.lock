@@ -1383,6 +1383,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@navikt/ds-css-internal@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "@navikt/ds-css-internal@npm:1.2.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css-internal%2F1.2.6%2Fc50547085a4d2e9aa1c8666c5a8dfd54d84bb9f5"
+  checksum: 09ed74c57823d5632097e589d0ce01619a7c06b984088592ad9c9feac62f933e0e49d4dc91f0b1513f23decf9a449ea19d82ced9b06857824334c69682abbf38
+  languageName: node
+  linkType: hard
+
 "@navikt/ds-css@npm:^1.2.6":
   version: 1.2.6
   resolution: "@navikt/ds-css@npm:1.2.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css%2F1.2.6%2F6f4f8571301674fe5f27e0531f4c78fad89d4ffb"
@@ -1397,6 +1404,21 @@ __metadata:
     "@types/react": ^17.0.30 || ^18.0.0
     react: ^17.0.0 || ^18.0.0
   checksum: d24dbd7a8a7229afc83119164c0120bd2f39708df3119edb4aadce78af72eff612ae955078e8100e05096063767b9e4d34b936d048adafac811c85fb4119845a
+  languageName: node
+  linkType: hard
+
+"@navikt/ds-react-internal@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "@navikt/ds-react-internal@npm:1.2.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-react-internal%2F1.2.6%2F6b5f4041cf3f2ff95a0ecd336c47e1eab18bc9cc"
+  dependencies:
+    "@navikt/ds-icons": ^1.2.6
+    "@navikt/ds-react": ^1.2.6
+    clsx: ^1.1.1
+    copy-to-clipboard: ^3.3.1
+  peerDependencies:
+    "@types/react": ^17.0.30 || ^18.0.0
+    react: ^17.0.0 || ^18.0.0
+  checksum: ac4b6d06cf9797ba0256b97754492af0d691f75720d47efa27999b8c4faf07bf55bb729f86b53ef57b47b042c38293af35de3b682c184994a97a48fbe818464b
   languageName: node
   linkType: hard
 
@@ -3060,6 +3082,15 @@ __metadata:
   version: 0.4.2
   resolution: "cookie@npm:0.4.2"
   checksum: a00833c998bedf8e787b4c342defe5fa419abd96b32f4464f718b91022586b8f1bafbddd499288e75c037642493c83083da426c6a9080d309e3bd90fd11baa9b
+  languageName: node
+  linkType: hard
+
+"copy-to-clipboard@npm:^3.3.1":
+  version: 3.3.2
+  resolution: "copy-to-clipboard@npm:3.3.2"
+  dependencies:
+    toggle-selection: ^1.0.6
+  checksum: 968ec7ec3d0cf3067542b63dd244ba5d05e743899d7a0361fb0a3130e731d277f5ea54ea4d90fc88cc66eea2e4c67dc2dd8698e4ed360f921af5aa7c60b889ac
   languageName: node
   linkType: hard
 
@@ -7278,8 +7309,10 @@ __metadata:
     "@graphql-codegen/typed-document-node": ^2.3.3
     "@graphql-codegen/typescript-operations": ^2.5.3
     "@navikt/ds-css": ^1.2.6
+    "@navikt/ds-css-internal": ^1.2.6
     "@navikt/ds-icons": ^1.2.6
     "@navikt/ds-react": ^1.2.6
+    "@navikt/ds-react-internal": ^1.2.6
     "@navikt/eslint-config-teamsykmelding": ^0.20.0
     "@types/node": 18.7.16
     "@types/react": 18.0.18
@@ -7299,6 +7332,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     typescript: 4.8.2
+    zod: ^3.19.0
   languageName: unknown
   linkType: soft
 
@@ -7386,6 +7420,13 @@ __metadata:
   dependencies:
     is-number: ^7.0.0
   checksum: f76fa01b3d5be85db6a2a143e24df9f60dd047d151062d0ba3df62953f2f697b16fe5dad9b0ac6191c7efc7b1d9dcaa4b768174b7b29da89d4428e64bc0a20ed
+  languageName: node
+  linkType: hard
+
+"toggle-selection@npm:^1.0.6":
+  version: 1.0.6
+  resolution: "toggle-selection@npm:1.0.6"
+  checksum: a90dc80ed1e7b18db8f4e16e86a5574f87632dc729cfc07d9ea3ced50021ad42bb4e08f22c0913e0b98e3837b0b717e0a51613c65f30418e21eb99da6556a74c
   languageName: node
   linkType: hard
 
@@ -7989,5 +8030,12 @@ __metadata:
   version: 0.8.15
   resolution: "zen-observable@npm:0.8.15"
   checksum: b7289084bc1fc74a559b7259faa23d3214b14b538a8843d2b001a35e27147833f4107590b1b44bf5bc7f6dfe6f488660d3a3725f268e09b3925b3476153b7821
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.19.0":
+  version: 3.19.0
+  resolution: "zod@npm:3.19.0"
+  checksum: 35b9270ba73ff15e1cc3e529cdd49b78ceb5f9204770b974ffa5d1728ad1be8429315aa25263d088edecaa99ecc3631339fe79313435154060951706294f47e5
   languageName: node
   linkType: hard

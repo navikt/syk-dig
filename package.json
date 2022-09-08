@@ -15,8 +15,10 @@
     "dependencies": {
         "@apollo/client": "^3.6.9",
         "@navikt/ds-css": "^1.2.6",
+        "@navikt/ds-css-internal": "^1.2.6",
         "@navikt/ds-icons": "^1.2.6",
         "@navikt/ds-react": "^1.2.6",
+        "@navikt/ds-react-internal": "^1.2.6",
         "graphql": "^16.6.0",
         "jose": "^4.9.2",
         "next": "12.2.5",
@@ -26,7 +28,8 @@
         "pino": "^8.5.0",
         "pino-pretty": "^9.1.0",
         "react": "18.2.0",
-        "react-dom": "18.2.0"
+        "react-dom": "18.2.0",
+        "zod": "^3.19.0"
     },
     "devDependencies": {
         "@graphql-codegen/cli": "^2.12.0",

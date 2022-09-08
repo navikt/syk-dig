@@ -1,5 +1,5 @@
 overwrite: true
-schema: 'https://syk-dig-backend.dev.intern.nav.no/graphql'
+schema: ['https://syk-dig-backend.dev.intern.nav.no/graphql', './src/**/*.graphqls']
 documents: './src/**/*.graphql'
 
 hooks:

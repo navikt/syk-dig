@@ -281,13 +281,32 @@ export enum ErrorType {
     Unknown = 'UNKNOWN',
 }
 
+export type ModiaContext = {
+    __typename: 'ModiaContext';
+    aktivEnhet?: Maybe<Scalars['String']>;
+    enheter: Array<ModiaEnhet>;
+    ident: Scalars['String'];
+    navn: Scalars['String'];
+};
+
+export type ModiaEnhet = {
+    __typename: 'ModiaEnhet';
+    enhetId: Scalars['String'];
+    navn: Scalars['String'];
+};
+
 export type Mutation = {
     __typename: 'Mutation';
     minMutation: Arbeidsgiver;
+    updateModiaEnhet?: Maybe<ModiaContext>;
 };
 
 export type MutationMinMutationArgs = {
     arbeidsgiver: ArbeidsgiverInput;
+};
+
+export type MutationUpdateModiaEnhetArgs = {
+    enhetId: Scalars['String'];
 };
 
 export type Person = {
@@ -301,6 +320,7 @@ export type Query = {
     __typename: 'Query';
     _service?: Maybe<_Service>;
     arbeidsgivere: Array<Arbeidsgiver>;
+    modia?: Maybe<ModiaContext>;
     oppgave?: Maybe<Digitaliseringsoppgave>;
     utenlandssykmelding: Array<UtenlandsSykmelding>;
 };
@@ -324,6 +344,42 @@ export type _Service = {
     sdl: Scalars['String'];
 };
 
+export type ModiaFragment = {
+    __typename: 'ModiaContext';
+    navn: string;
+    aktivEnhet?: string | null;
+    ident: string;
+    enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>;
+};
+
+export type ModiaContextQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ModiaContextQuery = {
+    __typename: 'Query';
+    modia?: {
+        __typename: 'ModiaContext';
+        navn: string;
+        aktivEnhet?: string | null;
+        ident: string;
+        enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>;
+    } | null;
+};
+
+export type UpdateAktivEnhetMutationVariables = Exact<{
+    enhetId: Scalars['String'];
+}>;
+
+export type UpdateAktivEnhetMutation = {
+    __typename: 'Mutation';
+    updateModiaEnhet?: {
+        __typename: 'ModiaContext';
+        navn: string;
+        aktivEnhet?: string | null;
+        ident: string;
+        enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>;
+    } | null;
+};
+
 export type ArbeidsgivereTestQueryQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ArbeidsgivereTestQueryQuery = {
@@ -331,6 +387,99 @@ export type ArbeidsgivereTestQueryQuery = {
     arbeidsgivere: Array<{ __typename: 'Arbeidsgiver'; navn: string; orgnummer?: string | null }>;
 };
 
+export const ModiaFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Modia' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ModiaContext' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'aktivEnhet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'enheter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'enhetId' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ModiaFragment, unknown>;
+export const ModiaContextDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'ModiaContext' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'modia' },
+                        directives: [{ kind: 'Directive', name: { kind: 'Name', value: 'client' } }],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Modia' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        ...ModiaFragmentDoc.definitions,
+    ],
+} as unknown as DocumentNode<ModiaContextQuery, ModiaContextQueryVariables>;
+export const UpdateAktivEnhetDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateAktivEnhet' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'enhetId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'updateModiaEnhet' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'enhetId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'enhetId' } },
+                            },
+                        ],
+                        directives: [{ kind: 'Directive', name: { kind: 'Name', value: 'client' } }],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Modia' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        ...ModiaFragmentDoc.definitions,
+    ],
+} as unknown as DocumentNode<UpdateAktivEnhetMutation, UpdateAktivEnhetMutationVariables>;
 export const ArbeidsgivereTestQueryDocument = {
     kind: 'Document',
     definitions: [

@@ -2,6 +2,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, Ne
 
 import logger from '../utils/logger';
 import { isLocalOrDemo } from '../utils/env';
+import { RequiredPageProps } from '../pages/_app.page';
 
 import { validateAzureToken } from './azure/azureValidateToken';
 
@@ -9,11 +10,7 @@ type ApiHandler = (req: NextApiRequest, res: NextApiResponse, accessToken: strin
 type PageHandler = (
     context: GetServerSidePropsContext,
     accessToken: string,
-) => Promise<GetServerSidePropsResult<unknown>>;
-
-const defaultPageHandler: PageHandler = async (): Promise<GetServerSidePropsResult<unknown>> => ({
-    props: {},
-});
+) => Promise<GetServerSidePropsResult<RequiredPageProps>>;
 
 /**
  * Used to authenticate Next.JS pages. Assumes application is behind
@@ -21,7 +18,7 @@ const defaultPageHandler: PageHandler = async (): Promise<GetServerSidePropsResu
  * Wonderwall-cookie is missing.
  *
  */
-export function withAuthenticatedPage(handler: PageHandler = defaultPageHandler) {
+export function withAuthenticatedPage(handler: PageHandler) {
     return async function withBearerTokenHandler(
         context: GetServerSidePropsContext,
     ): Promise<ReturnType<NonNullable<typeof handler>>> {

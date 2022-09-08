@@ -1,0 +1,21 @@
+fragment Modia on ModiaContext {
+    navn
+    aktivEnhet
+    ident
+    enheter {
+        navn
+        enhetId
+    }
+}
+
+query ModiaContext {
+    modia @client {
+        ...Modia
+    }
+}
+
+mutation UpdateAktivEnhet($enhetId: String!) {
+    updateModiaEnhet(enhetId: $enhetId) @client {
+        ...Modia
+    }
+}

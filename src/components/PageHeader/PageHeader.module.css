@@ -1,0 +1,14 @@
+.enhetMenu {
+    margin-left: auto;
+    margin-right: var(--navds-spacing-4);
+    margin-bottom: var(--navds-spacing-2);
+}
+
+.enhetMenu :global(.navds-select__input) {
+    color: var(--navds-text-field-color-text);
+    background-color: var(--navds-text-field-color-background);
+}
+
+.enhetMenu :global(.navds-select__chevron) {
+    color: var(--navds-text-field-color-text);
+}
