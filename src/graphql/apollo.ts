@@ -8,8 +8,8 @@ import {
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 import { RetryLink } from '@apollo/client/link/retry';
+import { logger } from '@navikt/next-logger';
 
-import logger from '../utils/logger';
 import { ModiaContext, ModiaContextError } from '../modia/ModiaService';
 
 import possibleTypesGenerated from './queries/possible-types.generated';
