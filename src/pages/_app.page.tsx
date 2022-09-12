@@ -3,9 +3,9 @@ import '../style/global.css';
 import { PropsWithChildren, useState } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import type { AppProps as NextAppProps } from 'next/app';
+import { logger } from '@navikt/next-logger';
 
 import { createApolloClient } from '../graphql/apollo';
-import logger from '../utils/logger';
 import { ModiaContext, ModiaContextError } from '../modia/ModiaService';
 import { useModiaContextUpdated } from '../graphql/localState/modia';
 
