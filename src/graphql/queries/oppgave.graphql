@@ -1,10 +1,10 @@
 query OppgaveById($oppgaveId: String!) {
     oppgave(oppgaveId: $oppgaveId) {
         digitaliseringsoppgave {
-            oppgaveId,
-            sykmeldingId,
+            oppgaveId
+            sykmeldingId
             person {
-                fnr,
+                fnr
                 navn
             }
         }
