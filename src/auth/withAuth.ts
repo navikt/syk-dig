@@ -1,10 +1,9 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next';
 import { logger } from '@navikt/next-logger';
+import { validateAzureToken } from '@navikt/next-auth-wonderwall';
 
 import { isLocalOrDemo } from '../utils/env';
 import { RequiredPageProps } from '../pages/_app.page';
-
-import { validateAzureToken } from './azure/azureValidateToken';
 
 type ApiHandler = (req: NextApiRequest, res: NextApiResponse, accessToken: string) => void | Promise<unknown>;
 type PageHandler = (
@@ -29,12 +28,19 @@ export function withAuthenticatedPage(handler: PageHandler) {
 
         const request = context.req;
         const bearerToken: string | null | undefined = request.headers['authorization'];
-        if (!bearerToken || !(await validateAzureToken(bearerToken))) {
-            if (!bearerToken) {
-                logger.info('Could not find any bearer token on the request. Redirecting to login.');
-            } else {
-                logger.error('Invalid JWT token found, redirecting to login.');
-            }
+
+        if (!bearerToken) {
+            logger.info('Could not find any bearer token on the request. Redirecting to login.');
+            return {
+                redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
+            };
+        }
+
+        const tokenValidationResult = await validateAzureToken(bearerToken);
+        if (tokenValidationResult !== 'valid') {
+            logger.error(
+                `Invalid JWT token found (${tokenValidationResult.errorType} ${tokenValidationResult.message}), redirecting to login.`,
+            );
 
             return {
                 redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
@@ -57,7 +63,17 @@ export function withAuthenticatedApi(handler: ApiHandler): ApiHandler {
         }
 
         const bearerToken: string | null | undefined = req.headers['authorization'];
-        if (!bearerToken || !(await validateAzureToken(bearerToken))) {
+        if (!bearerToken) {
+            logger.error('Could not find any bearer token on the request. Denying request. This should not happen');
+            res.status(401).json({ message: 'Access denied' });
+            return;
+        }
+
+        const tokenValidationResult = await validateAzureToken(bearerToken);
+        if (tokenValidationResult !== 'valid') {
+            logger.info(
+                `Invalid JWT token on API request for path ${req.url} (${tokenValidationResult.errorType} ${tokenValidationResult.message})`,
+            );
             res.status(401).json({ message: 'Access denied' });
             return;
         }

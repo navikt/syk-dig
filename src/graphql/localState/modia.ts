@@ -1,9 +1,9 @@
 import { ApolloCache, ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { Resolver } from '@apollo/client/core/LocalState';
+import { useEffect } from 'react';
 
 import { ModiaContextDocument, UpdateAktivEnhetMutationVariables } from '../queries/graphql.generated';
 import { ModiaContext, ModiaContextError } from '../../modia/ModiaService';
-import { useEffect } from 'react';
 
 export const modiaLocalResolvers: Record<string, Resolver> = {
     updateModiaEnhet: (

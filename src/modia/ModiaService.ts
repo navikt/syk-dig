@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { logger } from '@navikt/next-logger';
+import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall';
 
 import { getServerEnv, isLocalOrDemo } from '../utils/env';
-import { getOboAccessToken } from '../auth/azure/azureTokens';
 
 import { AktivEnhet, AktivEnhetSchema, Veileder, VeilederSchema } from './ModiaResponseSchema';
 
@@ -31,7 +31,19 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
         };
     }
 
-    const modiaOboToken = await getOboAccessToken(userAccessToken, env.MODIACONTEXTHOLDER_SCOPE);
+    const modiaOboToken = await grantAzureOboToken(userAccessToken, env.MODIACONTEXTHOLDER_SCOPE);
+    if (isInvalidTokenSet(modiaOboToken)) {
+        logger.error(
+            new Error(`Unable to get modia obo token: ${modiaOboToken.errorType} ${modiaOboToken.message}`, {
+                cause: modiaOboToken.error instanceof Error ? modiaOboToken.error : undefined,
+            }),
+        );
+        return {
+            errorType: 'FETCH_ERROR',
+            message: 'Klarte ikke å hente veileder',
+        };
+    }
+
     const [veileder, aktivEnhet] = await Promise.allSettled([
         fetchModia({ path: 'decorator/v2', schema: VeilederSchema, what: 'veileder' }, modiaOboToken),
         fetchModia({ path: 'context/aktivenhet', schema: AktivEnhetSchema, what: 'aktiv enhet' }, modiaOboToken),
