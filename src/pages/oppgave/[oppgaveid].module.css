@@ -1,0 +1,14 @@
+.contentWrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.pdf {
+    flex: 0 0 40%;
+    height: calc(100vh - var(--navds-spacing-14));
+}
+
+.content {
+    flex: 0 0 60%;
+    padding: var(--navds-spacing-8);
+}

@@ -14,7 +14,6 @@ export const handlers = [
                         __typename: 'Digitaliseringsoppgave',
                         oppgaveId: '123',
                         sykmeldingId: '123',
-                        pdf: null,
                         person: {
                             __typename: 'Person',
                             navn: 'Ola Nordmann',
