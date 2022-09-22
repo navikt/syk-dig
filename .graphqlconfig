@@ -1,15 +1,3 @@
 {
-  "name": "syk-dig GraphQL API",
-  "schemaPath": "schema.graphql",
-  "extensions": {
-    "endpoints": {
-      "syk-dig dev": {
-        "url": "https://syk-dig-backend.dev.intern.nav.no/graphql",
-        "headers": {
-          "user-agent": "JS GraphQL"
-        },
-        "introspect": true
-      }
-    }
-  }
+  "schemaPath": "schema.json"
 }
