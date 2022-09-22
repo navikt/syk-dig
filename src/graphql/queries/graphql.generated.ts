@@ -33,6 +33,15 @@ export type ArbeidsgiverInput = {
     orgnummer?: InputMaybe<Scalars['String']>;
 };
 
+export type Bostedsadresse = {
+    __typename: 'Bostedsadresse';
+    coAdressenavn?: Maybe<Scalars['String']>;
+    matrikkeladresse?: Maybe<Matrikkeladresse>;
+    ukjentBosted?: Maybe<UkjentBosted>;
+    utenlandskAdresse?: Maybe<UtenlandskAdresse>;
+    vegadresse?: Maybe<Vegadresse>;
+};
+
 export type Digitaliseringsoppgave = {
     __typename: 'Digitaliseringsoppgave';
     oppgaveId: Scalars['String'];
@@ -45,6 +54,14 @@ export type DigitaliseringsoppgaveRespons = {
     __typename: 'DigitaliseringsoppgaveRespons';
     digitaliseringsoppgave?: Maybe<Digitaliseringsoppgave>;
     error?: Maybe<Scalars['String']>;
+};
+
+export type Matrikkeladresse = {
+    __typename: 'Matrikkeladresse';
+    bruksenhetsnummer?: Maybe<Scalars['String']>;
+    kommunenummer?: Maybe<Scalars['String']>;
+    postnummer?: Maybe<Scalars['String']>;
+    tilleggsnavn?: Maybe<Scalars['String']>;
 };
 
 export type ModiaContext = {
@@ -75,6 +92,50 @@ export type MutationUpdateModiaEnhetArgs = {
     enhetId: Scalars['String'];
 };
 
+export type Navn = {
+    __typename: 'Navn';
+    etternavn: Scalars['String'];
+    fornavn: Scalars['String'];
+    mellomnavn?: Maybe<Scalars['String']>;
+};
+
+export type Oppholdsadresse = {
+    __typename: 'Oppholdsadresse';
+    coAdressenavn?: Maybe<Scalars['String']>;
+    matrikkeladresse?: Maybe<Matrikkeladresse>;
+    oppholdAnnetSted?: Maybe<Scalars['String']>;
+    utenlandskAdresse?: Maybe<UtenlandskAdresse>;
+    vegadresse?: Maybe<Vegadresse>;
+};
+
+export type PdlPerson = {
+    __typename: 'PdlPerson';
+    bostedsadresse: Array<Bostedsadresse>;
+    navn: Array<Navn>;
+    oppholdsadresse: Array<Oppholdsadresse>;
+};
+
+export type PdlPersonBostedsadresseArgs = {
+    historikk?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type PdlPersonNavnArgs = {
+    historikk?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type PdlPersonOppholdsadresseArgs = {
+    historikk?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type PdlQuery = {
+    __typename: 'PdlQuery';
+    hentPerson?: Maybe<PdlPerson>;
+};
+
+export type PdlQueryHentPersonArgs = {
+    ident: Scalars['ID'];
+};
+
 export type Person = {
     __typename: 'Person';
     adresser: Array<Adresse>;
@@ -98,10 +159,38 @@ export type QueryUtenlandssykmeldingArgs = {
     id: Scalars['String'];
 };
 
+export type UkjentBosted = {
+    __typename: 'UkjentBosted';
+    bostedskommune?: Maybe<Scalars['String']>;
+};
+
 export type UtenlandsSykmelding = {
     __typename: 'UtenlandsSykmelding';
     fnr: Scalars['String'];
     id: Scalars['String'];
+};
+
+export type UtenlandskAdresse = {
+    __typename: 'UtenlandskAdresse';
+    adressenavnNummer?: Maybe<Scalars['String']>;
+    bySted?: Maybe<Scalars['String']>;
+    bygningEtasjeLeilighet?: Maybe<Scalars['String']>;
+    landkode: Scalars['String'];
+    postboksNummerNavn?: Maybe<Scalars['String']>;
+    postkode?: Maybe<Scalars['String']>;
+    regionDistriktOmraade?: Maybe<Scalars['String']>;
+};
+
+export type Vegadresse = {
+    __typename: 'Vegadresse';
+    adressenavn?: Maybe<Scalars['String']>;
+    bruksenhetsnummer?: Maybe<Scalars['String']>;
+    bydelsnummer?: Maybe<Scalars['String']>;
+    husbokstav?: Maybe<Scalars['String']>;
+    husnummer?: Maybe<Scalars['String']>;
+    kommunenummer?: Maybe<Scalars['String']>;
+    postnummer?: Maybe<Scalars['String']>;
+    tilleggsnavn?: Maybe<Scalars['String']>;
 };
 
 export type ModiaFragment = {
@@ -160,7 +249,6 @@ export type OppgaveByIdQuery = {
             __typename: 'Digitaliseringsoppgave';
             oppgaveId: string;
             sykmeldingId: string;
-            pdf?: string | null;
             person: { __typename: 'Person'; fnr: string; navn?: string | null };
         } | null;
     } | null;
@@ -334,7 +422,6 @@ export const OppgaveByIdDocument = {
                                                     ],
                                                 },
                                             },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'pdf' } },
                                         ],
                                     },
                                 },

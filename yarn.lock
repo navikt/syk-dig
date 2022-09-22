@@ -2043,6 +2043,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/pdfobject@npm:^2":
+  version: 2.2.3
+  resolution: "@types/pdfobject@npm:2.2.3"
+  checksum: 1a265d0c8ff88e04cec75ff41884d5f937f57d09a3ad4bc11879fdfefdf86b52bb255eb3a43ed7d0af1b4782ca8c233763b891aab04592c60caa865bc3ae904f
+  languageName: node
+  linkType: hard
+
 "@types/prop-types@npm:*":
   version: 15.7.5
   resolution: "@types/prop-types@npm:15.7.5"
@@ -6268,6 +6275,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pdfobject@npm:^2.2.8":
+  version: 2.2.8
+  resolution: "pdfobject@npm:2.2.8"
+  checksum: e7d5abb322afe9b8b99c64551ac7f921a4cfeb5fdd582afff080e24ccf59d492e2edb787199ca780c1e25b0624ebe2b48183015500b45f133299ad92adf49048
+  languageName: node
+  linkType: hard
+
 "picocolors@npm:^1.0.0":
   version: 1.0.0
   resolution: "picocolors@npm:1.0.0"
@@ -7358,6 +7372,7 @@ __metadata:
     "@navikt/next-auth-wonderwall": ^0.6.0
     "@navikt/next-logger": ^1.11.0
     "@types/node": 18.7.16
+    "@types/pdfobject": ^2
     "@types/react": 18.0.18
     "@types/react-dom": 18.0.6
     eslint: 8.22.0
@@ -7366,6 +7381,7 @@ __metadata:
     msw: 0.46.1
     next: 12.3.0
     next-logger: ^3.0.1
+    pdfobject: ^2.2.8
     pino: ^8.5.0
     pino-pretty: ^9.1.0
     prettier: ^2.7.1

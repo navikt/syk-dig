@@ -3,8 +3,6 @@ import Head from 'next/head';
 
 import PageHeader from '../PageHeader/PageHeader';
 
-import styles from './PageWrapper.module.css';
-
 function PageWrapper({ children, title }: PropsWithChildren<{ title: string }>): JSX.Element {
     return (
         <div>
@@ -12,7 +10,7 @@ function PageWrapper({ children, title }: PropsWithChildren<{ title: string }>):
                 <title>{title}</title>
             </Head>
             <PageHeader />
-            <main className={styles.mainContent}>{children}</main>
+            <main>{children}</main>
         </div>
     );
 }

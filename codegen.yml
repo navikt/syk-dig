@@ -1,5 +1,7 @@
 overwrite: true
-schema: ['https://syk-dig-backend.dev.intern.nav.no/graphql', './src/**/*.graphqls']
+# schema: ['https://syk-dig-backend.dev.intern.nav.no/graphql', './src/**/*.graphqls']
+# temporary workaround for generating schemas
+schema: ['../syk-dig-backend/src/main/resources/schema/**.graphqls', './src/**/*.graphqls']
 documents: './src/**/*.graphql'
 
 hooks:

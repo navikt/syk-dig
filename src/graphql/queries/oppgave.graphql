@@ -7,7 +7,6 @@ query OppgaveById($oppgaveId: String!) {
                 fnr,
                 navn
             }
-            pdf
         }
         error
     }

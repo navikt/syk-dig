@@ -1,22 +1,25 @@
-import { proxiedApiRouteConfig, proxyApiRouteRequest } from '@navikt/next-api-proxy';
 import { logger } from '@navikt/next-logger';
+import { proxiedApiRouteConfig, proxyApiRouteRequest } from '@navikt/next-api-proxy';
 import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall';
 
 import { withAuthenticatedApi } from '../../auth/withAuth';
-import { getServerEnv, isLocalOrDemo } from '../../utils/env';
+import { getServerEnv } from '../../utils/env';
+import { pdf } from '../../mocks/data/examplePdfbase64';
 
 const env = getServerEnv();
 
 const handler = withAuthenticatedApi(async (req, res, accessToken) => {
-    logger.info('Proxying request to syk-dig GraphQL API');
+    logger.info('Proxying request to syk-dig pdf');
 
-    if (req.method !== 'POST') {
+    if (req.method !== 'GET') {
         res.status(405).json({ message: 'Method not supported' });
         return;
     }
 
-    if (isLocalOrDemo) {
-        res.status(418).json({ message: 'Not supported in local or demo, why are you not mocking?' });
+    if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+        logger.warn(`Running with mock, mocking PDF for local and demo for ${req.url}`);
+        res.setHeader('Content-Type', 'application/pdf');
+        res.status(200).send(Buffer.from(pdf, 'base64'));
         return;
     }
 
@@ -32,23 +35,18 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
     }
 
     logger.info(`
-    DEBUG!! TODO REMOVE!! Got bearer token for graphql proxy
+    DEBUG!! TODO REMOVE!! Got bearer token for pdf proxy
 ${bearerToken}
 `);
 
-    try {
-        await proxyApiRouteRequest({
-            hostname: env.SYK_DIG_BACKEND_HOST,
-            path: '/api/graphql',
-            https: false,
-            req,
-            res,
-            bearerToken,
-        });
-    } catch (error: unknown) {
-        logger.error(error);
-        res.status(500).json({ message: 'Unable to proxy request' });
-    }
+    await proxyApiRouteRequest({
+        hostname: env.SYK_DIG_BACKEND_HOST,
+        path: req.url ?? '',
+        req,
+        res,
+        bearerToken,
+        https: false,
+    });
 });
 
 export const config = proxiedApiRouteConfig;
