@@ -9,13 +9,11 @@ import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/qu
 import styles from './PageHeader.module.css';
 
 function PageHeader(): JSX.Element {
-    const { data, error, loading } = useQuery(ModiaContextDocument);
+    const { data } = useQuery(ModiaContextDocument);
     const [updateAktivEnhet] = useMutation(UpdateAktivEnhetDocument);
 
-    console.log(data, error, loading);
-
     return (
-        <Header>
+        <Header className={styles.header}>
             <Link href="/" passHref>
                 <Header.Title>Digitalisering av sykmeldinger</Header.Title>
             </Link>
@@ -45,7 +43,7 @@ function PageHeader(): JSX.Element {
                     description={`Enhet: ${data.modia.aktivEnhet ?? 'Ingen enhet valgt'}`}
                 />
             )}
-            {error && <Header.User name="Klarte ikke å laste informasjon" description={error.message} />}
+            {!data?.modia && <Header.User name="Feil under lasting" description="Klarte ikke å laste enhet" />}
         </Header>
     );
 }

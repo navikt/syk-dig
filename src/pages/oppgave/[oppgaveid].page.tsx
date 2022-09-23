@@ -7,14 +7,13 @@ import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import { OppgaveByIdDocument } from '../../graphql/queries/graphql.generated';
 import Pdf from '../../components/Pdf/Pdf';
 import { withAuthenticatedPage } from '../../auth/withAuth';
+import { getModiaContext } from '../../modia/ModiaService';
 
 import styles from './[oppgaveid].module.css';
 
 function Oppgave(): JSX.Element {
     const { query } = useRouter();
     const oppgaveId = query.oppgaveid as string;
-
-    console.log('apage', oppgaveId);
 
     const { loading, data, error } = useQuery(OppgaveByIdDocument, {
         variables: { oppgaveId: oppgaveId ?? '' },
@@ -37,6 +36,12 @@ function Oppgave(): JSX.Element {
     );
 }
 
-export const getServerSideProps = withAuthenticatedPage();
+export const getServerSideProps = withAuthenticatedPage(async (_, accessToken) => {
+    const modiaContext = await getModiaContext(accessToken);
+
+    return {
+        props: { modiaContext },
+    };
+});
 
 export default Oppgave;
