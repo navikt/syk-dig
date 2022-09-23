@@ -5,7 +5,11 @@ import { validateAzureToken } from '@navikt/next-auth-wonderwall';
 import { isLocalOrDemo } from '../utils/env';
 import { RequiredPageProps } from '../pages/_app.page';
 
-type ApiHandler = (req: NextApiRequest, res: NextApiResponse, accessToken: string) => void | Promise<unknown>;
+type ApiHandler<Response> = (
+    req: NextApiRequest,
+    res: NextApiResponse<Response>,
+    accessToken: string,
+) => void | Promise<unknown>;
 type PageHandler = (
     context: GetServerSidePropsContext,
     accessToken: string,
@@ -55,7 +59,9 @@ export function withAuthenticatedPage(handler: PageHandler = async () => ({ prop
  * Used to authenticate Next.JS pages. Assumes application is behind
  * Wonderwall (https://doc.nais.io/security/auth/idporten/sidecar/). Will deny requests if Wonderwall cookie is missing.
  */
-export function withAuthenticatedApi(handler: ApiHandler): ApiHandler {
+export function withAuthenticatedApi<Response>(
+    handler: ApiHandler<Response | { message: string }>,
+): ApiHandler<Response | { message: string }> {
     return async function withBearerTokenHandler(req, res) {
         if (isLocalOrDemo) {
             logger.info('Is running locally or in demo, skipping authentication for API');
