@@ -14,26 +14,6 @@ export type Scalars = {
     _FieldSet: any;
 };
 
-export type Adresse = {
-    __typename: 'Adresse';
-    gateadresse?: Maybe<Scalars['String']>;
-    land?: Maybe<Scalars['String']>;
-    postnummer?: Maybe<Scalars['String']>;
-    poststed?: Maybe<Scalars['String']>;
-    type?: Maybe<Scalars['String']>;
-};
-
-export type Arbeidsgiver = {
-    __typename: 'Arbeidsgiver';
-    navn: Scalars['String'];
-    orgnummer?: Maybe<Scalars['String']>;
-};
-
-export type ArbeidsgiverInput = {
-    navn: Scalars['String'];
-    orgnummer?: InputMaybe<Scalars['String']>;
-};
-
 export type Bostedsadresse = {
     __typename: 'Bostedsadresse';
     coAdressenavn?: Maybe<Scalars['String']>;
@@ -47,13 +27,8 @@ export type Digitaliseringsoppgave = {
     __typename: 'Digitaliseringsoppgave';
     oppgaveId: Scalars['String'];
     person: Person;
-    sykmeldingId: Scalars['String'];
-};
-
-export type DigitaliseringsoppgaveRespons = {
-    __typename: 'DigitaliseringsoppgaveRespons';
-    digitaliseringsoppgave?: Maybe<Digitaliseringsoppgave>;
-    error?: Maybe<Scalars['String']>;
+    type: SykmeldingsType;
+    values: SykmeldingUnderArbeid;
 };
 
 export enum ErrorDetail {
@@ -295,6 +270,78 @@ export enum ErrorType {
     Unknown = 'UNKNOWN',
 }
 
+export type Journalpost = {
+    __typename: 'Journalpost';
+    journalstatus?: Maybe<Journalstatus>;
+};
+
+/**
+ *  * Status på journalposten i arkivet, f.eks. **MOTTATT** eller **JOURNALFOERT**. Journalstatusen gir et indikasjon på hvor i journalførings- eller dokumentproduksjonsprosessen journalposten befinner seg.
+ *  * Journalposter som er resultat av en feilsituasjon og ikke skal hensyntas for saksbehandlinghar egne koder, som **UTGAAR** eller **AVBRUTT**.
+ */
+export enum Journalstatus {
+    /**
+     *  Utgående dokumenter og notater kan avbrytes mens de er under arbeid, og ikke enda er ferdigstilt. Statusen **AVBRUTT** brukes stort sett ved feilsituasjoner knyttet til vedtaksproduksjon.
+     *  * Statusen kan forekomme for utgående dokumenter og notater.
+     */
+    Avbrutt = 'AVBRUTT',
+    /**
+     *  Dokumentet er sendt til bruker. Statusen benyttes også når dokumentet er tilgjengeliggjort for bruker på DittNAV, og bruker er varslet.
+     *  * Statusen kan forekomme for utgående dokumenter og notater.
+     */
+    Ekspedert = 'EKSPEDERT',
+    /**
+     *  Journalposten har blitt unntatt fra saksbehandling etter at den feilaktig har blitt knyttet til en sak. Det er ikke mulig å slette en saksrelasjon, istedet settes saksrelasjonen til feilregistrert.
+     *  * Statusen kan forekomme for alle journalposttyper.
+     */
+    Feilregistrert = 'FEILREGISTRERT',
+    /**
+     *  Journalposten med tilhørende dokumenter er ferdigstilt, og journalen er i prinsippet låst for videre endringer.
+     *  * Tilsvarer statusen **JOURNALFOERT** for inngående dokumenter.
+     */
+    Ferdigstilt = 'FERDIGSTILT',
+    /**
+     *  Journalposten er ferdigstilt og ansvaret for videre behandling av forsendelsen er overført til fagsystemet.
+     *  * Journalposter med status **JOURNALFOERT** oppfyller minimumskrav til metadata i arkivet, som for eksempel tema, sak, bruker og avsender.
+     */
+    Journalfoert = 'JOURNALFOERT',
+    /**
+     *  Journalposten er mottatt, men ikke journalført. *"Mottatt"* er et annet ord for *"arkivert"* eller *"midlertidig journalført"*
+     *  * Statusen vil kun forekomme for inngående dokumenter.
+     */
+    Mottatt = 'MOTTATT',
+    /**
+     *  Midlertidig status på vei mot **MOTTATT**.
+     *  Dersom en journalpost blir stående i status **OPPLASTING_DOKUMENT** over tid, tyder dette på at noe har gått feil under opplasting av vedlegg ved arkivering.
+     *  * Statusen kan kun forekomme for inngående dokumenter.
+     */
+    OpplastingDokument = 'OPPLASTING_DOKUMENT',
+    /**
+     *  Statusen benyttes bl.a. i forbindelse med brevproduksjon for å reservere 'plass' i journalen for dokumenter som skal populeres på et senere tidspunkt.
+     *  Tilsvarer statusen **OPPLASTING_DOKUMENT** for inngående dokumenter.
+     *  * Statusen kan forekomme for utgående dokumenter og notater
+     */
+    Reservert = 'RESERVERT',
+    /**  Dersom statusfeltet i Joark er tomt, mappes dette til **UKJENT** */
+    Ukjent = 'UKJENT',
+    /**
+     *  Journalposten har ikke noen kjent bruker.
+     *  ** NB: ** **UKJENT_BRUKER** er ikke en midlertidig status, men benyttes der det ikke er mulig å journalføre fordi man ikke klarer å identifisere brukeren forsendelsen gjelder.
+     *  * Statusen kan kun forekomme for inngående dokumenter.
+     */
+    UkjentBruker = 'UKJENT_BRUKER',
+    /**
+     *  Journalposten er opprettet i arkivet, men fremdeles under arbeid.
+     *  * Statusen kan forekomme for utgående dokumenter og notater.
+     */
+    UnderArbeid = 'UNDER_ARBEID',
+    /**
+     *  Journalposten er unntatt fra saksbehandling. Status **UTGAAR** brukes stort sett ved feilsituasjoner knyttet til skanning eller journalføring.
+     *  * Statusen vil kun forekomme for inngående dokumenter
+     */
+    Utgaar = 'UTGAAR',
+}
+
 export type Matrikkeladresse = {
     __typename: 'Matrikkeladresse';
     bruksenhetsnummer?: Maybe<Scalars['String']>;
@@ -319,12 +366,14 @@ export type ModiaEnhet = {
 
 export type Mutation = {
     __typename: 'Mutation';
-    minMutation: Arbeidsgiver;
+    lagre: Digitaliseringsoppgave;
     updateModiaEnhet?: Maybe<ModiaContext>;
 };
 
-export type MutationMinMutationArgs = {
-    arbeidsgiver: ArbeidsgiverInput;
+export type MutationLagreArgs = {
+    oppgaveId: Scalars['String'];
+    status: SykmeldingUnderArbeidStatus;
+    values: SykmeldingUnderArbeidValues;
 };
 
 export type MutationUpdateModiaEnhetArgs = {
@@ -377,7 +426,6 @@ export type PdlQueryHentPersonArgs = {
 
 export type Person = {
     __typename: 'Person';
-    adresser: Array<Adresse>;
     fnr: Scalars['String'];
     navn?: Maybe<Scalars['String']>;
 };
@@ -385,29 +433,53 @@ export type Person = {
 export type Query = {
     __typename: 'Query';
     _service?: Maybe<_Service>;
-    arbeidsgivere: Array<Arbeidsgiver>;
     modia?: Maybe<ModiaContext>;
-    oppgave?: Maybe<DigitaliseringsoppgaveRespons>;
-    utenlandssykmelding: Array<UtenlandsSykmelding>;
+    oppgave: Digitaliseringsoppgave;
 };
 
 export type QueryOppgaveArgs = {
     oppgaveId: Scalars['String'];
 };
 
-export type QueryUtenlandssykmeldingArgs = {
-    id: Scalars['String'];
+/**  Query roten til SAF GraphQL API. */
+export type SafQuery = {
+    __typename: 'SafQuery';
+    /**
+     *  * Query returnerer metadata for en journalpost.
+     *  * Fysiske dokumentet tilknyttet journalposten kan hentes i saf - REST hentdokument
+     */
+    journalpost?: Maybe<Journalpost>;
 };
+
+/**  Query roten til SAF GraphQL API. */
+export type SafQueryJournalpostArgs = {
+    journalpostId: Scalars['String'];
+};
+
+export type SykmeldingUnderArbeid = {
+    __typename: 'SykmeldingUnderArbeid';
+    /**  TODO: Verdier som skal kunne endres fra frontenden som skal kunne ha default verdier */
+    personNrPasient?: Maybe<Scalars['String']>;
+};
+
+export enum SykmeldingUnderArbeidStatus {
+    Ferdigstilt = 'FERDIGSTILT',
+    UnderArbeid = 'UNDER_ARBEID',
+}
+
+export type SykmeldingUnderArbeidValues = {
+    /**  TODO: Verdier som skal kunne endres fra frontenden */
+    personNrPasient: Scalars['String'];
+};
+
+export enum SykmeldingsType {
+    Innenlands = 'INNENLANDS',
+    Utenlands = 'UTENLANDS',
+}
 
 export type UkjentBosted = {
     __typename: 'UkjentBosted';
     bostedskommune?: Maybe<Scalars['String']>;
-};
-
-export type UtenlandsSykmelding = {
-    __typename: 'UtenlandsSykmelding';
-    fnr: Scalars['String'];
-    id: Scalars['String'];
 };
 
 export type UtenlandskAdresse = {
@@ -474,29 +546,18 @@ export type UpdateAktivEnhetMutation = {
     } | null;
 };
 
-export type ArbeidsgivereTestQueryQueryVariables = Exact<{ [key: string]: never }>;
-
-export type ArbeidsgivereTestQueryQuery = {
-    __typename: 'Query';
-    arbeidsgivere: Array<{ __typename: 'Arbeidsgiver'; navn: string; orgnummer?: string | null }>;
-};
-
 export type OppgaveByIdQueryVariables = Exact<{
     oppgaveId: Scalars['String'];
 }>;
 
 export type OppgaveByIdQuery = {
     __typename: 'Query';
-    oppgave?: {
-        __typename: 'DigitaliseringsoppgaveRespons';
-        error?: string | null;
-        digitaliseringsoppgave?: {
-            __typename: 'Digitaliseringsoppgave';
-            oppgaveId: string;
-            sykmeldingId: string;
-            person: { __typename: 'Person'; fnr: string; navn?: string | null };
-        } | null;
-    } | null;
+    oppgave: {
+        __typename: 'Digitaliseringsoppgave';
+        oppgaveId: string;
+        person: { __typename: 'Person'; fnr: string; navn?: string | null };
+        values: { __typename: 'SykmeldingUnderArbeid'; personNrPasient?: string | null };
+    };
 };
 
 export const ModiaFragmentDoc = {
@@ -592,32 +653,6 @@ export const UpdateAktivEnhetDocument = {
         ...ModiaFragmentDoc.definitions,
     ],
 } as unknown as DocumentNode<UpdateAktivEnhetMutation, UpdateAktivEnhetMutationVariables>;
-export const ArbeidsgivereTestQueryDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'ArbeidsgivereTestQuery' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'arbeidsgivere' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'orgnummer' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<ArbeidsgivereTestQueryQuery, ArbeidsgivereTestQueryQueryVariables>;
 export const OppgaveByIdDocument = {
     kind: 'Document',
     definitions: [
@@ -648,29 +683,28 @@ export const OppgaveByIdDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'digitaliseringsoppgave' },
+                                    name: { kind: 'Name', value: 'person' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
                                         selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'person' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                                    ],
-                                                },
-                                            },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                                         ],
                                     },
                                 },
-                                { kind: 'Field', name: { kind: 'Name', value: 'error' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'values' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'personNrPasient' } },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },

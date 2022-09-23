@@ -6,12 +6,15 @@ import { Heading, Loader } from '@navikt/ds-react';
 import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import { OppgaveByIdDocument } from '../../graphql/queries/graphql.generated';
 import Pdf from '../../components/Pdf/Pdf';
+import { withAuthenticatedPage } from '../../auth/withAuth';
 
 import styles from './[oppgaveid].module.css';
 
 function Oppgave(): JSX.Element {
     const { query } = useRouter();
     const oppgaveId = query.oppgaveid as string;
+
+    console.log('apage', oppgaveId);
 
     const { loading, data, error } = useQuery(OppgaveByIdDocument, {
         variables: { oppgaveId: oppgaveId ?? '' },
@@ -25,7 +28,7 @@ function Oppgave(): JSX.Element {
                         Hemmelig henting av {oppgaveId}
                     </Heading>
                     {loading && <Loader />}
-                    {data?.oppgave && JSON.stringify(data.oppgave)}
+                    {data?.oppgave && <pre>{JSON.stringify(data.oppgave, null, 2)}</pre>}
                     {error && <div>GQL is mad: {error.message}</div>}
                 </div>
                 {oppgaveId && <Pdf className={styles.pdf} href={`/api/pdf?oppgaveId=${oppgaveId}`} />}
@@ -33,5 +36,7 @@ function Oppgave(): JSX.Element {
         </PageWrapper>
     );
 }
+
+export const getServerSideProps = withAuthenticatedPage();
 
 export default Oppgave;

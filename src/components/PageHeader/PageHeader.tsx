@@ -9,8 +9,10 @@ import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/qu
 import styles from './PageHeader.module.css';
 
 function PageHeader(): JSX.Element {
-    const { data, error } = useQuery(ModiaContextDocument);
+    const { data, error, loading } = useQuery(ModiaContextDocument);
     const [updateAktivEnhet] = useMutation(UpdateAktivEnhetDocument);
+
+    console.log(data, error, loading);
 
     return (
         <Header>
