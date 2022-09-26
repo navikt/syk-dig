@@ -8,7 +8,7 @@ import { pdf } from '../../mocks/data/examplePdfbase64';
 
 const env = getServerEnv();
 
-const handler = withAuthenticatedApi(async (req, res, accessToken) => {
+const handler = withAuthenticatedApi<Buffer>(async (req, res, accessToken) => {
     logger.info('Proxying request to syk-dig pdf');
 
     if (req.method !== 'GET') {
