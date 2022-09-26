@@ -8,6 +8,7 @@ import { logger } from '@navikt/next-logger';
 
 import type { DiagnoseSearchResult, DiagnoseSuggestion } from '../../../../pages/api/diagnose/[system].api';
 import { DiagnoseSystem } from '../../../Sykmelding/DiagnoseFormSection';
+import { api } from '../../../../utils/apiUtils';
 
 import styles from './DiagnoseTypeahead.module.css';
 
@@ -30,6 +31,7 @@ function DiagnoseTypeahead({ id, system, onSelect }: Props): JSX.Element {
             <Combobox
                 className={cn('navds-select__container')}
                 openOnFocus
+                aria-label={`Søk i ${system} diagnoser`}
                 onSelect={(item) => {
                     const diagnose = suggestions.find((it) => it.code === item);
                     if (!diagnose) {
@@ -56,15 +58,13 @@ function DiagnoseTypeahead({ id, system, onSelect }: Props): JSX.Element {
                     <ComboboxPopover className={styles.suggestionPopover}>
                         {suggestions.length > 0 ? (
                             <ComboboxList>
-                                {suggestions.map((suggestion) => {
-                                    return (
-                                        <ComboboxOption
-                                            className={cn(styles.suggestion, 'navds-body-short')}
-                                            key={suggestion.code}
-                                            value={suggestion.code}
-                                        />
-                                    );
-                                })}
+                                {suggestions.map((suggestion) => (
+                                    <ComboboxOption
+                                        className={cn(styles.suggestion, 'navds-body-short')}
+                                        key={suggestion.code}
+                                        value={suggestion.code}
+                                    />
+                                ))}
                             </ComboboxList>
                         ) : searchTerm.trim() === '' ? (
                             <BodyShort className={cn(styles.suggestionNoResult)}>Søk i {system} diagnoser</BodyShort>
@@ -105,7 +105,7 @@ async function fetchDiagnoseSuggestions(system: DiagnoseSystem, value: string): 
         return cache[value];
     }
 
-    const result = await fetch(`/api/diagnose/${system.toLowerCase()}?value=${value}`).then((res) => res.json());
+    const result = await fetch(api(`/api/diagnose/${system.toLowerCase()}?value=${value}`)).then((res) => res.json());
     cache[value] = result;
     return result;
 }

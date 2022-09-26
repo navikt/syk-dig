@@ -1,3 +1,5 @@
-.hovedDiagnoseSection {
+.diagnoseFormSection {
     display: flex;
+    flex-direction: column;
+    gap: var(--navds-spacing-4);
 }
