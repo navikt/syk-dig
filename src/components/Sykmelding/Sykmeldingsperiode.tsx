@@ -1,61 +1,60 @@
-import { Button, ErrorMessage, TextField } from '@navikt/ds-react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { Button } from '@navikt/ds-react';
+import { Calender } from '@navikt/ds-icons';
+import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
+
+import SykmeldingSection from '../SykmeldingSection/SykmeldingSection';
+import PeriodeSelect, { Periodetype } from '../FormComponents/Sykmeldingsperiode/PeriodeSelect';
+import GradInput from '../FormComponents/Sykmeldingsperiode/GradInput';
 
 import { SykmeldingFormValues } from './SykmeldingForm';
+import styles from './Sykmeldingsperiode.module.css';
 
 export interface Periode {
-    periode: string;
-    grad: string;
+    sykmeldingstype: string;
+    grad?: number;
 }
 
 function Sykmeldingsperiode(): JSX.Element {
-    const {
-        register,
-        formState: { errors },
-        clearErrors,
-    } = useFormContext<SykmeldingFormValues>();
+    const { control, clearErrors } = useFormContext<SykmeldingFormValues>();
 
     const { fields, append, remove } = useFieldArray({
+        control,
         name: 'periode',
     });
 
+    const watchFieldArray = useWatch({ name: 'periode' });
+
     return (
-        <>
+        <SykmeldingSection title="Sykmeldingsperiode" Icon={Calender} ariaLabelIcon="Kalender ikon">
             {fields.map((field, index) => (
-                <div id="periode" key={field.id}>
-                    <TextField
-                        id={`periode${index}`}
-                        label="Periode"
-                        {...register(`periode.${index}.periode`, { required: 'Du må fylle inn periode.' })}
-                    />
-                    {errors.periode?.[index]?.periode && (
-                        <ErrorMessage>{errors.periode?.[index]?.periode?.message}</ErrorMessage>
-                    )}
-                    <TextField
-                        id={`grad${index}`}
-                        label="Oppgi grad"
-                        {...register(`periode.${index}.grad`, { required: 'Du må fylle inn grad.' })}
-                    />
-                    {errors.periode?.[index]?.grad && (
-                        <ErrorMessage>{errors.periode?.[index]?.grad?.message}</ErrorMessage>
+                <div id={`periode${index}`} className={styles.periode} key={field.id}>
+                    <PeriodeSelect name={`periode.${index}.sykmeldingstype`} />
+                    {watchFieldArray?.[index]?.sykmeldingstype === Periodetype.Gradert && (
+                        <GradInput name={`periode.${index}.grad`} />
                     )}
                     {index > 0 && (
-                        <Button variant="tertiary" type="button" onClick={() => remove(index)}>
-                            Nullstill periode
+                        <Button
+                            className={styles.nullstillButton}
+                            variant="tertiary"
+                            type="button"
+                            onClick={() => remove(index)}
+                        >
+                            Fjern periode
                         </Button>
                     )}
                 </div>
             ))}
             <Button
+                className={styles.leggTilButton}
                 variant="secondary"
                 type="button"
                 onClick={() => {
-                    clearErrors(), append({ grad: '' });
+                    clearErrors(), append({ sykmeldingstype: Periodetype.AktivitetIkkeMulig });
                 }}
             >
                 Legg til periode
             </Button>
-        </>
+        </SykmeldingSection>
     );
 }
 

@@ -1,0 +1,15 @@
+.periode {
+    display: flex;
+    margin: 2rem 0;
+}
+
+.nullstillButton {
+    max-height: 4rem;
+    align-self: flex-end;
+    border-radius: 4px;
+}
+
+.leggTilButton {
+    border-radius: 4px;
+    width: 13.8rem;
+}
