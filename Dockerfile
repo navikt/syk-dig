@@ -12,6 +12,7 @@ COPY package*.json /app/
 COPY .yarn /app/.yarn
 COPY .yarnrc.yml /app/
 COPY yarn.lock /app/
+COPY scripts /app/scripts
 
 RUN yarn workspaces focus -A --production
 

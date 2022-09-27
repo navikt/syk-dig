@@ -12,7 +12,12 @@ const config: CodegenConfig = {
             plugins: ['fragment-matcher'],
         },
         './src/graphql/queries/graphql.generated.ts': {
-            plugins: ['typescript', 'typescript-operations', 'typed-document-node'],
+            plugins: [
+                'typescript',
+                'typescript-operations',
+                'typed-document-node',
+                { add: { placement: 'prepend', content: '/* eslint-disable @typescript-eslint/no-explicit-any */' } },
+            ],
             config: {
                 exportFragmentSpreadSubTypes: true,
                 scalars: { Date: 'string', DateTime: 'string' },
