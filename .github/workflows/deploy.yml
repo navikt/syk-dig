@@ -52,8 +52,8 @@ jobs:
         run: yarn --immutable
       - name: Lint
         run: yarn lint
-      #- name: Test
-      #  run: yarn test
+      - name: Test
+        run: yarn test
       - name: Build app
         run: yarn build
       - name: Login GCP dev
@@ -132,7 +132,6 @@ jobs:
           cache-to: type=gha,mode=max
           build-args: |
             "NPM_AUTH_TOKEN=${{ secrets.READER_TOKEN }}"
-
 
   deploy-to-dev-gcp:
     name: deploy to nais dev
