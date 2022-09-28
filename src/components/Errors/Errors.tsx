@@ -19,6 +19,7 @@ function Errors(): JSX.Element | null {
 
     const errorMessages: CustomErrors = {
         fnr: errors.fnr?.message,
+        land: errors.land?.message,
         periode:
             // @ts-expect-error Some weird typing isse with FieldErrors
             errors.periode?.find((it) => it?.periode)?.periode?.message ||

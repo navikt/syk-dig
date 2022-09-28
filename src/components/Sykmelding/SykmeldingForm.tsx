@@ -10,6 +10,7 @@ import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSe
 export interface SykmeldingFormValues {
     diagnoser: DiagnoseFormSectionValues;
     fnr: string;
+    land: string;
     periode: Array<Periode>;
 }
 
