@@ -42,7 +42,7 @@ const diagnoseSearch = withAuthenticatedApi<DiagnoseSearchResult>(async (req, re
     res.status(200).json({ suggestions: searchSystem(system, value) });
 });
 
-function searchSystem(system: 'icd10' | 'icpc2', value: string): DiagnoseSuggestion[] {
+export function searchSystem(system: 'icd10' | 'icpc2', value: string): DiagnoseSuggestion[] {
     if (system === 'icd10') {
         if ((value ?? '').trim() === '') {
             return icd10.slice(0, 100);

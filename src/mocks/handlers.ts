@@ -1,6 +1,13 @@
-import { graphql } from 'msw';
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+import { graphql, RequestHandler } from 'msw';
 
 import { OppgaveByIdDocument } from '../graphql/queries/graphql.generated';
+
+let testHandlers: RequestHandler[] = [];
+if (process.env.NODE_ENV === 'test') {
+    testHandlers = require('./handlers-test').handlers;
+}
 
 export const handlers = [
     graphql.query(OppgaveByIdDocument, (req, res, ctx) => {
@@ -24,4 +31,5 @@ export const handlers = [
             }),
         );
     }),
+    ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
 ];
