@@ -9,6 +9,11 @@
     z-index: 1000;
 }
 
+.suggestionNoResult {
+    padding: 0.5rem;
+    color: var(--navds-semantic-color-text-muted);
+}
+
 .suggestion[data-reach-combobox-option][data-highlighted],
 .suggestion[data-reach-combobox-option]:hover {
     background-color: var(--navds-global-color-blue-100);
@@ -36,9 +41,4 @@
 }
 .suggestion [data-suggested-value] {
     font-weight: normal;
-}
-
-.suggestionNoResult {
-    padding: 0.5rem;
-    color: var(--navds-semantic-color-text-muted);
 }

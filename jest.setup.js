@@ -1,6 +1,8 @@
 import 'next';
 import '@testing-library/jest-dom/extend-expect';
 
+import { toHaveNoViolations } from 'jest-axe';
+
 import { server } from './src/mocks/server';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
@@ -10,3 +12,5 @@ afterAll(() => server.close());
 jest.mock('@navikt/next-auth-wonderwall', () => ({
     validateAzureToken: () => Promise.resolve(true),
 }));
+
+expect.extend(toHaveNoViolations);

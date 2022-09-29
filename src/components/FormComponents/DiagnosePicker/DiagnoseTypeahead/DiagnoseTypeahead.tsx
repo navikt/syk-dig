@@ -1,16 +1,20 @@
 import '@reach/combobox/styles.css';
 
 import React, { ChangeEventHandler, useEffect, useState } from 'react';
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover } from '@reach/combobox';
-import { BodyShort, Label } from '@navikt/ds-react';
-import cn from 'clsx';
+import { ComboboxList } from '@reach/combobox';
 import { logger } from '@navikt/next-logger';
 
 import type { DiagnoseSearchResult, DiagnoseSuggestion } from '../../../../pages/api/diagnose/[system].api';
 import { DiagnoseSystem } from '../../../Sykmelding/DiagnoseFormSection';
+import {
+    ComboboxWrapper,
+    DsCombobox,
+    DsComboboxInput,
+    DsComboboxNoResult,
+    DsComboboxOption,
+    DsComboboxPopover,
+} from '../../CustomFormComponents/Combobox';
 import { api } from '../../../../utils/apiUtils';
-
-import styles from './DiagnoseTypeahead.module.css';
 
 interface Props {
     id?: string;
@@ -26,10 +30,8 @@ function DiagnoseTypeahead({ id, system, onSelect }: Props): JSX.Element {
     };
 
     return (
-        <div className={cn('navds-form-field navds-form-field--medium')}>
-            <Label>Diagnosekode</Label>
-            <Combobox
-                className={cn('navds-select__container')}
+        <ComboboxWrapper label="Diagnosekode">
+            <DsCombobox
                 openOnFocus
                 aria-label={`Søk i ${system} diagnoser`}
                 onSelect={(item) => {
@@ -46,37 +48,30 @@ function DiagnoseTypeahead({ id, system, onSelect }: Props): JSX.Element {
                     onSelect(diagnose);
                 }}
             >
-                <ComboboxInput
+                <DsComboboxInput
                     id={id}
-                    className={cn(
-                        'navds-search__input navds-search__input--secondary navds-text-field__input navds-body-short navds-body-medium',
-                    )}
                     onChange={handleSearchTermChange}
                     placeholder={`Søk i ${system} diagnoser...`}
                 />
                 {suggestions && (
-                    <ComboboxPopover className={styles.suggestionPopover}>
+                    <DsComboboxPopover>
                         {suggestions.length > 0 ? (
                             <ComboboxList>
                                 {suggestions.map((suggestion) => (
-                                    <ComboboxOption
-                                        className={cn(styles.suggestion, 'navds-body-short')}
-                                        key={suggestion.code}
-                                        value={suggestion.code}
-                                    />
+                                    <DsComboboxOption key={suggestion.code} value={suggestion.code} />
                                 ))}
                             </ComboboxList>
                         ) : searchTerm.trim() === '' ? (
-                            <BodyShort className={cn(styles.suggestionNoResult)}>Søk i {system} diagnoser</BodyShort>
+                            <DsComboboxNoResult text={`Søk i ${system} diagnoser`} />
                         ) : (
-                            <BodyShort
-                                className={cn(styles.suggestionNoResult)}
-                            >{`Fant ingen diagnose med kode eller beskrivelse "${searchTerm}"`}</BodyShort>
+                            <DsComboboxNoResult
+                                text={`Fant ingen diagnose med kode eller beskrivelse "${searchTerm}"`}
+                            />
                         )}
-                    </ComboboxPopover>
+                    </DsComboboxPopover>
                 )}
-            </Combobox>
-        </div>
+            </DsCombobox>
+        </ComboboxWrapper>
     );
 }
 
@@ -85,13 +80,13 @@ function useDiagnoseSuggestions(system: DiagnoseSystem, searchTerm: string): Dia
 
     useEffect(() => {
         if (searchTerm.trim() !== '') {
-            let isMounted = true;
+            let isCurrentSearch = true;
             fetchDiagnoseSuggestions(system, searchTerm).then((result) => {
-                if (isMounted) setSuggestions(result.suggestions);
+                if (isCurrentSearch) setSuggestions(result.suggestions);
             });
 
             return () => {
-                isMounted = false;
+                isCurrentSearch = false;
             };
         }
     }, [searchTerm, system]);
