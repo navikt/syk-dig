@@ -15,7 +15,7 @@ if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
 }
 
 export interface RequiredPageProps {
-    modiaContext?: ModiaContext | ModiaContextError;
+    modiaContext: ModiaContext | ModiaContextError;
 }
 
 export interface AppProps<T> extends Omit<NextAppProps<T>, 'pageProps'> {

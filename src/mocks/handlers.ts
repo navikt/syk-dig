@@ -2,7 +2,10 @@
 
 import { graphql, RequestHandler } from 'msw';
 
-import { OppgaveByIdDocument } from '../graphql/queries/graphql.generated';
+import { OppgaveByIdDocument, OppgaveByIdQuery } from '../graphql/queries/graphql.generated';
+
+import oppgaveWithValues from './data/oppgaveWithValues';
+import oppgaveBlank from './data/oppgaveBlank';
 
 let testHandlers: RequestHandler[] = [];
 if (process.env.NODE_ENV === 'test') {
@@ -11,25 +14,16 @@ if (process.env.NODE_ENV === 'test') {
 
 export const handlers = [
     graphql.query(OppgaveByIdDocument, (req, res, ctx) => {
-        return res(
-            ctx.delay(),
-            ctx.data({
-                __typename: 'Query',
-                oppgave: {
-                    __typename: 'Digitaliseringsoppgave',
-                    oppgaveId: '123',
-                    person: {
-                        __typename: 'Person',
-                        navn: 'Ola Nordmann',
-                        fnr: '12345678910',
-                    },
-                    values: {
-                        __typename: 'SykmeldingUnderArbeid',
-                        personNrPasient: '12345678910',
-                    },
-                },
-            }),
-        );
+        return res(ctx.delay(), ctx.data(getOppgave(req.variables.oppgaveId)));
     }),
     ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
 ];
+
+function getOppgave(oppgaveId: string): OppgaveByIdQuery {
+    switch (oppgaveId.toLowerCase()) {
+        case 'blank':
+            return oppgaveBlank;
+        default:
+            return oppgaveWithValues;
+    }
+}

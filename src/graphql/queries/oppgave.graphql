@@ -1,12 +1,34 @@
+fragment Diagnose on DiagnoseValue {
+    kode
+    tekst
+    system
+}
+
+fragment OppgaveValues on OppgaveValues {
+    personNrPasient
+    behandletTidspunkt
+    skrevetLand
+    hoveddiagnose {
+        ...Diagnose
+    }
+    biDiagnoser {
+        ...Diagnose
+    }
+}
+
+fragment Oppgave on Digitaliseringsoppgave {
+    oppgaveId
+    person {
+        fnr
+        navn
+    }
+    values {
+        ...OppgaveValues
+    }
+}
+
 query OppgaveById($oppgaveId: String!) {
     oppgave(oppgaveId: $oppgaveId) {
-        oppgaveId
-        person {
-            fnr
-            navn
-        }
-        values {
-            personNrPasient
-        }
+        ...Oppgave
     }
 }

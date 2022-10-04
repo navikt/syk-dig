@@ -20,13 +20,16 @@ interface Props {
     id?: string;
     system: DiagnoseSystem;
     onSelect: (value: DiagnoseSuggestion) => void;
+    onChange: () => void;
+    initialValue: string | null;
 }
 
-function DiagnoseTypeahead({ id, system, onSelect }: Props): JSX.Element {
-    const [searchTerm, setSearchTerm] = useState<string>('');
+function DiagnoseTypeahead({ id, system, onSelect, onChange, initialValue }: Props): JSX.Element {
+    const [searchTerm, setSearchTerm] = useState<string>(initialValue ?? '');
     const suggestions = useDiagnoseSuggestions(system, searchTerm);
     const handleSearchTermChange: ChangeEventHandler<HTMLInputElement> = (event): void => {
         setSearchTerm(event.target.value);
+        onChange();
     };
 
     return (

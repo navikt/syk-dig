@@ -23,13 +23,12 @@ function DiagnoseFormSection(): JSX.Element {
 
     return (
         <div className={styles.diagnoseFormSection}>
-            <DiagnosePicker name="diagnoser.hoveddiagnose" diagnoseType="hoveddiagnose" control={control} />
+            <DiagnosePicker name="diagnoser.hoveddiagnose" diagnoseType="hoveddiagnose" />
             {fields.map((field, index) => (
                 <DiagnosePicker
                     key={field.id}
                     name={`diagnoser.bidiagnoser.${index}`}
                     diagnoseType="bidiagnose"
-                    control={control}
                     onRemove={() => remove(index)}
                 />
             ))}

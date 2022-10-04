@@ -8,7 +8,9 @@ import DiagnoseTypeahead from './DiagnoseTypeahead';
 describe('DiagnosePicker', () => {
     it('should have no a11y issues', async () => {
         const onSelectMock = jest.fn();
-        const { container } = render(<DiagnoseTypeahead system="ICD10" onSelect={onSelectMock} />);
+        const { container } = render(
+            <DiagnoseTypeahead system="ICD10" onSelect={onSelectMock} onChange={() => void 0} />,
+        );
 
         const combobox = screen.getByRole('combobox', { name: 'Søk i ICD10 diagnoser' });
         await userEvent.type(combobox, 'L815');
@@ -19,7 +21,7 @@ describe('DiagnosePicker', () => {
 
     it('should search and select value when seaching for specific code', async () => {
         const onSelectMock = jest.fn();
-        render(<DiagnoseTypeahead system="ICD10" onSelect={onSelectMock} />);
+        render(<DiagnoseTypeahead system="ICD10" onSelect={onSelectMock} onChange={() => void 0} />);
 
         const combobox = screen.getByRole('combobox', { name: 'Søk i ICD10 diagnoser' });
         await userEvent.type(combobox, 'L815');
@@ -31,7 +33,7 @@ describe('DiagnosePicker', () => {
 
     it('should inform that code does not exist', async () => {
         const onSelectMock = jest.fn();
-        render(<DiagnoseTypeahead system="ICD10" onSelect={onSelectMock} />);
+        render(<DiagnoseTypeahead system="ICD10" onSelect={onSelectMock} onChange={() => void 0} />);
 
         const combobox = screen.getByRole('combobox', { name: 'Søk i ICD10 diagnoser' });
         await userEvent.type(combobox, 'XYZ');

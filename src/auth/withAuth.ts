@@ -4,16 +4,24 @@ import { validateAzureToken } from '@navikt/next-auth-wonderwall';
 
 import { isLocalOrDemo } from '../utils/env';
 import { RequiredPageProps } from '../pages/_app.page';
+import { getModiaContext } from '../modia/ModiaService';
 
 type ApiHandler<Response> = (
     req: NextApiRequest,
     res: NextApiResponse<Response>,
     accessToken: string,
 ) => void | Promise<unknown>;
+
 type PageHandler = (
     context: GetServerSidePropsContext,
     accessToken: string,
 ) => Promise<GetServerSidePropsResult<RequiredPageProps>>;
+
+const defaultPageHandler: PageHandler = async (_, accessToken) => {
+    const modiaContext = await getModiaContext(accessToken);
+
+    return { props: { modiaContext } };
+};
 
 /**
  * Used to authenticate Next.JS pages. Assumes application is behind
@@ -21,7 +29,7 @@ type PageHandler = (
  * Wonderwall-cookie is missing.
  *
  */
-export function withAuthenticatedPage(handler: PageHandler = async () => ({ props: {} })) {
+export function withAuthenticatedPage(handler: PageHandler = defaultPageHandler) {
     return async function withBearerTokenHandler(
         context: GetServerSidePropsContext,
     ): Promise<ReturnType<NonNullable<typeof handler>>> {

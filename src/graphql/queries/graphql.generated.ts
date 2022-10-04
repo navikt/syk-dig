@@ -24,12 +24,19 @@ export type Bostedsadresse = {
     vegadresse?: Maybe<Vegadresse>;
 };
 
+export type DiagnoseValue = {
+    __typename: 'DiagnoseValue';
+    kode: Scalars['String'];
+    system: Scalars['String'];
+    tekst?: Maybe<Scalars['String']>;
+};
+
 export type Digitaliseringsoppgave = {
     __typename: 'Digitaliseringsoppgave';
     oppgaveId: Scalars['String'];
     person: Person;
     type: SykmeldingsType;
-    values: SykmeldingUnderArbeid;
+    values: OppgaveValues;
 };
 
 export enum ErrorDetail {
@@ -388,6 +395,15 @@ export type Navn = {
     mellomnavn?: Maybe<Scalars['String']>;
 };
 
+export type OppgaveValues = {
+    __typename: 'OppgaveValues';
+    behandletTidspunkt?: Maybe<Scalars['String']>;
+    biDiagnoser?: Maybe<Array<DiagnoseValue>>;
+    hoveddiagnose?: Maybe<DiagnoseValue>;
+    personNrPasient?: Maybe<Scalars['String']>;
+    skrevetLand?: Maybe<Scalars['String']>;
+};
+
 export type Oppholdsadresse = {
     __typename: 'Oppholdsadresse';
     coAdressenavn?: Maybe<Scalars['String']>;
@@ -455,12 +471,6 @@ export type SafQuery = {
 /**  Query roten til SAF GraphQL API. */
 export type SafQueryJournalpostArgs = {
     journalpostId: Scalars['String'];
-};
-
-export type SykmeldingUnderArbeid = {
-    __typename: 'SykmeldingUnderArbeid';
-    /**  TODO: Verdier som skal kunne endres fra frontenden som skal kunne ha default verdier */
-    personNrPasient?: Maybe<Scalars['String']>;
 };
 
 export enum SykmeldingUnderArbeidStatus {
@@ -547,6 +557,36 @@ export type UpdateAktivEnhetMutation = {
     } | null;
 };
 
+export type DiagnoseFragment = { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string };
+
+export type OppgaveValuesFragment = {
+    __typename: 'OppgaveValues';
+    personNrPasient?: string | null;
+    behandletTidspunkt?: string | null;
+    skrevetLand?: string | null;
+    hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
+    biDiagnoser?: Array<{ __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string }> | null;
+};
+
+export type OppgaveFragment = {
+    __typename: 'Digitaliseringsoppgave';
+    oppgaveId: string;
+    person: { __typename: 'Person'; fnr: string; navn?: string | null };
+    values: {
+        __typename: 'OppgaveValues';
+        personNrPasient?: string | null;
+        behandletTidspunkt?: string | null;
+        skrevetLand?: string | null;
+        hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
+        biDiagnoser?: Array<{
+            __typename: 'DiagnoseValue';
+            kode: string;
+            tekst?: string | null;
+            system: string;
+        }> | null;
+    };
+};
+
 export type OppgaveByIdQueryVariables = Exact<{
     oppgaveId: Scalars['String'];
 }>;
@@ -557,7 +597,19 @@ export type OppgaveByIdQuery = {
         __typename: 'Digitaliseringsoppgave';
         oppgaveId: string;
         person: { __typename: 'Person'; fnr: string; navn?: string | null };
-        values: { __typename: 'SykmeldingUnderArbeid'; personNrPasient?: string | null };
+        values: {
+            __typename: 'OppgaveValues';
+            personNrPasient?: string | null;
+            behandletTidspunkt?: string | null;
+            skrevetLand?: string | null;
+            hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
+            biDiagnoser?: Array<{
+                __typename: 'DiagnoseValue';
+                kode: string;
+                tekst?: string | null;
+                system: string;
+            }> | null;
+        };
     };
 };
 
@@ -590,6 +642,93 @@ export const ModiaFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<ModiaFragment, unknown>;
+export const DiagnoseFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Diagnose' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DiagnoseValue' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<DiagnoseFragment, unknown>;
+export const OppgaveValuesFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppgaveValues' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppgaveValues' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'personNrPasient' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandletTidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skrevetLand' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hoveddiagnose' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'biDiagnoser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OppgaveValuesFragment, unknown>;
+export const OppgaveFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Oppgave' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Digitaliseringsoppgave' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'person' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'values' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'OppgaveValues' } }],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OppgaveFragment, unknown>;
 export const ModiaContextDocument = {
     kind: 'Document',
     definitions: [
@@ -683,34 +822,14 @@ export const OppgaveByIdDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'person' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'values' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'personNrPasient' } },
-                                        ],
-                                    },
-                                },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Oppgave' } }],
                         },
                     },
                 ],
             },
         },
+        ...OppgaveFragmentDoc.definitions,
+        ...OppgaveValuesFragmentDoc.definitions,
+        ...DiagnoseFragmentDoc.definitions,
     ],
 } as unknown as DocumentNode<OppgaveByIdQuery, OppgaveByIdQueryVariables>;
