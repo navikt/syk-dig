@@ -13,4 +13,10 @@ jest.mock('@navikt/next-auth-wonderwall', () => ({
     validateAzureToken: () => Promise.resolve(true),
 }));
 
+jest.mock('next/config', () => () => ({
+    publicRuntimeConfig: {
+        runtimeEnv: 'test',
+    },
+}));
+
 expect.extend(toHaveNoViolations);
