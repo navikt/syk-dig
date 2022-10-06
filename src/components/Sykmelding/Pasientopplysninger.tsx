@@ -8,7 +8,6 @@ import { SykmeldingFormValues } from './SykmeldingForm';
 function Pasientopplysninger(): JSX.Element {
     const {
         register,
-        control,
         formState: { errors },
     } = useFormContext<SykmeldingFormValues>();
 
@@ -20,7 +19,7 @@ function Pasientopplysninger(): JSX.Element {
                 {...register('fnr', { required: 'Du må fylle inn fødselsnummer.' })}
             />
             {errors?.fnr && <ErrorMessage>{errors.fnr.message}</ErrorMessage>}
-            <CountryPicker control={control} name="land" />
+            <CountryPicker name="land" />
         </>
     );
 }

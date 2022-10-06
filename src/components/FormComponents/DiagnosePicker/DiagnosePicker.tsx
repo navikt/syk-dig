@@ -6,8 +6,8 @@ import { Delete } from '@navikt/ds-icons';
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
 
-import DiagnoseTypeahead from './DiagnoseTypeahead/DiagnoseTypeahead';
 import styles from './DiagnosePicker.module.css';
+import DiagnoseCombobox from './DiagnoseCombobox/DiagnoseCombobox';
 
 type PossiblePickerFormNames = 'diagnoser.hoveddiagnose' | `diagnoser.bidiagnoser.${number}`;
 
@@ -45,7 +45,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
                     <option>ICD10</option>
                     <option>ICPC2</option>
                 </Select>
-                <DiagnoseTypeahead
+                <DiagnoseCombobox
                     id={diagnoseType}
                     system={field.value.system}
                     onSelect={(suggestion) => field.onChange({ ...suggestion, system: field.value.system })}

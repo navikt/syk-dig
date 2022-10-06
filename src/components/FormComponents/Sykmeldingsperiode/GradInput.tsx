@@ -23,7 +23,7 @@ function GradInput({ name }: Props): JSX.Element {
 
     return (
         <div className={styles.grad}>
-            <TextField id={name} label="Oppgi grad" type="number" onChange={field.onChange} />
+            <TextField id={name} label="Oppgi grad" type="number" {...field} />
             {fieldState.error && <ErrorMessage>{fieldState.error.message}</ErrorMessage>}
         </div>
     );
