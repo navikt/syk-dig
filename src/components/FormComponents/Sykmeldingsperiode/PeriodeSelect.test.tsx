@@ -11,7 +11,7 @@ describe('PeriodeSelect', () => {
         const methods = useForm();
         return (
             <FormProvider {...methods}>
-                <PeriodeSelect index={0} name={`periode.${0}.sykmeldingstype`} />
+                <PeriodeSelect name={`periode.${0}.sykmeldingstype`} />
             </FormProvider>
         );
     };

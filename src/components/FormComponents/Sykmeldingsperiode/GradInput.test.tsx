@@ -24,7 +24,7 @@ describe('GradInput', () => {
         });
         return (
             <FormProvider {...methods}>
-                <GradInput index={0} name={`periode.${0}.grad`} />
+                <GradInput name={`periode.${0}.grad`} />
             </FormProvider>
         );
     };

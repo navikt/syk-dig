@@ -26,7 +26,7 @@ function PeriodeSelect({ name }: Props): JSX.Element {
     });
     return (
         <div>
-            <Select id={name} label="Periode" onChange={field.onChange}>
+            <Select id={name} label="Periode" {...field}>
                 <option value={Periodetype.AktivitetIkkeMulig}>100% sykmeldt</option>
                 <option value={Periodetype.Avventende}>Avventende sykmelding</option>
                 <option value={Periodetype.Behandlingsdager}>Behandlingsdager</option>

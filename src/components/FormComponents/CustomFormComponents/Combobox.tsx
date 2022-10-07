@@ -1,16 +1,16 @@
 import { BodyShort, Label } from '@navikt/ds-react';
 import React, { HTMLAttributes, PropsWithChildren } from 'react';
+import cn from 'clsx';
 import {
     Combobox,
-    ComboboxInput,
+    ComboboxDisclosure,
+    ComboboxItem,
+    ComboboxItemOptions,
+    ComboboxOptions,
     ComboboxPopover,
-    ComboboxOption,
-    ComboboxInputProps,
-    ComboboxPopoverProps,
-    ComboboxProps,
-    ComboboxOptionProps,
-} from '@reach/combobox';
-import cn from 'clsx';
+    ComboboxPopoverOptions,
+} from 'ariakit/combobox';
+import { Expand } from '@navikt/ds-icons';
 
 import styles from './Combobox.module.css';
 
@@ -31,29 +31,17 @@ export function DsCombobox({
     children,
     className,
     ...props
-}: PropsWithChildren<HTMLAttributes<HTMLDivElement> & ComboboxProps>): JSX.Element {
+}: PropsWithChildren<HTMLAttributes<HTMLDivElement> & ComboboxOptions>): JSX.Element {
     return (
-        <Combobox className={cn(className, 'navds-select__container')} {...props}>
-            {children}
-        </Combobox>
-    );
-}
-
-export function DsComboboxInput({
-    children,
-    className,
-    ...props
-}: PropsWithChildren<HTMLAttributes<HTMLInputElement> & ComboboxInputProps>): JSX.Element {
-    return (
-        <ComboboxInput
-            className={cn(
-                className,
-                'navds-search__input navds-search__input--secondary navds-text-field__input navds-body-short navds-body-medium',
-            )}
-            {...props}
-        >
-            {children}
-        </ComboboxInput>
+        <div className="navds-select__container">
+            <Combobox
+                className={cn(className, styles.combobox, 'navds-text-field__input navds-body-short navds-body-medium')}
+                {...props}
+            >
+                {children}
+            </Combobox>
+            <ComboboxDisclosure className="navds-select__chevron" state={props.state} as={Expand} />
+        </div>
     );
 }
 
@@ -61,23 +49,27 @@ export function DsComboboxPopover({
     children,
     className,
     ...props
-}: PropsWithChildren<HTMLAttributes<HTMLInputElement> & ComboboxPopoverProps>): JSX.Element {
+}: PropsWithChildren<HTMLAttributes<HTMLInputElement> & ComboboxPopoverOptions>): JSX.Element {
     return (
-        <ComboboxPopover className={cn(className, styles.suggestionPopover)} {...props}>
+        <ComboboxPopover
+            className={cn(className, styles.suggestionPopover)}
+            {...props}
+            wrapperProps={{ className: styles.suggestionPopoverWrapper }}
+        >
             {children}
         </ComboboxPopover>
     );
 }
 
-export function DsComboboxOption({
+export function DsComboboxItem({
     children,
     className,
     ...props
-}: PropsWithChildren<HTMLAttributes<HTMLLIElement>> & ComboboxOptionProps): JSX.Element {
+}: PropsWithChildren<HTMLAttributes<HTMLDivElement>> & ComboboxItemOptions): JSX.Element {
     return (
-        <ComboboxOption className={cn(className, 'navds-body-short', styles.suggestion)} {...props}>
+        <ComboboxItem className={cn(className, 'navds-body-short', styles.suggestion)} {...props}>
             {children}
-        </ComboboxOption>
+        </ComboboxItem>
     );
 }
 

@@ -1,29 +1,34 @@
 import React from 'react';
-import { Control, Controller } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 import { ErrorMessage } from '@navikt/ds-react';
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
 
-import CountryTypeahead from './DiagnoseTypeahead/CountryTypeahead';
+import CountryCombobox from './CountryCombobox/CountryCombobox';
 
 interface Props {
-    control: Control<SykmeldingFormValues>;
     name: 'land';
 }
 
-function CountryPicker({ control, name }: Props): JSX.Element {
+function CountryPicker({ name }: Props): JSX.Element {
+    const { field, fieldState } = useController<SykmeldingFormValues, 'land'>({
+        name,
+        rules: { required: 'Du må velge et land' },
+    });
+
     return (
-        <Controller
-            control={control}
-            name={name}
-            rules={{ required: 'Du må velge et land' }}
-            render={({ field, fieldState }) => (
-                <div>
-                    <CountryTypeahead onSelect={field.onChange} />
-                    {fieldState.error && <ErrorMessage>{fieldState.error.message}</ErrorMessage>}
-                </div>
-            )}
-        />
+        <div>
+            <CountryCombobox
+                initialValue={field.value}
+                onSelect={field.onChange}
+                onChange={() => {
+                    if (field.value) {
+                        field.onChange(null);
+                    }
+                }}
+            />
+            {fieldState.error && <ErrorMessage>{fieldState.error.message}</ErrorMessage>}
+        </div>
     );
 }
 export default CountryPicker;
