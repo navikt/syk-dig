@@ -25,7 +25,7 @@ function Sykmeldingsperiode(): JSX.Element {
     const watchFieldArray = useWatch({ name: 'periode' });
 
     return (
-        <SykmeldingSection title="Sykmeldingsperiode" Icon={Calender} ariaLabelIcon="Kalender ikon">
+        <SykmeldingSection id="sykmeldingsperiode-seksjon" title="Sykmeldingsperiode" Icon={Calender}>
             {fields.map((field, index) => (
                 <div id={`periode${index}`} className={styles.periode} key={field.id}>
                     <PeriodeSelect name={`periode.${index}.sykmeldingstype`} />

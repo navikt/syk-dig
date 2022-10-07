@@ -1,8 +1,10 @@
 import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Button } from '@navikt/ds-react';
+import { Bandage } from '@navikt/ds-icons';
 
 import DiagnosePicker from '../FormComponents/DiagnosePicker/DiagnosePicker';
+import SykmeldingSection from '../SykmeldingSection/SykmeldingSection';
 
 import { SykmeldingFormValues } from './SykmeldingForm';
 import styles from './DiagnoseFormSection.module.css';
@@ -22,26 +24,28 @@ function DiagnoseFormSection(): JSX.Element {
     });
 
     return (
-        <div className={styles.diagnoseFormSection}>
-            <DiagnosePicker name="diagnoser.hoveddiagnose" diagnoseType="hoveddiagnose" />
-            {fields.map((field, index) => (
-                <DiagnosePicker
-                    key={field.id}
-                    name={`diagnoser.bidiagnoser.${index}`}
-                    diagnoseType="bidiagnose"
-                    onRemove={() => remove(index)}
-                />
-            ))}
-            <div>
-                <Button
-                    variant="secondary"
-                    onClick={() => append({ system: 'ICD10', code: null, text: null }, { shouldFocus: true })}
-                    type="button"
-                >
-                    Legg til bidiagnose
-                </Button>
+        <SykmeldingSection id="diagnose-seksjon" title="Diagnose" Icon={Bandage}>
+            <div className={styles.diagnoseFormSection}>
+                <DiagnosePicker name="diagnoser.hoveddiagnose" diagnoseType="hoveddiagnose" />
+                {fields.map((field, index) => (
+                    <DiagnosePicker
+                        key={field.id}
+                        name={`diagnoser.bidiagnoser.${index}`}
+                        diagnoseType="bidiagnose"
+                        onRemove={() => remove(index)}
+                    />
+                ))}
+                <div className={styles.buttonSection}>
+                    <Button
+                        variant="secondary"
+                        onClick={() => append({ system: 'ICD10', code: null, text: null }, { shouldFocus: true })}
+                        type="button"
+                    >
+                        Legg til bidiagnose
+                    </Button>
+                </div>
             </div>
-        </div>
+        </SykmeldingSection>
     );
 }
 

@@ -1,7 +1,8 @@
-import { ErrorMessage, Select } from '@navikt/ds-react';
+import { Select } from '@navikt/ds-react';
 import { useController } from 'react-hook-form';
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
+import FieldError from '../FieldError/FieldError';
 
 export enum Periodetype {
     AktivitetIkkeMulig = 'AKTIVITET_IKKE_MULIG',
@@ -33,7 +34,7 @@ function PeriodeSelect({ name }: Props): JSX.Element {
                 <option value={Periodetype.Gradert}>Gradert sykmelding</option>
                 <option value={Periodetype.Reisetilskudd}>Reisetilskudd</option>
             </Select>
-            {fieldState.error && <ErrorMessage>{fieldState.error.message}</ErrorMessage>}
+            <FieldError error={fieldState.error} />
         </div>
     );
 }
