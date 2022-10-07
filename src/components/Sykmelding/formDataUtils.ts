@@ -1,6 +1,7 @@
 import { DefaultValues } from 'react-hook-form/dist/types/form';
 
 import { DiagnoseFragment, OppgaveValues } from '../../graphql/queries/graphql.generated';
+import { Periodetype } from '../FormComponents/Sykmeldingsperiode/PeriodeSelect';
 
 import { DiagnoseFormValue, DiagnoseSystem } from './DiagnoseFormSection';
 import { SykmeldingFormValues } from './SykmeldingForm';
@@ -30,7 +31,8 @@ export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
         },
         periode: [
             {
-                grad: '',
+                sykmeldingstype: Periodetype.AktivitetIkkeMulig,
+                grad: undefined,
             },
         ],
     };
