@@ -3,14 +3,19 @@ import Head from 'next/head';
 
 import PageHeader from '../PageHeader/PageHeader';
 
-function PageWrapper({ children, title }: PropsWithChildren<{ title: string }>): JSX.Element {
+interface Props {
+    title: string;
+    className?: string;
+}
+
+function PageWrapper({ children, title, className }: PropsWithChildren<Props>): JSX.Element {
     return (
         <div>
             <Head>
                 <title>{title}</title>
             </Head>
             <PageHeader />
-            <main>{children}</main>
+            <main className={className}>{children}</main>
         </div>
     );
 }

@@ -1,0 +1,20 @@
+.contentWrapper {
+    display: flex;
+    --content-height: calc(100vh - 48px);
+}
+
+.content {
+    flex: 1 0 auto;
+    max-height: var(--content-height);
+    overflow-y: scroll;
+    padding: var(--navds-spacing-12);
+}
+
+.pdf {
+    height: var(--content-height);
+    flex: 0 1 45%;
+}
+
+.pdf embed {
+    margin-bottom: -6px;
+}
