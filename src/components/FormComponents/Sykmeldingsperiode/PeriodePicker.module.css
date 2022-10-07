@@ -1,0 +1,21 @@
+.periodePicker {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: var(--navds-spacing-4);
+}
+
+.periodePicker :global(.navds-date__wrapper) {
+    display: flex;
+    justify-content: space-between;
+}
+
+.periodePicker :global(.navds-form-field),
+.periodePicker :global(.navds-error-message) {
+    margin-right: var(--navds-spacing-8);
+}
+
+.nullstillButton {
+    max-height: 4rem;
+    align-self: flex-end;
+    border-radius: 4px;
+}

@@ -1,15 +1,17 @@
 .periode {
     display: flex;
-    margin: 2rem 0;
-}
-
-.nullstillButton {
-    max-height: 4rem;
-    align-self: flex-end;
-    border-radius: 4px;
+    padding: 1rem 0;
+    flex-wrap: wrap;
 }
 
 .leggTilButton {
     border-radius: 4px;
     width: 13.8rem;
+    margin-top: var(--navds-spacing-4);
+}
+
+.periode :global(.navds-button--danger) {
+    display: flex;
+    align-self: flex-end;
+    margin-right: var(--navds-spacing-8);
 }
