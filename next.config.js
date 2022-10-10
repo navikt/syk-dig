@@ -22,6 +22,8 @@ const nextConfig = {
         MODIACONTEXTHOLDER_HOST: process.env.MODIACONTEXTHOLDER_HOST,
     },
     publicRuntimeConfig: {
+        gosysUrl: process.env.GOSYS_URL,
+        modiaUrl: process.env.MODIA_URL,
         runtimeEnv: process.env.RUNTIME_ENVIRONMENT,
     },
 };

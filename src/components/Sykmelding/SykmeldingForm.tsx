@@ -2,6 +2,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import Errors from '../Errors/Errors';
 import { OppgaveFragment } from '../../graphql/queries/graphql.generated';
+import useWarnUnsavedPopup from '../../hooks/useWarnUnsaved';
 
 import Pasientopplysninger from './Pasientopplysninger';
 import Sykmeldingsperiode, { Periode } from './Sykmeldingsperiode';
@@ -21,13 +22,15 @@ interface Props {
 }
 
 function SykmeldingForm({ oppgave }: Props): JSX.Element {
-    const methods = useForm<SykmeldingFormValues>({
+    const form = useForm<SykmeldingFormValues>({
         defaultValues: createDefaultValues(oppgave.values),
         shouldFocusError: false,
     });
+    const shouldWarn = form.formState.isDirty && !form.formState.isSubmitSuccessful;
+    useWarnUnsavedPopup(shouldWarn);
 
     return (
-        <FormProvider {...methods}>
+        <FormProvider {...form}>
             <form>
                 <Pasientopplysninger />
                 <Sykmeldingsperiode />
