@@ -37,7 +37,11 @@ spec:
         - application: syk-dig-backend
   env:
     - name: ASSET_PREFIX
-      value: "https://teamsykmelding-static-files.nav.no/syk-dig"
+      value: 'https://teamsykmelding-static-files.nav.no/syk-dig'
+    - name: GOSYS_URL
+      value: https://gosys.intern.nav.no/gosys/bruker/brukeroversikt.jsf
+    - name: MODIA_URL
+      value: https://syfomodiaperson.intern.nav.no/sykefravaer
     - name: SYK_DIG_BACKEND_SCOPE
       value: api://prod-gcp.teamsykmelding.syk-dig-backend/.default
     - name: SYK_DIG_BACKEND_HOST

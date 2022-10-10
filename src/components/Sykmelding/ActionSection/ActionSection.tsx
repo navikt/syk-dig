@@ -4,18 +4,25 @@ import { Edit, Success } from '@navikt/ds-icons';
 import { SubmitHandler, useFormContext } from 'react-hook-form';
 
 import SykmeldingSection, { SectionHeader } from '../../SykmeldingSection/SykmeldingSection';
+import { getPublicEnv } from '../../../utils/env';
 
 import styles from './ActionSection.module.css';
+
+const publicEnv = getPublicEnv();
 
 function ActionSection(): JSX.Element {
     const { handleSubmit } = useFormContext<FormData>();
 
-    const registerAndSubmit: SubmitHandler<FormData> = (data): void => {
+    const registerAndSubmit: SubmitHandler<FormData> = (data): Promise<void> => {
         console.log('data register', data);
+
+        return Promise.reject('Ayy');
     };
 
-    const saveAndClose: SubmitHandler<FormData> = (data): void => {
+    const saveAndClose: SubmitHandler<FormData> = (data): Promise<void> => {
         console.log('data save', data);
+
+        return Promise.resolve();
     };
 
     return (
@@ -39,7 +46,7 @@ function ActionSection(): JSX.Element {
                     <Button variant="secondary" type="button" onClick={handleSubmit(saveAndClose)}>
                         Lagre og lukk
                     </Button>
-                    <Button variant="tertiary" as="a" href="#TODO-return-to-gosys-med-warning">
+                    <Button variant="tertiary" as="a" href={publicEnv.gosysUrl}>
                         Avbryt
                     </Button>
                 </div>
