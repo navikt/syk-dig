@@ -1,5 +1,6 @@
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
+import { waitFor } from '@testing-library/dom';
 
 import { render, screen } from '../../../../utils/testUtils';
 
@@ -12,6 +13,7 @@ describe('CountryTypeahead', () => {
             <CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />,
         );
 
+        await waitForPickerToBeLoaded();
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'Zim');
         await userEvent.click(await screen.findByRole('option', { name: 'Zimbabwe' }));
 
@@ -22,6 +24,7 @@ describe('CountryTypeahead', () => {
         const mockSelect = jest.fn();
         render(<CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />);
 
+        await waitForPickerToBeLoaded();
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'Zim');
         await userEvent.click(await screen.findByRole('option', { name: 'Zimbabwe' }));
 
@@ -32,6 +35,7 @@ describe('CountryTypeahead', () => {
         const mockSelect = jest.fn();
         render(<CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />);
 
+        await waitForPickerToBeLoaded();
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'No');
         const results = await screen.findAllByRole('option');
 
@@ -46,13 +50,31 @@ describe('CountryTypeahead', () => {
         expect(mockSelect).toHaveBeenCalledWith('NO');
     });
 
+    it('should correctly set initial value without invoking onSelect', async () => {
+        const mockSelect = jest.fn();
+        render(<CountryCombobox onSelect={mockSelect} initialValue={'NO'} onChange={() => void 0} />);
+
+        await waitForPickerToBeLoaded();
+        await waitFor(() =>
+            expect(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' })).toHaveValue('Norge'),
+        );
+        expect(mockSelect).not.toHaveBeenCalled();
+    });
+
     it('should display no results', async () => {
         const mockSelect = jest.fn();
         render(<CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />);
 
+        await waitForPickerToBeLoaded();
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'IkkeEtLand');
 
         expect(screen.getByText('Ingen treff')).toBeInTheDocument();
         expect(mockSelect).not.toHaveBeenCalled();
     });
 });
+
+async function waitForPickerToBeLoaded(): Promise<void> {
+    await waitFor(() =>
+        expect(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' })).not.toBeDisabled(),
+    );
+}

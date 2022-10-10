@@ -14,13 +14,15 @@ import { Expand } from '@navikt/ds-icons';
 
 import styles from './Combobox.module.css';
 
-export function ComboboxWrapper({
-    id,
-    label,
-    children,
-}: PropsWithChildren<{ id?: string; label: string }>): JSX.Element {
+interface Props {
+    id?: string;
+    label: string;
+    disabled?: boolean;
+}
+
+export function ComboboxWrapper({ id, label, disabled, children }: PropsWithChildren<Props>): JSX.Element {
     return (
-        <div className="navds-form-field navds-form-field--medium">
+        <div className={cn('navds-form-field navds-form-field--medium', { 'navds-form-field--disabled': disabled })}>
             <Label id={id}>{label}</Label>
             {children}
         </div>
