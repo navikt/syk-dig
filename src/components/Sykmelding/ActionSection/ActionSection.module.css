@@ -1,0 +1,19 @@
+.radioGroupInfo {
+    margin-bottom: var(--navds-spacing-8);
+}
+
+.subActionSection {
+    border-top: 1px solid var(--navds-semantic-color-border-muted);
+    margin-top: var(--navds-spacing-8);
+    padding-top: var(--navds-spacing-8);
+}
+
+.otherActionButtons {
+    display: flex;
+    gap: var(--navds-spacing-4);
+    margin-top: var(--navds-spacing-8);
+}
+
+.otherActionButtons > button:first-child {
+    min-width: 200px;
+}
