@@ -1,8 +1,8 @@
 import React from 'react';
 import { useController } from 'react-hook-form';
-import { ErrorMessage } from '@navikt/ds-react';
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
+import FieldError from '../FieldError/FieldError';
 
 import CountryCombobox from './CountryCombobox/CountryCombobox';
 
@@ -27,7 +27,7 @@ function CountryPicker({ name }: Props): JSX.Element {
                     }
                 }}
             />
-            {fieldState.error && <ErrorMessage>{fieldState.error.message}</ErrorMessage>}
+            <FieldError error={fieldState.error} />
         </div>
     );
 }

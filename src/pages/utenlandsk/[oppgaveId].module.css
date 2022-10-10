@@ -1,10 +1,13 @@
 .contentWrapper {
     display: flex;
     --content-height: calc(100vh - 48px);
+    --content-min-width: 50rem;
 }
 
 .content {
-    flex: 1 0 auto;
+    flex: 1 1 55%;
+    min-width: var(--content-min-width);
+    max-width: var(--content-width);
     max-height: var(--content-height);
     overflow-y: scroll;
     padding: var(--navds-spacing-12);
@@ -12,7 +15,7 @@
 
 .pdf {
     height: var(--content-height);
-    flex: 0 1 45%;
+    flex: 1 1 45%;
 }
 
 .pdf embed {

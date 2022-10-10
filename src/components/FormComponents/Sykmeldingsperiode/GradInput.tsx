@@ -1,7 +1,8 @@
-import { ErrorMessage, TextField } from '@navikt/ds-react';
+import { TextField } from '@navikt/ds-react';
 import { useController } from 'react-hook-form';
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
+import FieldError from '../FieldError/FieldError';
 
 import styles from './GradInput.module.css';
 
@@ -24,7 +25,7 @@ function GradInput({ name }: Props): JSX.Element {
     return (
         <div className={styles.grad}>
             <TextField id={name} label="Oppgi grad" type="number" {...field} />
-            {fieldState.error && <ErrorMessage>{fieldState.error.message}</ErrorMessage>}
+            <FieldError error={fieldState.error} />
         </div>
     );
 }
