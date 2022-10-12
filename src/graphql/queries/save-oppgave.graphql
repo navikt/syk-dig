@@ -1,0 +1,5 @@
+mutation SaveOppgave($id: String!, $values: SykmeldingUnderArbeidValues!, $status: SykmeldingUnderArbeidStatus!) {
+    lagre(oppgaveId: $id, values: $values, status: $status) {
+        ...Oppgave
+    }
+}

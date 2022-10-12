@@ -1,41 +1,38 @@
 import { OppgaveByIdQuery } from '../../graphql/queries/graphql.generated';
 
-const oppgave: OppgaveByIdQuery = {
-    __typename: 'Query',
-    oppgave: {
-        __typename: 'Digitaliseringsoppgave',
-        oppgaveId: '123',
-        person: {
-            __typename: 'Person',
-            navn: 'Ola Nordmann',
-            fnr: '12345678910',
+const oppgave: OppgaveByIdQuery['oppgave'] = {
+    __typename: 'Digitaliseringsoppgave',
+    oppgaveId: '123',
+    person: {
+        __typename: 'Person',
+        navn: 'Ola Nordmann',
+        fnr: '12345678910',
+    },
+    values: {
+        __typename: 'OppgaveValues',
+        personNrPasient: '12345678910',
+        hoveddiagnose: {
+            __typename: 'DiagnoseValue',
+            kode: 'Z27',
+            system: 'ICD10',
+            tekst: 'Angst & depresjon, name a more icon duo',
         },
-        values: {
-            __typename: 'OppgaveValues',
-            personNrPasient: '12345678910',
-            hoveddiagnose: {
+        biDiagnoser: [
+            {
                 __typename: 'DiagnoseValue',
-                kode: 'Z27',
+                kode: 'EL8PV',
                 system: 'ICD10',
-                tekst: 'Angst & depresjon, name a more icon duo',
+                tekst: 'Radioproblematikk',
             },
-            biDiagnoser: [
-                {
-                    __typename: 'DiagnoseValue',
-                    kode: 'EL8PV',
-                    system: 'ICD10',
-                    tekst: 'Radioproblematikk',
-                },
-                {
-                    __typename: 'DiagnoseValue',
-                    kode: 'GZF4',
-                    system: 'ICPC2',
-                    tekst: 'Knekker i to',
-                },
-            ],
-            behandletTidspunkt: '2021-01-01T13:37:00.000Z',
-            skrevetLand: 'NO',
-        },
+            {
+                __typename: 'DiagnoseValue',
+                kode: 'GZF4',
+                system: 'ICPC2',
+                tekst: 'Knekker i to',
+            },
+        ],
+        behandletTidspunkt: '2021-01-01T13:37:00.000Z',
+        skrevetLand: 'NO',
     },
 };
 

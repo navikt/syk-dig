@@ -8,13 +8,14 @@ import Pasientopplysninger from './Pasientopplysninger';
 import Sykmeldingsperiode, { Periode } from './Sykmeldingsperiode';
 import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSection';
 import { createDefaultValues } from './formDataUtils';
-import ActionSection from './ActionSection/ActionSection';
+import ActionSection, { ActionFormSectionValues } from './ActionSection/ActionSection';
 
 export interface SykmeldingFormValues {
     diagnoser: DiagnoseFormSectionValues;
-    fnr: string | null;
-    land: string | null;
+    fnr: string;
+    land: string;
     periode: Array<Periode>;
+    action: ActionFormSectionValues;
 }
 
 interface Props {
