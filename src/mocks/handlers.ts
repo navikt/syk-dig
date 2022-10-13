@@ -2,10 +2,9 @@
 
 import { graphql, RequestHandler } from 'msw';
 
-import { OppgaveByIdDocument, OppgaveByIdQuery, SaveOppgaveDocument } from '../graphql/queries/graphql.generated';
+import { OppgaveByIdDocument, SaveOppgaveDocument } from '../graphql/queries/graphql.generated';
 
-import oppgaveWithValues from './data/oppgaveWithValues';
-import oppgaveBlank from './data/oppgaveBlank';
+import getMockDb from './data';
 
 let testHandlers: RequestHandler[] = [];
 if (process.env.NODE_ENV === 'test') {
@@ -14,31 +13,17 @@ if (process.env.NODE_ENV === 'test') {
 
 export const handlers = [
     graphql.query(OppgaveByIdDocument, (req, res, ctx) => {
-        return res(
-            ctx.delay(),
-            ctx.data({
-                __typename: 'Query',
-                oppgave: getOppgave(req.variables.oppgaveId),
-            }),
-        );
+        const oppgave = getMockDb().getOppgave(req.variables.oppgaveId);
+
+        return res(ctx.delay(), ctx.data({ __typename: 'Query', oppgave }));
     }),
     graphql.mutation(SaveOppgaveDocument, (req, res, ctx) => {
-        return res(
-            ctx.delay(),
-            ctx.data({
-                __typename: 'Mutation',
-                lagre: getOppgave(req.variables.id),
-            }),
-        );
+        const oppgave = getMockDb().getOppgave(req.variables.id);
+
+        oppgave.values.fnrPasient = req.variables.values.fnrPasient;
+        oppgave.values.skrevetLand = req.variables.values.skrevetLand;
+
+        return res(ctx.delay(), ctx.data({ __typename: 'Mutation', lagre: oppgave }));
     }),
     ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
 ];
-
-function getOppgave(oppgaveId: string): OppgaveByIdQuery['oppgave'] {
-    switch (oppgaveId.toLowerCase()) {
-        case 'blank':
-            return oppgaveBlank;
-        default:
-            return oppgaveWithValues;
-    }
-}

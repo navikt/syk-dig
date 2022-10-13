@@ -10,7 +10,7 @@ import { SykmeldingFormValues } from '../SykmeldingForm';
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated';
 
 import FeedbackModal from './FeedbackModal';
-import { useHandleRegister, useHandleSave } from './useHandleSave';
+import { useHandleSave } from './useHandleSave';
 import styles from './ActionSection.module.css';
 
 const publicEnv = getPublicEnv();
@@ -19,14 +19,19 @@ export interface ActionFormSectionValues {
     registerOppgaveStatus: 'everything_ok' | 'some_missing';
 }
 
-function ActionSection(): JSX.Element {
-    const { handleSubmit, register } = useFormContext<SykmeldingFormValues>();
+interface Props {
+    registerResult: MutationResult<SaveOppgaveMutation>;
+}
+
+function ActionSection({ registerResult }: Props): JSX.Element {
+    const { register, getValues, reset } = useFormContext<SykmeldingFormValues>();
     const [saveAndClose, saveResult] = useHandleSave({
         onCompleted: () => {
-            window.location.href = publicEnv.gosysUrl;
+            if (process.env.NODE_ENV === 'production') {
+                window.location.href = publicEnv.gosysUrl;
+            }
         },
     });
-    const [registerAndSubmit, registerResult] = useHandleRegister();
 
     return (
         <SykmeldingSection title="Registrer opplysningene" Icon={Success} variant="light">
@@ -41,7 +46,7 @@ function ActionSection(): JSX.Element {
                 <Radio value="everything_ok">Alle opplysningene fra sykmeldingen er lagt inn</Radio>
                 <Radio value="some_missing">Sykmeldingen mangler opplysninger</Radio>
             </RadioGroup>
-            <Button type="button" onClick={handleSubmit(registerAndSubmit)} loading={registerResult.loading}>
+            <Button type="submit" loading={registerResult.loading}>
                 Registrere og send
             </Button>
             <MutationResultFeedback result={registerResult}>
@@ -57,7 +62,12 @@ function ActionSection(): JSX.Element {
                     <Button
                         variant="secondary"
                         type="button"
-                        onClick={handleSubmit(saveAndClose)}
+                        onClick={() => {
+                            /** Reset the form state, any invalid submits etc.,
+                             * because we want to save the draft and leave */
+                            reset(undefined, { keepValues: true });
+                            return saveAndClose(getValues());
+                        }}
                         loading={saveResult.loading}
                     >
                         Fortsett senere
@@ -82,5 +92,7 @@ function MutationResultFeedback({
 
     return result.error ? <Alert variant="error">Kunne ikke registrere sykmeldingen</Alert> : <>{children}</>;
 }
+
+export { useHandleRegister } from './useHandleSave';
 
 export default ActionSection;
