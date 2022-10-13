@@ -9,6 +9,7 @@ import {
 } from '../../../graphql/queries/graphql.generated';
 import { Location, useParam } from '../../../utils/useParam';
 import { SykmeldingFormValues } from '../SykmeldingForm';
+import { safeString } from '../../../utils/formUtils';
 
 type UseSave = [save: SubmitHandler<SykmeldingFormValues>, result: MutationResult<SaveOppgaveMutation>];
 type UseSaveOptions = { onCompleted?: () => void };
@@ -16,7 +17,7 @@ type UseSaveOptions = { onCompleted?: () => void };
 export function useHandleSave({ onCompleted }: UseSaveOptions): UseSave {
     const params = useParam(Location.Utenlansk);
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument);
-    const saveAndClose: SubmitHandler<SykmeldingFormValues> = async (data): Promise<void> => {
+    const saveAndClose = async (data: SykmeldingFormValues): Promise<void> => {
         logger.info(`Saving incomplete oppgave for oppgaveId: ${params.oppgaveId}`);
 
         await saveOppgave({
@@ -24,9 +25,10 @@ export function useHandleSave({ onCompleted }: UseSaveOptions): UseSave {
                 id: params.oppgaveId,
                 values: {
                     // TODO expand syk-dig-backend schema to include all fields
-                    personNrPasient: data.fnr,
+                    fnrPasient: safeString(data.fnr),
+                    skrevetLand: safeString(data.land),
                 },
-                status: SykmeldingUnderArbeidStatus.Ferdigstilt,
+                status: SykmeldingUnderArbeidStatus.UnderArbeid,
             },
             onCompleted,
         });
@@ -46,9 +48,10 @@ export function useHandleRegister({ onCompleted }: UseSaveOptions = {}): UseSave
                 id: params.oppgaveId,
                 values: {
                     // TODO expand syk-dig-backend schema to include all fields
-                    personNrPasient: data.fnr,
+                    fnrPasient: safeString(data.fnr),
+                    skrevetLand: safeString(data.land),
                 },
-                status: SykmeldingUnderArbeidStatus.UnderArbeid,
+                status: SykmeldingUnderArbeidStatus.Ferdigstilt,
             },
             onCompleted,
         });

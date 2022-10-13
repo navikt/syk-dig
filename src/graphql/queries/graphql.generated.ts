@@ -399,8 +399,8 @@ export type OppgaveValues = {
     __typename: 'OppgaveValues';
     behandletTidspunkt?: Maybe<Scalars['String']>;
     biDiagnoser?: Maybe<Array<DiagnoseValue>>;
+    fnrPasient?: Maybe<Scalars['String']>;
     hoveddiagnose?: Maybe<DiagnoseValue>;
-    personNrPasient?: Maybe<Scalars['String']>;
     skrevetLand?: Maybe<Scalars['String']>;
 };
 
@@ -479,8 +479,9 @@ export enum SykmeldingUnderArbeidStatus {
 }
 
 export type SykmeldingUnderArbeidValues = {
-    /**  TODO: Verdier som skal kunne endres fra frontenden */
-    personNrPasient: Scalars['String'];
+    behandletTidspunkt?: InputMaybe<Scalars['String']>;
+    fnrPasient?: InputMaybe<Scalars['String']>;
+    skrevetLand?: InputMaybe<Scalars['String']>;
 };
 
 export enum SykmeldingsType {
@@ -561,7 +562,7 @@ export type DiagnoseFragment = { __typename: 'DiagnoseValue'; kode: string; teks
 
 export type OppgaveValuesFragment = {
     __typename: 'OppgaveValues';
-    personNrPasient?: string | null;
+    fnrPasient?: string | null;
     behandletTidspunkt?: string | null;
     skrevetLand?: string | null;
     hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
@@ -574,7 +575,7 @@ export type OppgaveFragment = {
     person: { __typename: 'Person'; fnr: string; navn?: string | null };
     values: {
         __typename: 'OppgaveValues';
-        personNrPasient?: string | null;
+        fnrPasient?: string | null;
         behandletTidspunkt?: string | null;
         skrevetLand?: string | null;
         hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
@@ -599,7 +600,7 @@ export type OppgaveByIdQuery = {
         person: { __typename: 'Person'; fnr: string; navn?: string | null };
         values: {
             __typename: 'OppgaveValues';
-            personNrPasient?: string | null;
+            fnrPasient?: string | null;
             behandletTidspunkt?: string | null;
             skrevetLand?: string | null;
             hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
@@ -627,7 +628,7 @@ export type SaveOppgaveMutation = {
         person: { __typename: 'Person'; fnr: string; navn?: string | null };
         values: {
             __typename: 'OppgaveValues';
-            personNrPasient?: string | null;
+            fnrPasient?: string | null;
             behandletTidspunkt?: string | null;
             skrevetLand?: string | null;
             hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
@@ -698,7 +699,7 @@ export const OppgaveValuesFragmentDoc = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'personNrPasient' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnrPasient' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'behandletTidspunkt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'skrevetLand' } },
                     {

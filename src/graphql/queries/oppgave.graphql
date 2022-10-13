@@ -5,7 +5,7 @@ fragment Diagnose on DiagnoseValue {
 }
 
 fragment OppgaveValues on OppgaveValues {
-    personNrPasient
+    fnrPasient
     behandletTidspunkt
     skrevetLand
     hoveddiagnose {

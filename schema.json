@@ -582,7 +582,7 @@
                     "description": null,
                     "fields": [
                         {
-                            "name": "personNrPasient",
+                            "name": "fnrPasient",
                             "description": null,
                             "args": [],
                             "type": { "kind": "SCALAR", "name": "String", "ofType": null },
@@ -958,13 +958,25 @@
                     "fields": null,
                     "inputFields": [
                         {
-                            "name": "personNrPasient",
-                            "description": " TODO: Verdier som skal kunne endres fra frontenden",
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
-                            },
+                            "name": "fnrPasient",
+                            "description": null,
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "behandletTidspunkt",
+                            "description": null,
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "skrevetLand",
+                            "description": null,
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
                             "defaultValue": null,
                             "isDeprecated": false,
                             "deprecationReason": null

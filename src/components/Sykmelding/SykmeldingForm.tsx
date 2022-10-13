@@ -8,7 +8,7 @@ import Pasientopplysninger from './Pasientopplysninger';
 import Sykmeldingsperiode, { Periode } from './Sykmeldingsperiode';
 import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSection';
 import { createDefaultValues } from './formDataUtils';
-import ActionSection, { ActionFormSectionValues } from './ActionSection/ActionSection';
+import ActionSection, { useHandleRegister, ActionFormSectionValues } from './ActionSection/ActionSection';
 
 export interface SykmeldingFormValues {
     diagnoser: DiagnoseFormSectionValues;
@@ -23,6 +23,7 @@ interface Props {
 }
 
 function SykmeldingForm({ oppgave }: Props): JSX.Element {
+    const [onSave, result] = useHandleRegister();
     const form = useForm<SykmeldingFormValues>({
         defaultValues: createDefaultValues(oppgave.values),
         shouldFocusError: false,
@@ -32,12 +33,12 @@ function SykmeldingForm({ oppgave }: Props): JSX.Element {
 
     return (
         <FormProvider {...form}>
-            <form>
+            <form onSubmit={form.handleSubmit(onSave)}>
                 <Pasientopplysninger />
                 <Sykmeldingsperiode />
                 <DiagnoseFormSection />
                 <Errors />
-                <ActionSection />
+                <ActionSection registerResult={result} />
             </form>
         </FormProvider>
     );

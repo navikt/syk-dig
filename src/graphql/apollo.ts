@@ -17,7 +17,9 @@ import { modiaLocalResolvers, setInitialModiaQueryState } from './localState/mod
 
 export const cacheConfig: Pick<InMemoryCacheConfig, 'possibleTypes' | 'typePolicies'> = {
     possibleTypes: possibleTypesGenerated.possibleTypes,
-    typePolicies: {},
+    typePolicies: {
+        Digitaliseringsoppgave: { keyFields: ['oppgaveId'] },
+    },
 };
 
 export function createApolloClient(
