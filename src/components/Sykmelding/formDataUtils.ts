@@ -18,8 +18,8 @@ function mapToDiagnoseValues(diagnose: DiagnoseFragment): DiagnoseFormValue {
 
 export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
     return {
-        fnr: values.personNrPasient,
-        land: values.skrevetLand,
+        fnr: values.personNrPasient ?? '',
+        land: values.skrevetLand ?? '',
         diagnoser: {
             hoveddiagnose: values.hoveddiagnose
                 ? mapToDiagnoseValues(values.hoveddiagnose)

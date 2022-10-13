@@ -13,7 +13,3 @@
     gap: var(--navds-spacing-4);
     margin-top: var(--navds-spacing-8);
 }
-
-.otherActionButtons > button:first-child {
-    min-width: 200px;
-}

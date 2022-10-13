@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { SykmeldingFormValues } from '../Sykmelding/SykmeldingForm';
 
-type CustomErrors = Record<keyof SykmeldingFormValues, string | undefined>;
+type CustomErrors = Omit<Record<keyof SykmeldingFormValues, string | undefined>, 'action'>;
 
 function Errors(): JSX.Element | null {
     const {

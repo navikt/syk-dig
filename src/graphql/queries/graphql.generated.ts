@@ -613,6 +613,34 @@ export type OppgaveByIdQuery = {
     };
 };
 
+export type SaveOppgaveMutationVariables = Exact<{
+    id: Scalars['String'];
+    values: SykmeldingUnderArbeidValues;
+    status: SykmeldingUnderArbeidStatus;
+}>;
+
+export type SaveOppgaveMutation = {
+    __typename: 'Mutation';
+    lagre: {
+        __typename: 'Digitaliseringsoppgave';
+        oppgaveId: string;
+        person: { __typename: 'Person'; fnr: string; navn?: string | null };
+        values: {
+            __typename: 'OppgaveValues';
+            personNrPasient?: string | null;
+            behandletTidspunkt?: string | null;
+            skrevetLand?: string | null;
+            hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
+            biDiagnoser?: Array<{
+                __typename: 'DiagnoseValue';
+                kode: string;
+                tekst?: string | null;
+                system: string;
+            }> | null;
+        };
+    };
+};
+
 export const ModiaFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -833,3 +861,69 @@ export const OppgaveByIdDocument = {
         ...DiagnoseFragmentDoc.definitions,
     ],
 } as unknown as DocumentNode<OppgaveByIdQuery, OppgaveByIdQueryVariables>;
+export const SaveOppgaveDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'SaveOppgave' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'values' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'SykmeldingUnderArbeidValues' } },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'SykmeldingUnderArbeidStatus' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lagre' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'values' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'values' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'status' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Oppgave' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        ...OppgaveFragmentDoc.definitions,
+        ...OppgaveValuesFragmentDoc.definitions,
+        ...DiagnoseFragmentDoc.definitions,
+    ],
+} as unknown as DocumentNode<SaveOppgaveMutation, SaveOppgaveMutationVariables>;

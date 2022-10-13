@@ -1,9 +1,10 @@
 import '../style/global.css';
 
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import type { AppProps as NextAppProps } from 'next/app';
 import { logger } from '@navikt/next-logger';
+import { Modal } from '@navikt/ds-react';
 
 import { createApolloClient } from '../graphql/apollo';
 import { ModiaContext, ModiaContextError } from '../modia/ModiaService';
@@ -26,6 +27,10 @@ function MyApp({ Component, pageProps }: AppProps<RequiredPageProps>): JSX.Eleme
     const [apolloClient] = useState(() => createApolloClient(pageProps.modiaContext));
 
     useModiaContextUpdated(apolloClient, pageProps.modiaContext);
+
+    useEffect(() => {
+        Modal.setAppElement?.('#__next');
+    }, []);
 
     return (
         <ApolloProvider client={apolloClient}>
