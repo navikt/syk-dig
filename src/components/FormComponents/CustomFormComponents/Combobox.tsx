@@ -42,7 +42,7 @@ export function DsCombobox({
             >
                 {children}
             </Combobox>
-            <ComboboxDisclosure className="navds-select__chevron" state={props.state} as={Expand} />
+            <ComboboxDisclosure className="navds-select__chevron" state={props.state} as={Expand} aria-hidden />
         </div>
     );
 }
