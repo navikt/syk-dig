@@ -37,5 +37,6 @@ export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
                 tom: undefined,
             },
         ],
+        behandletTidspunkt: values.behandletTidspunkt,
     };
 }

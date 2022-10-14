@@ -1,26 +1,17 @@
-import { ErrorMessage, TextField } from '@navikt/ds-react';
-import { useFormContext } from 'react-hook-form';
+import { Profile } from '@navikt/ds-icons';
 
+import SykmeldingSection from '../SykmeldingSection/SykmeldingSection';
+import Fodselsnummer from '../FormComponents/Pasientopplysninger/Fodselsnummer';
+import DatoSykmeldingenBleSkrevet from '../FormComponents/Pasientopplysninger/DatoSykmeldingenBleSkrevet';
 import CountryPicker from '../FormComponents/CountryPicker/CountryPicker';
 
-import { SykmeldingFormValues } from './SykmeldingForm';
-
 function Pasientopplysninger(): JSX.Element {
-    const {
-        register,
-        formState: { errors },
-    } = useFormContext<SykmeldingFormValues>();
-
     return (
-        <>
-            <TextField
-                id="fnr"
-                label="Fødselsnummer (11 siffer)"
-                {...register('fnr', { required: 'Du må fylle inn fødselsnummer.' })}
-            />
-            {errors?.fnr && <ErrorMessage>{errors.fnr.message}</ErrorMessage>}
+        <SykmeldingSection id="pasientopplysninger-seksjon" title="Pasientopplysninger" Icon={Profile}>
+            <Fodselsnummer />
+            <DatoSykmeldingenBleSkrevet />
             <CountryPicker name="land" />
-        </>
+        </SykmeldingSection>
     );
 }
 
