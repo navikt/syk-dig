@@ -13,7 +13,7 @@ function Pdf({ href, className }: Props): JSX.Element {
         PDFObject.embed(href, embed.current);
     }, [href]);
 
-    return <div className={className} ref={embed}></div>;
+    return <div className={className} ref={embed} data-testid="pdf-embed"></div>;
 }
 
 export default Pdf;
