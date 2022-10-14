@@ -1,0 +1,11 @@
+.pageTitle {
+    background-color: var(--navds-global-color-deepblue-50);
+    padding: var(--navds-spacing-12);
+    position: relative;
+}
+
+.titleActions {
+    position: absolute;
+    right: var(--navds-spacing-4);
+    top: var(--navds-spacing-4);
+}

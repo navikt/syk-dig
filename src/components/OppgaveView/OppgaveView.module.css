@@ -1,0 +1,50 @@
+.contentWrapper {
+    display: flex;
+    --content-height: calc(100vh - 48px);
+    --content-min-width: 50rem;
+}
+
+.scrollArea {
+    position: relative;
+    flex: 1 1 55%;
+    min-width: var(--content-min-width);
+    max-width: var(--content-width);
+    max-height: var(--content-height);
+    overflow-y: scroll;
+}
+
+.scrollArea.inactiveTab {
+    display: none;
+}
+
+.scrollArea.activeTab {
+    min-width: unset;
+    max-width: unset;
+    max-height: calc(var(--content-height) - 48px);
+}
+
+.scrollArea.activeTab > .content {
+    max-width: 60rem;
+    margin: 0 auto;
+}
+
+.content {
+    padding: var(--navds-spacing-12);
+}
+
+.pdf {
+    height: var(--content-height);
+    flex: 1 1 45%;
+}
+
+.pdf.activeTab {
+    max-height: calc(var(--content-height) - 48px);
+}
+
+.pdf.inactiveTab {
+    display: none;
+}
+
+.pdf embed {
+    margin-bottom: -7px;
+}

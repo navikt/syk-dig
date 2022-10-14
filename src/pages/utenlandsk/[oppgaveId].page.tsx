@@ -7,9 +7,7 @@ import PageWrapper from '../../components/PageWrapper/PageWrapper';
 import SykmeldingForm from '../../components/Sykmelding/SykmeldingForm';
 import { OppgaveByIdDocument } from '../../graphql/queries/graphql.generated';
 import { Location, useParam } from '../../utils/useParam';
-import Pdf from '../../components/Pdf/Pdf';
-
-import styles from './[oppgaveId].module.css';
+import OppgaveView from '../../components/OppgaveView/OppgaveView';
 
 function Utenlandsk(): JSX.Element {
     const { oppgaveId } = useParam(Location.Utenlansk);
@@ -18,13 +16,12 @@ function Utenlandsk(): JSX.Element {
     });
 
     return (
-        <PageWrapper title="Digitalisering av Sykmeldinger" className={styles.contentWrapper}>
-            <div className={styles.content}>
+        <PageWrapper title="Digitalisering av Sykmeldinger">
+            <OppgaveView oppgaveId={oppgaveId}>
                 {loading && <Loader size="3xlarge" />}
                 {data && <SykmeldingForm oppgave={data.oppgave} />}
                 {error && <Alert variant="error">Klarte ikke å laste oppgave med oppgave-id {oppgaveId}</Alert>}
-            </div>
-            {oppgaveId && <Pdf className={styles.pdf} href={`/api/pdf?oppgaveId=${oppgaveId}`} />}
+            </OppgaveView>
         </PageWrapper>
     );
 }

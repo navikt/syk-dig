@@ -5,8 +5,11 @@ import { Select } from '@navikt/ds-react';
 import Link from 'next/link';
 
 import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/queries/graphql.generated';
+import { getPublicEnv } from '../../utils/env';
 
 import styles from './PageHeader.module.css';
+
+const publicEnv = getPublicEnv();
 
 function PageHeader(): JSX.Element {
     const { data } = useQuery(ModiaContextDocument);
@@ -14,9 +17,7 @@ function PageHeader(): JSX.Element {
 
     return (
         <Header className={styles.header}>
-            <Link href="/" passHref>
-                <Header.Title>Digitalisering av sykmeldinger</Header.Title>
-            </Link>
+            <HeaderText />
             {data?.modia && (
                 <div className={styles.enhetMenu} data-theme="dark">
                     <Select
@@ -45,6 +46,18 @@ function PageHeader(): JSX.Element {
             )}
             {!data?.modia && <Header.User name="Feil under lasting" description="Klarte ikke å laste enhet" />}
         </Header>
+    );
+}
+
+function HeaderText(): JSX.Element {
+    if (publicEnv.runtimeEnv === 'production') {
+        return <Header.Title as="div">Digitalisering av sykmeldinger</Header.Title>;
+    }
+
+    return (
+        <Link href="/" passHref>
+            <Header.Title>Digitalisering av sykmeldinger</Header.Title>
+        </Link>
     );
 }
 
