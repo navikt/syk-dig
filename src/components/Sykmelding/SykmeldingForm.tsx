@@ -8,7 +8,8 @@ import Pasientopplysninger from './Pasientopplysninger';
 import Sykmeldingsperiode, { Periode } from './Sykmeldingsperiode';
 import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSection';
 import { createDefaultValues } from './formDataUtils';
-import ActionSection, { useHandleRegister, ActionFormSectionValues } from './ActionSection/ActionSection';
+import ActionSection, { ActionFormSectionValues } from './ActionSection/ActionSection';
+import { useHandleRegister } from './ActionSection/useHandleSave';
 
 export interface SykmeldingFormValues {
     diagnoser: DiagnoseFormSectionValues;
