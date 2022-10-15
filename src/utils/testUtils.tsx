@@ -4,7 +4,8 @@ import { RenderOptions, render } from '@testing-library/react';
 import { Cache, InMemoryCache, TypedDocumentNode } from '@apollo/client';
 
 import { cacheConfig } from '../graphql/apollo';
-import { modiaLocalResolvers } from '../graphql/localState/modia';
+import { modiaLocalResolvers, setInitialModiaQueryState } from '../graphql/localState/modia';
+import { createModiaContext } from '../mocks/data/dataCreators';
 
 type ProviderProps = {
     readonly initialState?: Cache.WriteQueryOptions<unknown, unknown>[];
@@ -13,6 +14,7 @@ type ProviderProps = {
 
 function AllTheProviders({ children, initialState, mocks }: PropsWithChildren<ProviderProps>): JSX.Element {
     const cache = new InMemoryCache(cacheConfig);
+    setInitialModiaQueryState(cache, createModiaContext());
     initialState?.forEach((it) => cache.writeQuery(it));
 
     return (
