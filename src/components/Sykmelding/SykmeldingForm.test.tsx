@@ -13,25 +13,6 @@ describe('SykmeldingForm', () => {
         mockRouter.setCurrentUrl('/utenlandsk/test-oppgave-id');
     });
 
-    it('show validation errors when registering a sykmelding with missing fields', async () => {
-        const oppgave = createOppgave();
-        render(<SykmeldingForm oppgave={oppgave} />);
-
-        await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }));
-
-        const errorSection = within(
-            await screen.findByRole('region', {
-                name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
-            }),
-        );
-
-        expect(errorSection.getByRole('link', { name: 'Du må fylle inn fødselsnummer.' })).toBeInTheDocument();
-        expect(errorSection.getByRole('link', { name: 'Du må velge et land' })).toBeInTheDocument();
-        expect(
-            errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose' }),
-        ).toBeInTheDocument();
-    });
-
     it('allow submit when saving draft', async () => {
         const oppgave = createOppgave();
         const expectedRequest = createMock({
@@ -55,5 +36,50 @@ describe('SykmeldingForm', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Fortsett senere' }));
 
         expect(await screen.findByText(/Oppgaven ble lagret/)).toBeInTheDocument();
+    });
+
+    describe('Error summary', () => {
+        it('should show validation errors when registering a sykmelding with missing fields', async () => {
+            const oppgave = createOppgave();
+            render(<SykmeldingForm oppgave={oppgave} />);
+
+            await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }));
+
+            const errorSection = within(
+                await screen.findByRole('region', {
+                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
+                }),
+            );
+
+            expect(errorSection.getByRole('link', { name: 'Du må fylle inn fødselsnummer.' })).toBeInTheDocument();
+            expect(errorSection.getByRole('link', { name: 'Du må velge et land' })).toBeInTheDocument();
+            expect(
+                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose' }),
+            ).toBeInTheDocument();
+        });
+
+        it('should show validation errors for all errors, even deep down in the state tree', async () => {
+            const oppgave = createOppgave();
+            render(<SykmeldingForm oppgave={oppgave} />);
+
+            await userEvent.click(screen.getByRole('button', { name: 'Legg til bidiagnose' }));
+            await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }));
+
+            const errorSection = within(
+                await screen.findByRole('region', {
+                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
+                }),
+            );
+
+            expect(errorSection.getByRole('link', { name: 'Du må fylle inn fødselsnummer.' })).toBeInTheDocument();
+            expect(errorSection.getByRole('link', { name: 'Du må fylle inn fra dato.' })).toBeInTheDocument();
+            expect(errorSection.getByRole('link', { name: 'Du må fylle inn til dato.' })).toBeInTheDocument();
+            expect(
+                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose' }),
+            ).toBeInTheDocument();
+            expect(
+                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for bidiagnose' }),
+            ).toBeInTheDocument();
+        });
     });
 });
