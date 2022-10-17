@@ -24,7 +24,11 @@ function Errors(): JSX.Element | null {
             // @ts-expect-error Some weird typing isse with FieldErrors
             errors.periode?.find((it) => it?.periode)?.periode?.message ||
             // @ts-expect-error Some weird typing isse with FieldErrors
-            errors.periode?.find((it) => it?.grad)?.grad?.message,
+            errors.periode?.find((it) => it?.grad)?.grad?.message ||
+            // @ts-expect-error Some weird typing isse with FieldErrors
+            errors.periode?.find((it) => it?.fom)?.fom?.message ||
+            // @ts-expect-error Some weird typing isse with FieldErrors
+            errors.periode?.find((it) => it?.tom)?.tom?.message,
         // TODO: Support hierarchical errors?
         diagnoser: errors.diagnoser?.hoveddiagnose?.message,
     };

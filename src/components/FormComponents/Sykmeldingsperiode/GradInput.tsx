@@ -24,7 +24,7 @@ function GradInput({ name }: Props): JSX.Element {
 
     return (
         <div className={styles.grad}>
-            <TextField id={name} label="Oppgi grad" type="number" {...field} />
+            <TextField id={name} label="Oppgi grad" type="number" {...field} value={field.value ?? 0} />
             <FieldError error={fieldState.error} />
         </div>
     );

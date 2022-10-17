@@ -1,17 +1,20 @@
 import { Button } from '@navikt/ds-react';
-import { Calender } from '@navikt/ds-icons';
+import { Calender, Delete } from '@navikt/ds-icons';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection';
 import PeriodeSelect, { Periodetype } from '../FormComponents/Sykmeldingsperiode/PeriodeSelect';
 import GradInput from '../FormComponents/Sykmeldingsperiode/GradInput';
+import PeriodePicker from '../FormComponents/Sykmeldingsperiode/PeriodePicker';
 
 import { SykmeldingFormValues } from './SykmeldingForm';
 import styles from './Sykmeldingsperiode.module.css';
 
 export interface Periode {
     sykmeldingstype: string;
-    grad?: number;
+    grad?: number | undefined;
+    fom?: Date | string | undefined;
+    tom?: Date | string | undefined;
 }
 
 function Sykmeldingsperiode(): JSX.Element {
@@ -28,20 +31,14 @@ function Sykmeldingsperiode(): JSX.Element {
         <SykmeldingSection id="sykmeldingsperiode-seksjon" title="Sykmeldingsperiode" Icon={Calender}>
             {fields.map((field, index) => (
                 <div id={`periode${index}`} className={styles.periode} key={field.id}>
+                    {index > 0 && (
+                        <Button variant="danger" icon={<Delete />} type="button" onClick={() => remove(index)} />
+                    )}
                     <PeriodeSelect name={`periode.${index}.sykmeldingstype`} />
                     {watchFieldArray?.[index]?.sykmeldingstype === Periodetype.Gradert && (
                         <GradInput name={`periode.${index}.grad`} />
                     )}
-                    {index > 0 && (
-                        <Button
-                            className={styles.nullstillButton}
-                            variant="tertiary"
-                            type="button"
-                            onClick={() => remove(index)}
-                        >
-                            Fjern periode
-                        </Button>
-                    )}
+                    <PeriodePicker index={index} />
                 </div>
             ))}
             <Button
@@ -49,7 +46,8 @@ function Sykmeldingsperiode(): JSX.Element {
                 variant="secondary"
                 type="button"
                 onClick={() => {
-                    clearErrors(), append({ sykmeldingstype: Periodetype.AktivitetIkkeMulig });
+                    clearErrors();
+                    append({ sykmeldingstype: Periodetype.AktivitetIkkeMulig, fom: undefined, tom: undefined });
                 }}
             >
                 Legg til periode

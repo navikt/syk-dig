@@ -1,8 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import { waitFor } from '@testing-library/dom';
 
-import { render, screen } from '../../../../utils/testUtils';
+import { render, screen, waitFor } from '../../../../utils/testUtils';
 
 import CountryCombobox from './CountryCombobox';
 

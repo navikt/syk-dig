@@ -33,6 +33,8 @@ export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
             {
                 sykmeldingstype: Periodetype.AktivitetIkkeMulig,
                 grad: undefined,
+                fom: undefined,
+                tom: undefined,
             },
         ],
     };
