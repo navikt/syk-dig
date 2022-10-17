@@ -14,6 +14,7 @@ import { useHandleRegister } from './ActionSection/useHandleSave';
 export interface SykmeldingFormValues {
     diagnoser: DiagnoseFormSectionValues;
     fnr: string;
+    behandletTidspunkt: Date | string | null;
     land: string;
     periode: Array<Periode>;
     action: ActionFormSectionValues;
