@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { SykmeldingFormValues } from '../Sykmelding/SykmeldingForm';
 
-type CustomErrors = Omit<Record<keyof SykmeldingFormValues, string | undefined>, 'action'>;
+import { extractAllErrors } from './errorUtils';
 
 function Errors(): JSX.Element | null {
     const {
@@ -17,25 +17,7 @@ function Errors(): JSX.Element | null {
         errorsRef.current?.focus();
     }, []);
 
-    const errorMessages: CustomErrors = {
-        fnr: errors.fnr?.message,
-        land: errors.land?.message,
-        behandletTidspunkt: errors.behandletTidspunkt?.message,
-        periode:
-            // @ts-expect-error Some weird typing isse with FieldErrors
-            errors.periode?.find((it) => it?.periode)?.periode?.message ||
-            // @ts-expect-error Some weird typing isse with FieldErrors
-            errors.periode?.find((it) => it?.grad)?.grad?.message ||
-            // @ts-expect-error Some weird typing isse with FieldErrors
-            errors.periode?.find((it) => it?.fom)?.fom?.message ||
-            // @ts-expect-error Some weird typing isse with FieldErrors
-            errors.periode?.find((it) => it?.tom)?.tom?.message,
-        // TODO: Support hierarchical errors?
-        diagnoser: errors.diagnoser?.hoveddiagnose?.message,
-    };
-
-    const errorSummary = Object.entries(errorMessages).filter((tuple): tuple is [string, string] => tuple[1] != null);
-
+    const errorSummary = extractAllErrors(errors, null);
     if (!errorSummary.length) return null;
 
     return (
@@ -44,9 +26,9 @@ function Errors(): JSX.Element | null {
             heading="Du må fylle ut disse feltene før du kan registrere sykmeldingen."
             ref={errorsRef}
         >
-            {errorSummary.map(([field, error]) => (
-                <ErrorSummary.Item key={field} href={`#${field}`}>
-                    {error}
+            {errorSummary.map(({ name, message }) => (
+                <ErrorSummary.Item key={name} href={`#${name}`}>
+                    {message}
                 </ErrorSummary.Item>
             ))}
         </ErrorSummary>
