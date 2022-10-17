@@ -523,6 +523,14 @@
                             "type": { "kind": "SCALAR", "name": "String", "ofType": null },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "poststed",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -1062,6 +1070,22 @@
                             "type": { "kind": "SCALAR", "name": "String", "ofType": null },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "bostedsadresse",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "Bostedsadresse", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "oppholdsadresse",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "Oppholdsadresse", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -1424,6 +1448,14 @@
                         },
                         {
                             "name": "postnummer",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "poststed",
                             "description": null,
                             "args": [],
                             "type": { "kind": "SCALAR", "name": "String", "ofType": null },
