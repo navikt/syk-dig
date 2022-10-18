@@ -1,3 +1,10 @@
+fragment Periode on PeriodeValue {
+    fom
+    tom
+    type
+    grad
+}
+
 fragment Diagnose on DiagnoseValue {
     kode
     tekst
@@ -8,6 +15,9 @@ fragment OppgaveValues on OppgaveValues {
     fnrPasient
     behandletTidspunkt
     skrevetLand
+    perioder {
+        ...Periode
+    }
     hoveddiagnose {
         ...Diagnose
     }

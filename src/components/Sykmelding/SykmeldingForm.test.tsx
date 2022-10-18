@@ -20,7 +20,14 @@ describe('SykmeldingForm', () => {
                 query: SaveOppgaveDocument,
                 variables: {
                     id: 'test-oppgave-id',
-                    values: { fnrPasient: null, skrevetLand: null },
+                    values: {
+                        fnrPasient: null,
+                        skrevetLand: null,
+                        behandletTidspunkt: null,
+                        hovedDiagnose: null,
+                        biDiagnoser: [],
+                        perioder: [],
+                    },
                     status: SykmeldingUnderArbeidStatus.UnderArbeid,
                 },
             },

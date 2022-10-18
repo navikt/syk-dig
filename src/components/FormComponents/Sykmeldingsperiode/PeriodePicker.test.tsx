@@ -10,7 +10,7 @@ describe('PeriodePicker', () => {
         const methods = useForm();
         return (
             <FormProvider {...methods}>
-                <PeriodePicker index={0} />
+                <PeriodePicker name="periode.0.range" />
             </FormProvider>
         );
     };

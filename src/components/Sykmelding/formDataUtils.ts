@@ -1,7 +1,7 @@
 import { DefaultValues } from 'react-hook-form/dist/types/form';
 
-import { DiagnoseFragment, OppgaveValues } from '../../graphql/queries/graphql.generated';
-import { Periodetype } from '../FormComponents/Sykmeldingsperiode/PeriodeSelect';
+import { DiagnoseFragment, OppgaveValues, PeriodeType } from '../../graphql/queries/graphql.generated';
+import { toDate } from '../../utils/dateUtils';
 
 import { DiagnoseFormValue, DiagnoseSystem } from './DiagnoseFormSection';
 import { SykmeldingFormValues } from './SykmeldingForm';
@@ -29,12 +29,18 @@ export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
                     diagnose ? mapToDiagnoseValues(diagnose) : { system: 'ICD10', code: undefined, text: undefined },
                 ) ?? [],
         },
-        periode: [
+        periode: values.perioder?.map((periode) => ({
+            sykmeldingstype: periode.type,
+            grad: periode.grad ?? undefined,
+            range: {
+                fom: toDate(periode.fom),
+                tom: toDate(periode.tom),
+            },
+        })) ?? [
             {
-                sykmeldingstype: Periodetype.AktivitetIkkeMulig,
+                sykmeldingstype: PeriodeType.AktivitetIkkeMulig,
+                range: { fom: undefined, tom: undefined },
                 grad: undefined,
-                fom: undefined,
-                tom: undefined,
             },
         ],
         behandletTidspunkt: values.behandletTidspunkt,

@@ -67,6 +67,61 @@
                     "possibleTypes": null
                 },
                 {
+                    "kind": "SCALAR",
+                    "name": "Date",
+                    "description": "An RFC-3339 compliant Full Date Scalar",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "SCALAR",
+                    "name": "DateTime",
+                    "description": "An RFC-3339 compliant DateTime Scalar",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "INPUT_OBJECT",
+                    "name": "DiagnoseInput",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": [
+                        {
+                            "name": "kode",
+                            "description": null,
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "system",
+                            "description": null,
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
                     "kind": "OBJECT",
                     "name": "DiagnoseValue",
                     "description": null,
@@ -314,6 +369,16 @@
                     "kind": "SCALAR",
                     "name": "ID",
                     "description": "Built-in ID",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "description": "Built-in Int",
                     "fields": null,
                     "inputFields": null,
                     "interfaces": null,
@@ -593,7 +658,7 @@
                             "name": "behandletTidspunkt",
                             "description": null,
                             "args": [],
-                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "type": { "kind": "SCALAR", "name": "DateTime", "ofType": null },
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
@@ -602,6 +667,22 @@
                             "description": null,
                             "args": [],
                             "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "perioder",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": { "kind": "OBJECT", "name": "PeriodeValue", "ofType": null }
+                                }
+                            },
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
@@ -817,6 +898,147 @@
                     "possibleTypes": null
                 },
                 {
+                    "kind": "INPUT_OBJECT",
+                    "name": "PeriodeInput",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": [
+                        {
+                            "name": "type",
+                            "description": null,
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "ENUM", "name": "PeriodeType", "ofType": null }
+                            },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "fom",
+                            "description": null,
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Date", "ofType": null }
+                            },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "tom",
+                            "description": null,
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Date", "ofType": null }
+                            },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "grad",
+                            "description": null,
+                            "type": { "kind": "SCALAR", "name": "Int", "ofType": null },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "ENUM",
+                    "name": "PeriodeType",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "AKTIVITET_IKKE_MULIG",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "AVVENTENDE", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "BEHANDLINGSDAGER",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "GRADERT", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "REISETILSKUDD",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "PeriodeValue",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "type",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "ENUM", "name": "PeriodeType", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "fom",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Date", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "tom",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Date", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "grad",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "Int", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
                     "kind": "OBJECT",
                     "name": "Person",
                     "description": null,
@@ -980,6 +1202,46 @@
                             "defaultValue": null,
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "perioder",
+                            "description": null,
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": { "kind": "INPUT_OBJECT", "name": "PeriodeInput", "ofType": null }
+                                }
+                            },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "hovedDiagnose",
+                            "description": null,
+                            "type": { "kind": "INPUT_OBJECT", "name": "DiagnoseInput", "ofType": null },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "biDiagnoser",
+                            "description": null,
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": { "kind": "INPUT_OBJECT", "name": "DiagnoseInput", "ofType": null }
+                                }
+                            },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "interfaces": null,
@@ -997,6 +1259,16 @@
                         { "name": "INNENLANDS", "description": null, "isDeprecated": false, "deprecationReason": null },
                         { "name": "UTENLANDS", "description": null, "isDeprecated": false, "deprecationReason": null }
                     ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "SCALAR",
+                    "name": "UUID",
+                    "description": "A universally unique identifier compliant UUID Scalar",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
                     "possibleTypes": null
                 },
                 {

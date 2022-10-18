@@ -1,4 +1,4 @@
-import { OppgaveFragment } from '../../graphql/queries/graphql.generated';
+import { OppgaveFragment, PeriodeType } from '../../graphql/queries/graphql.generated';
 
 import { createOppgave } from './dataCreators';
 
@@ -15,6 +15,15 @@ export class FakeMockDB {
             values: {
                 __typename: 'OppgaveValues',
                 fnrPasient: '12345678910',
+                perioder: [
+                    {
+                        __typename: 'PeriodeValue',
+                        type: PeriodeType.AktivitetIkkeMulig,
+                        fom: '2020-01-01',
+                        tom: '2020-01-15',
+                        grad: null,
+                    },
+                ],
                 hoveddiagnose: {
                     __typename: 'DiagnoseValue',
                     kode: 'Z27',
