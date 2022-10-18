@@ -5,7 +5,7 @@ import { OppgaveFragment } from '../../graphql/queries/graphql.generated';
 import useWarnUnsavedPopup from '../../hooks/useWarnUnsaved';
 
 import Pasientopplysninger from './Pasientopplysninger';
-import Sykmeldingsperiode, { Periode } from './Sykmeldingsperiode';
+import Sykmeldingsperiode, { PeriodeFormValue } from './Sykmeldingsperiode';
 import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSection';
 import { createDefaultValues } from './formDataUtils';
 import ActionSection, { ActionFormSectionValues } from './ActionSection/ActionSection';
@@ -16,7 +16,7 @@ export interface SykmeldingFormValues {
     fnr: string;
     behandletTidspunkt: Date | string | null;
     land: string;
-    periode: Array<Periode>;
+    periode: Array<PeriodeFormValue>;
     action: ActionFormSectionValues;
 }
 

@@ -1,89 +1,74 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useController } from 'react-hook-form';
-import { Button, DateInputProps, UNSAFE_DatePicker, UNSAFE_useRangeDatepicker } from '@navikt/ds-react';
+import { Button, UNSAFE_DatePicker, UNSAFE_useRangeDatepicker } from '@navikt/ds-react';
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
-import FieldError from '../FieldError/FieldError';
 
 import styles from './PeriodePicker.module.css';
 
-type FomName = `periode.${number}.fom`;
-type TomName = `periode.${number}.tom`;
-
-interface DatepickerInputProps {
-    name: FomName | TomName;
-    label: 'Fra' | 'Til';
-    datepickerInputProps: Pick<DateInputProps, 'value' | 'onChange' | 'onBlur' | 'onFocus'>;
-    error: string;
-}
+type FormName = `periode.${number}.range`;
+type FormField = `${FormName}.${'fom' | 'tom'}`;
 
 interface PeriodePickerProps {
-    index: number;
+    name: FormName;
 }
 
-function DatepickerInput({ name, label, datepickerInputProps, error }: DatepickerInputProps): JSX.Element {
-    const { field, fieldState } = useController<SykmeldingFormValues, FomName | TomName>({
-        name,
-        rules: {
-            validate: (value) => {
-                if (!value) {
-                    return error;
-                }
-            },
-        },
+function PeriodePicker({ name }: PeriodePickerProps): JSX.Element {
+    const { field: fromField, fieldState: fromFieldState } = useController<SykmeldingFormValues, FormField>({
+        name: `${name}.fom`,
+        rules: { required: 'Du må fylle inn fra dato.' },
+    });
+    const { field: toField, fieldState: toFieldState } = useController<SykmeldingFormValues, FormField>({
+        name: `${name}.tom`,
+        rules: { required: 'Du må fylle inn til dato.' },
     });
 
-    useEffect(() => {
-        if (datepickerInputProps.value && datepickerInputProps.value.toString() !== field.value?.toString()) {
-            field.onChange(datepickerInputProps.value);
-        } else if (!datepickerInputProps.value && field.value) {
-            field.onChange(null);
-        }
-    }, [datepickerInputProps.value, field]);
-
-    return (
-        <div>
-            <UNSAFE_DatePicker.Input
-                id={field.name}
-                {...datepickerInputProps}
-                label={label}
-                placeholder="DD.MM.ÅÅÅÅ"
-                onFocus={(event) => {
-                    event.preventDefault();
-                }}
-            />
-            <FieldError error={fieldState.error} />
-        </div>
-    );
-}
-
-function PeriodePicker({ index }: PeriodePickerProps): JSX.Element {
-    const { datepickerProps, toInputProps, fromInputProps, reset } = UNSAFE_useRangeDatepicker({
+    const { datepickerProps, toInputProps, fromInputProps, selectedRange, setSelected } = UNSAFE_useRangeDatepicker({
         today: new Date(),
         defaultSelected: {
-            from: undefined,
-            to: undefined,
+            from: fromField.value,
+            to: toField.value,
         },
     });
 
-    const fomName: FomName = `periode.${index}.fom`;
-    const tomName: TomName = `periode.${index}.tom`;
+    const onChangeFrom = fromField.onChange;
+    const onChangeTo = toField.onChange;
+    const hasMounted = useRef(false);
+    useEffect(() => {
+        if (!hasMounted.current) {
+            hasMounted.current = true;
+            return;
+        }
+
+        onChangeFrom(selectedRange?.from);
+        onChangeTo(selectedRange?.to);
+    }, [selectedRange, onChangeFrom, onChangeTo]);
 
     return (
         <>
             <div className={styles.periodePicker}>
                 <UNSAFE_DatePicker {...datepickerProps}>
-                    <DatepickerInput
-                        name={fomName}
+                    <UNSAFE_DatePicker.Input
+                        ref={fromField.ref}
+                        id={fromField.name}
+                        {...fromInputProps}
                         label="Fra"
-                        datepickerInputProps={fromInputProps}
-                        error="Du må fylle inn fra dato."
+                        placeholder="DD.MM.ÅÅÅÅ"
+                        onFocus={(event) => {
+                            event.preventDefault();
+                        }}
+                        error={fromFieldState.error?.message}
                     />
-                    <DatepickerInput
-                        name={tomName}
+
+                    <UNSAFE_DatePicker.Input
+                        id={toField.name}
+                        {...toInputProps}
                         label="Til"
-                        datepickerInputProps={toInputProps}
-                        error="Du må fylle inn til dato."
+                        placeholder="DD.MM.ÅÅÅÅ"
+                        onFocus={(event) => {
+                            event.preventDefault();
+                        }}
+                        error={toFieldState.error?.message}
                     />
                 </UNSAFE_DatePicker>
                 <Button
@@ -91,7 +76,7 @@ function PeriodePicker({ index }: PeriodePickerProps): JSX.Element {
                     variant="tertiary"
                     type="button"
                     onClick={() => {
-                        reset();
+                        setSelected({ from: undefined, to: undefined });
                     }}
                 >
                     Nullstill dato

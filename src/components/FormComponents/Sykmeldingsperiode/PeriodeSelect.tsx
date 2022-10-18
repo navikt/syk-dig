@@ -3,16 +3,9 @@ import { useController } from 'react-hook-form';
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
 import FieldError from '../FieldError/FieldError';
+import { PeriodeType } from '../../../graphql/queries/graphql.generated';
 
 import styles from './PeriodeSelect.module.css';
-
-export enum Periodetype {
-    AktivitetIkkeMulig = 'AKTIVITET_IKKE_MULIG',
-    Avventende = 'AVVENTENDE',
-    Behandlingsdager = 'BEHANDLINGSDAGER',
-    Gradert = 'GRADERT',
-    Reisetilskudd = 'REISETILSKUDD',
-}
 
 type FormName = `periode.${number}.sykmeldingstype`;
 
@@ -30,11 +23,11 @@ function PeriodeSelect({ name }: Props): JSX.Element {
     return (
         <div className={styles.periodeSelect}>
             <Select id={name} label="Periode" {...field}>
-                <option value={Periodetype.AktivitetIkkeMulig}>100% sykmeldt</option>
-                <option value={Periodetype.Avventende}>Avventende sykmelding</option>
-                <option value={Periodetype.Behandlingsdager}>Behandlingsdager</option>
-                <option value={Periodetype.Gradert}>Gradert sykmelding</option>
-                <option value={Periodetype.Reisetilskudd}>Reisetilskudd</option>
+                <option value={PeriodeType.AktivitetIkkeMulig}>100% sykmeldt</option>
+                <option value={PeriodeType.Avventende}>Avventende sykmelding</option>
+                <option value={PeriodeType.Behandlingsdager}>Behandlingsdager</option>
+                <option value={PeriodeType.Gradert}>Gradert sykmelding</option>
+                <option value={PeriodeType.Reisetilskudd}>Reisetilskudd</option>
             </Select>
             <FieldError error={fieldState.error} />
         </div>

@@ -3,18 +3,21 @@ import { Calender, Delete } from '@navikt/ds-icons';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection';
-import PeriodeSelect, { Periodetype } from '../FormComponents/Sykmeldingsperiode/PeriodeSelect';
+import PeriodeSelect from '../FormComponents/Sykmeldingsperiode/PeriodeSelect';
 import GradInput from '../FormComponents/Sykmeldingsperiode/GradInput';
 import PeriodePicker from '../FormComponents/Sykmeldingsperiode/PeriodePicker';
+import { PeriodeType } from '../../graphql/queries/graphql.generated';
 
 import { SykmeldingFormValues } from './SykmeldingForm';
 import styles from './Sykmeldingsperiode.module.css';
 
-export interface Periode {
-    sykmeldingstype: string;
+export interface PeriodeFormValue {
+    sykmeldingstype: PeriodeType;
     grad?: number | undefined;
-    fom?: Date | string | undefined;
-    tom?: Date | string | undefined;
+    range: {
+        fom?: Date | undefined;
+        tom?: Date | undefined;
+    };
 }
 
 function Sykmeldingsperiode(): JSX.Element {
@@ -35,10 +38,10 @@ function Sykmeldingsperiode(): JSX.Element {
                         <Button variant="danger" icon={<Delete />} type="button" onClick={() => remove(index)} />
                     )}
                     <PeriodeSelect name={`periode.${index}.sykmeldingstype`} />
-                    {watchFieldArray?.[index]?.sykmeldingstype === Periodetype.Gradert && (
+                    {watchFieldArray?.[index]?.sykmeldingstype === PeriodeType.Gradert && (
                         <GradInput name={`periode.${index}.grad`} />
                     )}
-                    <PeriodePicker index={index} />
+                    <PeriodePicker name={`periode.${index}.range`} />
                 </div>
             ))}
             <Button
@@ -47,7 +50,10 @@ function Sykmeldingsperiode(): JSX.Element {
                 type="button"
                 onClick={() => {
                     clearErrors();
-                    append({ sykmeldingstype: Periodetype.AktivitetIkkeMulig, fom: undefined, tom: undefined });
+                    append({
+                        sykmeldingstype: PeriodeType.AktivitetIkkeMulig,
+                        range: { fom: undefined, tom: undefined },
+                    });
                 }}
             >
                 Legg til periode

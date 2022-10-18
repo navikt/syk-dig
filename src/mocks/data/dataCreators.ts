@@ -17,6 +17,7 @@ export function createOppgave(overrides?: Partial<OppgaveFragment>): OppgaveFrag
             biDiagnoser: null,
             behandletTidspunkt: null,
             skrevetLand: null,
+            perioder: null,
         },
         ...overrides,
     };

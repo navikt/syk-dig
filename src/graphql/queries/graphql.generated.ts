@@ -12,6 +12,12 @@ export type Scalars = {
     Boolean: boolean;
     Int: number;
     Float: number;
+    /** An RFC-3339 compliant Full Date Scalar */
+    Date: string;
+    /** An RFC-3339 compliant DateTime Scalar */
+    DateTime: string;
+    /** A universally unique identifier compliant UUID Scalar */
+    UUID: any;
     _FieldSet: any;
 };
 
@@ -22,6 +28,11 @@ export type Bostedsadresse = {
     ukjentBosted?: Maybe<UkjentBosted>;
     utenlandskAdresse?: Maybe<UtenlandskAdresse>;
     vegadresse?: Maybe<Vegadresse>;
+};
+
+export type DiagnoseInput = {
+    kode: Scalars['String'];
+    system: Scalars['String'];
 };
 
 export type DiagnoseValue = {
@@ -397,10 +408,11 @@ export type Navn = {
 
 export type OppgaveValues = {
     __typename: 'OppgaveValues';
-    behandletTidspunkt?: Maybe<Scalars['String']>;
+    behandletTidspunkt?: Maybe<Scalars['DateTime']>;
     biDiagnoser?: Maybe<Array<DiagnoseValue>>;
     fnrPasient?: Maybe<Scalars['String']>;
     hoveddiagnose?: Maybe<DiagnoseValue>;
+    perioder?: Maybe<Array<PeriodeValue>>;
     skrevetLand?: Maybe<Scalars['String']>;
 };
 
@@ -439,6 +451,29 @@ export type PdlQuery = {
 
 export type PdlQueryHentPersonArgs = {
     ident: Scalars['ID'];
+};
+
+export type PeriodeInput = {
+    fom: Scalars['Date'];
+    grad?: InputMaybe<Scalars['Int']>;
+    tom: Scalars['Date'];
+    type: PeriodeType;
+};
+
+export enum PeriodeType {
+    AktivitetIkkeMulig = 'AKTIVITET_IKKE_MULIG',
+    Avventende = 'AVVENTENDE',
+    Behandlingsdager = 'BEHANDLINGSDAGER',
+    Gradert = 'GRADERT',
+    Reisetilskudd = 'REISETILSKUDD',
+}
+
+export type PeriodeValue = {
+    __typename: 'PeriodeValue';
+    fom: Scalars['Date'];
+    grad?: Maybe<Scalars['Int']>;
+    tom: Scalars['Date'];
+    type: PeriodeType;
 };
 
 export type Person = {
@@ -480,7 +515,10 @@ export enum SykmeldingUnderArbeidStatus {
 
 export type SykmeldingUnderArbeidValues = {
     behandletTidspunkt?: InputMaybe<Scalars['String']>;
+    biDiagnoser?: InputMaybe<Array<DiagnoseInput>>;
     fnrPasient?: InputMaybe<Scalars['String']>;
+    hovedDiagnose?: InputMaybe<DiagnoseInput>;
+    perioder?: InputMaybe<Array<PeriodeInput>>;
     skrevetLand?: InputMaybe<Scalars['String']>;
 };
 
@@ -558,6 +596,14 @@ export type UpdateAktivEnhetMutation = {
     } | null;
 };
 
+export type PeriodeFragment = {
+    __typename: 'PeriodeValue';
+    fom: string;
+    tom: string;
+    type: PeriodeType;
+    grad?: number | null;
+};
+
 export type DiagnoseFragment = { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string };
 
 export type OppgaveValuesFragment = {
@@ -565,6 +611,13 @@ export type OppgaveValuesFragment = {
     fnrPasient?: string | null;
     behandletTidspunkt?: string | null;
     skrevetLand?: string | null;
+    perioder?: Array<{
+        __typename: 'PeriodeValue';
+        fom: string;
+        tom: string;
+        type: PeriodeType;
+        grad?: number | null;
+    }> | null;
     hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
     biDiagnoser?: Array<{ __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string }> | null;
 };
@@ -578,6 +631,13 @@ export type OppgaveFragment = {
         fnrPasient?: string | null;
         behandletTidspunkt?: string | null;
         skrevetLand?: string | null;
+        perioder?: Array<{
+            __typename: 'PeriodeValue';
+            fom: string;
+            tom: string;
+            type: PeriodeType;
+            grad?: number | null;
+        }> | null;
         hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
         biDiagnoser?: Array<{
             __typename: 'DiagnoseValue';
@@ -603,6 +663,13 @@ export type OppgaveByIdQuery = {
             fnrPasient?: string | null;
             behandletTidspunkt?: string | null;
             skrevetLand?: string | null;
+            perioder?: Array<{
+                __typename: 'PeriodeValue';
+                fom: string;
+                tom: string;
+                type: PeriodeType;
+                grad?: number | null;
+            }> | null;
             hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
             biDiagnoser?: Array<{
                 __typename: 'DiagnoseValue';
@@ -631,6 +698,13 @@ export type SaveOppgaveMutation = {
             fnrPasient?: string | null;
             behandletTidspunkt?: string | null;
             skrevetLand?: string | null;
+            perioder?: Array<{
+                __typename: 'PeriodeValue';
+                fom: string;
+                tom: string;
+                type: PeriodeType;
+                grad?: number | null;
+            }> | null;
             hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
             biDiagnoser?: Array<{
                 __typename: 'DiagnoseValue';
@@ -671,6 +745,25 @@ export const ModiaFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<ModiaFragment, unknown>;
+export const PeriodeFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Periode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PeriodeValue' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<PeriodeFragment, unknown>;
 export const DiagnoseFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -702,6 +795,14 @@ export const OppgaveValuesFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'fnrPasient' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'behandletTidspunkt' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'skrevetLand' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Periode' } }],
+                        },
+                    },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'hoveddiagnose' },
@@ -859,6 +960,7 @@ export const OppgaveByIdDocument = {
         },
         ...OppgaveFragmentDoc.definitions,
         ...OppgaveValuesFragmentDoc.definitions,
+        ...PeriodeFragmentDoc.definitions,
         ...DiagnoseFragmentDoc.definitions,
     ],
 } as unknown as DocumentNode<OppgaveByIdQuery, OppgaveByIdQueryVariables>;
@@ -925,6 +1027,7 @@ export const SaveOppgaveDocument = {
         },
         ...OppgaveFragmentDoc.definitions,
         ...OppgaveValuesFragmentDoc.definitions,
+        ...PeriodeFragmentDoc.definitions,
         ...DiagnoseFragmentDoc.definitions,
     ],
 } as unknown as DocumentNode<SaveOppgaveMutation, SaveOppgaveMutationVariables>;
