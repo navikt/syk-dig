@@ -8780,7 +8780,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.36.1":
+"react-hook-form@npm:^7.37.0":
   version: 7.37.0
   resolution: "react-hook-form@npm:7.37.0"
   peerDependencies:
@@ -9794,7 +9794,7 @@ __metadata:
     prettier: ^2.7.1
     react: 18.2.0
     react-dom: 18.2.0
-    react-hook-form: ^7.36.1
+    react-hook-form: ^7.37.0
     remeda: ^1.1.0
     typescript: 4.8.4
     zod: ^3.19.1

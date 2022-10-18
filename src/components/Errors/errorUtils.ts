@@ -47,7 +47,7 @@ function traverseObjectErrors(fields: TraversableTree, parentKey: string | null)
         if ('message' in value) {
             return [{ ...value, name: `${parentKey ? `${parentKey}.` : ''}${key}` }];
         } else {
-            return extractAllErrors(value, key);
+            return extractAllErrors(value, `${parentKey ? `${parentKey}.` : ''}${key}`);
         }
     });
 }

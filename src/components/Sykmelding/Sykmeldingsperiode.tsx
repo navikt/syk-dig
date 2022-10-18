@@ -49,10 +49,12 @@ function Sykmeldingsperiode(): JSX.Element {
                 variant="secondary"
                 type="button"
                 onClick={() => {
-                    clearErrors();
                     append({
                         sykmeldingstype: PeriodeType.AktivitetIkkeMulig,
                         range: { fom: undefined, tom: undefined },
+                    });
+                    requestAnimationFrame(() => {
+                        clearErrors();
                     });
                 }}
             >
