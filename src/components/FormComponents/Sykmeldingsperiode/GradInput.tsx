@@ -1,5 +1,6 @@
 import { TextField } from '@navikt/ds-react';
-import { useController } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
 import FieldError from '../FieldError/FieldError';
@@ -13,19 +14,25 @@ export interface Props {
 }
 
 function GradInput({ name }: Props): JSX.Element {
-    const { field, fieldState } = useController<SykmeldingFormValues, FormName>({
-        name,
-        rules: {
-            min: { value: 20, message: 'Grad kan ikke være lavere enn 20 prosent.' },
-            max: { value: 100, message: 'Grad kan ikke være høyere enn 100 prosent.' },
-            required: 'Du må fylle inn grad.',
-        },
-    });
+    const {
+        register,
+        formState: { errors },
+    } = useFormContext<SykmeldingFormValues>();
 
     return (
         <div className={styles.grad}>
-            <TextField id={name} label="Oppgi grad" type="number" {...field} value={field.value ?? 0} />
-            <FieldError error={fieldState.error} />
+            <TextField
+                id={name}
+                label="Oppgi grad"
+                type="number"
+                {...register(name, {
+                    valueAsNumber: true,
+                    min: { value: 20, message: 'Grad kan ikke være lavere enn 20 prosent.' },
+                    max: { value: 100, message: 'Grad kan ikke være høyere enn 100 prosent.' },
+                    required: 'Du må fylle inn grad.',
+                })}
+            />
+            <ErrorMessage name={name} errors={errors} render={(data) => <FieldError error={data.message} />} />
         </div>
     );
 }
