@@ -90,6 +90,6 @@ function mapPeriode(periode: PeriodeFormValue | null): PeriodeInput | null {
         fom,
         tom,
         type: periode.sykmeldingstype,
-        grad: periode.grad ? +periode.grad : null,
+        grad: periode.grad ?? null,
     };
 }

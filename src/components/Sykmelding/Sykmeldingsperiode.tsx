@@ -13,7 +13,7 @@ import styles from './Sykmeldingsperiode.module.css';
 
 export interface PeriodeFormValue {
     sykmeldingstype: PeriodeType;
-    grad?: string | undefined;
+    grad?: number | undefined;
     range: {
         fom?: Date | undefined;
         tom?: Date | undefined;
