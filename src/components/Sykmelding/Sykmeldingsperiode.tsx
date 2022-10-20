@@ -13,7 +13,7 @@ import styles from './Sykmeldingsperiode.module.css';
 
 export interface PeriodeFormValue {
     sykmeldingstype: PeriodeType;
-    grad?: number | undefined;
+    grad?: string | undefined;
     range: {
         fom?: Date | undefined;
         tom?: Date | undefined;
@@ -35,7 +35,13 @@ function Sykmeldingsperiode(): JSX.Element {
             {fields.map((field, index) => (
                 <div id={`periode${index}`} className={styles.periode} key={field.id}>
                     {index > 0 && (
-                        <Button variant="danger" icon={<Delete />} type="button" onClick={() => remove(index)} />
+                        <Button
+                            variant="danger"
+                            icon={<Delete aria-hidden />}
+                            aria-label={`Slett periode ${index + 1}`}
+                            type="button"
+                            onClick={() => remove(index)}
+                        />
                     )}
                     <PeriodeSelect name={`periode.${index}.sykmeldingstype`} />
                     {watchFieldArray?.[index]?.sykmeldingstype === PeriodeType.Gradert && (

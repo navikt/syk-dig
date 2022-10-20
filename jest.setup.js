@@ -30,4 +30,4 @@ mockRouter.useParser(createDynamicRouteParser(['/utenlandsk/[oppgaveId]']));
 
 expect.extend(toHaveNoViolations);
 
-process.env.DEBUG_PRINT_LIMIT = '30000';
+process.env.DEBUG_PRINT_LIMIT = 50000;

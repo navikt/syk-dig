@@ -41,7 +41,13 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
                 <div>
                     {onRemove && (
                         <div className={styles.onRemoveButtonWrapper}>
-                            <Button variant="danger" icon={<Delete />} type="button" onClick={onRemove} />
+                            <Button
+                                variant="danger"
+                                icon={<Delete aria-hidden />}
+                                aria-label="Slett bidiagnose"
+                                type="button"
+                                onClick={onRemove}
+                            />
                         </div>
                     )}
                 </div>
@@ -54,7 +60,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
                     <option>ICPC2</option>
                 </Select>
                 <DiagnoseCombobox
-                    id={diagnoseType}
+                    id={`${name}-combobox`}
                     system={field.value.system}
                     onSelect={(suggestion) => field.onChange({ ...suggestion, system: field.value.system })}
                     onChange={() => {

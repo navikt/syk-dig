@@ -18,7 +18,7 @@ function FeedbackModal({ title, body, children }: PropsWithChildren<Props>): JSX
             className={styles.modalRoot}
         >
             <Modal.Content>
-                <Heading spacing level="2" size="medium">
+                <Heading id="feedback-modal-header" spacing level="2" size="medium">
                     {title}
                 </Heading>
                 <BodyLong spacing>{body}</BodyLong>

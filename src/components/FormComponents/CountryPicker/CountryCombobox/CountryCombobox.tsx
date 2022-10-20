@@ -48,7 +48,7 @@ function CountryCombobox({ id, onSelect, onChange, initialValue }: Props): JSX.E
 
     return (
         <ComboboxWrapper
-            id="country-typeahead-label"
+            labelId="country-typeahead-label"
             label="Landet sykmeldingen ble skrevet"
             disabled={loadingCountries}
         >
