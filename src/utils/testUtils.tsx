@@ -1,7 +1,8 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { PropsWithChildren, ReactElement } from 'react';
-import { RenderOptions, render } from '@testing-library/react';
+import { RenderOptions, render, Screen } from '@testing-library/react';
 import { Cache, InMemoryCache, TypedDocumentNode } from '@apollo/client';
+import open from 'open';
 
 import { cacheConfig } from '../graphql/apollo';
 import { modiaLocalResolvers, setInitialModiaQueryState } from '../graphql/localState/modia';
@@ -53,6 +54,10 @@ const customRender = (
         wrapper: (props) => <AllTheProviders {...props} initialState={options?.initialState} mocks={options?.mocks} />,
         ...options,
     });
+
+export async function openPlayground(screen: Screen): Promise<void> {
+    await open(screen.logTestingPlaygroundURL());
+}
 
 export * from '@testing-library/react';
 
