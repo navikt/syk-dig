@@ -1,48 +1,126 @@
 import mockRouter from 'next-router-mock';
 import userEvent from '@testing-library/user-event';
+import { axe } from 'jest-axe';
 
 import { createOppgave } from '../../mocks/data/dataCreators';
 import { render, screen, within } from '../../utils/testUtils';
-import { SaveOppgaveDocument, SykmeldingUnderArbeidStatus } from '../../graphql/queries/graphql.generated';
+import { PeriodeType, SaveOppgaveDocument, SykmeldingUnderArbeidStatus } from '../../graphql/queries/graphql.generated';
 import { createMock } from '../../utils/test/apolloTestUtils';
 
 import SykmeldingForm from './SykmeldingForm';
+import { DiagnoseSystem } from './DiagnoseFormSection';
 
 describe('SykmeldingForm', () => {
     beforeAll(() => {
         mockRouter.setCurrentUrl('/utenlandsk/test-oppgave-id');
     });
 
-    it('allow submit when saving draft', async () => {
-        const oppgave = createOppgave();
-        const expectedRequest = createMock({
-            request: {
-                query: SaveOppgaveDocument,
-                variables: {
-                    id: 'test-oppgave-id',
-                    values: {
-                        fnrPasient: null,
-                        skrevetLand: null,
-                        behandletTidspunkt: null,
-                        hovedDiagnose: null,
-                        biDiagnoser: [],
-                        perioder: [],
+    describe('when saving', () => {
+        it('allow submit when saving draft', async () => {
+            const oppgave = createOppgave();
+            const expectedRequest = createMock({
+                request: {
+                    query: SaveOppgaveDocument,
+                    variables: {
+                        id: 'test-oppgave-id',
+                        values: {
+                            fnrPasient: null,
+                            skrevetLand: null,
+                            behandletTidspunkt: null,
+                            hovedDiagnose: null,
+                            biDiagnoser: [],
+                            perioder: [],
+                        },
+                        status: SykmeldingUnderArbeidStatus.UnderArbeid,
                     },
-                    status: SykmeldingUnderArbeidStatus.UnderArbeid,
                 },
-            },
-            result: {
-                data: { __typename: 'Mutation', lagre: oppgave },
-            },
+                result: {
+                    data: { __typename: 'Mutation', lagre: oppgave },
+                },
+            });
+
+            render(<SykmeldingForm oppgave={oppgave} />, {
+                mocks: [expectedRequest],
+            });
+
+            await userEvent.click(screen.getByRole('button', { name: 'Fortsett senere' }));
+
+            expect(await screen.findByText(/Oppgaven ble lagret/)).toBeInTheDocument();
         });
 
-        render(<SykmeldingForm oppgave={oppgave} />, {
-            mocks: [expectedRequest],
-        });
+        it('should correctly save a completely filled out form given a blank oppgave', async () => {
+            const oppgave = createOppgave();
+            const expectedRequest = createMock({
+                request: {
+                    query: SaveOppgaveDocument,
+                    variables: {
+                        id: 'test-oppgave-id',
+                        values: {
+                            fnrPasient: '12345678901',
+                            skrevetLand: 'PL',
+                            behandletTidspunkt: '2022-06-07',
+                            hovedDiagnose: { kode: 'L815', system: 'ICD10' },
+                            biDiagnoser: [{ kode: 'Y04', system: 'ICPC2' }],
+                            perioder: [
+                                { fom: '0202-01-15', tom: '2022-01-15', type: PeriodeType.Reisetilskudd, grad: null },
+                                { fom: '0202-02-16', tom: '2022-02-16', type: PeriodeType.Gradert, grad: 60 },
+                                {
+                                    fom: '0202-03-17',
+                                    tom: '2022-03-17',
+                                    type: PeriodeType.Behandlingsdager,
+                                    grad: null,
+                                },
+                                { fom: '0202-04-18', tom: '2022-04-18', type: PeriodeType.Avventende, grad: null },
+                                {
+                                    fom: '0202-05-19',
+                                    tom: '2022-05-19',
+                                    type: PeriodeType.AktivitetIkkeMulig,
+                                    grad: null,
+                                },
+                            ],
+                        },
+                        status: SykmeldingUnderArbeidStatus.Ferdigstilt,
+                    },
+                },
+                result: {
+                    data: { __typename: 'Mutation', lagre: oppgave },
+                },
+            });
 
-        await userEvent.click(screen.getByRole('button', { name: 'Fortsett senere' }));
+            const { container } = render(<SykmeldingForm oppgave={oppgave} />, {
+                mocks: [expectedRequest],
+            });
 
-        expect(await screen.findByText(/Oppgaven ble lagret/)).toBeInTheDocument();
+            await fillPasientOpplysningerSection({
+                fnr: '12345678901',
+                skrevetDato: '07.06.2022',
+                land: { type: 'Pol', click: 'Polen' },
+            });
+
+            await fillPeriodeSection([
+                { fom: '01.01.2022', tom: '15.01.2022', option: 'Reisetilskudd' },
+                { fom: '02.02.2022', tom: '16.02.2022', option: 'Gradert sykmelding', grad: 60 },
+                { fom: '03.03.2022', tom: '17.03.2022', option: 'Behandlingsdager' },
+                { fom: '04.04.2022', tom: '18.04.2022', option: 'Avventende sykmelding' },
+                { fom: '05.05.2022', tom: '19.05.2022', option: '100% sykmeldt' },
+            ]);
+
+            await fillDiagnoseSection([
+                { system: 'ICD10', search: 'L81', click: 'L815' },
+                { system: 'ICPC2', search: 'Y0', click: 'Y04' },
+            ]);
+
+            expect(
+                await axe(container, {
+                    // TODO: Remove once ds-datepicker fixes it's validations
+                    rules: { 'aria-valid-attr-value': { enabled: false } },
+                }),
+            ).toHaveNoViolations();
+
+            await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }));
+
+            expect(await screen.findByRole('dialog', { name: /Sykmeldingen er registrert/ })).toBeInTheDocument();
+        }, 20000); // This tests fills out a very large form, so we can expect it to be long running,
     });
 
     describe('Error summary', () => {
@@ -90,3 +168,61 @@ describe('SykmeldingForm', () => {
         });
     });
 });
+
+async function fillPasientOpplysningerSection({
+    fnr,
+    skrevetDato,
+    land,
+}: {
+    fnr: string;
+    skrevetDato: string;
+    land: { type: string; click: string };
+}): Promise<void> {
+    const section = within(screen.getByRole('region', { name: 'Pasientopplysninger' }));
+
+    await userEvent.type(section.getByRole('textbox', { name: 'Fødselsnummer (11 siffer)' }), fnr);
+    await userEvent.type(section.getByRole('textbox', { name: 'Datoen sykmeldingen ble skrevet' }), skrevetDato);
+    await userEvent.type(section.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), land.type);
+    await userEvent.click(await section.findByRole('option', { name: land.click }));
+}
+
+async function fillPeriodeSection(
+    perioder: { option: string; grad?: number; fom: string; tom: string }[],
+): Promise<void> {
+    const section = within(screen.getByRole('region', { name: 'Sykmeldingsperiode' }));
+
+    let index = 0;
+    for (const periode of perioder) {
+        await userEvent.selectOptions(section.getAllByRole('combobox', { name: 'Periode' })[index], periode.option);
+        if (periode.grad) {
+            await userEvent.type(await section.findByRole('spinbutton', { name: 'Oppgi grad' }), `${periode.grad}`);
+        }
+        await userEvent.type(section.getAllByRole('textbox', { name: 'Fra' })[index], periode.fom);
+        await userEvent.type(section.getAllByRole('textbox', { name: 'Til' })[index], periode.tom);
+
+        if (index !== perioder.length - 1 && perioder.length > 1) {
+            await userEvent.click(screen.getByRole('button', { name: 'Legg til periode' }));
+        }
+        index++;
+    }
+}
+
+async function fillDiagnoseSection(
+    diagnoser: { system: DiagnoseSystem; search: string; click: string }[],
+): Promise<void> {
+    const section = within(screen.getByRole('region', { name: 'Diagnose' }));
+
+    let index = 0;
+    for (const diagnose of diagnoser) {
+        await userEvent.selectOptions(section.getAllByRole('combobox', { name: 'Kodesystem' })[index], diagnose.system);
+
+        const combobox = section.getAllByRole('combobox', { name: 'Diagnosekode' })[index];
+        await userEvent.type(combobox, diagnose.search);
+        await userEvent.click(await screen.findByRole('option', { name: diagnose.click }));
+
+        if (index !== diagnoser.length - 1 && diagnoser.length > 1) {
+            await userEvent.click(section.getByRole('button', { name: 'Legg til bidiagnose' }));
+        }
+        index++;
+    }
+}

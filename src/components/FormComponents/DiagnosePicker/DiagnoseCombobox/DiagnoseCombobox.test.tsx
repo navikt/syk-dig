@@ -12,7 +12,7 @@ describe('DiagnosePicker', () => {
             <DiagnoseCombobox system="ICD10" onSelect={onSelectMock} onChange={() => void 0} initialValue={null} />,
         );
 
-        const combobox = screen.getByRole('combobox', { name: 'Søk i ICD10 diagnoser' });
+        const combobox = screen.getByRole('combobox', { name: 'Diagnosekode' });
         await userEvent.type(combobox, 'L81');
         await userEvent.click(await screen.findByRole('option', { name: 'L815' }));
 
@@ -23,10 +23,11 @@ describe('DiagnosePicker', () => {
         const onSelectMock = jest.fn();
         render(<DiagnoseCombobox system="ICD10" onSelect={onSelectMock} onChange={() => void 0} initialValue={null} />);
 
-        const combobox = screen.getByRole('combobox', { name: 'Søk i ICD10 diagnoser' });
+        const combobox = screen.getByRole('combobox', { name: 'Diagnosekode' });
         await userEvent.type(combobox, 'L81');
         await userEvent.click(await screen.findByRole('option', { name: 'L815' }));
 
+        expect(combobox).toHaveLabel;
         expect(combobox).toHaveValue('L815');
         expect(onSelectMock).toHaveBeenCalledWith({
             code: 'L815',
@@ -38,7 +39,7 @@ describe('DiagnosePicker', () => {
         const onSelectMock = jest.fn();
         render(<DiagnoseCombobox system="ICD10" onSelect={onSelectMock} onChange={() => void 0} initialValue={null} />);
 
-        const combobox = screen.getByRole('combobox', { name: 'Søk i ICD10 diagnoser' });
+        const combobox = screen.getByRole('combobox', { name: 'Diagnosekode' });
         await userEvent.type(combobox, 'XYZ');
 
         expect(onSelectMock).not.toHaveBeenCalled();

@@ -36,13 +36,8 @@ function DiagnoseCombobox({ id, system, onSelect, onChange, initialValue }: Prop
     const suggestions = useDiagnoseSuggestions(system, combobox.value);
 
     return (
-        <ComboboxWrapper label="Diagnosekode">
-            <DsCombobox
-                id={id}
-                state={combobox}
-                aria-label={`Søk i ${system} diagnoser`}
-                placeholder={`Søk i ${system} diagnoser...`}
-            />
+        <ComboboxWrapper labelId={`${id}-label`} label="Diagnosekode">
+            <DsCombobox aria-labelledby={`${id}-label`} state={combobox} placeholder={`Søk i ${system} diagnoser...`} />
             <DsComboboxPopover state={combobox}>
                 {suggestions.length > 0 ? (
                     suggestions.map((suggestion) => (
