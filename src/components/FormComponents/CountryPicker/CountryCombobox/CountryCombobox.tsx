@@ -71,7 +71,7 @@ function CountryCombobox({ id, onSelect, onChange, initialValue }: Props): JSX.E
     );
 }
 
-function useCountrySuggestions(): [loading: boolean, result: Country[]] {
+export function useCountrySuggestions(): [loading: boolean, result: Country[]] {
     const [loading, setLoading] = useState<boolean>(true);
     const [countries, setCountries] = useState<Country[]>([]);
     useEffect(() => {

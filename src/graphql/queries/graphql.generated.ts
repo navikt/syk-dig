@@ -366,6 +366,7 @@ export type Matrikkeladresse = {
     bruksenhetsnummer?: Maybe<Scalars['String']>;
     kommunenummer?: Maybe<Scalars['String']>;
     postnummer?: Maybe<Scalars['String']>;
+    poststed?: Maybe<Scalars['String']>;
     tilleggsnavn?: Maybe<Scalars['String']>;
 };
 
@@ -478,8 +479,10 @@ export type PeriodeValue = {
 
 export type Person = {
     __typename: 'Person';
+    bostedsadresse?: Maybe<Bostedsadresse>;
     fnr: Scalars['String'];
     navn?: Maybe<Scalars['String']>;
+    oppholdsadresse?: Maybe<Oppholdsadresse>;
 };
 
 export type Query = {
@@ -552,6 +555,7 @@ export type Vegadresse = {
     husnummer?: Maybe<Scalars['String']>;
     kommunenummer?: Maybe<Scalars['String']>;
     postnummer?: Maybe<Scalars['String']>;
+    poststed?: Maybe<Scalars['String']>;
     tilleggsnavn?: Maybe<Scalars['String']>;
 };
 
@@ -625,7 +629,81 @@ export type OppgaveValuesFragment = {
 export type OppgaveFragment = {
     __typename: 'Digitaliseringsoppgave';
     oppgaveId: string;
-    person: { __typename: 'Person'; fnr: string; navn?: string | null };
+    person: {
+        __typename: 'Person';
+        fnr: string;
+        navn?: string | null;
+        bostedsadresse?: {
+            __typename: 'Bostedsadresse';
+            coAdressenavn?: string | null;
+            matrikkeladresse?: {
+                __typename: 'Matrikkeladresse';
+                bruksenhetsnummer?: string | null;
+                kommunenummer?: string | null;
+                postnummer?: string | null;
+                poststed?: string | null;
+                tilleggsnavn?: string | null;
+            } | null;
+            ukjentBosted?: { __typename: 'UkjentBosted'; bostedskommune?: string | null } | null;
+            utenlandskAdresse?: {
+                __typename: 'UtenlandskAdresse';
+                adressenavnNummer?: string | null;
+                bySted?: string | null;
+                bygningEtasjeLeilighet?: string | null;
+                landkode: string;
+                postboksNummerNavn?: string | null;
+                postkode?: string | null;
+                regionDistriktOmraade?: string | null;
+            } | null;
+            vegadresse?: {
+                __typename: 'Vegadresse';
+                adressenavn?: string | null;
+                bruksenhetsnummer?: string | null;
+                bydelsnummer?: string | null;
+                husbokstav?: string | null;
+                husnummer?: string | null;
+                kommunenummer?: string | null;
+                postnummer?: string | null;
+                poststed?: string | null;
+                tilleggsnavn?: string | null;
+            } | null;
+        } | null;
+        oppholdsadresse?: {
+            __typename: 'Oppholdsadresse';
+            coAdressenavn?: string | null;
+            oppholdAnnetSted?: string | null;
+            matrikkeladresse?: {
+                __typename: 'Matrikkeladresse';
+                bruksenhetsnummer?: string | null;
+                kommunenummer?: string | null;
+                postnummer?: string | null;
+                poststed?: string | null;
+                tilleggsnavn?: string | null;
+            } | null;
+            utenlandskAdresse?: {
+                __typename: 'UtenlandskAdresse';
+                adressenavnNummer?: string | null;
+                bySted?: string | null;
+                bygningEtasjeLeilighet?: string | null;
+                landkode: string;
+                postboksNummerNavn?: string | null;
+                postkode?: string | null;
+                regionDistriktOmraade?: string | null;
+            } | null;
+            vegadresse?: {
+                __typename: 'Vegadresse';
+                adressenavn?: string | null;
+                bruksenhetsnummer?: string | null;
+                bydelsnummer?: string | null;
+                husbokstav?: string | null;
+                husnummer?: string | null;
+                kommunenummer?: string | null;
+                postnummer?: string | null;
+                poststed?: string | null;
+                tilleggsnavn?: string | null;
+            } | null;
+        } | null;
+    };
     values: {
         __typename: 'OppgaveValues';
         fnrPasient?: string | null;
@@ -648,6 +726,113 @@ export type OppgaveFragment = {
     };
 };
 
+export type BostedsadresseFragment = {
+    __typename: 'Bostedsadresse';
+    coAdressenavn?: string | null;
+    matrikkeladresse?: {
+        __typename: 'Matrikkeladresse';
+        bruksenhetsnummer?: string | null;
+        kommunenummer?: string | null;
+        postnummer?: string | null;
+        poststed?: string | null;
+        tilleggsnavn?: string | null;
+    } | null;
+    ukjentBosted?: { __typename: 'UkjentBosted'; bostedskommune?: string | null } | null;
+    utenlandskAdresse?: {
+        __typename: 'UtenlandskAdresse';
+        adressenavnNummer?: string | null;
+        bySted?: string | null;
+        bygningEtasjeLeilighet?: string | null;
+        landkode: string;
+        postboksNummerNavn?: string | null;
+        postkode?: string | null;
+        regionDistriktOmraade?: string | null;
+    } | null;
+    vegadresse?: {
+        __typename: 'Vegadresse';
+        adressenavn?: string | null;
+        bruksenhetsnummer?: string | null;
+        bydelsnummer?: string | null;
+        husbokstav?: string | null;
+        husnummer?: string | null;
+        kommunenummer?: string | null;
+        postnummer?: string | null;
+        poststed?: string | null;
+        tilleggsnavn?: string | null;
+    } | null;
+};
+
+export type OppholdsadresseFragment = {
+    __typename: 'Oppholdsadresse';
+    coAdressenavn?: string | null;
+    oppholdAnnetSted?: string | null;
+    matrikkeladresse?: {
+        __typename: 'Matrikkeladresse';
+        bruksenhetsnummer?: string | null;
+        kommunenummer?: string | null;
+        postnummer?: string | null;
+        poststed?: string | null;
+        tilleggsnavn?: string | null;
+    } | null;
+    utenlandskAdresse?: {
+        __typename: 'UtenlandskAdresse';
+        adressenavnNummer?: string | null;
+        bySted?: string | null;
+        bygningEtasjeLeilighet?: string | null;
+        landkode: string;
+        postboksNummerNavn?: string | null;
+        postkode?: string | null;
+        regionDistriktOmraade?: string | null;
+    } | null;
+    vegadresse?: {
+        __typename: 'Vegadresse';
+        adressenavn?: string | null;
+        bruksenhetsnummer?: string | null;
+        bydelsnummer?: string | null;
+        husbokstav?: string | null;
+        husnummer?: string | null;
+        kommunenummer?: string | null;
+        postnummer?: string | null;
+        poststed?: string | null;
+        tilleggsnavn?: string | null;
+    } | null;
+};
+
+export type MatrikkeladresseFragment = {
+    __typename: 'Matrikkeladresse';
+    bruksenhetsnummer?: string | null;
+    kommunenummer?: string | null;
+    postnummer?: string | null;
+    poststed?: string | null;
+    tilleggsnavn?: string | null;
+};
+
+export type UkjentBostedFragment = { __typename: 'UkjentBosted'; bostedskommune?: string | null };
+
+export type UtenlandskAdresseFragment = {
+    __typename: 'UtenlandskAdresse';
+    adressenavnNummer?: string | null;
+    bySted?: string | null;
+    bygningEtasjeLeilighet?: string | null;
+    landkode: string;
+    postboksNummerNavn?: string | null;
+    postkode?: string | null;
+    regionDistriktOmraade?: string | null;
+};
+
+export type VegadresseFragment = {
+    __typename: 'Vegadresse';
+    adressenavn?: string | null;
+    bruksenhetsnummer?: string | null;
+    bydelsnummer?: string | null;
+    husbokstav?: string | null;
+    husnummer?: string | null;
+    kommunenummer?: string | null;
+    postnummer?: string | null;
+    poststed?: string | null;
+    tilleggsnavn?: string | null;
+};
+
 export type OppgaveByIdQueryVariables = Exact<{
     oppgaveId: Scalars['String'];
 }>;
@@ -657,7 +842,81 @@ export type OppgaveByIdQuery = {
     oppgave: {
         __typename: 'Digitaliseringsoppgave';
         oppgaveId: string;
-        person: { __typename: 'Person'; fnr: string; navn?: string | null };
+        person: {
+            __typename: 'Person';
+            fnr: string;
+            navn?: string | null;
+            bostedsadresse?: {
+                __typename: 'Bostedsadresse';
+                coAdressenavn?: string | null;
+                matrikkeladresse?: {
+                    __typename: 'Matrikkeladresse';
+                    bruksenhetsnummer?: string | null;
+                    kommunenummer?: string | null;
+                    postnummer?: string | null;
+                    poststed?: string | null;
+                    tilleggsnavn?: string | null;
+                } | null;
+                ukjentBosted?: { __typename: 'UkjentBosted'; bostedskommune?: string | null } | null;
+                utenlandskAdresse?: {
+                    __typename: 'UtenlandskAdresse';
+                    adressenavnNummer?: string | null;
+                    bySted?: string | null;
+                    bygningEtasjeLeilighet?: string | null;
+                    landkode: string;
+                    postboksNummerNavn?: string | null;
+                    postkode?: string | null;
+                    regionDistriktOmraade?: string | null;
+                } | null;
+                vegadresse?: {
+                    __typename: 'Vegadresse';
+                    adressenavn?: string | null;
+                    bruksenhetsnummer?: string | null;
+                    bydelsnummer?: string | null;
+                    husbokstav?: string | null;
+                    husnummer?: string | null;
+                    kommunenummer?: string | null;
+                    postnummer?: string | null;
+                    poststed?: string | null;
+                    tilleggsnavn?: string | null;
+                } | null;
+            } | null;
+            oppholdsadresse?: {
+                __typename: 'Oppholdsadresse';
+                coAdressenavn?: string | null;
+                oppholdAnnetSted?: string | null;
+                matrikkeladresse?: {
+                    __typename: 'Matrikkeladresse';
+                    bruksenhetsnummer?: string | null;
+                    kommunenummer?: string | null;
+                    postnummer?: string | null;
+                    poststed?: string | null;
+                    tilleggsnavn?: string | null;
+                } | null;
+                utenlandskAdresse?: {
+                    __typename: 'UtenlandskAdresse';
+                    adressenavnNummer?: string | null;
+                    bySted?: string | null;
+                    bygningEtasjeLeilighet?: string | null;
+                    landkode: string;
+                    postboksNummerNavn?: string | null;
+                    postkode?: string | null;
+                    regionDistriktOmraade?: string | null;
+                } | null;
+                vegadresse?: {
+                    __typename: 'Vegadresse';
+                    adressenavn?: string | null;
+                    bruksenhetsnummer?: string | null;
+                    bydelsnummer?: string | null;
+                    husbokstav?: string | null;
+                    husnummer?: string | null;
+                    kommunenummer?: string | null;
+                    postnummer?: string | null;
+                    poststed?: string | null;
+                    tilleggsnavn?: string | null;
+                } | null;
+            } | null;
+        };
         values: {
             __typename: 'OppgaveValues';
             fnrPasient?: string | null;
@@ -692,7 +951,81 @@ export type SaveOppgaveMutation = {
     lagre: {
         __typename: 'Digitaliseringsoppgave';
         oppgaveId: string;
-        person: { __typename: 'Person'; fnr: string; navn?: string | null };
+        person: {
+            __typename: 'Person';
+            fnr: string;
+            navn?: string | null;
+            bostedsadresse?: {
+                __typename: 'Bostedsadresse';
+                coAdressenavn?: string | null;
+                matrikkeladresse?: {
+                    __typename: 'Matrikkeladresse';
+                    bruksenhetsnummer?: string | null;
+                    kommunenummer?: string | null;
+                    postnummer?: string | null;
+                    poststed?: string | null;
+                    tilleggsnavn?: string | null;
+                } | null;
+                ukjentBosted?: { __typename: 'UkjentBosted'; bostedskommune?: string | null } | null;
+                utenlandskAdresse?: {
+                    __typename: 'UtenlandskAdresse';
+                    adressenavnNummer?: string | null;
+                    bySted?: string | null;
+                    bygningEtasjeLeilighet?: string | null;
+                    landkode: string;
+                    postboksNummerNavn?: string | null;
+                    postkode?: string | null;
+                    regionDistriktOmraade?: string | null;
+                } | null;
+                vegadresse?: {
+                    __typename: 'Vegadresse';
+                    adressenavn?: string | null;
+                    bruksenhetsnummer?: string | null;
+                    bydelsnummer?: string | null;
+                    husbokstav?: string | null;
+                    husnummer?: string | null;
+                    kommunenummer?: string | null;
+                    postnummer?: string | null;
+                    poststed?: string | null;
+                    tilleggsnavn?: string | null;
+                } | null;
+            } | null;
+            oppholdsadresse?: {
+                __typename: 'Oppholdsadresse';
+                coAdressenavn?: string | null;
+                oppholdAnnetSted?: string | null;
+                matrikkeladresse?: {
+                    __typename: 'Matrikkeladresse';
+                    bruksenhetsnummer?: string | null;
+                    kommunenummer?: string | null;
+                    postnummer?: string | null;
+                    poststed?: string | null;
+                    tilleggsnavn?: string | null;
+                } | null;
+                utenlandskAdresse?: {
+                    __typename: 'UtenlandskAdresse';
+                    adressenavnNummer?: string | null;
+                    bySted?: string | null;
+                    bygningEtasjeLeilighet?: string | null;
+                    landkode: string;
+                    postboksNummerNavn?: string | null;
+                    postkode?: string | null;
+                    regionDistriktOmraade?: string | null;
+                } | null;
+                vegadresse?: {
+                    __typename: 'Vegadresse';
+                    adressenavn?: string | null;
+                    bruksenhetsnummer?: string | null;
+                    bydelsnummer?: string | null;
+                    husbokstav?: string | null;
+                    husnummer?: string | null;
+                    kommunenummer?: string | null;
+                    postnummer?: string | null;
+                    poststed?: string | null;
+                    tilleggsnavn?: string | null;
+                } | null;
+            } | null;
+        };
         values: {
             __typename: 'OppgaveValues';
             fnrPasient?: string | null;
@@ -745,6 +1078,179 @@ export const ModiaFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<ModiaFragment, unknown>;
+export const MatrikkeladresseFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Matrikkeladresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Matrikkeladresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bruksenhetsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'kommunenummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'poststed' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tilleggsnavn' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<MatrikkeladresseFragment, unknown>;
+export const UkjentBostedFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'UkjentBosted' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UkjentBosted' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'bostedskommune' } }],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UkjentBostedFragment, unknown>;
+export const UtenlandskAdresseFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'UtenlandskAdresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'adressenavnNummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bySted' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bygningEtasjeLeilighet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'landkode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postboksNummerNavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postkode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'regionDistriktOmraade' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UtenlandskAdresseFragment, unknown>;
+export const VegadresseFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Vegadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'adressenavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bruksenhetsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bydelsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'husbokstav' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'husnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'kommunenummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'poststed' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tilleggsnavn' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<VegadresseFragment, unknown>;
+export const BostedsadresseFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Bostedsadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Bostedsadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'coAdressenavn' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'matrikkeladresse' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Matrikkeladresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'ukjentBosted' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'UkjentBosted' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utenlandskAdresse' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vegadresse' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Vegadresse' } }],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<BostedsadresseFragment, unknown>;
+export const OppholdsadresseFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Oppholdsadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Oppholdsadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'coAdressenavn' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'matrikkeladresse' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Matrikkeladresse' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppholdAnnetSted' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'utenlandskAdresse' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'vegadresse' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Vegadresse' } }],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OppholdsadresseFragment, unknown>;
 export const PeriodeFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -843,6 +1349,29 @@ export const OppgaveFragmentDoc = {
                             selections: [
                                 { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bostedsadresse' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Bostedsadresse' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'oppholdsadresse' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'FragmentSpread',
+                                                name: { kind: 'Name', value: 'Oppholdsadresse' },
+                                            },
+                                        ],
+                                    },
+                                },
                             ],
                         },
                     },
@@ -959,6 +1488,12 @@ export const OppgaveByIdDocument = {
             },
         },
         ...OppgaveFragmentDoc.definitions,
+        ...BostedsadresseFragmentDoc.definitions,
+        ...MatrikkeladresseFragmentDoc.definitions,
+        ...UkjentBostedFragmentDoc.definitions,
+        ...UtenlandskAdresseFragmentDoc.definitions,
+        ...VegadresseFragmentDoc.definitions,
+        ...OppholdsadresseFragmentDoc.definitions,
         ...OppgaveValuesFragmentDoc.definitions,
         ...PeriodeFragmentDoc.definitions,
         ...DiagnoseFragmentDoc.definitions,
@@ -1026,6 +1561,12 @@ export const SaveOppgaveDocument = {
             },
         },
         ...OppgaveFragmentDoc.definitions,
+        ...BostedsadresseFragmentDoc.definitions,
+        ...MatrikkeladresseFragmentDoc.definitions,
+        ...UkjentBostedFragmentDoc.definitions,
+        ...UtenlandskAdresseFragmentDoc.definitions,
+        ...VegadresseFragmentDoc.definitions,
+        ...OppholdsadresseFragmentDoc.definitions,
         ...OppgaveValuesFragmentDoc.definitions,
         ...PeriodeFragmentDoc.definitions,
         ...DiagnoseFragmentDoc.definitions,

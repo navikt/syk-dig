@@ -36,7 +36,7 @@ function SykmeldingForm({ oppgave }: Props): JSX.Element {
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSave)}>
-                <Pasientopplysninger />
+                <Pasientopplysninger person={oppgave.person} />
                 <Sykmeldingsperiode />
                 <DiagnoseFormSection />
                 <Errors />

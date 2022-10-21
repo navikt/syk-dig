@@ -10,12 +10,17 @@ import countries from './countries-norwegian.json';
 
 export type Country = {
     code: string;
+    alpha3: string;
     name: string;
 };
 
 export const countriesResponse: Country[] = R.pipe(
     countries,
-    R.map((country) => ({ code: country.alpha2.toUpperCase(), name: country.name })),
+    R.map((country) => ({
+        code: country.alpha2.toUpperCase(),
+        alpha3: country.alpha3.toUpperCase(),
+        name: country.name,
+    })),
     R.sortBy((country) => country.name),
 );
 
