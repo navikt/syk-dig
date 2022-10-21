@@ -1,3 +1,14 @@
 .datoSykmeldingenBleSkrevet {
+    display: flex;
     padding-bottom: var(--navds-spacing-8);
+}
+
+.nullstillButton {
+    max-height: 4rem;
+    align-self: flex-end;
+    border-radius: 4px;
+}
+
+.datoSykmeldingenBleSkrevet :global(.navds-error-message::before) {
+    content: unset;
 }
