@@ -57,7 +57,7 @@ describe('SykmeldingForm', () => {
                         id: 'test-oppgave-id',
                         values: {
                             fnrPasient: '12345678901',
-                            skrevetLand: 'PL',
+                            skrevetLand: 'POL',
                             behandletTidspunkt: '2022-06-07',
                             hovedDiagnose: { kode: 'L815', system: 'ICD10' },
                             biDiagnoser: [{ kode: 'Y04', system: 'ICPC2' }],

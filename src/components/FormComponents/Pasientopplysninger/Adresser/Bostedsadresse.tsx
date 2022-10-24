@@ -7,31 +7,35 @@ import Matrikkeladresse from './Matrikkeladresse';
 import UtenlandskAdresse from './Utenlandskadresse';
 
 type BostedsadresseProps = {
-    adresser: BostedsadresseFragment;
+    bostedsadresse: BostedsadresseFragment | null;
 };
 
-function Bostedsadresse({ adresser }: BostedsadresseProps): JSX.Element | null {
+function Bostedsadresse({ bostedsadresse }: BostedsadresseProps): JSX.Element | null {
     return (
         <div>
             <Heading level="3" size="xsmall">
                 Bostedsadresse
             </Heading>
-            <FirstAvailableAddress adresser={adresser} />
+            <BostedsadresseVariant bostedsadresse={bostedsadresse} />
         </div>
     );
 }
 
-function FirstAvailableAddress({ adresser }: BostedsadresseProps): JSX.Element {
-    if (adresser.vegadresse) {
-        return <Vegadresse vegadresse={adresser.vegadresse} />;
-    } else if (adresser.matrikkeladresse) {
-        return <Matrikkeladresse matrikkeladresse={adresser.matrikkeladresse} />;
-    } else if (adresser.utenlandskAdresse) {
-        return <UtenlandskAdresse utenlandskAdresse={adresser.utenlandskAdresse} />;
-    } else if (adresser.ukjentBosted) {
-        return <BodyShort>{`Kommunenummer: ${adresser.ukjentBosted.bostedskommune}`}</BodyShort>;
+function BostedsadresseVariant({ bostedsadresse }: BostedsadresseProps): JSX.Element {
+    if (!bostedsadresse) {
+        return <BodyShort>Bostedsadresse mangler</BodyShort>;
     }
-    return <BodyShort>Bostedsadresse mangler</BodyShort>;
+
+    switch (bostedsadresse.__typename) {
+        case 'Vegadresse':
+            return <Vegadresse vegadresse={bostedsadresse} />;
+        case 'Matrikkeladresse':
+            return <Matrikkeladresse matrikkeladresse={bostedsadresse} />;
+        case 'UtenlandskAdresse':
+            return <UtenlandskAdresse utenlandskAdresse={bostedsadresse} />;
+        case 'UkjentBosted':
+            return <BodyShort>{`Kommunenummer: ${bostedsadresse.bostedskommune}`}</BodyShort>;
+    }
 }
 
 export default Bostedsadresse;

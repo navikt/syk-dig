@@ -7,27 +7,16 @@ import Oppholdsadresse from './Oppholdsadresse';
 
 describe('Oppholdsadresse', () => {
     it('should have no a11y issues and show vegadresse', async () => {
-        const adresser: OppholdsadresseFragment = {
-            __typename: 'Oppholdsadresse',
-            coAdressenavn: null,
-            vegadresse: {
-                __typename: 'Vegadresse',
-                adressenavn: 'Trondheimsveien',
-                bruksenhetsnummer: null,
-                bydelsnummer: null,
-                husbokstav: 'C',
-                husnummer: '8',
-                kommunenummer: '4321',
-                postnummer: '1234',
-                poststed: 'Trondheim',
-                tilleggsnavn: null,
-            },
-            matrikkeladresse: null,
-            utenlandskAdresse: null,
-            oppholdAnnetSted: null,
+        const vegadresse: OppholdsadresseFragment = {
+            __typename: 'Vegadresse',
+            adressenavn: 'Trondheimsveien',
+            husbokstav: 'C',
+            husnummer: '8',
+            postnummer: '1234',
+            poststed: 'Trondheim',
         };
 
-        const { container } = render(<Oppholdsadresse adresser={adresser} />);
+        const { container } = render(<Oppholdsadresse oppholdsadresse={vegadresse} />);
 
         expect(await axe(container)).toHaveNoViolations();
 
@@ -37,23 +26,15 @@ describe('Oppholdsadresse', () => {
     });
 
     it('should have no a11y issues and show matrikkeladresse', async () => {
-        const adresser: OppholdsadresseFragment = {
-            __typename: 'Oppholdsadresse',
-            coAdressenavn: null,
-            vegadresse: null,
-            matrikkeladresse: {
-                __typename: 'Matrikkeladresse',
-                bruksenhetsnummer: 'H0101',
-                kommunenummer: '4321',
-                postnummer: '1111',
-                poststed: 'Bodø',
-                tilleggsnavn: 'Bergensergata',
-            },
-            utenlandskAdresse: null,
-            oppholdAnnetSted: null,
+        const matrikkeladresse: OppholdsadresseFragment = {
+            __typename: 'Matrikkeladresse',
+            bruksenhetsnummer: 'H0101',
+            postnummer: '1111',
+            poststed: 'Bodø',
+            tilleggsnavn: 'Bergensergata',
         };
 
-        const { container } = render(<Oppholdsadresse adresser={adresser} />);
+        const { container } = render(<Oppholdsadresse oppholdsadresse={matrikkeladresse} />);
 
         expect(await axe(container)).toHaveNoViolations();
 
@@ -65,25 +46,16 @@ describe('Oppholdsadresse', () => {
 
     describe('utenlandskAdresse', () => {
         it('should have no a11y issues for utenlandskAdresse', async () => {
-            const adresser: OppholdsadresseFragment = {
-                __typename: 'Oppholdsadresse',
-                coAdressenavn: null,
-                vegadresse: null,
-                matrikkeladresse: null,
-                utenlandskAdresse: {
-                    __typename: 'UtenlandskAdresse',
-                    adressenavnNummer: null,
-                    bySted: 'Reykjavik',
-                    bygningEtasjeLeilighet: null,
-                    landkode: 'ISL',
-                    postboksNummerNavn: 'Einimel 80',
-                    postkode: 'IS-107',
-                    regionDistriktOmraade: null,
-                },
-                oppholdAnnetSted: null,
+            const utenlandskadresse: OppholdsadresseFragment = {
+                __typename: 'UtenlandskAdresse',
+                adressenavnNummer: null,
+                bySted: 'Reykjavik',
+                landkode: 'ISL',
+                postboksNummerNavn: 'Einimel 80',
+                postkode: 'IS-107',
             };
 
-            const { container } = render(<Oppholdsadresse adresser={adresser} />);
+            const { container } = render(<Oppholdsadresse oppholdsadresse={utenlandskadresse} />);
 
             await act(async () => {
                 expect(await axe(container)).toHaveNoViolations();
@@ -91,25 +63,16 @@ describe('Oppholdsadresse', () => {
         });
 
         it('should show utenlandskAdresse', async () => {
-            const adresser: OppholdsadresseFragment = {
-                __typename: 'Oppholdsadresse',
-                coAdressenavn: null,
-                vegadresse: null,
-                matrikkeladresse: null,
-                utenlandskAdresse: {
-                    __typename: 'UtenlandskAdresse',
-                    adressenavnNummer: 'Einimel 80',
-                    bySted: 'Reykjavik',
-                    bygningEtasjeLeilighet: null,
-                    landkode: 'ISL',
-                    postboksNummerNavn: null,
-                    postkode: 'IS-107',
-                    regionDistriktOmraade: null,
-                },
-                oppholdAnnetSted: null,
+            const utenlandsadresse: OppholdsadresseFragment = {
+                __typename: 'UtenlandskAdresse',
+                adressenavnNummer: 'Einimel 80',
+                bySted: 'Reykjavik',
+                landkode: 'ISL',
+                postboksNummerNavn: null,
+                postkode: 'IS-107',
             };
 
-            render(<Oppholdsadresse adresser={adresser} />);
+            render(<Oppholdsadresse oppholdsadresse={utenlandsadresse} />);
 
             act(() => {
                 expect(screen.getByText('Laster adresse...')).toBeInTheDocument();
@@ -126,30 +89,22 @@ describe('Oppholdsadresse', () => {
 
     describe('oppholdAnnetSted', () => {
         it('should show the text "På Svaldbard" for oppholdAnnetSted if the value is PAA_SVALBARD', () => {
-            const adresser: OppholdsadresseFragment = {
-                __typename: 'Oppholdsadresse',
-                coAdressenavn: null,
-                vegadresse: null,
-                matrikkeladresse: null,
-                utenlandskAdresse: null,
-                oppholdAnnetSted: 'PAA_SVALBARD',
+            const oppholdAnnetSted: OppholdsadresseFragment = {
+                __typename: 'OppholdAnnetSted',
+                type: 'PAA_SVALBARD',
             };
-            render(<Oppholdsadresse adresser={adresser} />);
+            render(<Oppholdsadresse oppholdsadresse={oppholdAnnetSted} />);
 
             expect(screen.getByRole('heading', { name: 'Oppholdsadresse' })).toBeInTheDocument();
             expect(screen.getByText('Annet opphold: På Svalbard')).toBeInTheDocument();
         });
 
         it('should show value if it is other than MILITAER, PENDLER, UTENRIKS and PAA_SVALBARD', () => {
-            const adresser: OppholdsadresseFragment = {
-                __typename: 'Oppholdsadresse',
-                coAdressenavn: null,
-                vegadresse: null,
-                matrikkeladresse: null,
-                utenlandskAdresse: null,
-                oppholdAnnetSted: 'UKJENT',
+            const oppholdAnnetSted: OppholdsadresseFragment = {
+                __typename: 'OppholdAnnetSted',
+                type: 'UKJENT',
             };
-            render(<Oppholdsadresse adresser={adresser} />);
+            render(<Oppholdsadresse oppholdsadresse={oppholdAnnetSted} />);
 
             expect(screen.getByRole('heading', { name: 'Oppholdsadresse' })).toBeInTheDocument();
             expect(screen.getByText('Annet opphold: UKJENT')).toBeInTheDocument();
@@ -157,15 +112,7 @@ describe('Oppholdsadresse', () => {
     });
 
     it('should show message about missing address if address is unknown type', () => {
-        const adresser: OppholdsadresseFragment = {
-            __typename: 'Oppholdsadresse',
-            coAdressenavn: null,
-            vegadresse: null,
-            matrikkeladresse: null,
-            utenlandskAdresse: null,
-            oppholdAnnetSted: null,
-        };
-        render(<Oppholdsadresse adresser={adresser} />);
+        render(<Oppholdsadresse oppholdsadresse={null} />);
 
         expect(screen.getByRole('heading', { name: 'Oppholdsadresse' })).toBeInTheDocument();
         expect(screen.getByText('Oppholdsadresse mangler')).toBeInTheDocument();

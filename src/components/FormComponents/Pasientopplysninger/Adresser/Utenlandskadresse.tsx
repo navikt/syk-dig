@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { UtenlandskAdresse } from '../../../../graphql/queries/graphql.generated';
@@ -9,16 +8,8 @@ type UtenlandskAdresseProps = {
 };
 
 function UtenlandskAdresse({ utenlandskAdresse }: UtenlandskAdresseProps): JSX.Element {
-    const [countryName, setCountryName] = useState<string | null>(null);
     const [loadingCountries, countries] = useCountrySuggestions();
-
-    const country = countries.find((country) => country.alpha3 === utenlandskAdresse.landkode)?.name;
-
-    useEffect(() => {
-        if (country) {
-            setCountryName(country);
-        }
-    }, [country, countries, utenlandskAdresse.landkode]);
+    const country = countries.find((country) => country.code === utenlandskAdresse.landkode)?.name;
 
     return (
         <>
@@ -35,7 +26,7 @@ function UtenlandskAdresse({ utenlandskAdresse }: UtenlandskAdresseProps): JSX.E
                     {utenlandskAdresse.postkode && (
                         <BodyShort>{`${utenlandskAdresse.postkode} ${utenlandskAdresse.bySted ?? ''}`}</BodyShort>
                     )}
-                    {countryName && <BodyShort>{countryName}</BodyShort>}
+                    {country && <BodyShort>{country}</BodyShort>}
                 </>
             )}
         </>

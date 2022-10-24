@@ -27,7 +27,7 @@ describe('CountryTypeahead', () => {
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'Zim');
         await userEvent.click(await screen.findByRole('option', { name: 'Zimbabwe' }));
 
-        expect(mockSelect).toHaveBeenCalledWith('ZW');
+        expect(mockSelect).toHaveBeenCalledWith('ZWE');
     });
 
     it('should search and select a country with multiple hits', async () => {
@@ -46,12 +46,12 @@ describe('CountryTypeahead', () => {
 
         await userEvent.click(results[1]);
 
-        expect(mockSelect).toHaveBeenCalledWith('NO');
+        expect(mockSelect).toHaveBeenCalledWith('NOR');
     });
 
     it('should correctly set initial value without invoking onSelect', async () => {
         const mockSelect = jest.fn();
-        render(<CountryCombobox onSelect={mockSelect} initialValue={'NO'} onChange={() => void 0} />);
+        render(<CountryCombobox onSelect={mockSelect} initialValue={'NOR'} onChange={() => void 0} />);
 
         await waitForPickerToBeLoaded();
         await waitFor(() =>
