@@ -4,6 +4,9 @@ export interface PossibleTypesResultData {
     };
 }
 const result: PossibleTypesResultData = {
-    possibleTypes: {},
+    possibleTypes: {
+        Bostedsadresse: ['Matrikkeladresse', 'UkjentBosted', 'UtenlandskAdresse', 'Vegadresse'],
+        Oppholdsadresse: ['Matrikkeladresse', 'OppholdAnnetSted', 'UtenlandskAdresse', 'Vegadresse'],
+    },
 };
 export default result;

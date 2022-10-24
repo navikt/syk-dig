@@ -44,38 +44,37 @@ fragment Oppgave on Digitaliseringsoppgave {
 }
 
 fragment Bostedsadresse on Bostedsadresse {
-    coAdressenavn
-    matrikkeladresse {
+    ... on Vegadresse {
+        ...Vegadresse
+    }
+    ... on Matrikkeladresse {
         ...Matrikkeladresse
     }
-    ukjentBosted {
-        ...UkjentBosted
-    }
-    utenlandskAdresse {
+    ... on UtenlandskAdresse {
         ...UtenlandskAdresse
     }
-    vegadresse {
-        ...Vegadresse
+    ... on UkjentBosted {
+        ...UkjentBosted
     }
 }
 
 fragment Oppholdsadresse on Oppholdsadresse {
-    coAdressenavn
-    matrikkeladresse {
+    ... on Vegadresse {
+        ...Vegadresse
+    }
+    ... on Matrikkeladresse {
         ...Matrikkeladresse
     }
-    oppholdAnnetSted
-    utenlandskAdresse {
+    ... on UtenlandskAdresse {
         ...UtenlandskAdresse
     }
-    vegadresse {
-        ...Vegadresse
+    ... on OppholdAnnetSted {
+        ...OppholdAnnet
     }
 }
 
 fragment Matrikkeladresse on Matrikkeladresse {
     bruksenhetsnummer
-    kommunenummer
     postnummer
     poststed
     tilleggsnavn
@@ -88,23 +87,21 @@ fragment UkjentBosted on UkjentBosted {
 fragment UtenlandskAdresse on UtenlandskAdresse {
     adressenavnNummer
     bySted
-    bygningEtasjeLeilighet
     landkode
     postboksNummerNavn
     postkode
-    regionDistriktOmraade
 }
 
 fragment Vegadresse on Vegadresse {
     adressenavn
-    bruksenhetsnummer
-    bydelsnummer
     husbokstav
     husnummer
-    kommunenummer
     postnummer
     poststed
-    tilleggsnavn
+}
+
+fragment OppholdAnnet on OppholdAnnetSted {
+    type
 }
 
 query OppgaveById($oppgaveId: String!) {

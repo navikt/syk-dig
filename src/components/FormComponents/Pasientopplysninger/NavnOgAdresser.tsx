@@ -20,8 +20,8 @@ function NavnOgAdresser({ person }: NavnOgAdresserProps): JSX.Element {
                 <BodyShort id="navn">{person.navn}</BodyShort>
             </div>
             <div className={styles.adresser}>
-                {person.bostedsadresse && <Bostedsadresse adresser={person.bostedsadresse} />}
-                {person.oppholdsadresse && <Oppholdsadresse adresser={person.oppholdsadresse} />}
+                {person.bostedsadresse && <Bostedsadresse bostedsadresse={person.bostedsadresse} />}
+                {person.oppholdsadresse && <Oppholdsadresse oppholdsadresse={person.oppholdsadresse} />}
             </div>
         </>
     );
