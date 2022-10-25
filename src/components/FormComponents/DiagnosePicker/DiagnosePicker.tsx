@@ -10,7 +10,7 @@ import FieldError from '../FieldError/FieldError';
 import styles from './DiagnosePicker.module.css';
 import DiagnoseCombobox from './DiagnoseCombobox/DiagnoseCombobox';
 
-type PossiblePickerFormNames = 'diagnoser.hoveddiagnose' | `diagnoser.bidiagnoser.${number}`;
+export type PossiblePickerFormNames = 'diagnoser.hoveddiagnose' | `diagnoser.bidiagnoser.${number}`;
 
 interface Props {
     name: PossiblePickerFormNames;
@@ -61,6 +61,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
                 </Select>
                 <DiagnoseCombobox
                     id={`${name}-combobox`}
+                    name={name}
                     system={field.value.system}
                     onSelect={(suggestion) => field.onChange({ ...suggestion, system: field.value.system })}
                     onChange={() => {
