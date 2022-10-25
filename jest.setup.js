@@ -24,6 +24,12 @@ jest.mock('next/config', () => () => ({
     },
 }));
 
+window.ResizeObserver = jest.fn().mockImplementation(() => ({
+    disconnect: jest.fn(),
+    observe: jest.fn(),
+    unobserve: jest.fn(),
+}));
+
 Modal.setAppElement(document.createElement('div'));
 
 mockRouter.useParser(createDynamicRouteParser(['/utenlandsk/[oppgaveId]']));

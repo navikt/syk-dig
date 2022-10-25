@@ -19,7 +19,6 @@ describe('PeriodePicker', () => {
         render(<PeriodeSelectComp />);
 
         const inputFom = screen.getByRole('textbox', { name: 'Fra' });
-        expect(inputFom).toBeInTheDocument();
 
         await userEvent.type(inputFom, '12.10.2022');
 
@@ -30,14 +29,13 @@ describe('PeriodePicker', () => {
         render(<PeriodeSelectComp />);
 
         const inputTom = screen.getByRole('textbox', { name: 'Til' });
-        expect(inputTom).toBeInTheDocument();
 
         await userEvent.type(inputTom, '20.10.2022');
 
         await waitFor(() => expect(inputTom).toHaveAttribute('value', '20.10.2022'));
     });
 
-    it('should reset fom and tom input fields when Nullstill dato is clicked', async () => {
+    it('should empty fom and tom input fields when Nullstill dato is clicked', async () => {
         render(<PeriodeSelectComp />);
 
         const inputTom = screen.getByRole('textbox', { name: 'Til' });

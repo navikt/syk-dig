@@ -1812,51 +1812,51 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/ds-css-internal@npm:^1.3.21":
-  version: 1.3.21
-  resolution: "@navikt/ds-css-internal@npm:1.3.21::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css-internal%2F1.3.21%2Fb47327da01241e02ddd94fe9d3a940d4df2b6ab2"
-  checksum: 83895c1fdaf36e2c7796e08cc2a396b3a521c15919a0d8db3b95ab6594529d4b98f7c625bdd51e294f504a62926862aac102925d1a317d1a05b20e5dc26f7584
+"@navikt/ds-css-internal@npm:^1.3.29":
+  version: 1.3.29
+  resolution: "@navikt/ds-css-internal@npm:1.3.29::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css-internal%2F1.3.29%2F677ed315c87faca8d7ec0e4fd7ffcb7c0eed24cf"
+  checksum: a11b5660247f5a22de460cea254061a19235af89675da638db121e8769e5361e5513b177598df0de7a00c3232d06fbb1ed1e012be3d50ac5c4ee30e9bd9c9c02
   languageName: node
   linkType: hard
 
-"@navikt/ds-css@npm:^1.3.21":
-  version: 1.3.21
-  resolution: "@navikt/ds-css@npm:1.3.21::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css%2F1.3.21%2F4ab1893d582f021e9f000f3be2ee50bbdf7a8bf4"
-  checksum: b57b4be94f91cf1c390c128686278c999869100a4c07526a69efe283de88453928c953e73dd784daf8ee21fa494ac0167f4c8f9f6cdc34dafbdd95708bd14716
+"@navikt/ds-css@npm:^1.3.29":
+  version: 1.3.29
+  resolution: "@navikt/ds-css@npm:1.3.29::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css%2F1.3.29%2Fe0c5d0082cc66f09f56164b64a05c64b140430d9"
+  checksum: 6a2576fbe87e8da8f4a744e6c522e223e3c206219568de6bc5399c69882e1572b8d14657906dac1eef5e5b817aeb7f06f4b2d4857248627c556fa6269572f22b
   languageName: node
   linkType: hard
 
-"@navikt/ds-icons@npm:^1.3.21":
-  version: 1.3.21
-  resolution: "@navikt/ds-icons@npm:1.3.21::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-icons%2F1.3.21%2F5f6e637f73f3c8b8b6f2a7d0005b254773487b7f"
+"@navikt/ds-icons@npm:^1.3.29":
+  version: 1.3.29
+  resolution: "@navikt/ds-icons@npm:1.3.29::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-icons%2F1.3.29%2Ffcfce2b373f30242b5d4b67908153b98dc9c8b95"
   peerDependencies:
     "@types/react": ^17.0.30 || ^18.0.0
     react: ^17.0.0 || ^18.0.0
-  checksum: b9b2ae7d9eb96feee72cc5ee38eb55bf88965cf372c8e9c2893596ac598b4595154b1bb77e5310ba0d3b40ecc4a6046320bcbb86892891e0730a6351dfb63f13
+  checksum: 3ebd42d86588dcf789d787c9e8bd88c517eff882cded90394d1e445081b9649e9194f7439eaef9eb735e681d068470a8351eec28c624197e55131aaa77627ad1
   languageName: node
   linkType: hard
 
-"@navikt/ds-react-internal@npm:^1.3.21":
-  version: 1.3.21
-  resolution: "@navikt/ds-react-internal@npm:1.3.21::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-react-internal%2F1.3.21%2Fa34666ff9306119b3915468cf87252a0759a0fd3"
+"@navikt/ds-react-internal@npm:^1.3.29":
+  version: 1.3.29
+  resolution: "@navikt/ds-react-internal@npm:1.3.29::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-react-internal%2F1.3.29%2Fc8f6366c9872542d47d8d967ae63bc1c7aa4a2ef"
   dependencies:
-    "@navikt/ds-icons": ^1.3.21
-    "@navikt/ds-react": ^1.3.21
+    "@navikt/ds-icons": ^1.3.29
+    "@navikt/ds-react": ^1.3.29
     clsx: ^1.1.1
     copy-to-clipboard: ^3.3.1
   peerDependencies:
     "@types/react": ^17.0.30 || ^18.0.0
     react: ^17.0.0 || ^18.0.0
-  checksum: 624f5ad6c9c734db7e97973e39825f1aa9bbe2808df16fc4c5313f13fd7f175db39dd008ebbdd000324c1bc351ff06755e3505fc0971f429d42ec224fff79f12
+  checksum: e39fe74e9825beb0855538cfd365ee004b4bbb526777f9ef45580da89fdf16f1eea7c2f615b30552309b6ddbaac9913c683665b16f8d0e9218232893548b279a
   languageName: node
   linkType: hard
 
-"@navikt/ds-react@npm:^1.3.21":
-  version: 1.3.21
-  resolution: "@navikt/ds-react@npm:1.3.21::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-react%2F1.3.21%2Ff8fc6665b227dd0d650aff398678916aa802e66e"
+"@navikt/ds-react@npm:^1.3.29":
+  version: 1.3.29
+  resolution: "@navikt/ds-react@npm:1.3.29::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-react%2F1.3.29%2F4ff05fd870508e680c9fe0772135053b7fcedff8"
   dependencies:
     "@floating-ui/react-dom-interactions": 0.9.2
-    "@navikt/ds-icons": ^1.3.21
+    "@navikt/ds-icons": ^1.3.29
     "@radix-ui/react-tabs": 1.0.0
     "@radix-ui/react-toggle-group": 1.0.0
     clsx: ^1.2.1
@@ -1866,7 +1866,7 @@ __metadata:
   peerDependencies:
     "@types/react": ^17.0.30 || ^18.0.0
     react: ^17.0.0 || ^18.0.0
-  checksum: 5a91e140e346345306ad97051b5badf02b2fb630f0fc77661d7b575e57adf91728cd901de9e6806c83d6b3651d1063f03581c58d3993b2fc54fd5f144905ef76
+  checksum: 09cf9c8c1d0d946fd5421fc67e8e6fafd35fe31bb3c97373b0d3f8df68279edf03ffce65dfb2c437e2538dff0e4544424d98ae917bcbf711ea9153710c26932e
   languageName: node
   linkType: hard
 
@@ -9905,11 +9905,11 @@ __metadata:
     "@graphql-codegen/typed-document-node": ^2.3.4
     "@graphql-codegen/typescript-operations": ^2.5.4
     "@hookform/error-message": ^2.0.0
-    "@navikt/ds-css": ^1.3.21
-    "@navikt/ds-css-internal": ^1.3.21
-    "@navikt/ds-icons": ^1.3.21
-    "@navikt/ds-react": ^1.3.21
-    "@navikt/ds-react-internal": ^1.3.21
+    "@navikt/ds-css": ^1.3.29
+    "@navikt/ds-css-internal": ^1.3.29
+    "@navikt/ds-icons": ^1.3.29
+    "@navikt/ds-react": ^1.3.29
+    "@navikt/ds-react-internal": ^1.3.29
     "@navikt/eslint-config-teamsykmelding": ^0.21.0
     "@navikt/next-api-proxy": ^1.3.0
     "@navikt/next-auth-wonderwall": ^0.8.0

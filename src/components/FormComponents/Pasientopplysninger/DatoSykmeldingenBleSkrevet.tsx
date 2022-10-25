@@ -1,10 +1,8 @@
-import { useEffect } from 'react';
 import { useController } from 'react-hook-form';
-import { UNSAFE_DatePicker, UNSAFE_useDatepicker } from '@navikt/ds-react';
+import { Button, UNSAFE_DatePicker, UNSAFE_useDatepicker } from '@navikt/ds-react';
 
 import { toDate } from '../../../utils/dateUtils';
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
-import FieldError from '../FieldError/FieldError';
 
 import styles from './DatoSykmeldingenBleSkrevet.module.css';
 
@@ -22,18 +20,12 @@ function DatoSykmeldingenBleSkrevet(): JSX.Element {
         },
     });
 
-    const { datepickerProps, inputProps, selectedDay } = UNSAFE_useDatepicker({
-        today: new Date(),
+    const { datepickerProps, inputProps, setSelected } = UNSAFE_useDatepicker({
         defaultSelected: field.value ? toDate(field.value) : undefined,
+        onDateChange: (date: Date | undefined) => {
+            field.onChange(date);
+        },
     });
-
-    useEffect(() => {
-        if (selectedDay && selectedDay.toString() !== field.value?.toString()) {
-            field.onChange(selectedDay);
-        } else if (!selectedDay && field.value) {
-            field.onChange(null);
-        }
-    }, [selectedDay, field]);
 
     return (
         <div className={styles.datoSykmeldingenBleSkrevet}>
@@ -43,12 +35,19 @@ function DatoSykmeldingenBleSkrevet(): JSX.Element {
                     {...inputProps}
                     label="Datoen sykmeldingen ble skrevet"
                     placeholder="DD.MM.ÅÅÅÅ"
-                    onFocus={(event) => {
-                        event.preventDefault();
-                    }}
+                    error={fieldState.error?.message}
                 />
             </UNSAFE_DatePicker>
-            <FieldError error={fieldState.error} />
+            <Button
+                className={styles.nullstillButton}
+                variant="tertiary"
+                type="button"
+                onClick={() => {
+                    setSelected(undefined);
+                }}
+            >
+                Nullstill dato
+            </Button>
         </div>
     );
 }

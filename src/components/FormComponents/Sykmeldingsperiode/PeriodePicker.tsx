@@ -1,10 +1,14 @@
-import { useEffect, useRef } from 'react';
 import { useController } from 'react-hook-form';
 import { Button, UNSAFE_DatePicker, UNSAFE_useRangeDatepicker } from '@navikt/ds-react';
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
 
 import styles from './PeriodePicker.module.css';
+
+type DateRange = {
+    from: Date | undefined;
+    to?: Date | undefined;
+};
 
 type FormName = `periode.${number}.range`;
 type FormField = `${FormName}.${'fom' | 'tom'}`;
@@ -23,40 +27,26 @@ function PeriodePicker({ name }: PeriodePickerProps): JSX.Element {
         rules: { required: 'Du må fylle inn til dato.' },
     });
 
-    const { datepickerProps, toInputProps, fromInputProps, selectedRange, setSelected } = UNSAFE_useRangeDatepicker({
-        today: new Date(),
+    const { datepickerProps, toInputProps, fromInputProps, setSelected } = UNSAFE_useRangeDatepicker({
         defaultSelected: {
             from: fromField.value,
             to: toField.value,
         },
+        onRangeChange: (value: DateRange | undefined) => {
+            fromField.onChange(value?.from);
+            toField.onChange(value?.to);
+        },
     });
-
-    const onChangeFrom = fromField.onChange;
-    const onChangeTo = toField.onChange;
-    const hasMounted = useRef(false);
-    useEffect(() => {
-        if (!hasMounted.current) {
-            hasMounted.current = true;
-            return;
-        }
-
-        onChangeFrom(selectedRange?.from);
-        onChangeTo(selectedRange?.to);
-    }, [selectedRange, onChangeFrom, onChangeTo]);
 
     return (
         <>
             <div className={styles.periodePicker}>
                 <UNSAFE_DatePicker {...datepickerProps}>
                     <UNSAFE_DatePicker.Input
-                        ref={fromField.ref}
                         id={fromField.name}
                         {...fromInputProps}
                         label="Fra"
                         placeholder="DD.MM.ÅÅÅÅ"
-                        onFocus={(event) => {
-                            event.preventDefault();
-                        }}
                         error={fromFieldState.error?.message}
                     />
 
@@ -65,9 +55,6 @@ function PeriodePicker({ name }: PeriodePickerProps): JSX.Element {
                         {...toInputProps}
                         label="Til"
                         placeholder="DD.MM.ÅÅÅÅ"
-                        onFocus={(event) => {
-                            event.preventDefault();
-                        }}
                         error={toFieldState.error?.message}
                     />
                 </UNSAFE_DatePicker>
