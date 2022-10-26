@@ -6,16 +6,18 @@ import { DiagnoseSystem } from '../../../Sykmelding/DiagnoseFormSection';
 import { DiagnoseSearchResult, DiagnoseSuggestion } from '../../../../pages/api/diagnose/[system].api';
 import { api } from '../../../../utils/apiUtils';
 import { DsComboboxNoResult } from '../../CustomFormComponents/Combobox';
+import { PossiblePickerFormNames } from '../DiagnosePicker';
 
 interface Props {
     id?: string;
+    name: PossiblePickerFormNames;
     system: DiagnoseSystem;
     onSelect: (value: DiagnoseSuggestion) => void;
     onChange: () => void;
     initialValue: string | null;
 }
 
-function DiagnoseCombobox({ id, system, onSelect, onChange, initialValue }: Props): JSX.Element {
+function DiagnoseCombobox({ id, name, system, onSelect, onChange, initialValue }: Props): JSX.Element {
     const combobox = useComboboxState({
         gutter: 8,
         sameWidth: true,
@@ -37,7 +39,12 @@ function DiagnoseCombobox({ id, system, onSelect, onChange, initialValue }: Prop
 
     return (
         <ComboboxWrapper labelId={`${id}-label`} label="Diagnosekode">
-            <DsCombobox aria-labelledby={`${id}-label`} state={combobox} placeholder={`Søk i ${system} diagnoser...`} />
+            <DsCombobox
+                id={name}
+                aria-labelledby={`${id}-label`}
+                state={combobox}
+                placeholder={`Søk i ${system} diagnoser...`}
+            />
             <DsComboboxPopover state={combobox}>
                 {suggestions.length > 0 ? (
                     suggestions.map((suggestion) => (

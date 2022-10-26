@@ -19,6 +19,7 @@ function CountryPicker({ name }: Props): JSX.Element {
     return (
         <div>
             <CountryCombobox
+                id="land"
                 initialValue={field.value}
                 onSelect={field.onChange}
                 onChange={() => {
