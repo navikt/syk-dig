@@ -13,3 +13,11 @@
     gap: var(--navds-spacing-4);
     margin-top: var(--navds-spacing-8);
 }
+
+.mutationResultFeedback {
+    margin-top: var(--navds-spacing-8);
+}
+
+.demoWarning {
+    margin: var(--navds-spacing-4) 0;
+}

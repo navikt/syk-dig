@@ -16,12 +16,14 @@ import { safeDate, safeString } from '../../../utils/formUtils';
 import { DiagnoseFormValue } from '../DiagnoseFormSection';
 import { notNull } from '../../../utils/tsUtils';
 import { PeriodeFormValue } from '../Sykmeldingsperiode';
+import { useSelectedModiaEnhet } from '../../../graphql/localState/modia';
 
 type UseSave = [save: SubmitHandler<SykmeldingFormValues>, result: MutationResult<SaveOppgaveMutation>];
 type UseSaveOptions = { onCompleted?: () => void };
 
 export function useHandleSave({ onCompleted }: UseSaveOptions): UseSave {
     const params = useParam(Location.Utenlansk);
+    const enhetId = useSelectedModiaEnhet();
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument);
     const saveAndClose = async (data: SykmeldingFormValues): Promise<void> => {
         logger.info(`Saving incomplete oppgave for oppgaveId: ${params.oppgaveId}`);
@@ -31,6 +33,7 @@ export function useHandleSave({ onCompleted }: UseSaveOptions): UseSave {
                 id: params.oppgaveId,
                 values: mapFormValues(data),
                 status: SykmeldingUnderArbeidStatus.UnderArbeid,
+                enhetId,
             },
             onCompleted,
         });
@@ -42,6 +45,7 @@ export function useHandleSave({ onCompleted }: UseSaveOptions): UseSave {
 export function useHandleRegister({ onCompleted }: UseSaveOptions = {}): UseSave {
     const params = useParam(Location.Utenlansk);
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument);
+    const enhetId = useSelectedModiaEnhet();
     const registerAndSubmit: SubmitHandler<SykmeldingFormValues> = async (data): Promise<void> => {
         logger.info(`Submitting oppgave for oppgaveId: ${params.oppgaveId}`);
 
@@ -50,6 +54,7 @@ export function useHandleRegister({ onCompleted }: UseSaveOptions = {}): UseSave
                 id: params.oppgaveId,
                 values: mapFormValues(data),
                 status: SykmeldingUnderArbeidStatus.Ferdigstilt,
+                enhetId,
             },
             onCompleted,
         });
@@ -59,8 +64,14 @@ export function useHandleRegister({ onCompleted }: UseSaveOptions = {}): UseSave
 }
 
 function mapFormValues(formValues: SykmeldingFormValues): SykmeldingUnderArbeidValues {
+    const cleanFnr = safeString(formValues.fnr);
+
+    if (cleanFnr == null) {
+        throw new Error(`FNR is invalid (${cleanFnr}), did RHF validation fail?`);
+    }
+
     return {
-        fnrPasient: safeString(formValues.fnr),
+        fnrPasient: cleanFnr,
         skrevetLand: safeString(formValues.land),
         behandletTidspunkt: safeDate(formValues.behandletTidspunkt),
         hovedDiagnose: mapDiagnose(formValues.diagnoser.hoveddiagnose),

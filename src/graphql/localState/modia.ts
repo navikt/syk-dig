@@ -1,4 +1,4 @@
-import { ApolloCache, ApolloClient, NormalizedCacheObject } from '@apollo/client';
+import { ApolloCache, ApolloClient, NormalizedCacheObject, useQuery } from '@apollo/client';
 import { Resolver } from '@apollo/client/core/LocalState';
 import { useEffect } from 'react';
 
@@ -52,4 +52,14 @@ export function useModiaContextUpdated(
             setInitialModiaQueryState(apolloClient.cache, modiaContext);
         }
     }, [apolloClient.cache, modiaContext]);
+}
+
+export function useSelectedModiaEnhet(): string {
+    const { data } = useQuery(ModiaContextDocument);
+
+    if (!data?.modia?.aktivEnhet) {
+        throw new Error('No modia context or aktivEnhet found');
+    }
+
+    return data?.modia?.aktivEnhet;
 }

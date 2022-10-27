@@ -9,7 +9,13 @@ describe('DiagnosePicker', () => {
     it('should have no a11y issues', async () => {
         const onSelectMock = jest.fn();
         const { container } = render(
-            <DiagnoseCombobox system="ICD10" onSelect={onSelectMock} onChange={() => void 0} initialValue={null} />,
+            <DiagnoseCombobox
+                name="diagnoser.hoveddiagnose"
+                system="ICD10"
+                onSelect={onSelectMock}
+                onChange={() => void 0}
+                initialValue={null}
+            />,
         );
 
         const combobox = screen.getByRole('combobox', { name: 'Diagnosekode' });
@@ -21,7 +27,15 @@ describe('DiagnosePicker', () => {
 
     it('should search and select value when seaching for specific code', async () => {
         const onSelectMock = jest.fn();
-        render(<DiagnoseCombobox system="ICD10" onSelect={onSelectMock} onChange={() => void 0} initialValue={null} />);
+        render(
+            <DiagnoseCombobox
+                name="diagnoser.hoveddiagnose"
+                system="ICD10"
+                onSelect={onSelectMock}
+                onChange={() => void 0}
+                initialValue={null}
+            />,
+        );
 
         const combobox = screen.getByRole('combobox', { name: 'Diagnosekode' });
         await userEvent.type(combobox, 'L81');
@@ -37,7 +51,15 @@ describe('DiagnosePicker', () => {
 
     it('should inform that code does not exist', async () => {
         const onSelectMock = jest.fn();
-        render(<DiagnoseCombobox system="ICD10" onSelect={onSelectMock} onChange={() => void 0} initialValue={null} />);
+        render(
+            <DiagnoseCombobox
+                name="diagnoser.hoveddiagnose"
+                system="ICD10"
+                onSelect={onSelectMock}
+                onChange={() => void 0}
+                initialValue={null}
+            />,
+        );
 
         const combobox = screen.getByRole('combobox', { name: 'Diagnosekode' });
         await userEvent.type(combobox, 'XYZ');

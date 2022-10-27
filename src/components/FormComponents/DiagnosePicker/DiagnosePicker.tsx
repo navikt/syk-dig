@@ -23,7 +23,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
         name,
         rules: {
             validate: (value) => {
-                if (value.code == null || value.text == null) return `Du må velge en diagnosekode for ${diagnoseType}`;
+                if (value.code == null) return `Du må velge en diagnosekode for ${diagnoseType}`;
             },
         },
     });

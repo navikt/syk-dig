@@ -24,7 +24,7 @@ describe('SykmeldingForm', () => {
                     variables: {
                         id: 'test-oppgave-id',
                         values: {
-                            fnrPasient: null,
+                            fnrPasient: 'fnr-pasient',
                             skrevetLand: null,
                             behandletTidspunkt: null,
                             hovedDiagnose: null,
@@ -33,6 +33,7 @@ describe('SykmeldingForm', () => {
                             harAndreRelevanteOpplysninger: false,
                         },
                         status: SykmeldingUnderArbeidStatus.UnderArbeid,
+                        enhetId: 'B17',
                     },
                 },
                 result: {
@@ -82,6 +83,7 @@ describe('SykmeldingForm', () => {
                             harAndreRelevanteOpplysninger: false,
                         },
                         status: SykmeldingUnderArbeidStatus.Ferdigstilt,
+                        enhetId: 'B17',
                     },
                 },
                 result: {
@@ -130,6 +132,7 @@ describe('SykmeldingForm', () => {
             const oppgave = createOppgave();
             render(<SykmeldingForm oppgave={oppgave} />);
 
+            await userEvent.clear(screen.getByRole('textbox', { name: 'Fødselsnummer (11 siffer)' }));
             await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }));
 
             const errorSection = within(
@@ -150,6 +153,7 @@ describe('SykmeldingForm', () => {
             render(<SykmeldingForm oppgave={oppgave} />);
 
             await userEvent.click(screen.getByRole('button', { name: 'Legg til bidiagnose' }));
+            await userEvent.clear(screen.getByRole('textbox', { name: 'Fødselsnummer (11 siffer)' }));
             await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }));
 
             const errorSection = within(
@@ -182,7 +186,9 @@ async function fillPasientOpplysningerSection({
 }): Promise<void> {
     const section = within(screen.getByRole('region', { name: 'Pasientopplysninger' }));
 
-    await userEvent.type(section.getByRole('textbox', { name: 'Fødselsnummer (11 siffer)' }), fnr);
+    const fodselsnummerInput = section.getByRole('textbox', { name: 'Fødselsnummer (11 siffer)' });
+    await userEvent.clear(fodselsnummerInput);
+    await userEvent.type(fodselsnummerInput, fnr);
     await userEvent.type(section.getByRole('textbox', { name: 'Datoen sykmeldingen ble skrevet' }), skrevetDato);
     await userEvent.type(section.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), land.type);
     await userEvent.click(await section.findByRole('option', { name: land.click }));

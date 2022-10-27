@@ -22,6 +22,7 @@ function AndreOpplysninger(): JSX.Element {
                 label="Sykmeldingen inneholder andre relevante opplysninger"
                 checked={field.value ?? false}
                 onChange={field.onChange}
+                onBlur={field.onBlur}
             />
         </SykmeldingSection>
     );

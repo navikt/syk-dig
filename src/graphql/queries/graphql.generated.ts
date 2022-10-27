@@ -311,6 +311,7 @@ export type Mutation = {
 };
 
 export type MutationLagreArgs = {
+    enhetId: Scalars['String'];
     oppgaveId: Scalars['String'];
     status: SykmeldingUnderArbeidStatus;
     values: SykmeldingUnderArbeidValues;
@@ -371,7 +372,6 @@ export type PeriodeValue = {
 export type Person = {
     __typename: 'Person';
     bostedsadresse?: Maybe<Bostedsadresse>;
-    fnr: Scalars['String'];
     navn?: Maybe<Scalars['String']>;
     oppholdsadresse?: Maybe<Oppholdsadresse>;
 };
@@ -393,9 +393,9 @@ export enum SykmeldingUnderArbeidStatus {
 }
 
 export type SykmeldingUnderArbeidValues = {
-    behandletTidspunkt?: InputMaybe<Scalars['String']>;
+    behandletTidspunkt?: InputMaybe<Scalars['DateTime']>;
     biDiagnoser?: InputMaybe<Array<DiagnoseInput>>;
-    fnrPasient?: InputMaybe<Scalars['String']>;
+    fnrPasient: Scalars['String'];
     harAndreRelevanteOpplysninger?: InputMaybe<Scalars['Boolean']>;
     hovedDiagnose?: InputMaybe<DiagnoseInput>;
     perioder?: InputMaybe<Array<PeriodeInput>>;
@@ -503,7 +503,6 @@ export type OppgaveFragment = {
     oppgaveId: string;
     person: {
         __typename: 'Person';
-        fnr: string;
         navn?: string | null;
         bostedsadresse?:
             | {
@@ -690,7 +689,6 @@ export type OppgaveByIdQuery = {
         oppgaveId: string;
         person: {
             __typename: 'Person';
-            fnr: string;
             navn?: string | null;
             bostedsadresse?:
                 | {
@@ -773,6 +771,7 @@ export type SaveOppgaveMutationVariables = Exact<{
     id: Scalars['String'];
     values: SykmeldingUnderArbeidValues;
     status: SykmeldingUnderArbeidStatus;
+    enhetId: Scalars['String'];
 }>;
 
 export type SaveOppgaveMutation = {
@@ -782,7 +781,6 @@ export type SaveOppgaveMutation = {
         oppgaveId: string;
         person: {
             __typename: 'Person';
-            fnr: string;
             navn?: string | null;
             bostedsadresse?:
                 | {
@@ -1172,7 +1170,6 @@ export const OppgaveFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
                                 {
                                     kind: 'Field',
@@ -1354,6 +1351,11 @@ export const SaveOppgaveDocument = {
                         type: { kind: 'NamedType', name: { kind: 'Name', value: 'SykmeldingUnderArbeidStatus' } },
                     },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'enhetId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -1376,6 +1378,11 @@ export const SaveOppgaveDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'status' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'enhetId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'enhetId' } },
                             },
                         ],
                         selectionSet: {
