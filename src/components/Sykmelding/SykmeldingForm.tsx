@@ -10,6 +10,7 @@ import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSe
 import { createDefaultValues } from './formDataUtils';
 import ActionSection, { ActionFormSectionValues } from './ActionSection/ActionSection';
 import { useHandleRegister } from './ActionSection/useHandleSave';
+import AndreOpplysninger from './AndreOpplysninger';
 
 export interface SykmeldingFormValues {
     diagnoser: DiagnoseFormSectionValues;
@@ -18,6 +19,7 @@ export interface SykmeldingFormValues {
     land: string;
     periode: Array<PeriodeFormValue>;
     action: ActionFormSectionValues;
+    harAndreRelevanteOpplysninger: boolean;
 }
 
 interface Props {
@@ -39,6 +41,7 @@ function SykmeldingForm({ oppgave }: Props): JSX.Element {
                 <Pasientopplysninger person={oppgave.person} />
                 <Sykmeldingsperiode />
                 <DiagnoseFormSection />
+                <AndreOpplysninger />
                 <Errors />
                 <ActionSection registerResult={result} />
             </form>

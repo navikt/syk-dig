@@ -44,5 +44,6 @@ export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
             },
         ],
         behandletTidspunkt: values.behandletTidspunkt,
+        harAndreRelevanteOpplysninger: values.harAndreRelevanteOpplysninger ?? false,
     };
 }

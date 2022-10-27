@@ -24,6 +24,7 @@ fragment OppgaveValues on OppgaveValues {
     biDiagnoser {
         ...Diagnose
     }
+    harAndreRelevanteOpplysninger
 }
 
 fragment Oppgave on Digitaliseringsoppgave {

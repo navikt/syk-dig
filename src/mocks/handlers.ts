@@ -36,6 +36,7 @@ export const handlers = [
         oppgave.values.hoveddiagnose = mapInputDiagnoseToOppgaveDiagnose(values.hovedDiagnose);
         oppgave.values.biDiagnoser = values.biDiagnoser?.map(mapInputDiagnoseToOppgaveDiagnose).filter(notNull);
         oppgave.values.perioder = values.perioder?.map(mapInputPeriodeToOppgavePeriode).filter(notNull);
+        oppgave.values.harAndreRelevanteOpplysninger = values.harAndreRelevanteOpplysninger;
 
         return res(ctx.delay(), ctx.data({ __typename: 'Mutation', lagre: oppgave }));
     }),

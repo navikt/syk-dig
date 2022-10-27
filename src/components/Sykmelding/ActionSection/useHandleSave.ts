@@ -66,6 +66,7 @@ function mapFormValues(formValues: SykmeldingFormValues): SykmeldingUnderArbeidV
         hovedDiagnose: mapDiagnose(formValues.diagnoser.hoveddiagnose),
         biDiagnoser: formValues.diagnoser.bidiagnoser.map(mapDiagnose).filter(notNull),
         perioder: formValues.periode.map(mapPeriode).filter(notNull),
+        harAndreRelevanteOpplysninger: formValues.harAndreRelevanteOpplysninger,
     };
 }
 
