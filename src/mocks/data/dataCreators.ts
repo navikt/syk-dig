@@ -8,7 +8,6 @@ export function createOppgave(overrides?: Partial<OppgaveFragment>): OppgaveFrag
         person: {
             __typename: 'Person',
             navn: 'Ola Nordmann',
-            fnr: '12345678910',
             bostedsadresse: {
                 __typename: 'Vegadresse',
                 adressenavn: 'Kirkegata',
@@ -28,7 +27,7 @@ export function createOppgave(overrides?: Partial<OppgaveFragment>): OppgaveFrag
         },
         values: {
             __typename: 'OppgaveValues',
-            fnrPasient: null,
+            fnrPasient: 'fnr-pasient',
             hoveddiagnose: null,
             biDiagnoser: null,
             behandletTidspunkt: null,

@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { MutationResult } from '@apollo/client';
 
 import SykmeldingSection, { SectionHeader } from '../../SykmeldingSection/SykmeldingSection';
-import { getPublicEnv } from '../../../utils/env';
+import { getPublicEnv, isLocalOrDemo } from '../../../utils/env';
 import { SykmeldingFormValues } from '../SykmeldingForm';
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated';
 
@@ -27,7 +27,7 @@ function ActionSection({ registerResult }: Props): JSX.Element {
     const { register, getValues, reset } = useFormContext<SykmeldingFormValues>();
     const [saveAndClose, saveResult] = useHandleSave({
         onCompleted: () => {
-            if (process.env.NODE_ENV === 'production') {
+            if (!isLocalOrDemo) {
                 window.location.href = publicEnv.gosysUrl;
             }
         },
@@ -51,6 +51,11 @@ function ActionSection({ registerResult }: Props): JSX.Element {
             </Button>
             <MutationResultFeedback result={registerResult}>
                 <FeedbackModal title="Sykmeldingen er registrert">
+                    {isLocalOrDemo && (
+                        <Alert className={styles.demoWarning} variant="warning">
+                            Dette er bare en demo, du kan ikke gå til gosys. Last siden på nytt for å fortsette demoen.
+                        </Alert>
+                    )}
                     <Button variant="secondary" as="a" href={publicEnv.gosysUrl}>
                         Tilbake til GOSYS
                     </Button>
@@ -78,6 +83,11 @@ function ActionSection({ registerResult }: Props): JSX.Element {
                 </div>
                 <MutationResultFeedback result={saveResult}>
                     <Alert variant="success">Oppgaven ble lagret, sender deg tilbake til GOSYS...</Alert>
+                    {isLocalOrDemo && (
+                        <Alert className={styles.demoWarning} variant="warning">
+                            Dette er bare en demo, du blir ikke sendt tilbake til GOSYS
+                        </Alert>
+                    )}
                 </MutationResultFeedback>
             </section>
         </SykmeldingSection>
@@ -90,7 +100,11 @@ function MutationResultFeedback({
 }: PropsWithChildren<{ result: MutationResult<SaveOppgaveMutation> }>): JSX.Element | null {
     if (!result.called || result.loading) return null;
 
-    return result.error ? <Alert variant="error">Kunne ikke registrere sykmeldingen</Alert> : <>{children}</>;
+    return (
+        <div className={styles.mutationResultFeedback}>
+            {result.error ? <Alert variant="error">Kunne ikke registrere sykmeldingen</Alert> : children}
+        </div>
+    );
 }
 
 export { useHandleRegister } from './useHandleSave';

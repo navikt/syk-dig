@@ -30,7 +30,6 @@ fragment OppgaveValues on OppgaveValues {
 fragment Oppgave on Digitaliseringsoppgave {
     oppgaveId
     person {
-        fnr
         navn
         bostedsadresse {
             ...Bostedsadresse

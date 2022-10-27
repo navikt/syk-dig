@@ -404,6 +404,18 @@
                                     "deprecationReason": null
                                 },
                                 {
+                                    "name": "enhetId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                },
+                                {
                                     "name": "values",
                                     "description": null,
                                     "type": {
@@ -757,18 +769,6 @@
                     "description": null,
                     "fields": [
                         {
-                            "name": "fnr",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
                             "name": "navn",
                             "description": null,
                             "args": [],
@@ -883,7 +883,11 @@
                         {
                             "name": "fnrPasient",
                             "description": null,
-                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
                             "defaultValue": null,
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -891,7 +895,7 @@
                         {
                             "name": "behandletTidspunkt",
                             "description": null,
-                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "type": { "kind": "SCALAR", "name": "DateTime", "ofType": null },
                             "defaultValue": null,
                             "isDeprecated": false,
                             "deprecationReason": null
