@@ -49,7 +49,7 @@ function ActionSection({ registerResult }: Props): JSX.Element {
             <Button type="submit" loading={registerResult.loading}>
                 Registrere og send
             </Button>
-            <MutationResultFeedback result={registerResult}>
+            <MutationResultFeedback what="registrere" result={registerResult}>
                 <FeedbackModal title="Sykmeldingen er registrert">
                     {isLocalOrDemo && (
                         <Alert className={styles.demoWarning} variant="warning">
@@ -81,7 +81,7 @@ function ActionSection({ registerResult }: Props): JSX.Element {
                         Avbryt
                     </Button>
                 </div>
-                <MutationResultFeedback result={saveResult}>
+                <MutationResultFeedback what="lagre" result={saveResult}>
                     <Alert variant="success">Oppgaven ble lagret, sender deg tilbake til GOSYS...</Alert>
                     {isLocalOrDemo && (
                         <Alert className={styles.demoWarning} variant="warning">
@@ -95,14 +95,24 @@ function ActionSection({ registerResult }: Props): JSX.Element {
 }
 
 function MutationResultFeedback({
+    what,
     result,
     children,
-}: PropsWithChildren<{ result: MutationResult<SaveOppgaveMutation> }>): JSX.Element | null {
+}: PropsWithChildren<{
+    what: 'lagre' | 'registrere';
+    result: MutationResult<SaveOppgaveMutation>;
+}>): JSX.Element | null {
     if (!result.called || result.loading) return null;
 
     return (
         <div className={styles.mutationResultFeedback}>
-            {result.error ? <Alert variant="error">Kunne ikke registrere sykmeldingen</Alert> : children}
+            {result.error ? (
+                <Alert variant="error">
+                    Kunne ikke {what} sykmeldingen. {result.error.message}
+                </Alert>
+            ) : (
+                children
+            )}
         </div>
     );
 }
