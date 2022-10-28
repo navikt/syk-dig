@@ -306,7 +306,7 @@ export type ModiaEnhet = {
 
 export type Mutation = {
     __typename: 'Mutation';
-    lagre: Digitaliseringsoppgave;
+    lagre?: Maybe<Digitaliseringsoppgave>;
     updateModiaEnhet?: Maybe<ModiaContext>;
 };
 
@@ -393,7 +393,7 @@ export enum SykmeldingUnderArbeidStatus {
 }
 
 export type SykmeldingUnderArbeidValues = {
-    behandletTidspunkt?: InputMaybe<Scalars['DateTime']>;
+    behandletTidspunkt?: InputMaybe<Scalars['Date']>;
     biDiagnoser?: InputMaybe<Array<DiagnoseInput>>;
     fnrPasient: Scalars['String'];
     harAndreRelevanteOpplysninger?: InputMaybe<Scalars['Boolean']>;
@@ -776,7 +776,7 @@ export type SaveOppgaveMutationVariables = Exact<{
 
 export type SaveOppgaveMutation = {
     __typename: 'Mutation';
-    lagre: {
+    lagre?: {
         __typename: 'Digitaliseringsoppgave';
         oppgaveId: string;
         person: {
@@ -856,7 +856,7 @@ export type SaveOppgaveMutation = {
                 system: string;
             }> | null;
         };
-    };
+    } | null;
 };
 
 export const ModiaFragmentDoc = {
