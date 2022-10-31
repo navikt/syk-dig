@@ -1,4 +1,4 @@
-import { proxiedApiRouteConfig, proxyApiRouteRequest } from '@navikt/next-api-proxy';
+import { proxyApiRouteRequest } from '@navikt/next-api-proxy';
 import { logger } from '@navikt/next-logger';
 import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall';
 
@@ -51,6 +51,11 @@ ${bearerToken}
     }
 });
 
-export const config = proxiedApiRouteConfig;
+export const config = {
+    api: {
+        bodyParser: false,
+        externalResolver: true,
+    },
+};
 
 export default handler;
