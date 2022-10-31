@@ -55,8 +55,8 @@ function HeaderText(): JSX.Element {
     }
 
     return (
-        <Link href="/" passHref>
-            <Header.Title>Digitalisering av sykmeldinger</Header.Title>
+        <Link href="/" legacyBehavior passHref>
+            <Header.Title as="a">Digitalisering av sykmeldinger</Header.Title>
         </Link>
     );
 }
