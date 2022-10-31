@@ -1,21 +1,21 @@
-import React, { PropsWithChildren, useCallback, useState } from 'react';
-import { Button, Tabs, Tooltip } from '@navikt/ds-react';
-import { FileContent, Findout, List, Task, File } from '@navikt/ds-icons';
-import cn from 'clsx';
+import React, { PropsWithChildren, useCallback, useState } from 'react'
+import { Button, Tabs, Tooltip } from '@navikt/ds-react'
+import { FileContent, Findout, List, Task, File } from '@navikt/ds-icons'
+import cn from 'clsx'
 
-import Pdf from '../Pdf/Pdf';
-import PageTitle from '../PageTitle/PageTitle';
+import Pdf from '../Pdf/Pdf'
+import PageTitle from '../PageTitle/PageTitle'
 
-import styles from './OppgaveView.module.css';
+import styles from './OppgaveView.module.css'
 
 interface Props {
-    oppgaveId: string;
+    oppgaveId: string
 }
 
 function OppgaveView({ oppgaveId, children }: PropsWithChildren<Props>): JSX.Element {
-    const [tabState, setTabState] = useState('skjema');
-    const [showTabs, setShowTabs] = useState(false);
-    const toggleTabs = useCallback(() => setShowTabs((b) => !b), []);
+    const [tabState, setTabState] = useState('skjema')
+    const [showTabs, setShowTabs] = useState(false)
+    const toggleTabs = useCallback(() => setShowTabs((b) => !b), [])
 
     return (
         <div>
@@ -40,12 +40,12 @@ function OppgaveView({ oppgaveId, children }: PropsWithChildren<Props>): JSX.Ele
                 />
             </div>
         </div>
-    );
+    )
 }
 
 interface OppgaveViewTabsProps {
-    value: string;
-    onTabChange: (value: string) => void;
+    value: string
+    onTabChange: (value: string) => void
 }
 
 function OppgaveViewTabs({ value, onTabChange }: OppgaveViewTabsProps): JSX.Element {
@@ -56,12 +56,12 @@ function OppgaveViewTabs({ value, onTabChange }: OppgaveViewTabsProps): JSX.Elem
                 <Tabs.Tab value="pdf" label="Dokument" icon={<FileContent aria-hidden />} />
             </Tabs.List>
         </Tabs>
-    );
+    )
 }
 
 interface OppgaveViewPageTitleProps {
-    showTabs: boolean;
-    toggleTabs: () => void;
+    showTabs: boolean
+    toggleTabs: () => void
 }
 
 function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProps): JSX.Element {
@@ -98,7 +98,7 @@ function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProp
                 )
             }
         />
-    );
+    )
 }
 
-export default OppgaveView;
+export default OppgaveView

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Alert, Heading } from '@navikt/ds-react';
+import React from 'react'
+import { Alert, Heading } from '@navikt/ds-react'
 
-import PageWrapper from '../components/PageWrapper/PageWrapper';
+import PageWrapper from '../components/PageWrapper/PageWrapper'
 
 function InternalServerError(): JSX.Element {
     return (
@@ -14,7 +14,7 @@ function InternalServerError(): JSX.Element {
                 fikset problemet.
             </Alert>
         </PageWrapper>
-    );
+    )
 }
 
-export default InternalServerError;
+export default InternalServerError

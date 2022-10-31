@@ -1,47 +1,47 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core'
+export type Maybe<T> = T | null
+export type InputMaybe<T> = Maybe<T>
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> }
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-    ID: string;
-    String: string;
-    Boolean: boolean;
-    Int: number;
-    Float: number;
+    ID: string
+    String: string
+    Boolean: boolean
+    Int: number
+    Float: number
     /** An RFC-3339 compliant Full Date Scalar */
-    Date: string;
+    Date: string
     /** An RFC-3339 compliant DateTime Scalar */
-    DateTime: string;
+    DateTime: string
     /** A universally unique identifier compliant UUID Scalar */
-    UUID: any;
-    _FieldSet: any;
-};
+    UUID: any
+    _FieldSet: any
+}
 
-export type Bostedsadresse = Matrikkeladresse | UkjentBosted | UtenlandskAdresse | Vegadresse;
+export type Bostedsadresse = Matrikkeladresse | UkjentBosted | UtenlandskAdresse | Vegadresse
 
 export type DiagnoseInput = {
-    kode: Scalars['String'];
-    system: Scalars['String'];
-};
+    kode: Scalars['String']
+    system: Scalars['String']
+}
 
 export type DiagnoseValue = {
-    __typename: 'DiagnoseValue';
-    kode: Scalars['String'];
-    system: Scalars['String'];
-    tekst?: Maybe<Scalars['String']>;
-};
+    __typename: 'DiagnoseValue'
+    kode: Scalars['String']
+    system: Scalars['String']
+    tekst?: Maybe<Scalars['String']>
+}
 
 export type Digitaliseringsoppgave = {
-    __typename: 'Digitaliseringsoppgave';
-    oppgaveId: Scalars['String'];
-    person: Person;
-    type: SykmeldingsType;
-    values: OppgaveValues;
-};
+    __typename: 'Digitaliseringsoppgave'
+    oppgaveId: Scalars['String']
+    person: Person
+    type: SykmeldingsType
+    values: OppgaveValues
+}
 
 export enum ErrorDetail {
     /**
@@ -283,75 +283,75 @@ export enum ErrorType {
 }
 
 export type Matrikkeladresse = {
-    __typename: 'Matrikkeladresse';
-    bruksenhetsnummer?: Maybe<Scalars['String']>;
-    postnummer?: Maybe<Scalars['String']>;
-    poststed?: Maybe<Scalars['String']>;
-    tilleggsnavn?: Maybe<Scalars['String']>;
-};
+    __typename: 'Matrikkeladresse'
+    bruksenhetsnummer?: Maybe<Scalars['String']>
+    postnummer?: Maybe<Scalars['String']>
+    poststed?: Maybe<Scalars['String']>
+    tilleggsnavn?: Maybe<Scalars['String']>
+}
 
 export type ModiaContext = {
-    __typename: 'ModiaContext';
-    aktivEnhet?: Maybe<Scalars['String']>;
-    enheter: Array<ModiaEnhet>;
-    ident: Scalars['String'];
-    navn: Scalars['String'];
-};
+    __typename: 'ModiaContext'
+    aktivEnhet?: Maybe<Scalars['String']>
+    enheter: Array<ModiaEnhet>
+    ident: Scalars['String']
+    navn: Scalars['String']
+}
 
 export type ModiaEnhet = {
-    __typename: 'ModiaEnhet';
-    enhetId: Scalars['String'];
-    navn: Scalars['String'];
-};
+    __typename: 'ModiaEnhet'
+    enhetId: Scalars['String']
+    navn: Scalars['String']
+}
 
 export type Mutation = {
-    __typename: 'Mutation';
-    lagre?: Maybe<Digitaliseringsoppgave>;
-    updateModiaEnhet?: Maybe<ModiaContext>;
-};
+    __typename: 'Mutation'
+    lagre?: Maybe<Digitaliseringsoppgave>
+    updateModiaEnhet?: Maybe<ModiaContext>
+}
 
 export type MutationLagreArgs = {
-    enhetId: Scalars['String'];
-    oppgaveId: Scalars['String'];
-    status: SykmeldingUnderArbeidStatus;
-    values: SykmeldingUnderArbeidValues;
-};
+    enhetId: Scalars['String']
+    oppgaveId: Scalars['String']
+    status: SykmeldingUnderArbeidStatus
+    values: SykmeldingUnderArbeidValues
+}
 
 export type MutationUpdateModiaEnhetArgs = {
-    enhetId: Scalars['String'];
-};
+    enhetId: Scalars['String']
+}
 
 export type Navn = {
-    __typename: 'Navn';
-    etternavn: Scalars['String'];
-    fornavn: Scalars['String'];
-    mellomnavn?: Maybe<Scalars['String']>;
-};
+    __typename: 'Navn'
+    etternavn: Scalars['String']
+    fornavn: Scalars['String']
+    mellomnavn?: Maybe<Scalars['String']>
+}
 
 export type OppgaveValues = {
-    __typename: 'OppgaveValues';
-    behandletTidspunkt?: Maybe<Scalars['DateTime']>;
-    biDiagnoser?: Maybe<Array<DiagnoseValue>>;
-    fnrPasient?: Maybe<Scalars['String']>;
-    harAndreRelevanteOpplysninger?: Maybe<Scalars['Boolean']>;
-    hoveddiagnose?: Maybe<DiagnoseValue>;
-    perioder?: Maybe<Array<PeriodeValue>>;
-    skrevetLand?: Maybe<Scalars['String']>;
-};
+    __typename: 'OppgaveValues'
+    behandletTidspunkt?: Maybe<Scalars['DateTime']>
+    biDiagnoser?: Maybe<Array<DiagnoseValue>>
+    fnrPasient?: Maybe<Scalars['String']>
+    harAndreRelevanteOpplysninger?: Maybe<Scalars['Boolean']>
+    hoveddiagnose?: Maybe<DiagnoseValue>
+    perioder?: Maybe<Array<PeriodeValue>>
+    skrevetLand?: Maybe<Scalars['String']>
+}
 
 export type OppholdAnnetSted = {
-    __typename: 'OppholdAnnetSted';
-    type?: Maybe<Scalars['String']>;
-};
+    __typename: 'OppholdAnnetSted'
+    type?: Maybe<Scalars['String']>
+}
 
-export type Oppholdsadresse = Matrikkeladresse | OppholdAnnetSted | UtenlandskAdresse | Vegadresse;
+export type Oppholdsadresse = Matrikkeladresse | OppholdAnnetSted | UtenlandskAdresse | Vegadresse
 
 export type PeriodeInput = {
-    fom: Scalars['Date'];
-    grad?: InputMaybe<Scalars['Int']>;
-    tom: Scalars['Date'];
-    type: PeriodeType;
-};
+    fom: Scalars['Date']
+    grad?: InputMaybe<Scalars['Int']>
+    tom: Scalars['Date']
+    type: PeriodeType
+}
 
 export enum PeriodeType {
     AktivitetIkkeMulig = 'AKTIVITET_IKKE_MULIG',
@@ -362,30 +362,30 @@ export enum PeriodeType {
 }
 
 export type PeriodeValue = {
-    __typename: 'PeriodeValue';
-    fom: Scalars['Date'];
-    grad?: Maybe<Scalars['Int']>;
-    tom: Scalars['Date'];
-    type: PeriodeType;
-};
+    __typename: 'PeriodeValue'
+    fom: Scalars['Date']
+    grad?: Maybe<Scalars['Int']>
+    tom: Scalars['Date']
+    type: PeriodeType
+}
 
 export type Person = {
-    __typename: 'Person';
-    bostedsadresse?: Maybe<Bostedsadresse>;
-    navn?: Maybe<Scalars['String']>;
-    oppholdsadresse?: Maybe<Oppholdsadresse>;
-};
+    __typename: 'Person'
+    bostedsadresse?: Maybe<Bostedsadresse>
+    navn?: Maybe<Scalars['String']>
+    oppholdsadresse?: Maybe<Oppholdsadresse>
+}
 
 export type Query = {
-    __typename: 'Query';
-    _service: _Service;
-    modia?: Maybe<ModiaContext>;
-    oppgave: Digitaliseringsoppgave;
-};
+    __typename: 'Query'
+    _service: _Service
+    modia?: Maybe<ModiaContext>
+    oppgave: Digitaliseringsoppgave
+}
 
 export type QueryOppgaveArgs = {
-    oppgaveId: Scalars['String'];
-};
+    oppgaveId: Scalars['String']
+}
 
 export enum SykmeldingUnderArbeidStatus {
     Ferdigstilt = 'FERDIGSTILT',
@@ -393,14 +393,14 @@ export enum SykmeldingUnderArbeidStatus {
 }
 
 export type SykmeldingUnderArbeidValues = {
-    behandletTidspunkt?: InputMaybe<Scalars['Date']>;
-    biDiagnoser?: InputMaybe<Array<DiagnoseInput>>;
-    fnrPasient: Scalars['String'];
-    harAndreRelevanteOpplysninger?: InputMaybe<Scalars['Boolean']>;
-    hovedDiagnose?: InputMaybe<DiagnoseInput>;
-    perioder?: InputMaybe<Array<PeriodeInput>>;
-    skrevetLand?: InputMaybe<Scalars['String']>;
-};
+    behandletTidspunkt?: InputMaybe<Scalars['Date']>
+    biDiagnoser?: InputMaybe<Array<DiagnoseInput>>
+    fnrPasient: Scalars['String']
+    harAndreRelevanteOpplysninger?: InputMaybe<Scalars['Boolean']>
+    hovedDiagnose?: InputMaybe<DiagnoseInput>
+    perioder?: InputMaybe<Array<PeriodeInput>>
+    skrevetLand?: InputMaybe<Scalars['String']>
+}
 
 export enum SykmeldingsType {
     Innenlands = 'INNENLANDS',
@@ -408,456 +408,456 @@ export enum SykmeldingsType {
 }
 
 export type UkjentBosted = {
-    __typename: 'UkjentBosted';
-    bostedskommune?: Maybe<Scalars['String']>;
-};
+    __typename: 'UkjentBosted'
+    bostedskommune?: Maybe<Scalars['String']>
+}
 
 export type UtenlandskAdresse = {
-    __typename: 'UtenlandskAdresse';
-    adressenavnNummer?: Maybe<Scalars['String']>;
-    bySted?: Maybe<Scalars['String']>;
-    landkode: Scalars['String'];
-    postboksNummerNavn?: Maybe<Scalars['String']>;
-    postkode?: Maybe<Scalars['String']>;
-};
+    __typename: 'UtenlandskAdresse'
+    adressenavnNummer?: Maybe<Scalars['String']>
+    bySted?: Maybe<Scalars['String']>
+    landkode: Scalars['String']
+    postboksNummerNavn?: Maybe<Scalars['String']>
+    postkode?: Maybe<Scalars['String']>
+}
 
 export type Vegadresse = {
-    __typename: 'Vegadresse';
-    adressenavn?: Maybe<Scalars['String']>;
-    husbokstav?: Maybe<Scalars['String']>;
-    husnummer?: Maybe<Scalars['String']>;
-    postnummer?: Maybe<Scalars['String']>;
-    poststed?: Maybe<Scalars['String']>;
-};
+    __typename: 'Vegadresse'
+    adressenavn?: Maybe<Scalars['String']>
+    husbokstav?: Maybe<Scalars['String']>
+    husnummer?: Maybe<Scalars['String']>
+    postnummer?: Maybe<Scalars['String']>
+    poststed?: Maybe<Scalars['String']>
+}
 
 export type _Service = {
-    __typename: '_Service';
-    sdl: Scalars['String'];
-};
+    __typename: '_Service'
+    sdl: Scalars['String']
+}
 
 export type ModiaFragment = {
-    __typename: 'ModiaContext';
-    navn: string;
-    aktivEnhet?: string | null;
-    ident: string;
-    enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>;
-};
+    __typename: 'ModiaContext'
+    navn: string
+    aktivEnhet?: string | null
+    ident: string
+    enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>
+}
 
-export type ModiaContextQueryVariables = Exact<{ [key: string]: never }>;
+export type ModiaContextQueryVariables = Exact<{ [key: string]: never }>
 
 export type ModiaContextQuery = {
-    __typename: 'Query';
+    __typename: 'Query'
     modia?: {
-        __typename: 'ModiaContext';
-        navn: string;
-        aktivEnhet?: string | null;
-        ident: string;
-        enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>;
-    } | null;
-};
+        __typename: 'ModiaContext'
+        navn: string
+        aktivEnhet?: string | null
+        ident: string
+        enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>
+    } | null
+}
 
 export type UpdateAktivEnhetMutationVariables = Exact<{
-    enhetId: Scalars['String'];
-}>;
+    enhetId: Scalars['String']
+}>
 
 export type UpdateAktivEnhetMutation = {
-    __typename: 'Mutation';
+    __typename: 'Mutation'
     updateModiaEnhet?: {
-        __typename: 'ModiaContext';
-        navn: string;
-        aktivEnhet?: string | null;
-        ident: string;
-        enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>;
-    } | null;
-};
+        __typename: 'ModiaContext'
+        navn: string
+        aktivEnhet?: string | null
+        ident: string
+        enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>
+    } | null
+}
 
 export type PeriodeFragment = {
-    __typename: 'PeriodeValue';
-    fom: string;
-    tom: string;
-    type: PeriodeType;
-    grad?: number | null;
-};
+    __typename: 'PeriodeValue'
+    fom: string
+    tom: string
+    type: PeriodeType
+    grad?: number | null
+}
 
-export type DiagnoseFragment = { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string };
+export type DiagnoseFragment = { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string }
 
 export type OppgaveValuesFragment = {
-    __typename: 'OppgaveValues';
-    fnrPasient?: string | null;
-    behandletTidspunkt?: string | null;
-    skrevetLand?: string | null;
-    harAndreRelevanteOpplysninger?: boolean | null;
+    __typename: 'OppgaveValues'
+    fnrPasient?: string | null
+    behandletTidspunkt?: string | null
+    skrevetLand?: string | null
+    harAndreRelevanteOpplysninger?: boolean | null
     perioder?: Array<{
-        __typename: 'PeriodeValue';
-        fom: string;
-        tom: string;
-        type: PeriodeType;
-        grad?: number | null;
-    }> | null;
-    hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
-    biDiagnoser?: Array<{ __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string }> | null;
-};
+        __typename: 'PeriodeValue'
+        fom: string
+        tom: string
+        type: PeriodeType
+        grad?: number | null
+    }> | null
+    hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
+    biDiagnoser?: Array<{ __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string }> | null
+}
 
 export type OppgaveFragment = {
-    __typename: 'Digitaliseringsoppgave';
-    oppgaveId: string;
+    __typename: 'Digitaliseringsoppgave'
+    oppgaveId: string
     person: {
-        __typename: 'Person';
-        navn?: string | null;
+        __typename: 'Person'
+        navn?: string | null
         bostedsadresse?:
             | {
-                  __typename: 'Matrikkeladresse';
-                  bruksenhetsnummer?: string | null;
-                  postnummer?: string | null;
-                  poststed?: string | null;
-                  tilleggsnavn?: string | null;
+                  __typename: 'Matrikkeladresse'
+                  bruksenhetsnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+                  tilleggsnavn?: string | null
               }
             | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
             | {
-                  __typename: 'UtenlandskAdresse';
-                  adressenavnNummer?: string | null;
-                  bySted?: string | null;
-                  landkode: string;
-                  postboksNummerNavn?: string | null;
-                  postkode?: string | null;
+                  __typename: 'UtenlandskAdresse'
+                  adressenavnNummer?: string | null
+                  bySted?: string | null
+                  landkode: string
+                  postboksNummerNavn?: string | null
+                  postkode?: string | null
               }
             | {
-                  __typename: 'Vegadresse';
-                  adressenavn?: string | null;
-                  husbokstav?: string | null;
-                  husnummer?: string | null;
-                  postnummer?: string | null;
-                  poststed?: string | null;
+                  __typename: 'Vegadresse'
+                  adressenavn?: string | null
+                  husbokstav?: string | null
+                  husnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
               }
-            | null;
+            | null
         oppholdsadresse?:
             | {
-                  __typename: 'Matrikkeladresse';
-                  bruksenhetsnummer?: string | null;
-                  postnummer?: string | null;
-                  poststed?: string | null;
-                  tilleggsnavn?: string | null;
+                  __typename: 'Matrikkeladresse'
+                  bruksenhetsnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+                  tilleggsnavn?: string | null
               }
             | { __typename: 'OppholdAnnetSted'; type?: string | null }
             | {
-                  __typename: 'UtenlandskAdresse';
-                  adressenavnNummer?: string | null;
-                  bySted?: string | null;
-                  landkode: string;
-                  postboksNummerNavn?: string | null;
-                  postkode?: string | null;
+                  __typename: 'UtenlandskAdresse'
+                  adressenavnNummer?: string | null
+                  bySted?: string | null
+                  landkode: string
+                  postboksNummerNavn?: string | null
+                  postkode?: string | null
               }
             | {
-                  __typename: 'Vegadresse';
-                  adressenavn?: string | null;
-                  husbokstav?: string | null;
-                  husnummer?: string | null;
-                  postnummer?: string | null;
-                  poststed?: string | null;
+                  __typename: 'Vegadresse'
+                  adressenavn?: string | null
+                  husbokstav?: string | null
+                  husnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
               }
-            | null;
-    };
+            | null
+    }
     values: {
-        __typename: 'OppgaveValues';
-        fnrPasient?: string | null;
-        behandletTidspunkt?: string | null;
-        skrevetLand?: string | null;
-        harAndreRelevanteOpplysninger?: boolean | null;
+        __typename: 'OppgaveValues'
+        fnrPasient?: string | null
+        behandletTidspunkt?: string | null
+        skrevetLand?: string | null
+        harAndreRelevanteOpplysninger?: boolean | null
         perioder?: Array<{
-            __typename: 'PeriodeValue';
-            fom: string;
-            tom: string;
-            type: PeriodeType;
-            grad?: number | null;
-        }> | null;
-        hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
+            __typename: 'PeriodeValue'
+            fom: string
+            tom: string
+            type: PeriodeType
+            grad?: number | null
+        }> | null
+        hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
         biDiagnoser?: Array<{
-            __typename: 'DiagnoseValue';
-            kode: string;
-            tekst?: string | null;
-            system: string;
-        }> | null;
-    };
-};
+            __typename: 'DiagnoseValue'
+            kode: string
+            tekst?: string | null
+            system: string
+        }> | null
+    }
+}
 
 export type Bostedsadresse_Matrikkeladresse_Fragment = {
-    __typename: 'Matrikkeladresse';
-    bruksenhetsnummer?: string | null;
-    postnummer?: string | null;
-    poststed?: string | null;
-    tilleggsnavn?: string | null;
-};
+    __typename: 'Matrikkeladresse'
+    bruksenhetsnummer?: string | null
+    postnummer?: string | null
+    poststed?: string | null
+    tilleggsnavn?: string | null
+}
 
-export type Bostedsadresse_UkjentBosted_Fragment = { __typename: 'UkjentBosted'; bostedskommune?: string | null };
+export type Bostedsadresse_UkjentBosted_Fragment = { __typename: 'UkjentBosted'; bostedskommune?: string | null }
 
 export type Bostedsadresse_UtenlandskAdresse_Fragment = {
-    __typename: 'UtenlandskAdresse';
-    adressenavnNummer?: string | null;
-    bySted?: string | null;
-    landkode: string;
-    postboksNummerNavn?: string | null;
-    postkode?: string | null;
-};
+    __typename: 'UtenlandskAdresse'
+    adressenavnNummer?: string | null
+    bySted?: string | null
+    landkode: string
+    postboksNummerNavn?: string | null
+    postkode?: string | null
+}
 
 export type Bostedsadresse_Vegadresse_Fragment = {
-    __typename: 'Vegadresse';
-    adressenavn?: string | null;
-    husbokstav?: string | null;
-    husnummer?: string | null;
-    postnummer?: string | null;
-    poststed?: string | null;
-};
+    __typename: 'Vegadresse'
+    adressenavn?: string | null
+    husbokstav?: string | null
+    husnummer?: string | null
+    postnummer?: string | null
+    poststed?: string | null
+}
 
 export type BostedsadresseFragment =
     | Bostedsadresse_Matrikkeladresse_Fragment
     | Bostedsadresse_UkjentBosted_Fragment
     | Bostedsadresse_UtenlandskAdresse_Fragment
-    | Bostedsadresse_Vegadresse_Fragment;
+    | Bostedsadresse_Vegadresse_Fragment
 
 export type Oppholdsadresse_Matrikkeladresse_Fragment = {
-    __typename: 'Matrikkeladresse';
-    bruksenhetsnummer?: string | null;
-    postnummer?: string | null;
-    poststed?: string | null;
-    tilleggsnavn?: string | null;
-};
+    __typename: 'Matrikkeladresse'
+    bruksenhetsnummer?: string | null
+    postnummer?: string | null
+    poststed?: string | null
+    tilleggsnavn?: string | null
+}
 
-export type Oppholdsadresse_OppholdAnnetSted_Fragment = { __typename: 'OppholdAnnetSted'; type?: string | null };
+export type Oppholdsadresse_OppholdAnnetSted_Fragment = { __typename: 'OppholdAnnetSted'; type?: string | null }
 
 export type Oppholdsadresse_UtenlandskAdresse_Fragment = {
-    __typename: 'UtenlandskAdresse';
-    adressenavnNummer?: string | null;
-    bySted?: string | null;
-    landkode: string;
-    postboksNummerNavn?: string | null;
-    postkode?: string | null;
-};
+    __typename: 'UtenlandskAdresse'
+    adressenavnNummer?: string | null
+    bySted?: string | null
+    landkode: string
+    postboksNummerNavn?: string | null
+    postkode?: string | null
+}
 
 export type Oppholdsadresse_Vegadresse_Fragment = {
-    __typename: 'Vegadresse';
-    adressenavn?: string | null;
-    husbokstav?: string | null;
-    husnummer?: string | null;
-    postnummer?: string | null;
-    poststed?: string | null;
-};
+    __typename: 'Vegadresse'
+    adressenavn?: string | null
+    husbokstav?: string | null
+    husnummer?: string | null
+    postnummer?: string | null
+    poststed?: string | null
+}
 
 export type OppholdsadresseFragment =
     | Oppholdsadresse_Matrikkeladresse_Fragment
     | Oppholdsadresse_OppholdAnnetSted_Fragment
     | Oppholdsadresse_UtenlandskAdresse_Fragment
-    | Oppholdsadresse_Vegadresse_Fragment;
+    | Oppholdsadresse_Vegadresse_Fragment
 
 export type MatrikkeladresseFragment = {
-    __typename: 'Matrikkeladresse';
-    bruksenhetsnummer?: string | null;
-    postnummer?: string | null;
-    poststed?: string | null;
-    tilleggsnavn?: string | null;
-};
+    __typename: 'Matrikkeladresse'
+    bruksenhetsnummer?: string | null
+    postnummer?: string | null
+    poststed?: string | null
+    tilleggsnavn?: string | null
+}
 
-export type UkjentBostedFragment = { __typename: 'UkjentBosted'; bostedskommune?: string | null };
+export type UkjentBostedFragment = { __typename: 'UkjentBosted'; bostedskommune?: string | null }
 
 export type UtenlandskAdresseFragment = {
-    __typename: 'UtenlandskAdresse';
-    adressenavnNummer?: string | null;
-    bySted?: string | null;
-    landkode: string;
-    postboksNummerNavn?: string | null;
-    postkode?: string | null;
-};
+    __typename: 'UtenlandskAdresse'
+    adressenavnNummer?: string | null
+    bySted?: string | null
+    landkode: string
+    postboksNummerNavn?: string | null
+    postkode?: string | null
+}
 
 export type VegadresseFragment = {
-    __typename: 'Vegadresse';
-    adressenavn?: string | null;
-    husbokstav?: string | null;
-    husnummer?: string | null;
-    postnummer?: string | null;
-    poststed?: string | null;
-};
+    __typename: 'Vegadresse'
+    adressenavn?: string | null
+    husbokstav?: string | null
+    husnummer?: string | null
+    postnummer?: string | null
+    poststed?: string | null
+}
 
-export type OppholdAnnetFragment = { __typename: 'OppholdAnnetSted'; type?: string | null };
+export type OppholdAnnetFragment = { __typename: 'OppholdAnnetSted'; type?: string | null }
 
 export type OppgaveByIdQueryVariables = Exact<{
-    oppgaveId: Scalars['String'];
-}>;
+    oppgaveId: Scalars['String']
+}>
 
 export type OppgaveByIdQuery = {
-    __typename: 'Query';
+    __typename: 'Query'
     oppgave: {
-        __typename: 'Digitaliseringsoppgave';
-        oppgaveId: string;
+        __typename: 'Digitaliseringsoppgave'
+        oppgaveId: string
         person: {
-            __typename: 'Person';
-            navn?: string | null;
+            __typename: 'Person'
+            navn?: string | null
             bostedsadresse?:
                 | {
-                      __typename: 'Matrikkeladresse';
-                      bruksenhetsnummer?: string | null;
-                      postnummer?: string | null;
-                      poststed?: string | null;
-                      tilleggsnavn?: string | null;
+                      __typename: 'Matrikkeladresse'
+                      bruksenhetsnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
+                      tilleggsnavn?: string | null
                   }
                 | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
                 | {
-                      __typename: 'UtenlandskAdresse';
-                      adressenavnNummer?: string | null;
-                      bySted?: string | null;
-                      landkode: string;
-                      postboksNummerNavn?: string | null;
-                      postkode?: string | null;
+                      __typename: 'UtenlandskAdresse'
+                      adressenavnNummer?: string | null
+                      bySted?: string | null
+                      landkode: string
+                      postboksNummerNavn?: string | null
+                      postkode?: string | null
                   }
                 | {
-                      __typename: 'Vegadresse';
-                      adressenavn?: string | null;
-                      husbokstav?: string | null;
-                      husnummer?: string | null;
-                      postnummer?: string | null;
-                      poststed?: string | null;
+                      __typename: 'Vegadresse'
+                      adressenavn?: string | null
+                      husbokstav?: string | null
+                      husnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
                   }
-                | null;
+                | null
             oppholdsadresse?:
                 | {
-                      __typename: 'Matrikkeladresse';
-                      bruksenhetsnummer?: string | null;
-                      postnummer?: string | null;
-                      poststed?: string | null;
-                      tilleggsnavn?: string | null;
+                      __typename: 'Matrikkeladresse'
+                      bruksenhetsnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
+                      tilleggsnavn?: string | null
                   }
                 | { __typename: 'OppholdAnnetSted'; type?: string | null }
                 | {
-                      __typename: 'UtenlandskAdresse';
-                      adressenavnNummer?: string | null;
-                      bySted?: string | null;
-                      landkode: string;
-                      postboksNummerNavn?: string | null;
-                      postkode?: string | null;
+                      __typename: 'UtenlandskAdresse'
+                      adressenavnNummer?: string | null
+                      bySted?: string | null
+                      landkode: string
+                      postboksNummerNavn?: string | null
+                      postkode?: string | null
                   }
                 | {
-                      __typename: 'Vegadresse';
-                      adressenavn?: string | null;
-                      husbokstav?: string | null;
-                      husnummer?: string | null;
-                      postnummer?: string | null;
-                      poststed?: string | null;
+                      __typename: 'Vegadresse'
+                      adressenavn?: string | null
+                      husbokstav?: string | null
+                      husnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
                   }
-                | null;
-        };
+                | null
+        }
         values: {
-            __typename: 'OppgaveValues';
-            fnrPasient?: string | null;
-            behandletTidspunkt?: string | null;
-            skrevetLand?: string | null;
-            harAndreRelevanteOpplysninger?: boolean | null;
+            __typename: 'OppgaveValues'
+            fnrPasient?: string | null
+            behandletTidspunkt?: string | null
+            skrevetLand?: string | null
+            harAndreRelevanteOpplysninger?: boolean | null
             perioder?: Array<{
-                __typename: 'PeriodeValue';
-                fom: string;
-                tom: string;
-                type: PeriodeType;
-                grad?: number | null;
-            }> | null;
-            hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
+                __typename: 'PeriodeValue'
+                fom: string
+                tom: string
+                type: PeriodeType
+                grad?: number | null
+            }> | null
+            hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
             biDiagnoser?: Array<{
-                __typename: 'DiagnoseValue';
-                kode: string;
-                tekst?: string | null;
-                system: string;
-            }> | null;
-        };
-    };
-};
+                __typename: 'DiagnoseValue'
+                kode: string
+                tekst?: string | null
+                system: string
+            }> | null
+        }
+    }
+}
 
 export type SaveOppgaveMutationVariables = Exact<{
-    id: Scalars['String'];
-    values: SykmeldingUnderArbeidValues;
-    status: SykmeldingUnderArbeidStatus;
-    enhetId: Scalars['String'];
-}>;
+    id: Scalars['String']
+    values: SykmeldingUnderArbeidValues
+    status: SykmeldingUnderArbeidStatus
+    enhetId: Scalars['String']
+}>
 
 export type SaveOppgaveMutation = {
-    __typename: 'Mutation';
+    __typename: 'Mutation'
     lagre?: {
-        __typename: 'Digitaliseringsoppgave';
-        oppgaveId: string;
+        __typename: 'Digitaliseringsoppgave'
+        oppgaveId: string
         person: {
-            __typename: 'Person';
-            navn?: string | null;
+            __typename: 'Person'
+            navn?: string | null
             bostedsadresse?:
                 | {
-                      __typename: 'Matrikkeladresse';
-                      bruksenhetsnummer?: string | null;
-                      postnummer?: string | null;
-                      poststed?: string | null;
-                      tilleggsnavn?: string | null;
+                      __typename: 'Matrikkeladresse'
+                      bruksenhetsnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
+                      tilleggsnavn?: string | null
                   }
                 | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
                 | {
-                      __typename: 'UtenlandskAdresse';
-                      adressenavnNummer?: string | null;
-                      bySted?: string | null;
-                      landkode: string;
-                      postboksNummerNavn?: string | null;
-                      postkode?: string | null;
+                      __typename: 'UtenlandskAdresse'
+                      adressenavnNummer?: string | null
+                      bySted?: string | null
+                      landkode: string
+                      postboksNummerNavn?: string | null
+                      postkode?: string | null
                   }
                 | {
-                      __typename: 'Vegadresse';
-                      adressenavn?: string | null;
-                      husbokstav?: string | null;
-                      husnummer?: string | null;
-                      postnummer?: string | null;
-                      poststed?: string | null;
+                      __typename: 'Vegadresse'
+                      adressenavn?: string | null
+                      husbokstav?: string | null
+                      husnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
                   }
-                | null;
+                | null
             oppholdsadresse?:
                 | {
-                      __typename: 'Matrikkeladresse';
-                      bruksenhetsnummer?: string | null;
-                      postnummer?: string | null;
-                      poststed?: string | null;
-                      tilleggsnavn?: string | null;
+                      __typename: 'Matrikkeladresse'
+                      bruksenhetsnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
+                      tilleggsnavn?: string | null
                   }
                 | { __typename: 'OppholdAnnetSted'; type?: string | null }
                 | {
-                      __typename: 'UtenlandskAdresse';
-                      adressenavnNummer?: string | null;
-                      bySted?: string | null;
-                      landkode: string;
-                      postboksNummerNavn?: string | null;
-                      postkode?: string | null;
+                      __typename: 'UtenlandskAdresse'
+                      adressenavnNummer?: string | null
+                      bySted?: string | null
+                      landkode: string
+                      postboksNummerNavn?: string | null
+                      postkode?: string | null
                   }
                 | {
-                      __typename: 'Vegadresse';
-                      adressenavn?: string | null;
-                      husbokstav?: string | null;
-                      husnummer?: string | null;
-                      postnummer?: string | null;
-                      poststed?: string | null;
+                      __typename: 'Vegadresse'
+                      adressenavn?: string | null
+                      husbokstav?: string | null
+                      husnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
                   }
-                | null;
-        };
+                | null
+        }
         values: {
-            __typename: 'OppgaveValues';
-            fnrPasient?: string | null;
-            behandletTidspunkt?: string | null;
-            skrevetLand?: string | null;
-            harAndreRelevanteOpplysninger?: boolean | null;
+            __typename: 'OppgaveValues'
+            fnrPasient?: string | null
+            behandletTidspunkt?: string | null
+            skrevetLand?: string | null
+            harAndreRelevanteOpplysninger?: boolean | null
             perioder?: Array<{
-                __typename: 'PeriodeValue';
-                fom: string;
-                tom: string;
-                type: PeriodeType;
-                grad?: number | null;
-            }> | null;
-            hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null;
+                __typename: 'PeriodeValue'
+                fom: string
+                tom: string
+                type: PeriodeType
+                grad?: number | null
+            }> | null
+            hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
             biDiagnoser?: Array<{
-                __typename: 'DiagnoseValue';
-                kode: string;
-                tekst?: string | null;
-                system: string;
-            }> | null;
-        };
-    } | null;
-};
+                __typename: 'DiagnoseValue'
+                kode: string
+                tekst?: string | null
+                system: string
+            }> | null
+        }
+    } | null
+}
 
 export const ModiaFragmentDoc = {
     kind: 'Document',
@@ -887,7 +887,7 @@ export const ModiaFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<ModiaFragment, unknown>;
+} as unknown as DocumentNode<ModiaFragment, unknown>
 export const VegadresseFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -907,7 +907,7 @@ export const VegadresseFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<VegadresseFragment, unknown>;
+} as unknown as DocumentNode<VegadresseFragment, unknown>
 export const MatrikkeladresseFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -926,7 +926,7 @@ export const MatrikkeladresseFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<MatrikkeladresseFragment, unknown>;
+} as unknown as DocumentNode<MatrikkeladresseFragment, unknown>
 export const UtenlandskAdresseFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -946,7 +946,7 @@ export const UtenlandskAdresseFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<UtenlandskAdresseFragment, unknown>;
+} as unknown as DocumentNode<UtenlandskAdresseFragment, unknown>
 export const UkjentBostedFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -960,7 +960,7 @@ export const UkjentBostedFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<UkjentBostedFragment, unknown>;
+} as unknown as DocumentNode<UkjentBostedFragment, unknown>
 export const BostedsadresseFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -1009,7 +1009,7 @@ export const BostedsadresseFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<BostedsadresseFragment, unknown>;
+} as unknown as DocumentNode<BostedsadresseFragment, unknown>
 export const OppholdAnnetFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -1023,7 +1023,7 @@ export const OppholdAnnetFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<OppholdAnnetFragment, unknown>;
+} as unknown as DocumentNode<OppholdAnnetFragment, unknown>
 export const OppholdsadresseFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -1072,7 +1072,7 @@ export const OppholdsadresseFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<OppholdsadresseFragment, unknown>;
+} as unknown as DocumentNode<OppholdsadresseFragment, unknown>
 export const PeriodeFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -1091,7 +1091,7 @@ export const PeriodeFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<PeriodeFragment, unknown>;
+} as unknown as DocumentNode<PeriodeFragment, unknown>
 export const DiagnoseFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -1109,7 +1109,7 @@ export const DiagnoseFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<DiagnoseFragment, unknown>;
+} as unknown as DocumentNode<DiagnoseFragment, unknown>
 export const OppgaveValuesFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -1152,7 +1152,7 @@ export const OppgaveValuesFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<OppgaveValuesFragment, unknown>;
+} as unknown as DocumentNode<OppgaveValuesFragment, unknown>
 export const OppgaveFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -1209,7 +1209,7 @@ export const OppgaveFragmentDoc = {
             },
         },
     ],
-} as unknown as DocumentNode<OppgaveFragment, unknown>;
+} as unknown as DocumentNode<OppgaveFragment, unknown>
 export const ModiaContextDocument = {
     kind: 'Document',
     definitions: [
@@ -1234,7 +1234,7 @@ export const ModiaContextDocument = {
         },
         ...ModiaFragmentDoc.definitions,
     ],
-} as unknown as DocumentNode<ModiaContextQuery, ModiaContextQueryVariables>;
+} as unknown as DocumentNode<ModiaContextQuery, ModiaContextQueryVariables>
 export const UpdateAktivEnhetDocument = {
     kind: 'Document',
     definitions: [
@@ -1273,7 +1273,7 @@ export const UpdateAktivEnhetDocument = {
         },
         ...ModiaFragmentDoc.definitions,
     ],
-} as unknown as DocumentNode<UpdateAktivEnhetMutation, UpdateAktivEnhetMutationVariables>;
+} as unknown as DocumentNode<UpdateAktivEnhetMutation, UpdateAktivEnhetMutationVariables>
 export const OppgaveByIdDocument = {
     kind: 'Document',
     definitions: [
@@ -1321,7 +1321,7 @@ export const OppgaveByIdDocument = {
         ...PeriodeFragmentDoc.definitions,
         ...DiagnoseFragmentDoc.definitions,
     ],
-} as unknown as DocumentNode<OppgaveByIdQuery, OppgaveByIdQueryVariables>;
+} as unknown as DocumentNode<OppgaveByIdQuery, OppgaveByIdQueryVariables>
 export const SaveOppgaveDocument = {
     kind: 'Document',
     definitions: [
@@ -1405,4 +1405,4 @@ export const SaveOppgaveDocument = {
         ...PeriodeFragmentDoc.definitions,
         ...DiagnoseFragmentDoc.definitions,
     ],
-} as unknown as DocumentNode<SaveOppgaveMutation, SaveOppgaveMutationVariables>;
+} as unknown as DocumentNode<SaveOppgaveMutation, SaveOppgaveMutationVariables>

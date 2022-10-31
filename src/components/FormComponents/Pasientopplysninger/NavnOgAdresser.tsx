@@ -1,14 +1,14 @@
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { BodyShort, Heading } from '@navikt/ds-react'
 
-import { Person } from '../../../graphql/queries/graphql.generated';
+import { Person } from '../../../graphql/queries/graphql.generated'
 
-import Bostedsadresse from './Adresser/Bostedsadresse';
-import Oppholdsadresse from './Adresser/Oppholdsadresse';
-import styles from './NavnOgAdresser.module.css';
+import Bostedsadresse from './Adresser/Bostedsadresse'
+import Oppholdsadresse from './Adresser/Oppholdsadresse'
+import styles from './NavnOgAdresser.module.css'
 
 type NavnOgAdresserProps = {
-    person: Person;
-};
+    person: Person
+}
 
 function NavnOgAdresser({ person }: NavnOgAdresserProps): JSX.Element {
     return (
@@ -24,7 +24,7 @@ function NavnOgAdresser({ person }: NavnOgAdresserProps): JSX.Element {
                 {person.oppholdsadresse && <Oppholdsadresse oppholdsadresse={person.oppholdsadresse} />}
             </div>
         </>
-    );
+    )
 }
 
-export default NavnOgAdresser;
+export default NavnOgAdresser

@@ -1,6 +1,6 @@
-import { OppgaveFragment, PeriodeType } from '../../graphql/queries/graphql.generated';
+import { OppgaveFragment, PeriodeType } from '../../graphql/queries/graphql.generated'
 
-import { createOppgave } from './dataCreators';
+import { createOppgave } from './dataCreators'
 
 /**
  * Fake data singleton used for local development and testing.
@@ -49,15 +49,15 @@ export class FakeMockDB {
                 harAndreRelevanteOpplysninger: false,
             },
         }),
-    };
+    }
 
     public getOppgave(oppgaveId: string): OppgaveFragment {
-        const oppgave = this._oppgaver[oppgaveId.toLowerCase()];
+        const oppgave = this._oppgaver[oppgaveId.toLowerCase()]
 
         if (!oppgave) {
-            throw new Error(`No oppgave found with id ${oppgaveId}`);
+            throw new Error(`No oppgave found with id ${oppgaveId}`)
         }
 
-        return oppgave;
+        return oppgave
     }
 }

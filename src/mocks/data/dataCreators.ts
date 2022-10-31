@@ -1,5 +1,5 @@
-import { OppgaveFragment } from '../../graphql/queries/graphql.generated';
-import { ModiaContext } from '../../modia/ModiaService';
+import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
+import { ModiaContext } from '../../modia/ModiaService'
 
 export function createOppgave(overrides?: Partial<OppgaveFragment>): OppgaveFragment {
     return {
@@ -36,7 +36,7 @@ export function createOppgave(overrides?: Partial<OppgaveFragment>): OppgaveFrag
             harAndreRelevanteOpplysninger: false,
         },
         ...overrides,
-    };
+    }
 }
 
 export function createModiaContext(overrides?: Partial<ModiaContext>): ModiaContext {
@@ -49,5 +49,5 @@ export function createModiaContext(overrides?: Partial<ModiaContext>): ModiaCont
             { navn: 'NAV Tøyen', enhetId: 'L99' },
         ],
         ...overrides,
-    };
+    }
 }

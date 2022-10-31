@@ -1,16 +1,16 @@
-import { Select } from '@navikt/ds-react';
-import { useController } from 'react-hook-form';
+import { Select } from '@navikt/ds-react'
+import { useController } from 'react-hook-form'
 
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
-import FieldError from '../FieldError/FieldError';
-import { PeriodeType } from '../../../graphql/queries/graphql.generated';
+import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import FieldError from '../FieldError/FieldError'
+import { PeriodeType } from '../../../graphql/queries/graphql.generated'
 
-import styles from './PeriodeSelect.module.css';
+import styles from './PeriodeSelect.module.css'
 
-type FormName = `periode.${number}.sykmeldingstype`;
+type FormName = `periode.${number}.sykmeldingstype`
 
 interface Props {
-    name: FormName;
+    name: FormName
 }
 
 function PeriodeSelect({ name }: Props): JSX.Element {
@@ -19,7 +19,7 @@ function PeriodeSelect({ name }: Props): JSX.Element {
         rules: {
             required: 'Du må fylle inn periode.',
         },
-    });
+    })
     return (
         <div className={styles.periodeSelect}>
             <Select id={name} label="Periode" {...field}>
@@ -31,7 +31,7 @@ function PeriodeSelect({ name }: Props): JSX.Element {
             </Select>
             <FieldError error={fieldState.error} />
         </div>
-    );
+    )
 }
 
-export default PeriodeSelect;
+export default PeriodeSelect

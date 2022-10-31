@@ -1,23 +1,23 @@
-import { TextField } from '@navikt/ds-react';
-import { useFormContext } from 'react-hook-form';
-import { ErrorMessage } from '@hookform/error-message';
+import { TextField } from '@navikt/ds-react'
+import { useFormContext } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
-import FieldError from '../FieldError/FieldError';
+import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import FieldError from '../FieldError/FieldError'
 
-import styles from './GradInput.module.css';
+import styles from './GradInput.module.css'
 
-type FormName = `periode.${number}.grad`;
+type FormName = `periode.${number}.grad`
 
 export interface Props {
-    name: FormName;
+    name: FormName
 }
 
 function GradInput({ name }: Props): JSX.Element {
     const {
         register,
         formState: { errors },
-    } = useFormContext<SykmeldingFormValues>();
+    } = useFormContext<SykmeldingFormValues>()
 
     return (
         <div className={styles.grad}>
@@ -34,7 +34,7 @@ function GradInput({ name }: Props): JSX.Element {
             />
             <ErrorMessage name={name} errors={errors} render={(data) => <FieldError error={data.message} />} />
         </div>
-    );
+    )
 }
 
-export default GradInput;
+export default GradInput

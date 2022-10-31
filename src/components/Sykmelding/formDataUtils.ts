@@ -1,19 +1,19 @@
-import { DefaultValues } from 'react-hook-form/dist/types/form';
+import { DefaultValues } from 'react-hook-form/dist/types/form'
 
-import { DiagnoseFragment, OppgaveValues, PeriodeType } from '../../graphql/queries/graphql.generated';
-import { toDate } from '../../utils/dateUtils';
+import { DiagnoseFragment, OppgaveValues, PeriodeType } from '../../graphql/queries/graphql.generated'
+import { toDate } from '../../utils/dateUtils'
 
-import { DiagnoseFormValue, DiagnoseSystem } from './DiagnoseFormSection';
-import { SykmeldingFormValues } from './SykmeldingForm';
+import { DiagnoseFormValue, DiagnoseSystem } from './DiagnoseFormSection'
+import { SykmeldingFormValues } from './SykmeldingForm'
 
-type DefaultFormValues = DefaultValues<SykmeldingFormValues>;
+type DefaultFormValues = DefaultValues<SykmeldingFormValues>
 
 function mapToDiagnoseValues(diagnose: DiagnoseFragment): DiagnoseFormValue {
     return {
         system: (diagnose.system ?? 'ICD10') as DiagnoseSystem,
         code: diagnose.kode,
         text: diagnose.tekst ?? null,
-    };
+    }
 }
 
 export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
@@ -45,5 +45,5 @@ export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
         ],
         behandletTidspunkt: values.behandletTidspunkt,
         harAndreRelevanteOpplysninger: values.harAndreRelevanteOpplysninger ?? false,
-    };
+    }
 }

@@ -1,12 +1,12 @@
-import type { NextPage } from 'next';
-import { Heading, Label } from '@navikt/ds-react';
-import Link from 'next/link';
-import React from 'react';
+import type { NextPage } from 'next'
+import { Heading, Label } from '@navikt/ds-react'
+import Link from 'next/link'
+import React from 'react'
 
-import { withAuthenticatedPage } from '../auth/withAuth';
-import { getModiaContext } from '../modia/ModiaService';
-import PageWrapper from '../components/PageWrapper/PageWrapper';
-import { getPublicEnv } from '../utils/env';
+import { withAuthenticatedPage } from '../auth/withAuth'
+import { getModiaContext } from '../modia/ModiaService'
+import PageWrapper from '../components/PageWrapper/PageWrapper'
+import { getPublicEnv } from '../utils/env'
 
 const Home: NextPage = () => {
     return (
@@ -23,21 +23,21 @@ const Home: NextPage = () => {
                 </li>
             </ul>
         </PageWrapper>
-    );
-};
+    )
+}
 
 export const getServerSideProps = withAuthenticatedPage(async (context, accessToken) => {
     if (getPublicEnv().runtimeEnv === 'production') {
-        return { notFound: true };
+        return { notFound: true }
     }
 
-    const modiaContext = await getModiaContext(accessToken);
+    const modiaContext = await getModiaContext(accessToken)
 
     return {
         props: {
             modiaContext,
         },
-    };
-});
+    }
+})
 
-export default Home;
+export default Home

@@ -1,10 +1,10 @@
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react'
 
-import { Vegadresse } from '../../../../graphql/queries/graphql.generated';
+import { Vegadresse } from '../../../../graphql/queries/graphql.generated'
 
 type VegadresseProps = {
-    vegadresse: Vegadresse;
-};
+    vegadresse: Vegadresse
+}
 
 function Vegadresse({ vegadresse }: VegadresseProps): JSX.Element {
     return (
@@ -16,7 +16,7 @@ function Vegadresse({ vegadresse }: VegadresseProps): JSX.Element {
             )}
             <BodyShort>{`${vegadresse.postnummer} ${vegadresse.poststed}`}</BodyShort>
         </>
-    );
+    )
 }
 
-export default Vegadresse;
+export default Vegadresse

@@ -1,14 +1,14 @@
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { BodyShort, Heading } from '@navikt/ds-react'
 
-import { BostedsadresseFragment } from '../../../../graphql/queries/graphql.generated';
+import { BostedsadresseFragment } from '../../../../graphql/queries/graphql.generated'
 
-import Vegadresse from './Vegadresse';
-import Matrikkeladresse from './Matrikkeladresse';
-import UtenlandskAdresse from './Utenlandskadresse';
+import Vegadresse from './Vegadresse'
+import Matrikkeladresse from './Matrikkeladresse'
+import UtenlandskAdresse from './Utenlandskadresse'
 
 type BostedsadresseProps = {
-    bostedsadresse: BostedsadresseFragment | null;
-};
+    bostedsadresse: BostedsadresseFragment | null
+}
 
 function Bostedsadresse({ bostedsadresse }: BostedsadresseProps): JSX.Element | null {
     return (
@@ -18,24 +18,24 @@ function Bostedsadresse({ bostedsadresse }: BostedsadresseProps): JSX.Element | 
             </Heading>
             <BostedsadresseVariant bostedsadresse={bostedsadresse} />
         </div>
-    );
+    )
 }
 
 function BostedsadresseVariant({ bostedsadresse }: BostedsadresseProps): JSX.Element {
     if (!bostedsadresse) {
-        return <BodyShort>Bostedsadresse mangler</BodyShort>;
+        return <BodyShort>Bostedsadresse mangler</BodyShort>
     }
 
     switch (bostedsadresse.__typename) {
         case 'Vegadresse':
-            return <Vegadresse vegadresse={bostedsadresse} />;
+            return <Vegadresse vegadresse={bostedsadresse} />
         case 'Matrikkeladresse':
-            return <Matrikkeladresse matrikkeladresse={bostedsadresse} />;
+            return <Matrikkeladresse matrikkeladresse={bostedsadresse} />
         case 'UtenlandskAdresse':
-            return <UtenlandskAdresse utenlandskAdresse={bostedsadresse} />;
+            return <UtenlandskAdresse utenlandskAdresse={bostedsadresse} />
         case 'UkjentBosted':
-            return <BodyShort>{`Kommunenummer: ${bostedsadresse.bostedskommune}`}</BodyShort>;
+            return <BodyShort>{`Kommunenummer: ${bostedsadresse.bostedskommune}`}</BodyShort>
     }
 }
 
-export default Bostedsadresse;
+export default Bostedsadresse

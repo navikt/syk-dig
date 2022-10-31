@@ -1,19 +1,19 @@
-import React from 'react';
-import { Header } from '@navikt/ds-react-internal';
-import { useMutation, useQuery } from '@apollo/client';
-import { Select } from '@navikt/ds-react';
-import Link from 'next/link';
+import React from 'react'
+import { Header } from '@navikt/ds-react-internal'
+import { useMutation, useQuery } from '@apollo/client'
+import { Select } from '@navikt/ds-react'
+import Link from 'next/link'
 
-import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/queries/graphql.generated';
-import { getPublicEnv } from '../../utils/env';
+import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/queries/graphql.generated'
+import { getPublicEnv } from '../../utils/env'
 
-import styles from './PageHeader.module.css';
+import styles from './PageHeader.module.css'
 
-const publicEnv = getPublicEnv();
+const publicEnv = getPublicEnv()
 
 function PageHeader(): JSX.Element {
-    const { data } = useQuery(ModiaContextDocument);
-    const [updateAktivEnhet] = useMutation(UpdateAktivEnhetDocument);
+    const { data } = useQuery(ModiaContextDocument)
+    const [updateAktivEnhet] = useMutation(UpdateAktivEnhetDocument)
 
     return (
         <Header className={styles.header}>
@@ -27,7 +27,7 @@ function PageHeader(): JSX.Element {
                         onChange={(event) => {
                             updateAktivEnhet({
                                 variables: { enhetId: event.target.value },
-                            });
+                            })
                         }}
                     >
                         {data.modia.enheter.map((enhet) => (
@@ -46,19 +46,19 @@ function PageHeader(): JSX.Element {
             )}
             {!data?.modia && <Header.User name="Feil under lasting" description="Klarte ikke å laste enhet" />}
         </Header>
-    );
+    )
 }
 
 function HeaderText(): JSX.Element {
     if (publicEnv.runtimeEnv === 'production') {
-        return <Header.Title as="div">Digitalisering av sykmeldinger</Header.Title>;
+        return <Header.Title as="div">Digitalisering av sykmeldinger</Header.Title>
     }
 
     return (
         <Link href="/" legacyBehavior passHref>
             <Header.Title as="a">Digitalisering av sykmeldinger</Header.Title>
         </Link>
-    );
+    )
 }
 
-export default PageHeader;
+export default PageHeader

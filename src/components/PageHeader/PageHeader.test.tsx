@@ -1,31 +1,31 @@
-import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event'
 
-import { createInitialQuery, render, screen } from '../../utils/testUtils';
-import { ModiaContextDocument } from '../../graphql/queries/graphql.generated';
+import { createInitialQuery, render, screen } from '../../utils/testUtils'
+import { ModiaContextDocument } from '../../graphql/queries/graphql.generated'
 
-import PageHeader from './PageHeader';
+import PageHeader from './PageHeader'
 
 describe('PageHeader', () => {
     it('should render modia details', () => {
         render(<PageHeader />, {
             initialState: [initialModiaQuery],
-        });
+        })
 
-        expect(screen.getByText('Kari Testson'));
-        expect(screen.getByText('Enhet: 2345'));
-    });
+        expect(screen.getByText('Kari Testson'))
+        expect(screen.getByText('Enhet: 2345'))
+    })
 
     it('should change unit', async () => {
         render(<PageHeader />, {
             initialState: [initialModiaQuery],
-        });
+        })
 
-        expect(screen.getByText('Enhet: 2345'));
-        await userEvent.selectOptions(screen.getByRole('combobox'), '1234');
+        expect(screen.getByText('Enhet: 2345'))
+        await userEvent.selectOptions(screen.getByRole('combobox'), '1234')
 
-        expect(await screen.findByText('Enhet: 1234'));
-    });
-});
+        expect(await screen.findByText('Enhet: 1234'))
+    })
+})
 
 const initialModiaQuery = createInitialQuery(ModiaContextDocument, {
     __typename: 'Query',
@@ -39,4 +39,4 @@ const initialModiaQuery = createInitialQuery(ModiaContextDocument, {
         ],
         aktivEnhet: '2345',
     },
-});
+})

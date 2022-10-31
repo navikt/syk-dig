@@ -1,12 +1,12 @@
-import { useController } from 'react-hook-form';
-import { Button, UNSAFE_DatePicker, UNSAFE_useDatepicker } from '@navikt/ds-react';
+import { useController } from 'react-hook-form'
+import { Button, UNSAFE_DatePicker, UNSAFE_useDatepicker } from '@navikt/ds-react'
 
-import { toDate } from '../../../utils/dateUtils';
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
+import { toDate } from '../../../utils/dateUtils'
+import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 
-import styles from './DatoSykmeldingenBleSkrevet.module.css';
+import styles from './DatoSykmeldingenBleSkrevet.module.css'
 
-type DateName = 'behandletTidspunkt';
+type DateName = 'behandletTidspunkt'
 
 function DatoSykmeldingenBleSkrevet(): JSX.Element {
     const { field, fieldState } = useController<SykmeldingFormValues, DateName>({
@@ -14,18 +14,18 @@ function DatoSykmeldingenBleSkrevet(): JSX.Element {
         rules: {
             validate: (value) => {
                 if (!value) {
-                    return 'Du må fylle inn dato for når sykmeldingen ble skrevet.';
+                    return 'Du må fylle inn dato for når sykmeldingen ble skrevet.'
                 }
             },
         },
-    });
+    })
 
     const { datepickerProps, inputProps, setSelected } = UNSAFE_useDatepicker({
         defaultSelected: field.value ? toDate(field.value) : undefined,
         onDateChange: (date: Date | undefined) => {
-            field.onChange(date);
+            field.onChange(date)
         },
-    });
+    })
 
     return (
         <div className={styles.datoSykmeldingenBleSkrevet}>
@@ -43,13 +43,13 @@ function DatoSykmeldingenBleSkrevet(): JSX.Element {
                 variant="tertiary"
                 type="button"
                 onClick={() => {
-                    setSelected(undefined);
+                    setSelected(undefined)
                 }}
             >
                 Nullstill dato
             </Button>
         </div>
-    );
+    )
 }
 
-export default DatoSykmeldingenBleSkrevet;
+export default DatoSykmeldingenBleSkrevet

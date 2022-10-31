@@ -1,13 +1,13 @@
-import React from 'react';
-import { Heading, Ingress } from '@navikt/ds-react';
+import React from 'react'
+import { Heading, Ingress } from '@navikt/ds-react'
 
-import styles from './PageTitle.module.css';
+import styles from './PageTitle.module.css'
 
 interface Props {
-    title: string;
-    titleId?: string;
-    ingress: string;
-    titleActions?: React.ReactNode;
+    title: string
+    titleId?: string
+    ingress: string
+    titleActions?: React.ReactNode
 }
 
 function PageTitle({ title, titleId, ingress, titleActions }: Props): JSX.Element {
@@ -19,7 +19,7 @@ function PageTitle({ title, titleId, ingress, titleActions }: Props): JSX.Elemen
             <Ingress>{ingress}</Ingress>
             {titleActions && <div className={styles.titleActions}>{titleActions}</div>}
         </div>
-    );
+    )
 }
 
-export default PageTitle;
+export default PageTitle

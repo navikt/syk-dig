@@ -1,16 +1,16 @@
-import { TextField } from '@navikt/ds-react';
-import { useFormContext } from 'react-hook-form';
+import { TextField } from '@navikt/ds-react'
+import { useFormContext } from 'react-hook-form'
 
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
-import FieldError from '../FieldError/FieldError';
+import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import FieldError from '../FieldError/FieldError'
 
-import styles from './Fodselsnummer.module.css';
+import styles from './Fodselsnummer.module.css'
 
 function Fodselsnummer(): JSX.Element {
     const {
         register,
         formState: { errors },
-    } = useFormContext<SykmeldingFormValues>();
+    } = useFormContext<SykmeldingFormValues>()
 
     return (
         <div className={styles.fodselsnummer}>
@@ -21,7 +21,7 @@ function Fodselsnummer(): JSX.Element {
             />
             <FieldError error={errors.fnr} />
         </div>
-    );
+    )
 }
 
-export default Fodselsnummer;
+export default Fodselsnummer

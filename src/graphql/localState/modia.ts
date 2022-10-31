@@ -1,9 +1,9 @@
-import { ApolloCache, ApolloClient, NormalizedCacheObject, useQuery } from '@apollo/client';
-import { Resolver } from '@apollo/client/core/LocalState';
-import { useEffect } from 'react';
+import { ApolloCache, ApolloClient, NormalizedCacheObject, useQuery } from '@apollo/client'
+import { Resolver } from '@apollo/client/core/LocalState'
+import { useEffect } from 'react'
 
-import { ModiaContextDocument, UpdateAktivEnhetMutationVariables } from '../queries/graphql.generated';
-import { ModiaContext, ModiaContextError } from '../../modia/ModiaService';
+import { ModiaContextDocument, UpdateAktivEnhetMutationVariables } from '../queries/graphql.generated'
+import { ModiaContext, ModiaContextError } from '../../modia/ModiaService'
 
 export const modiaLocalResolvers: Record<string, Resolver> = {
     updateModiaEnhet: (
@@ -11,7 +11,7 @@ export const modiaLocalResolvers: Record<string, Resolver> = {
         { enhetId }: UpdateAktivEnhetMutationVariables,
         { cache: apolloCache }: { cache: ApolloCache<unknown> },
     ) => {
-        const modiaQuery = apolloCache.readQuery({ query: ModiaContextDocument });
+        const modiaQuery = apolloCache.readQuery({ query: ModiaContextDocument })
 
         apolloCache.writeQuery({
             query: ModiaContextDocument,
@@ -20,12 +20,12 @@ export const modiaLocalResolvers: Record<string, Resolver> = {
                 ...modiaQuery,
                 modia: modiaQuery?.modia ? { ...modiaQuery.modia, aktivEnhet: enhetId } : null,
             },
-        });
+        })
     },
-};
+}
 
 export function setInitialModiaQueryState(cache: ApolloCache<unknown>, modiaContext: ModiaContext): void {
-    const existingContext = cache.readQuery({ query: ModiaContextDocument });
+    const existingContext = cache.readQuery({ query: ModiaContextDocument })
     cache.writeQuery({
         query: ModiaContextDocument,
         data: {
@@ -40,7 +40,7 @@ export function setInitialModiaQueryState(cache: ApolloCache<unknown>, modiaCont
                 })),
             },
         },
-    });
+    })
 }
 
 export function useModiaContextUpdated(
@@ -49,17 +49,17 @@ export function useModiaContextUpdated(
 ): void {
     useEffect(() => {
         if (modiaContext && !('errorType' in modiaContext)) {
-            setInitialModiaQueryState(apolloClient.cache, modiaContext);
+            setInitialModiaQueryState(apolloClient.cache, modiaContext)
         }
-    }, [apolloClient.cache, modiaContext]);
+    }, [apolloClient.cache, modiaContext])
 }
 
 export function useSelectedModiaEnhet(): string {
-    const { data } = useQuery(ModiaContextDocument);
+    const { data } = useQuery(ModiaContextDocument)
 
     if (!data?.modia?.aktivEnhet) {
-        throw new Error('No modia context or aktivEnhet found');
+        throw new Error('No modia context or aktivEnhet found')
     }
 
-    return data?.modia?.aktivEnhet;
+    return data?.modia?.aktivEnhet
 }

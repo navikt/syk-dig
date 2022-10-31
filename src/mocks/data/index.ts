@@ -1,8 +1,8 @@
-import { FakeMockDB } from './mockDb';
+import { FakeMockDB } from './mockDb'
 
 declare global {
     // eslint-disable-next-line no-var
-    var _mockDb: FakeMockDB;
+    var _mockDb: FakeMockDB
 }
 
 /**
@@ -10,10 +10,10 @@ declare global {
  * that mutations were not persisted. Putting the MockDB on the global object
  * fixes this, but that only needs to be done when we are developing locally.
  */
-global._mockDb = global._mockDb || new FakeMockDB();
+global._mockDb = global._mockDb || new FakeMockDB()
 
 const getMockDb = (): FakeMockDB => {
-    return global._mockDb;
-};
+    return global._mockDb
+}
 
-export default getMockDb;
+export default getMockDb

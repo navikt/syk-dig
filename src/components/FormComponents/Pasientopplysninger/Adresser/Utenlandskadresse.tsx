@@ -1,15 +1,15 @@
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react'
 
-import { UtenlandskAdresse } from '../../../../graphql/queries/graphql.generated';
-import { useCountrySuggestions } from '../../CountryPicker/CountryCombobox/CountryCombobox';
+import { UtenlandskAdresse } from '../../../../graphql/queries/graphql.generated'
+import { useCountrySuggestions } from '../../CountryPicker/CountryCombobox/CountryCombobox'
 
 type UtenlandskAdresseProps = {
-    utenlandskAdresse: UtenlandskAdresse;
-};
+    utenlandskAdresse: UtenlandskAdresse
+}
 
 function UtenlandskAdresse({ utenlandskAdresse }: UtenlandskAdresseProps): JSX.Element {
-    const [loadingCountries, countries] = useCountrySuggestions();
-    const country = countries.find((country) => country.code === utenlandskAdresse.landkode)?.name;
+    const [loadingCountries, countries] = useCountrySuggestions()
+    const country = countries.find((country) => country.code === utenlandskAdresse.landkode)?.name
 
     return (
         <>
@@ -30,7 +30,7 @@ function UtenlandskAdresse({ utenlandskAdresse }: UtenlandskAdresseProps): JSX.E
                 </>
             )}
         </>
-    );
+    )
 }
 
-export default UtenlandskAdresse;
+export default UtenlandskAdresse

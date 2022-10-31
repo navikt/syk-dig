@@ -1,17 +1,17 @@
-import * as R from 'remeda';
+import * as R from 'remeda'
 
-import { withAuthenticatedApi } from '../../../auth/withAuth';
+import { withAuthenticatedApi } from '../../../auth/withAuth'
 
 /**
  * Source for country list:
  * https://github.com/stefangabos/world_countries/blob/master/data/countries/no/countries.json
  */
-import countries from './countries-norwegian.json';
+import countries from './countries-norwegian.json'
 
 export type Country = {
-    code: string;
-    name: string;
-};
+    code: string
+    name: string
+}
 
 export const countriesResponse: Country[] = R.pipe(
     countries,
@@ -20,10 +20,10 @@ export const countriesResponse: Country[] = R.pipe(
         name: country.name,
     })),
     R.sortBy((country) => country.name),
-);
+)
 
 const country = withAuthenticatedApi<Country[]>(async (req, res) => {
-    res.status(200).json(countriesResponse);
-});
+    res.status(200).json(countriesResponse)
+})
 
-export default country;
+export default country

@@ -1,50 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { useComboboxState } from 'ariakit/combobox';
+import React, { useEffect, useState } from 'react'
+import { useComboboxState } from 'ariakit/combobox'
 
-import { api } from '../../../../utils/apiUtils';
-import { Country } from '../../../../pages/api/country/index.api';
+import { api } from '../../../../utils/apiUtils'
+import { Country } from '../../../../pages/api/country/index.api'
 import {
     ComboboxWrapper,
     DsCombobox,
     DsComboboxItem,
     DsComboboxNoResult,
     DsComboboxPopover,
-} from '../../CustomFormComponents/Combobox';
+} from '../../CustomFormComponents/Combobox'
 
 interface Props {
-    id?: string;
-    onSelect: (countryCode: string | null) => void;
-    onChange: () => void;
-    initialValue: string | null;
+    id?: string
+    onSelect: (countryCode: string | null) => void
+    onChange: () => void
+    initialValue: string | null
 }
 
 function CountryCombobox({ id, onSelect, onChange, initialValue }: Props): JSX.Element {
-    const [loadingCountries, countries] = useCountrySuggestions();
+    const [loadingCountries, countries] = useCountrySuggestions()
     const combobox = useComboboxState({
         gutter: 8,
         sameWidth: true,
         list: countries.map((it) => it.name),
         setValue: (value) => {
-            const country = countries.find((country) => country.name === value);
+            const country = countries.find((country) => country.name === value)
 
             // Don't trigger onChange when we are setting the lazy loaded initial value
-            if (country?.code === initialValue) return;
+            if (country?.code === initialValue) return
 
-            onChange();
+            onChange()
 
-            if (!country) return;
+            if (!country) return
 
-            onSelect(country.code);
+            onSelect(country.code)
         },
-    });
-    const defaultCountry = countries.find((country) => country.code === initialValue)?.name;
+    })
+    const defaultCountry = countries.find((country) => country.code === initialValue)?.name
 
     useEffect(() => {
-        if (!defaultCountry) return;
+        if (!defaultCountry) return
 
         // Countries are lazy-loaded, so we need to manually set the value when it has loaded
-        combobox.setValue(defaultCountry);
-    }, [combobox, defaultCountry]);
+        combobox.setValue(defaultCountry)
+    }, [combobox, defaultCountry])
 
     return (
         <ComboboxWrapper
@@ -68,24 +68,24 @@ function CountryCombobox({ id, onSelect, onChange, initialValue }: Props): JSX.E
                 {combobox.matches.length === 0 && <DsComboboxNoResult text="Ingen treff" />}
             </DsComboboxPopover>
         </ComboboxWrapper>
-    );
+    )
 }
 
 export function useCountrySuggestions(): [loading: boolean, result: Country[]] {
-    const [loading, setLoading] = useState<boolean>(true);
-    const [countries, setCountries] = useState<Country[]>([]);
+    const [loading, setLoading] = useState<boolean>(true)
+    const [countries, setCountries] = useState<Country[]>([])
     useEffect(() => {
         fetch(api('/api/country'))
             .then((res) => res.json())
             .then((countries: Country[]) => {
-                setCountries(countries);
+                setCountries(countries)
             })
             .finally(() => {
-                setLoading(false);
-            });
-    }, []);
+                setLoading(false)
+            })
+    }, [])
 
-    return [loading, countries];
+    return [loading, countries]
 }
 
-export default CountryCombobox;
+export default CountryCombobox

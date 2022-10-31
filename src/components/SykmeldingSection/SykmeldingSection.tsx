@@ -1,15 +1,15 @@
-import { PropsWithChildren } from 'react';
-import { Heading } from '@navikt/ds-react';
-import { Calender } from '@navikt/ds-icons';
-import cn from 'clsx';
+import { PropsWithChildren } from 'react'
+import { Heading } from '@navikt/ds-react'
+import { Calender } from '@navikt/ds-icons'
+import cn from 'clsx'
 
-import styles from './SykmeldingSection.module.css';
+import styles from './SykmeldingSection.module.css'
 
 export interface Props {
-    id?: string;
-    Icon: typeof Calender;
-    title: string;
-    variant?: 'blue' | 'light';
+    id?: string
+    Icon: typeof Calender
+    title: string
+    variant?: 'blue' | 'light'
 }
 
 function SykmeldingSection({ id, Icon, title, children, variant = 'blue' }: PropsWithChildren<Props>): JSX.Element {
@@ -18,13 +18,13 @@ function SykmeldingSection({ id, Icon, title, children, variant = 'blue' }: Prop
             <SectionHeader headingId={id} title={title} Icon={Icon} />
             {children}
         </section>
-    );
+    )
 }
 
 interface SectionHeaderProps {
-    headingId?: string;
-    title: string;
-    Icon: typeof Calender;
+    headingId?: string
+    title: string
+    Icon: typeof Calender
 }
 
 export function SectionHeader({ headingId, title, Icon }: SectionHeaderProps): JSX.Element {
@@ -35,7 +35,7 @@ export function SectionHeader({ headingId, title, Icon }: SectionHeaderProps): J
                 {title}
             </Heading>
         </div>
-    );
+    )
 }
 
-export default SykmeldingSection;
+export default SykmeldingSection

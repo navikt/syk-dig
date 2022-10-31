@@ -1,18 +1,18 @@
-import { FileContent } from '@navikt/ds-icons';
-import { ConfirmationPanel } from '@navikt/ds-react';
-import { useController } from 'react-hook-form';
+import { FileContent } from '@navikt/ds-icons'
+import { ConfirmationPanel } from '@navikt/ds-react'
+import { useController } from 'react-hook-form'
 
-import SykmeldingSection from '../SykmeldingSection/SykmeldingSection';
+import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
 
-import { SykmeldingFormValues } from './SykmeldingForm';
-import styles from './AndreOpplysninger.module.css';
+import { SykmeldingFormValues } from './SykmeldingForm'
+import styles from './AndreOpplysninger.module.css'
 
-type AndreOpplysningerName = 'harAndreRelevanteOpplysninger';
+type AndreOpplysningerName = 'harAndreRelevanteOpplysninger'
 
 function AndreOpplysninger(): JSX.Element {
     const { field } = useController<SykmeldingFormValues, AndreOpplysningerName>({
         name: 'harAndreRelevanteOpplysninger',
-    });
+    })
 
     return (
         <SykmeldingSection id="andre-opplysninger-seksjon" title="Andre opplysninger" Icon={FileContent}>
@@ -25,7 +25,7 @@ function AndreOpplysninger(): JSX.Element {
                 onBlur={field.onBlur}
             />
         </SykmeldingSection>
-    );
+    )
 }
 
-export default AndreOpplysninger;
+export default AndreOpplysninger

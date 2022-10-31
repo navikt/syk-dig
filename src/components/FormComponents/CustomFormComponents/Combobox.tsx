@@ -1,6 +1,6 @@
-import { BodyShort, Label } from '@navikt/ds-react';
-import React, { HTMLAttributes, PropsWithChildren } from 'react';
-import cn from 'clsx';
+import { BodyShort, Label } from '@navikt/ds-react'
+import React, { HTMLAttributes, PropsWithChildren } from 'react'
+import cn from 'clsx'
 import {
     Combobox,
     ComboboxDisclosure,
@@ -9,15 +9,15 @@ import {
     ComboboxOptions,
     ComboboxPopover,
     ComboboxPopoverOptions,
-} from 'ariakit/combobox';
-import { Expand } from '@navikt/ds-icons';
+} from 'ariakit/combobox'
+import { Expand } from '@navikt/ds-icons'
 
-import styles from './Combobox.module.css';
+import styles from './Combobox.module.css'
 
 interface Props {
-    labelId?: string;
-    label: string;
-    disabled?: boolean;
+    labelId?: string
+    label: string
+    disabled?: boolean
 }
 
 export function ComboboxWrapper({ labelId, label, disabled, children }: PropsWithChildren<Props>): JSX.Element {
@@ -26,7 +26,7 @@ export function ComboboxWrapper({ labelId, label, disabled, children }: PropsWit
             <Label id={labelId}>{label}</Label>
             {children}
         </div>
-    );
+    )
 }
 
 export function DsCombobox({
@@ -46,7 +46,7 @@ export function DsCombobox({
             </Combobox>
             <ComboboxDisclosure className="navds-select__chevron" state={props.state} as={Expand} aria-hidden />
         </div>
-    );
+    )
 }
 
 export function DsComboboxPopover({
@@ -62,7 +62,7 @@ export function DsComboboxPopover({
         >
             {children}
         </ComboboxPopover>
-    );
+    )
 }
 
 export function DsComboboxItem({
@@ -74,9 +74,9 @@ export function DsComboboxItem({
         <ComboboxItem className={cn(className, 'navds-body-short', styles.suggestion)} {...props}>
             {children}
         </ComboboxItem>
-    );
+    )
 }
 
 export function DsComboboxNoResult({ text }: { text: string }): JSX.Element {
-    return <BodyShort className={cn(styles.suggestionNoResult)}>{text}</BodyShort>;
+    return <BodyShort className={cn(styles.suggestionNoResult)}>{text}</BodyShort>
 }

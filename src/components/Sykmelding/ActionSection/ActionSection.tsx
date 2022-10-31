@@ -1,37 +1,37 @@
-import React, { PropsWithChildren } from 'react';
-import { Alert, Button, Radio, RadioGroup } from '@navikt/ds-react';
-import { Edit, Success } from '@navikt/ds-icons';
-import { useFormContext } from 'react-hook-form';
-import { MutationResult } from '@apollo/client';
+import React, { PropsWithChildren } from 'react'
+import { Alert, Button, Radio, RadioGroup } from '@navikt/ds-react'
+import { Edit, Success } from '@navikt/ds-icons'
+import { useFormContext } from 'react-hook-form'
+import { MutationResult } from '@apollo/client'
 
-import SykmeldingSection, { SectionHeader } from '../../SykmeldingSection/SykmeldingSection';
-import { getPublicEnv, isLocalOrDemo } from '../../../utils/env';
-import { SykmeldingFormValues } from '../SykmeldingForm';
-import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated';
+import SykmeldingSection, { SectionHeader } from '../../SykmeldingSection/SykmeldingSection'
+import { getPublicEnv, isLocalOrDemo } from '../../../utils/env'
+import { SykmeldingFormValues } from '../SykmeldingForm'
+import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated'
 
-import FeedbackModal from './FeedbackModal';
-import { useHandleSave } from './useHandleSave';
-import styles from './ActionSection.module.css';
+import FeedbackModal from './FeedbackModal'
+import { useHandleSave } from './useHandleSave'
+import styles from './ActionSection.module.css'
 
-const publicEnv = getPublicEnv();
+const publicEnv = getPublicEnv()
 
 export interface ActionFormSectionValues {
-    registerOppgaveStatus: 'everything_ok' | 'some_missing';
+    registerOppgaveStatus: 'everything_ok' | 'some_missing'
 }
 
 interface Props {
-    registerResult: MutationResult<SaveOppgaveMutation>;
+    registerResult: MutationResult<SaveOppgaveMutation>
 }
 
 function ActionSection({ registerResult }: Props): JSX.Element {
-    const { register, getValues, reset } = useFormContext<SykmeldingFormValues>();
+    const { register, getValues, reset } = useFormContext<SykmeldingFormValues>()
     const [saveAndClose, saveResult] = useHandleSave({
         onCompleted: () => {
             if (!isLocalOrDemo) {
-                window.location.href = publicEnv.gosysUrl;
+                window.location.href = publicEnv.gosysUrl
             }
         },
-    });
+    })
 
     return (
         <SykmeldingSection title="Registrer opplysningene" Icon={Success} variant="light">
@@ -70,8 +70,8 @@ function ActionSection({ registerResult }: Props): JSX.Element {
                         onClick={() => {
                             /** Reset the form state, any invalid submits etc.,
                              * because we want to save the draft and leave */
-                            reset(undefined, { keepValues: true });
-                            return saveAndClose(getValues());
+                            reset(undefined, { keepValues: true })
+                            return saveAndClose(getValues())
                         }}
                         loading={saveResult.loading}
                     >
@@ -91,7 +91,7 @@ function ActionSection({ registerResult }: Props): JSX.Element {
                 </MutationResultFeedback>
             </section>
         </SykmeldingSection>
-    );
+    )
 }
 
 function MutationResultFeedback({
@@ -99,10 +99,10 @@ function MutationResultFeedback({
     result,
     children,
 }: PropsWithChildren<{
-    what: 'lagre' | 'registrere';
-    result: MutationResult<SaveOppgaveMutation>;
+    what: 'lagre' | 'registrere'
+    result: MutationResult<SaveOppgaveMutation>
 }>): JSX.Element | null {
-    if (!result.called || result.loading) return null;
+    if (!result.called || result.loading) return null
 
     return (
         <div className={styles.mutationResultFeedback}>
@@ -114,9 +114,9 @@ function MutationResultFeedback({
                 children
             )}
         </div>
-    );
+    )
 }
 
-export { useHandleRegister } from './useHandleSave';
+export { useHandleRegister } from './useHandleSave'
 
-export default ActionSection;
+export default ActionSection

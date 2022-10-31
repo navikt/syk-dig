@@ -1,27 +1,27 @@
-import React from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Button } from '@navikt/ds-react';
-import { Bandage } from '@navikt/ds-icons';
+import React from 'react'
+import { useFieldArray, useFormContext } from 'react-hook-form'
+import { Button } from '@navikt/ds-react'
+import { Bandage } from '@navikt/ds-icons'
 
-import DiagnosePicker from '../FormComponents/DiagnosePicker/DiagnosePicker';
-import SykmeldingSection from '../SykmeldingSection/SykmeldingSection';
+import DiagnosePicker from '../FormComponents/DiagnosePicker/DiagnosePicker'
+import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
 
-import { SykmeldingFormValues } from './SykmeldingForm';
-import styles from './DiagnoseFormSection.module.css';
+import { SykmeldingFormValues } from './SykmeldingForm'
+import styles from './DiagnoseFormSection.module.css'
 
-export type DiagnoseSystem = 'ICD10' | 'ICPC2';
-export type DiagnoseFormValue = { system: DiagnoseSystem; code: string | null; text: string | null };
+export type DiagnoseSystem = 'ICD10' | 'ICPC2'
+export type DiagnoseFormValue = { system: DiagnoseSystem; code: string | null; text: string | null }
 export type DiagnoseFormSectionValues = {
-    hoveddiagnose: DiagnoseFormValue;
-    bidiagnoser: DiagnoseFormValue[];
-};
+    hoveddiagnose: DiagnoseFormValue
+    bidiagnoser: DiagnoseFormValue[]
+}
 
 function DiagnoseFormSection(): JSX.Element {
-    const { control } = useFormContext<SykmeldingFormValues>();
+    const { control } = useFormContext<SykmeldingFormValues>()
     const { append, remove, fields } = useFieldArray({
         name: 'diagnoser.bidiagnoser',
         control,
-    });
+    })
 
     return (
         <SykmeldingSection id="diagnose-seksjon" title="Diagnose" Icon={Bandage}>
@@ -46,7 +46,7 @@ function DiagnoseFormSection(): JSX.Element {
                 </div>
             </div>
         </SykmeldingSection>
-    );
+    )
 }
 
-export default DiagnoseFormSection;
+export default DiagnoseFormSection

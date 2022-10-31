@@ -1,27 +1,27 @@
-import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next';
-import { logger } from '@navikt/next-logger';
-import { validateAzureToken } from '@navikt/next-auth-wonderwall';
+import { GetServerSidePropsContext, GetServerSidePropsResult, NextApiRequest, NextApiResponse } from 'next'
+import { logger } from '@navikt/next-logger'
+import { validateAzureToken } from '@navikt/next-auth-wonderwall'
 
-import { isLocalOrDemo } from '../utils/env';
-import { RequiredPageProps } from '../pages/_app.page';
-import { getModiaContext } from '../modia/ModiaService';
+import { isLocalOrDemo } from '../utils/env'
+import { RequiredPageProps } from '../pages/_app.page'
+import { getModiaContext } from '../modia/ModiaService'
 
 type ApiHandler<Response> = (
     req: NextApiRequest,
     res: NextApiResponse<Response>,
     accessToken: string,
-) => void | Promise<unknown>;
+) => void | Promise<unknown>
 
 type PageHandler = (
     context: GetServerSidePropsContext,
     accessToken: string,
-) => Promise<GetServerSidePropsResult<RequiredPageProps>>;
+) => Promise<GetServerSidePropsResult<RequiredPageProps>>
 
 const defaultPageHandler: PageHandler = async (_, accessToken) => {
-    const modiaContext = await getModiaContext(accessToken);
+    const modiaContext = await getModiaContext(accessToken)
 
-    return { props: { modiaContext } };
-};
+    return { props: { modiaContext } }
+}
 
 /**
  * Used to authenticate Next.JS pages. Assumes application is behind
@@ -34,33 +34,33 @@ export function withAuthenticatedPage(handler: PageHandler = defaultPageHandler)
         context: GetServerSidePropsContext,
     ): Promise<ReturnType<NonNullable<typeof handler>>> {
         if (isLocalOrDemo) {
-            logger.info('Is running locally or in demo, skipping authentication for page');
-            return handler(context, 'fake-local-token');
+            logger.info('Is running locally or in demo, skipping authentication for page')
+            return handler(context, 'fake-local-token')
         }
 
-        const request = context.req;
-        const bearerToken: string | null | undefined = request.headers['authorization'];
+        const request = context.req
+        const bearerToken: string | null | undefined = request.headers['authorization']
 
         if (!bearerToken) {
-            logger.info('Could not find any bearer token on the request. Redirecting to login.');
+            logger.info('Could not find any bearer token on the request. Redirecting to login.')
             return {
                 redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
-            };
+            }
         }
 
-        const tokenValidationResult = await validateAzureToken(bearerToken);
+        const tokenValidationResult = await validateAzureToken(bearerToken)
         if (tokenValidationResult !== 'valid') {
             logger.error(
                 `Invalid JWT token found (${tokenValidationResult.errorType} ${tokenValidationResult.message}), redirecting to login.`,
-            );
+            )
 
             return {
                 redirect: { destination: `/oauth2/login?redirect=${context.resolvedUrl}`, permanent: false },
-            };
+            }
         }
 
-        return handler(context, bearerToken.replace('Bearer ', ''));
-    };
+        return handler(context, bearerToken.replace('Bearer ', ''))
+    }
 }
 
 /**
@@ -72,26 +72,26 @@ export function withAuthenticatedApi<Response>(
 ): ApiHandler<Response | { message: string }> {
     return async function withBearerTokenHandler(req, res) {
         if (isLocalOrDemo) {
-            logger.info('Is running locally or in demo, skipping authentication for API');
-            return handler(req, res, 'fake-local-token');
+            logger.info('Is running locally or in demo, skipping authentication for API')
+            return handler(req, res, 'fake-local-token')
         }
 
-        const bearerToken: string | null | undefined = req.headers['authorization'];
+        const bearerToken: string | null | undefined = req.headers['authorization']
         if (!bearerToken) {
-            logger.error('Could not find any bearer token on the request. Denying request. This should not happen');
-            res.status(401).json({ message: 'Access denied' });
-            return;
+            logger.error('Could not find any bearer token on the request. Denying request. This should not happen')
+            res.status(401).json({ message: 'Access denied' })
+            return
         }
 
-        const tokenValidationResult = await validateAzureToken(bearerToken);
+        const tokenValidationResult = await validateAzureToken(bearerToken)
         if (tokenValidationResult !== 'valid') {
             logger.info(
                 `Invalid JWT token on API request for path ${req.url} (${tokenValidationResult.errorType} ${tokenValidationResult.message})`,
-            );
-            res.status(401).json({ message: 'Access denied' });
-            return;
+            )
+            res.status(401).json({ message: 'Access denied' })
+            return
         }
 
-        return handler(req, res, bearerToken.replace('Bearer ', ''));
-    };
+        return handler(req, res, bearerToken.replace('Bearer ', ''))
+    }
 }

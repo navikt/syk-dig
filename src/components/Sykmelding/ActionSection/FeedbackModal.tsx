@@ -1,11 +1,11 @@
-import React, { PropsWithChildren } from 'react';
-import { BodyLong, Heading, Modal } from '@navikt/ds-react';
+import React, { PropsWithChildren } from 'react'
+import { BodyLong, Heading, Modal } from '@navikt/ds-react'
 
-import styles from './FeedbackModal.module.css';
+import styles from './FeedbackModal.module.css'
 
 interface Props {
-    title: string;
-    body?: string;
+    title: string
+    body?: string
 }
 
 function FeedbackModal({ title, body, children }: PropsWithChildren<Props>): JSX.Element {
@@ -25,7 +25,7 @@ function FeedbackModal({ title, body, children }: PropsWithChildren<Props>): JSX
                 {children && <div>{children}</div>}
             </Modal.Content>
         </Modal>
-    );
+    )
 }
 
-export default FeedbackModal;
+export default FeedbackModal

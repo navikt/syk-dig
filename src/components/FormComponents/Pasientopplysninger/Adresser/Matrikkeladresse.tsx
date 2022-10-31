@@ -1,10 +1,10 @@
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react'
 
-import { Matrikkeladresse } from '../../../../graphql/queries/graphql.generated';
+import { Matrikkeladresse } from '../../../../graphql/queries/graphql.generated'
 
 type MatrikkeladresseProps = {
-    matrikkeladresse: Matrikkeladresse;
-};
+    matrikkeladresse: Matrikkeladresse
+}
 
 function Matrikkeladresse({ matrikkeladresse }: MatrikkeladresseProps): JSX.Element {
     return (
@@ -13,7 +13,7 @@ function Matrikkeladresse({ matrikkeladresse }: MatrikkeladresseProps): JSX.Elem
             {matrikkeladresse.bruksenhetsnummer && <BodyShort>{matrikkeladresse.bruksenhetsnummer}</BodyShort>}
             <BodyShort>{`${matrikkeladresse.postnummer} ${matrikkeladresse.poststed}`}</BodyShort>
         </>
-    );
+    )
 }
 
-export default Matrikkeladresse;
+export default Matrikkeladresse

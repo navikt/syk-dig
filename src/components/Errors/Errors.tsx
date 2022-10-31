@@ -1,24 +1,24 @@
-import { ErrorSummary } from '@navikt/ds-react';
-import { useEffect, useRef } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { ErrorSummary } from '@navikt/ds-react'
+import { useEffect, useRef } from 'react'
+import { useFormContext } from 'react-hook-form'
 
-import { SykmeldingFormValues } from '../Sykmelding/SykmeldingForm';
+import { SykmeldingFormValues } from '../Sykmelding/SykmeldingForm'
 
-import { extractAllErrors } from './errorUtils';
+import { extractAllErrors } from './errorUtils'
 
 function Errors(): JSX.Element | null {
     const {
         formState: { errors },
-    } = useFormContext<SykmeldingFormValues>();
+    } = useFormContext<SykmeldingFormValues>()
 
-    const errorsRef = useRef<HTMLDivElement>(null);
+    const errorsRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        errorsRef.current?.focus();
-    }, []);
+        errorsRef.current?.focus()
+    }, [])
 
-    const errorSummary = extractAllErrors(errors, null);
-    if (!errorSummary.length) return null;
+    const errorSummary = extractAllErrors(errors, null)
+    if (!errorSummary.length) return null
 
     return (
         <ErrorSummary
@@ -32,7 +32,7 @@ function Errors(): JSX.Element | null {
                 </ErrorSummary.Item>
             ))}
         </ErrorSummary>
-    );
+    )
 }
 
-export default Errors;
+export default Errors

@@ -1,21 +1,21 @@
-import React, { useCallback } from 'react';
-import { useController } from 'react-hook-form';
-import { BodyLong, Button, Label, Select } from '@navikt/ds-react';
-import cn from 'clsx';
-import { Delete } from '@navikt/ds-icons';
+import React, { useCallback } from 'react'
+import { useController } from 'react-hook-form'
+import { BodyLong, Button, Label, Select } from '@navikt/ds-react'
+import cn from 'clsx'
+import { Delete } from '@navikt/ds-icons'
 
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm';
-import FieldError from '../FieldError/FieldError';
+import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import FieldError from '../FieldError/FieldError'
 
-import styles from './DiagnosePicker.module.css';
-import DiagnoseCombobox from './DiagnoseCombobox/DiagnoseCombobox';
+import styles from './DiagnosePicker.module.css'
+import DiagnoseCombobox from './DiagnoseCombobox/DiagnoseCombobox'
 
-export type PossiblePickerFormNames = 'diagnoser.hoveddiagnose' | `diagnoser.bidiagnoser.${number}`;
+export type PossiblePickerFormNames = 'diagnoser.hoveddiagnose' | `diagnoser.bidiagnoser.${number}`
 
 interface Props {
-    name: PossiblePickerFormNames;
-    diagnoseType: 'hoveddiagnose' | 'bidiagnose';
-    onRemove?: () => void;
+    name: PossiblePickerFormNames
+    diagnoseType: 'hoveddiagnose' | 'bidiagnose'
+    onRemove?: () => void
 }
 
 function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
@@ -23,17 +23,17 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
         name,
         rules: {
             validate: (value) => {
-                if (value.code == null) return `Du må velge en diagnosekode for ${diagnoseType}`;
+                if (value.code == null) return `Du må velge en diagnosekode for ${diagnoseType}`
             },
         },
-    });
+    })
 
     const resetValues = useCallback(
         (value: string) => {
-            field.onChange({ system: value, code: null, text: null });
+            field.onChange({ system: value, code: null, text: null })
         },
         [field],
-    );
+    )
 
     return (
         <div>
@@ -66,7 +66,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
                     onSelect={(suggestion) => field.onChange({ ...suggestion, system: field.value.system })}
                     onChange={() => {
                         if (field.value.code) {
-                            resetValues(field.value.system);
+                            resetValues(field.value.system)
                         }
                     }}
                     initialValue={field.value.code}
@@ -75,7 +75,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
             </div>
             <FieldError error={fieldState.error} />
         </div>
-    );
+    )
 }
 
 function DiagnoseDescription({ text }: { text: string | null | undefined }): JSX.Element {
@@ -84,7 +84,7 @@ function DiagnoseDescription({ text }: { text: string | null | undefined }): JSX
             <Label>Beskrivelse</Label>
             <BodyLong className={styles.diagnoseDescriptionText}>{text ?? '-'}</BodyLong>
         </div>
-    );
+    )
 }
 
-export default DiagnosePicker;
+export default DiagnosePicker

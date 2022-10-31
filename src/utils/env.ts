@@ -1,9 +1,9 @@
-import getConfig from 'next/config';
+import getConfig from 'next/config'
 
 interface PublicEnv {
-    runtimeEnv: 'local' | 'test' | 'demo' | 'dev' | 'production';
-    gosysUrl: string;
-    modiaUrl: string;
+    runtimeEnv: 'local' | 'test' | 'demo' | 'dev' | 'production'
+    gosysUrl: string
+    modiaUrl: string
 }
 
 type ServerEnv = Record<
@@ -19,18 +19,18 @@ type ServerEnv = Record<
     | 'MODIACONTEXTHOLDER_SCOPE'
     | 'MODIACONTEXTHOLDER_HOST',
     string
->;
+>
 
 export function getPublicEnv(): PublicEnv {
-    const { publicRuntimeConfig } = getConfig();
+    const { publicRuntimeConfig } = getConfig()
 
-    return publicRuntimeConfig;
+    return publicRuntimeConfig
 }
 
 export function getServerEnv(): ServerEnv {
-    const { serverRuntimeConfig } = getConfig();
+    const { serverRuntimeConfig } = getConfig()
 
-    return serverRuntimeConfig;
+    return serverRuntimeConfig
 }
 
-export const isLocalOrDemo = process.env.NODE_ENV !== 'production' || getPublicEnv().runtimeEnv === 'demo';
+export const isLocalOrDemo = process.env.NODE_ENV !== 'production' || getPublicEnv().runtimeEnv === 'demo'
