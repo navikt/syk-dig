@@ -8,9 +8,13 @@ import PeriodePicker from './PeriodePicker'
 describe('PeriodePicker', () => {
     const PeriodeSelectComp = (): JSX.Element => {
         const methods = useForm()
+
+        const values = methods.watch('periode.0.range')
+
         return (
             <FormProvider {...methods}>
                 <PeriodePicker name="periode.0.range" />
+                <div data-testid="debug-values">{JSON.stringify(values)}</div>
             </FormProvider>
         )
     }
@@ -42,11 +46,18 @@ describe('PeriodePicker', () => {
         const inputFom = screen.getByRole('textbox', { name: 'Fra' })
         const resetButton = screen.getByRole('button', { name: 'Nullstill dato' })
 
+        console.log('Before typning fom')
         await userEvent.type(inputFom, '03.08.2022')
+        console.log('After typning fom')
+        console.log('Before typning tom')
         await userEvent.type(inputTom, '03.08.2022')
+        console.log('After typning fom')
 
         await waitFor(() => expect(inputFom).toHaveAttribute('value', '03.08.2022'))
         await waitFor(() => expect(inputTom).toHaveAttribute('value', '03.08.2022'))
+        expect(screen.getByTestId('debug-values')).toHaveTextContent(
+            '{"fom":"2022-08-02T00:00:00.000Z","tom":"2022-08-02T22:00:00.000Z"}',
+        )
 
         await userEvent.click(resetButton)
 

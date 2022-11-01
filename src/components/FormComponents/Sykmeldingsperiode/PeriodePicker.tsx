@@ -33,6 +33,7 @@ function PeriodePicker({ name }: PeriodePickerProps): JSX.Element {
             to: toField.value,
         },
         onRangeChange: (value: DateRange | undefined) => {
+            console.log('rangj changj', value)
             fromField.onChange(value?.from)
             toField.onChange(value?.to)
         },
