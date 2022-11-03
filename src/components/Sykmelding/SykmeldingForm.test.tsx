@@ -12,7 +12,7 @@ import { DiagnoseSystem } from './DiagnoseFormSection'
 
 describe('SykmeldingForm', () => {
     beforeAll(() => {
-        mockRouter.setCurrentUrl('/utenlandsk/test-oppgave-id')
+        mockRouter.setCurrentUrl('/oppgave/test-oppgave-id')
     })
 
     describe('when saving', () => {

@@ -10,7 +10,7 @@ import Utenlandsk from './[oppgaveId].page'
 
 describe('Utenlandsk page', () => {
     beforeAll(() => {
-        mockRouter.setCurrentUrl('/utenlandsk/123')
+        mockRouter.setCurrentUrl('/oppgave/123')
     })
 
     it('should load form and PDF', async () => {
