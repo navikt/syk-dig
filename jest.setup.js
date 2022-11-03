@@ -32,7 +32,7 @@ window.ResizeObserver = jest.fn().mockImplementation(() => ({
 
 Modal.setAppElement(document.createElement('div'));
 
-mockRouter.useParser(createDynamicRouteParser(['/utenlandsk/[oppgaveId]']));
+mockRouter.useParser(createDynamicRouteParser(['/oppgave/[oppgaveId]']));
 
 expect.extend(toHaveNoViolations);
 

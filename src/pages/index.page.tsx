@@ -16,10 +16,10 @@ const Home: NextPage = () => {
 
             <ul>
                 <li>
-                    <Link href="/utenlandsk/eksisterende">Eksempel utenlansk oppgave med eksisterende data</Link>
+                    <Link href="/oppgave/eksisterende">Eksempel utenlansk oppgave med eksisterende data</Link>
                 </li>
                 <li>
-                    <Link href="/utenlandsk/blank">Eksempel utenlansk oppgave uten eksisterende data</Link>
+                    <Link href="/oppgave/blank">Eksempel utenlansk oppgave uten eksisterende data</Link>
                 </li>
             </ul>
         </PageWrapper>
