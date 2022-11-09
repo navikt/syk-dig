@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - '.nais/redirect-prod.yaml'
-      - '.github/workflows/deploy-redirect-prod**'
+      - '.github/workflows/deploy-redirect**'
     branches:
       - 'master'
 jobs:
