@@ -37,7 +37,7 @@ spec:
         - application: syk-dig-backend
   env:
     - name: ASSET_PREFIX
-      value: 'https://teamsykmelding-static-files.nav.no/syk-dig'
+      value: 'https://cdn.nav.no/teamsykmelding/syk-dig'
     - name: GOSYS_URL
       value: https://gosys.intern.nav.no/gosys/bruker/brukeroversikt.jsf
     - name: MODIA_URL
