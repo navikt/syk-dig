@@ -27,7 +27,7 @@
         "@navikt/ds-react-internal": "^1.4.0",
         "@navikt/next-api-proxy": "^2.0.0",
         "@navikt/next-auth-wonderwall": "^1.0.0",
-        "@navikt/next-logger": "^1.12.0",
+        "@navikt/next-logger": "^1.13.0",
         "ariakit": "^2.0.0-next.41",
         "clsx": "^1.2.1",
         "fuse.js": "^6.6.2",
