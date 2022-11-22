@@ -26,11 +26,37 @@ Kjør appen i utviklingsmodus:
 yarn start
 ```
 
+Verifisering av appen lokalt:
+
+-   kjør lint:
+
+```bash
+yarn lint
+```
+
+-   sjekk typescript:
+
+```bash
+yarn tsc
+```
+
+-   kjør tester:
+
+```bash
+yarn test
+```
+
+-   bygg appen:
+
+```bash
+yarn build
+```
+
 ### Kontakt/spørsmål
 
 Prosjektet er vedlikeholdt av [teamsykmelding](CODEOWNERS)
 
-Spørsmål og/eller feature requests? Vennligst lag ein [issue](https://github.com/navikt/syfosmregister/issues).
+Spørsmål og/eller feature requests? Vennligst lag ein [issue](https://github.com/navikt/sykdig/issues).
 
 Dersom du jobber i [@navikt](https://github.com/navikt) kan du nå oss på slack
 kanalen [#team-sykmelding](https://nav-it.slack.com/archives/CMA3XV997).
