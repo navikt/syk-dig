@@ -57,9 +57,17 @@ export function useModiaContextUpdated(
 export function useSelectedModiaEnhet(): string {
     const { data } = useQuery(ModiaContextDocument)
 
-    if (!data?.modia?.aktivEnhet) {
-        throw new Error('No modia context or aktivEnhet found')
+    if (!data?.modia) {
+        throw new Error('Modia context failed to load')
     }
 
-    return data?.modia?.aktivEnhet
+    if (data.modia.enheter.length === 0) {
+        throw new Error('User without modia enheter')
+    }
+
+    if (!data?.modia?.aktivEnhet) {
+        return data.modia.enheter[0].enhetId
+    }
+
+    return data.modia.aktivEnhet
 }
