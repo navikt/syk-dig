@@ -7,11 +7,11 @@
 .leggTilButton {
     border-radius: 4px;
     width: 13.8rem;
-    margin-top: var(--navds-spacing-4);
+    margin-top: var(--a-spacing-4);
 }
 
 .periode :global(.navds-button--danger) {
     display: flex;
     align-self: flex-end;
-    margin-right: var(--navds-spacing-8);
+    margin-right: var(--a-spacing-8);
 }

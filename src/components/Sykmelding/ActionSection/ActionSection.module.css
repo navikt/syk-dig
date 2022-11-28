@@ -1,23 +1,23 @@
 .radioGroupInfo {
-    margin-bottom: var(--navds-spacing-8);
+    margin-bottom: var(--a-spacing-8);
 }
 
 .subActionSection {
-    border-top: 1px solid var(--navds-semantic-color-border-muted);
-    margin-top: var(--navds-spacing-8);
-    padding-top: var(--navds-spacing-8);
+    border-top: 1px solid var(--a-border-default);
+    margin-top: var(--a-spacing-8);
+    padding-top: var(--a-spacing-8);
 }
 
 .otherActionButtons {
     display: flex;
-    gap: var(--navds-spacing-4);
-    margin-top: var(--navds-spacing-8);
+    gap: var(--a-spacing-4);
+    margin-top: var(--a-spacing-8);
 }
 
 .mutationResultFeedback {
-    margin-top: var(--navds-spacing-8);
+    margin-top: var(--a-spacing-8);
 }
 
 .demoWarning {
-    margin: var(--navds-spacing-4) 0;
+    margin: var(--a-spacing-4) 0;
 }

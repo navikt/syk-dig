@@ -64,17 +64,17 @@ describe('SykmeldingForm', () => {
                             hovedDiagnose: { kode: 'L815', system: 'ICD10' },
                             biDiagnoser: [{ kode: 'Y04', system: 'ICPC2' }],
                             perioder: [
-                                { fom: '0202-01-15', tom: '2022-01-15', type: PeriodeType.Reisetilskudd, grad: null },
-                                { fom: '0202-02-16', tom: '2022-02-16', type: PeriodeType.Gradert, grad: 60 },
+                                { fom: '2022-01-01', tom: '2022-01-15', type: PeriodeType.Reisetilskudd, grad: null },
+                                { fom: '2022-02-02', tom: '2022-02-16', type: PeriodeType.Gradert, grad: 60 },
                                 {
-                                    fom: '0202-03-17',
+                                    fom: '2022-03-03',
                                     tom: '2022-03-17',
                                     type: PeriodeType.Behandlingsdager,
                                     grad: null,
                                 },
-                                { fom: '0202-04-18', tom: '2022-04-18', type: PeriodeType.Avventende, grad: null },
+                                { fom: '2022-04-04', tom: '2022-04-18', type: PeriodeType.Avventende, grad: null },
                                 {
-                                    fom: '0202-05-19',
+                                    fom: '2022-05-05',
                                     tom: '2022-05-19',
                                     type: PeriodeType.AktivitetIkkeMulig,
                                     grad: null,
