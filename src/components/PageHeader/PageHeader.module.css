@@ -4,15 +4,15 @@
 
 .enhetMenu {
     margin-left: auto;
-    margin-right: var(--navds-spacing-4);
+    margin-right: var(--a-spacing-4);
     margin-top: -2px;
 }
 
 .enhetMenu :global(.navds-select__input) {
-    color: var(--navds-text-field-color-text);
-    background-color: var(--navds-text-field-color-background);
+    color: var(--a-text-default);
+    background-color: var(--a-surface-default);
 }
 
 .enhetMenu :global(.navds-select__chevron) {
-    color: var(--navds-text-field-color-text);
+    color: var(--a-text-default);
 }

@@ -1,5 +1,5 @@
 .andreOpplysninger {
-    margin-left: var(--navds-spacing-10);
+    margin-left: var(--a-spacing-10);
 }
 
 .andreOpplysninger :global(.navds-confirmation-panel__inner) {

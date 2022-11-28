@@ -1,11 +1,11 @@
 .diagnosePicker {
     display: grid;
     grid-template-columns: 48px 0.9fr 1.2fr 2.6fr;
-    gap: var(--navds-spacing-8);
+    gap: var(--a-spacing-8);
 }
 
 .diagnoseDescriptionText {
-    height: var(--navds-spacing-12);
+    height: var(--a-spacing-12);
     display: flex;
     align-items: center;
 }
@@ -13,5 +13,5 @@
 .onRemoveButtonWrapper {
     display: flex;
     align-items: center;
-    margin-top: var(--navds-spacing-8);
+    margin-top: var(--a-spacing-8);
 }

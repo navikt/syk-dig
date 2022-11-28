@@ -1,7 +1,7 @@
 .periodePicker {
     display: flex;
     flex-wrap: wrap;
-    padding-top: var(--navds-spacing-4);
+    padding-top: var(--a-spacing-4);
 }
 
 .periodePicker :global(.navds-date__wrapper) {
@@ -11,7 +11,7 @@
 
 .periodePicker :global(.navds-form-field),
 .periodePicker :global(.navds-error-message) {
-    margin-right: var(--navds-spacing-8);
+    margin-right: var(--a-spacing-8);
 }
 
 .nullstillButton {

@@ -1,6 +1,6 @@
 .navn,
 .adresser {
-    padding-bottom: var(--navds-spacing-8);
+    padding-bottom: var(--a-spacing-8);
 }
 
 .adresser {
@@ -8,5 +8,5 @@
 }
 
 .adresser div:first-of-type {
-    padding-right: var(--navds-spacing-32);
+    padding-right: var(--a-spacing-32);
 }
