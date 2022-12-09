@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react'
-import { Alert, Button, Radio, RadioGroup } from '@navikt/ds-react'
+import { Alert, Button } from '@navikt/ds-react'
 import { Edit, Success } from '@navikt/ds-icons'
 import { useFormContext } from 'react-hook-form'
 import { MutationResult } from '@apollo/client'
@@ -15,17 +15,15 @@ import styles from './ActionSection.module.css'
 
 const publicEnv = getPublicEnv()
 
-export interface ActionFormSectionValues {
-    registerOppgaveStatus: 'everything_ok' | 'some_missing'
-}
-
 interface Props {
+    fnr: string
     registerResult: MutationResult<SaveOppgaveMutation>
 }
 
-function ActionSection({ registerResult }: Props): JSX.Element {
-    const { register, getValues, reset } = useFormContext<SykmeldingFormValues>()
+function ActionSection({ fnr, registerResult }: Props): JSX.Element {
+    const { getValues, reset } = useFormContext<SykmeldingFormValues>()
     const [saveAndClose, saveResult] = useHandleSave({
+        fnr,
         onCompleted: () => {
             if (!isLocalOrDemo) {
                 window.location.href = publicEnv.gosysUrl
@@ -35,17 +33,6 @@ function ActionSection({ registerResult }: Props): JSX.Element {
 
     return (
         <SykmeldingSection title="Registrer opplysningene" Icon={Success} variant="light">
-            <RadioGroup
-                {...register('action.registerOppgaveStatus')}
-                className={styles.radioGroupInfo}
-                legend="Er alle opplysningene korrekte?"
-                hideLegend
-                onChange={() => void 0}
-                defaultValue="everything_ok"
-            >
-                <Radio value="everything_ok">Alle opplysningene fra sykmeldingen er lagt inn</Radio>
-                <Radio value="some_missing">Sykmeldingen mangler opplysninger</Radio>
-            </RadioGroup>
             <Button type="submit" loading={registerResult.loading}>
                 Registrere og send
             </Button>

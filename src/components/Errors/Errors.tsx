@@ -5,6 +5,7 @@ import { useFormContext } from 'react-hook-form'
 import { SykmeldingFormValues } from '../Sykmelding/SykmeldingForm'
 
 import { extractAllErrors } from './errorUtils'
+import styles from './Errors.module.css'
 
 function Errors(): JSX.Element | null {
     const {
@@ -25,6 +26,7 @@ function Errors(): JSX.Element | null {
             size="medium"
             heading="Du må fylle ut disse feltene før du kan registrere sykmeldingen."
             ref={errorsRef}
+            className={styles.errorSummary}
         >
             {errorSummary.map(({ name, message }) => (
                 <ErrorSummary.Item key={name} href={`#${name}`}>

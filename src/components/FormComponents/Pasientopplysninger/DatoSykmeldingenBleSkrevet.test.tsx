@@ -1,5 +1,7 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import userEvent from '@testing-library/user-event'
+import { add, format } from 'date-fns/fp'
+import * as R from 'remeda'
 
 import { render, screen, waitFor } from '../../../utils/testUtils'
 
@@ -7,10 +9,13 @@ import DatoSykmeldingenBleSkrevet from './DatoSykmeldingenBleSkrevet'
 
 describe('DatoSykmeldingenBleSkrevet', () => {
     const DatoSykmeldingenBleSkrevetComp = (): JSX.Element => {
-        const methods = useForm()
+        const form = useForm()
         return (
-            <FormProvider {...methods}>
-                <DatoSykmeldingenBleSkrevet />
+            <FormProvider {...form}>
+                <form onSubmit={form.handleSubmit(() => void 0)}>
+                    <DatoSykmeldingenBleSkrevet />
+                    <button type="submit">submit test</button>
+                </form>
             </FormProvider>
         )
     }
@@ -38,5 +43,31 @@ describe('DatoSykmeldingenBleSkrevet', () => {
         await userEvent.click(resetButton)
 
         await waitFor(() => expect(dateInput).toHaveAttribute('value', ''))
+    })
+
+    describe('validation', () => {
+        it('should not allow empty input', async () => {
+            render(<DatoSykmeldingenBleSkrevetComp />)
+
+            await userEvent.click(screen.getByRole('button', { name: 'submit test' }))
+
+            expect(
+                await screen.findByText('Du må fylle inn dato for når sykmeldingen ble skrevet.'),
+            ).toBeInTheDocument()
+        })
+
+        it('should not allow dates after today', async () => {
+            render(<DatoSykmeldingenBleSkrevetComp />)
+
+            await userEvent.type(
+                screen.getByRole('textbox', { name: 'Datoen sykmeldingen ble skrevet' }),
+                R.pipe(new Date(), add({ days: 1 }), format('dd.MM.yyyy')),
+            )
+            await userEvent.click(screen.getByRole('button', { name: 'submit test' }))
+
+            expect(
+                await screen.findByText('Datoen sykmeldingen ble skrevet kan ikke være i fremtiden.'),
+            ).toBeInTheDocument()
+        })
     })
 })

@@ -1,6 +1,6 @@
 .diagnosePicker {
     display: grid;
-    grid-template-columns: 48px 0.9fr 1.2fr 2.6fr;
+    grid-template-columns: 48px 0.9fr 1.7fr 2.1fr;
     gap: var(--a-spacing-8);
 }
 

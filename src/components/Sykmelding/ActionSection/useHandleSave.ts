@@ -19,9 +19,9 @@ import { PeriodeFormValue } from '../Sykmeldingsperiode'
 import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
 
 type UseSave = [save: SubmitHandler<SykmeldingFormValues>, result: MutationResult<SaveOppgaveMutation>]
-type UseSaveOptions = { onCompleted?: () => void }
+type UseSaveOptions = { fnr: string; onCompleted?: () => void }
 
-export function useHandleSave({ onCompleted }: UseSaveOptions): UseSave {
+export function useHandleSave({ fnr, onCompleted }: UseSaveOptions): UseSave {
     const params = useParam(Location.Utenlansk)
     const enhetId = useSelectedModiaEnhet()
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument)
@@ -31,7 +31,7 @@ export function useHandleSave({ onCompleted }: UseSaveOptions): UseSave {
         await saveOppgave({
             variables: {
                 id: params.oppgaveId,
-                values: mapFormValues(data),
+                values: mapFormValues(fnr, data),
                 status: SykmeldingUnderArbeidStatus.UnderArbeid,
                 enhetId,
             },
@@ -42,7 +42,7 @@ export function useHandleSave({ onCompleted }: UseSaveOptions): UseSave {
     return [saveAndClose, mutationResult]
 }
 
-export function useHandleRegister({ onCompleted }: UseSaveOptions = {}): UseSave {
+export function useHandleRegister({ fnr, onCompleted }: UseSaveOptions): UseSave {
     const params = useParam(Location.Utenlansk)
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument)
     const enhetId = useSelectedModiaEnhet()
@@ -52,7 +52,7 @@ export function useHandleRegister({ onCompleted }: UseSaveOptions = {}): UseSave
         await saveOppgave({
             variables: {
                 id: params.oppgaveId,
-                values: mapFormValues(data),
+                values: mapFormValues(fnr, data),
                 status: SykmeldingUnderArbeidStatus.Ferdigstilt,
                 enhetId,
             },
@@ -63,15 +63,9 @@ export function useHandleRegister({ onCompleted }: UseSaveOptions = {}): UseSave
     return [registerAndSubmit, mutationResult]
 }
 
-function mapFormValues(formValues: SykmeldingFormValues): SykmeldingUnderArbeidValues {
-    const cleanFnr = safeString(formValues.fnr)
-
-    if (cleanFnr == null) {
-        throw new Error(`FNR is invalid (${cleanFnr}), did RHF validation fail?`)
-    }
-
+function mapFormValues(fnr: string, formValues: SykmeldingFormValues): SykmeldingUnderArbeidValues {
     return {
-        fnrPasient: cleanFnr,
+        fnrPasient: fnr,
         skrevetLand: safeString(formValues.land),
         behandletTidspunkt: safeDate(formValues.behandletTidspunkt),
         hovedDiagnose: mapDiagnose(formValues.diagnoser.hoveddiagnose),

@@ -8,13 +8,14 @@ import CountryPicker from '../FormComponents/CountryPicker/CountryPicker'
 import { Person } from '../../graphql/queries/graphql.generated'
 
 interface PasientopplysningerProps {
+    fnr: string
     person: Person
 }
 
-function Pasientopplysninger({ person }: PasientopplysningerProps): JSX.Element {
+function Pasientopplysninger({ fnr, person }: PasientopplysningerProps): JSX.Element {
     return (
         <SykmeldingSection id="pasientopplysninger-seksjon" title="Pasientopplysninger" Icon={Profile}>
-            <Fodselsnummer />
+            <Fodselsnummer fnr={fnr} />
             <NavnOgAdresser person={person} />
             <DatoSykmeldingenBleSkrevet />
             <CountryPicker name="land" />

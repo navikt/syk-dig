@@ -332,7 +332,7 @@ export type OppgaveValues = {
     __typename: 'OppgaveValues'
     behandletTidspunkt?: Maybe<Scalars['DateTime']>
     biDiagnoser?: Maybe<Array<DiagnoseValue>>
-    fnrPasient?: Maybe<Scalars['String']>
+    fnrPasient: Scalars['String']
     harAndreRelevanteOpplysninger?: Maybe<Scalars['Boolean']>
     hoveddiagnose?: Maybe<DiagnoseValue>
     perioder?: Maybe<Array<PeriodeValue>>
@@ -483,7 +483,7 @@ export type DiagnoseFragment = { __typename: 'DiagnoseValue'; kode: string; teks
 
 export type OppgaveValuesFragment = {
     __typename: 'OppgaveValues'
-    fnrPasient?: string | null
+    fnrPasient: string
     behandletTidspunkt?: string | null
     skrevetLand?: string | null
     harAndreRelevanteOpplysninger?: boolean | null
@@ -559,7 +559,7 @@ export type OppgaveFragment = {
     }
     values: {
         __typename: 'OppgaveValues'
-        fnrPasient?: string | null
+        fnrPasient: string
         behandletTidspunkt?: string | null
         skrevetLand?: string | null
         harAndreRelevanteOpplysninger?: boolean | null
@@ -571,12 +571,7 @@ export type OppgaveFragment = {
             grad?: number | null
         }> | null
         hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
-        biDiagnoser?: Array<{
-            __typename: 'DiagnoseValue'
-            kode: string
-            tekst?: string | null
-            system: string
-        }> | null
+        biDiagnoser?: Array<{ __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string }> | null
     }
 }
 
@@ -745,7 +740,7 @@ export type OppgaveByIdQuery = {
         }
         values: {
             __typename: 'OppgaveValues'
-            fnrPasient?: string | null
+            fnrPasient: string
             behandletTidspunkt?: string | null
             skrevetLand?: string | null
             harAndreRelevanteOpplysninger?: boolean | null
@@ -837,7 +832,7 @@ export type SaveOppgaveMutation = {
         }
         values: {
             __typename: 'OppgaveValues'
-            fnrPasient?: string | null
+            fnrPasient: string
             behandletTidspunkt?: string | null
             skrevetLand?: string | null
             harAndreRelevanteOpplysninger?: boolean | null
