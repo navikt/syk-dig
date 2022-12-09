@@ -11,9 +11,10 @@ type FormName = `periode.${number}.sykmeldingstype`
 
 interface Props {
     name: FormName
+    index: number
 }
 
-function PeriodeSelect({ name }: Props): JSX.Element {
+function PeriodeSelect({ name, index }: Props): JSX.Element {
     const { field, fieldState } = useController<SykmeldingFormValues, FormName>({
         name,
         rules: {
@@ -22,7 +23,7 @@ function PeriodeSelect({ name }: Props): JSX.Element {
     })
     return (
         <div className={styles.periodeSelect}>
-            <Select id={name} label="Periode" {...field}>
+            <Select id={name} label={`Periode ${index + 1}`} {...field}>
                 <option value={PeriodeType.AktivitetIkkeMulig}>100% sykmeldt</option>
                 <option value={PeriodeType.Avventende}>Avventende sykmelding</option>
                 <option value={PeriodeType.Behandlingsdager}>Behandlingsdager</option>

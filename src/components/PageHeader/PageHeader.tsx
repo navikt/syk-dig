@@ -51,12 +51,12 @@ function PageHeader(): JSX.Element {
 
 function HeaderText(): JSX.Element {
     if (publicEnv.runtimeEnv === 'production') {
-        return <Header.Title as="div">Digitalisering av sykmeldinger</Header.Title>
+        return <Header.Title as="div">Registrering av sykmelding</Header.Title>
     }
 
     return (
         <Link href="/" legacyBehavior passHref>
-            <Header.Title as="a">Digitalisering av sykmeldinger</Header.Title>
+            <Header.Title as="a">Registrering av sykmelding</Header.Title>
         </Link>
     )
 }

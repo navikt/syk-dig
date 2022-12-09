@@ -1,6 +1,7 @@
 .diagnosePicker {
+    position: relative;
     display: grid;
-    grid-template-columns: 48px 0.9fr 1.7fr 2.1fr;
+    grid-template-columns: 0.1fr 0.5fr 2fr;
     gap: var(--a-spacing-8);
 }
 
@@ -11,7 +12,7 @@
 }
 
 .onRemoveButtonWrapper {
-    display: flex;
-    align-items: center;
-    margin-top: var(--a-spacing-8);
+    position: absolute;
+    top: calc(var(--a-spacing-10) * -1);
+    right: 0;
 }

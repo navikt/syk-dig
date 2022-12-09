@@ -1,4 +1,4 @@
 .periodeSelect {
-    margin-right: var(--a-spacing-8);
     min-width: 12rem;
+    max-width: calc(var(--a-spacing-32) * 3);
 }

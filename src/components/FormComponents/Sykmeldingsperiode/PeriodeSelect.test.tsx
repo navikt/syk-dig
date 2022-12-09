@@ -11,7 +11,7 @@ describe('PeriodeSelect', () => {
         const methods = useForm()
         return (
             <FormProvider {...methods}>
-                <PeriodeSelect name={`periode.${0}.sykmeldingstype`} />
+                <PeriodeSelect name={`periode.${0}.sykmeldingstype`} index={0} />
             </FormProvider>
         )
     }
@@ -25,7 +25,7 @@ describe('PeriodeSelect', () => {
     it('should have periodetype AKTIVITET_IKKE_MULIG as default', async () => {
         render(<PeriodeSelectComp />)
 
-        const select = screen.getByRole('combobox', { name: 'Periode' })
+        const select = screen.getByRole('combobox', { name: 'Periode 1' })
         const options = screen.getAllByRole('option')
 
         expect(options).toHaveLength(5)
@@ -35,7 +35,7 @@ describe('PeriodeSelect', () => {
     it('should select periodetype BEHANDLINGSDAGER', async () => {
         render(<PeriodeSelectComp />)
 
-        const select = screen.getByRole('combobox', { name: 'Periode' })
+        const select = screen.getByRole('combobox', { name: 'Periode 1' })
         const options = screen.getAllByRole('option')
 
         expect(options).toHaveLength(5)

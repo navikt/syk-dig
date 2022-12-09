@@ -1,10 +1,8 @@
 import React, { PropsWithChildren } from 'react'
 import { Alert, Button } from '@navikt/ds-react'
-import { Edit, Success } from '@navikt/ds-icons'
 import { useFormContext } from 'react-hook-form'
 import { MutationResult } from '@apollo/client'
 
-import SykmeldingSection, { SectionHeader } from '../../SykmeldingSection/SykmeldingSection'
 import { getPublicEnv, isLocalOrDemo } from '../../../utils/env'
 import { SykmeldingFormValues } from '../SykmeldingForm'
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated'
@@ -32,10 +30,7 @@ function ActionSection({ fnr, registerResult }: Props): JSX.Element {
     })
 
     return (
-        <SykmeldingSection title="Registrer opplysningene" Icon={Success} variant="light">
-            <Button type="submit" loading={registerResult.loading}>
-                Registrere og send
-            </Button>
+        <div className={styles.stickyActionSection}>
             <MutationResultFeedback what="registrere" result={registerResult}>
                 <FeedbackModal title="Sykmeldingen er registrert">
                     {isLocalOrDemo && (
@@ -48,36 +43,42 @@ function ActionSection({ fnr, registerResult }: Props): JSX.Element {
                     </Button>
                 </FeedbackModal>
             </MutationResultFeedback>
-            <section aria-labelledby="subsection-other-actions" className={styles.subActionSection}>
-                <SectionHeader headingId="subsection-other-actions" title="Andre valg" Icon={Edit} />
-                <div className={styles.otherActionButtons}>
-                    <Button
-                        variant="secondary"
-                        type="button"
-                        onClick={() => {
-                            /** Reset the form state, any invalid submits etc.,
-                             * because we want to save the draft and leave */
-                            reset(undefined, { keepValues: true })
-                            return saveAndClose(getValues())
-                        }}
-                        loading={saveResult.loading}
-                    >
-                        Fortsett senere
-                    </Button>
-                    <Button variant="tertiary" as="a" href={publicEnv.gosysUrl}>
-                        Avbryt
-                    </Button>
-                </div>
-                <MutationResultFeedback what="lagre" result={saveResult}>
-                    <Alert variant="success">Oppgaven ble lagret, sender deg tilbake til GOSYS...</Alert>
+            <MutationResultFeedback what="lagre" result={saveResult}>
+                <FeedbackModal title="Sykmeldingen ble lagret">
                     {isLocalOrDemo && (
                         <Alert className={styles.demoWarning} variant="warning">
                             Dette er bare en demo, du blir ikke sendt tilbake til GOSYS
                         </Alert>
                     )}
-                </MutationResultFeedback>
-            </section>
-        </SykmeldingSection>
+                    <Alert variant="success" className={styles.saveSuccess}>
+                        Oppgaven ble lagret, sender deg tilbake til GOSYS...
+                    </Alert>
+                    <Button variant="tertiary" as="a" href={publicEnv.gosysUrl}>
+                        Klikk her dersom du ikke blir videresendt...
+                    </Button>
+                </FeedbackModal>
+            </MutationResultFeedback>
+
+            <Button type="submit" loading={registerResult.loading}>
+                Registrere og send
+            </Button>
+            <Button
+                variant="secondary"
+                type="button"
+                onClick={() => {
+                    /** Reset the form state, any invalid submits etc.,
+                     * because we want to save the draft and leave */
+                    reset(undefined, { keepValues: true })
+                    return saveAndClose(getValues())
+                }}
+                loading={saveResult.loading}
+            >
+                Fortsett senere
+            </Button>
+            <Button variant="tertiary" as="a" href={publicEnv.gosysUrl}>
+                Avbryt
+            </Button>
+        </div>
     )
 }
 

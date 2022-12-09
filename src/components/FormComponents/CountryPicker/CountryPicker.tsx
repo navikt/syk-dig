@@ -5,6 +5,7 @@ import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
 
 import CountryCombobox from './CountryCombobox/CountryCombobox'
+import styles from './CountryPicker.module.css'
 
 interface Props {
     name: 'land'
@@ -17,7 +18,7 @@ function CountryPicker({ name }: Props): JSX.Element {
     })
 
     return (
-        <div>
+        <div className={styles.countryPicker}>
             <CountryCombobox
                 id="land"
                 initialValue={field.value}

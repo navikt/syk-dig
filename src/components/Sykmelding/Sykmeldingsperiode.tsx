@@ -1,5 +1,4 @@
 import { Button } from '@navikt/ds-react'
-import { Calender, Delete } from '@navikt/ds-icons'
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
 
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
@@ -31,23 +30,31 @@ function Sykmeldingsperiode(): JSX.Element {
     const watchFieldArray = useWatch({ name: 'periode' })
 
     return (
-        <SykmeldingSection id="sykmeldingsperiode-seksjon" title="Sykmeldingsperiode" Icon={Calender}>
+        <SykmeldingSection id="sykmeldingsperiode-seksjon" title="Sykmeldingsperiode">
             {fields.map((field, index) => (
-                <div id={`periode${index}`} className={styles.periode} key={field.id}>
+                <div id={`periode${index}`} key={field.id} className={styles.periodeRow}>
+                    <div className={styles.periode}>
+                        <div className={styles.periodeGradWrapper}>
+                            <PeriodeSelect name={`periode.${index}.sykmeldingstype`} index={index} />
+                            {watchFieldArray?.[index]?.sykmeldingstype === PeriodeType.Gradert && (
+                                <GradInput name={`periode.${index}.grad`} />
+                            )}
+                        </div>
+                        <PeriodePicker name={`periode.${index}.range`} />
+                    </div>
                     {index > 0 && (
-                        <Button
-                            variant="danger"
-                            icon={<Delete aria-hidden />}
-                            aria-label={`Slett periode ${index + 1}`}
-                            type="button"
-                            onClick={() => remove(index)}
-                        />
+                        <div className={styles.deleteButton}>
+                            <Button
+                                variant="tertiary"
+                                type="button"
+                                onClick={() => remove(index)}
+                                className={styles.deleteButton}
+                                size="small"
+                            >
+                                Fjern periode
+                            </Button>
+                        </div>
                     )}
-                    <PeriodeSelect name={`periode.${index}.sykmeldingstype`} />
-                    {watchFieldArray?.[index]?.sykmeldingstype === PeriodeType.Gradert && (
-                        <GradInput name={`periode.${index}.grad`} />
-                    )}
-                    <PeriodePicker name={`periode.${index}.range`} />
                 </div>
             ))}
             <Button

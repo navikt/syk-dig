@@ -2,5 +2,5 @@
 @import '~@navikt/ds-css-internal';
 
 :root {
-    --content-width: 60rem;
+    --content-width: 42rem;
 }

@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import { useController } from 'react-hook-form'
 import { BodyLong, Button, Label, Select } from '@navikt/ds-react'
 import cn from 'clsx'
-import { Delete } from '@navikt/ds-icons'
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
@@ -38,19 +37,6 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
     return (
         <div>
             <div className={styles.diagnosePicker}>
-                <div>
-                    {onRemove && (
-                        <div className={styles.onRemoveButtonWrapper}>
-                            <Button
-                                variant="danger"
-                                icon={<Delete aria-hidden />}
-                                aria-label="Slett bidiagnose"
-                                type="button"
-                                onClick={onRemove}
-                            />
-                        </div>
-                    )}
-                </div>
                 <Select
                     label="Kodesystem"
                     value={field.value.system}
@@ -72,6 +58,15 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
                     initialValue={field.value.code}
                 />
                 <DiagnoseDescription text={field.value.text} />
+                <div>
+                    {onRemove && (
+                        <div className={styles.onRemoveButtonWrapper}>
+                            <Button variant="tertiary" type="button" onClick={onRemove} size="small">
+                                Fjern bidiagnose
+                            </Button>
+                        </div>
+                    )}
+                </div>
             </div>
             <FieldError error={fieldState.error} />
         </div>

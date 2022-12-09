@@ -1,4 +1,3 @@
-import { FileContent } from '@navikt/ds-icons'
 import { ConfirmationPanel } from '@navikt/ds-react'
 import { useController } from 'react-hook-form'
 
@@ -15,7 +14,7 @@ function AndreOpplysninger(): JSX.Element {
     })
 
     return (
-        <SykmeldingSection id="andre-opplysninger-seksjon" title="Andre opplysninger" Icon={FileContent}>
+        <SykmeldingSection id="andre-opplysninger-seksjon" title="Andre opplysninger">
             <ConfirmationPanel
                 id={field.name}
                 className={styles.andreOpplysninger}

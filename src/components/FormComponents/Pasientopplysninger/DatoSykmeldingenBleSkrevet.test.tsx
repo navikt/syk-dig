@@ -30,21 +30,6 @@ describe('DatoSykmeldingenBleSkrevet', () => {
         await waitFor(() => expect(dateInput).toHaveAttribute('value', '02.11.2022'))
     })
 
-    it('should empty date input fields when Nullstill dato is clicked', async () => {
-        render(<DatoSykmeldingenBleSkrevetComp />)
-
-        const dateInput = screen.getByRole('textbox', { name: 'Datoen sykmeldingen ble skrevet' })
-        const resetButton = screen.getByRole('button', { name: 'Nullstill dato' })
-
-        await userEvent.type(dateInput, '09.12.2022')
-
-        await waitFor(() => expect(dateInput).toHaveAttribute('value', '09.12.2022'))
-
-        await userEvent.click(resetButton)
-
-        await waitFor(() => expect(dateInput).toHaveAttribute('value', ''))
-    })
-
     describe('validation', () => {
         it('should not allow empty input', async () => {
             render(<DatoSykmeldingenBleSkrevetComp />)

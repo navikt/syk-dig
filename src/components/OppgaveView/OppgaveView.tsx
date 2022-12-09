@@ -68,8 +68,8 @@ function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProp
     return (
         <PageTitle
             titleId="oppgave-header"
-            title="Digitalisering av utenlandske sykmeldinger"
-            ingress="Vennligst legg inn opplysningene fra sykmeldingen under"
+            title="Utenlandsk sykmelding"
+            ingress="Vennligst skriv inn opplysningene fra sykmeldingen under"
             titleActions={
                 !showTabs ? (
                     <Tooltip content="Vis PDF i egen fane">
