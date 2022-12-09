@@ -4,11 +4,13 @@
 }
 
 .nullstillButton {
-    max-height: 4rem;
-    align-self: flex-end;
-    border-radius: 4px;
+    margin-top: var(--a-spacing-8);
 }
 
 .datoSykmeldingenBleSkrevet :global(.navds-error-message::before) {
     content: unset;
+}
+
+.datePicker {
+    width: 30ch;
 }

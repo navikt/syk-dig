@@ -58,7 +58,7 @@ describe('SykmeldingForm', () => {
                     variables: {
                         id: 'test-oppgave-id',
                         values: {
-                            fnrPasient: '12345678901',
+                            fnrPasient: 'fnr-pasient',
                             skrevetLand: 'POL',
                             behandletTidspunkt: '2022-06-07',
                             hovedDiagnose: { kode: 'L815', system: 'ICD10' },
@@ -96,7 +96,6 @@ describe('SykmeldingForm', () => {
             })
 
             await fillPasientOpplysningerSection({
-                fnr: '12345678901',
                 skrevetDato: '07.06.2022',
                 land: { type: 'Pol', click: 'Polen' },
             })
@@ -132,7 +131,6 @@ describe('SykmeldingForm', () => {
             const oppgave = createOppgave()
             render(<SykmeldingForm oppgave={oppgave} />)
 
-            await userEvent.clear(screen.getByRole('textbox', { name: 'Fødselsnummer (11 siffer)' }))
             await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }))
 
             const errorSection = within(
@@ -141,7 +139,6 @@ describe('SykmeldingForm', () => {
                 }),
             )
 
-            expect(errorSection.getByRole('link', { name: 'Du må fylle inn fødselsnummer.' })).toBeInTheDocument()
             expect(errorSection.getByRole('link', { name: 'Du må velge et land' })).toBeInTheDocument()
             expect(
                 errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose' }),
@@ -153,7 +150,6 @@ describe('SykmeldingForm', () => {
             render(<SykmeldingForm oppgave={oppgave} />)
 
             await userEvent.click(screen.getByRole('button', { name: 'Legg til bidiagnose' }))
-            await userEvent.clear(screen.getByRole('textbox', { name: 'Fødselsnummer (11 siffer)' }))
             await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }))
 
             const errorSection = within(
@@ -162,7 +158,6 @@ describe('SykmeldingForm', () => {
                 }),
             )
 
-            expect(errorSection.getByRole('link', { name: 'Du må fylle inn fødselsnummer.' })).toBeInTheDocument()
             expect(errorSection.getByRole('link', { name: 'Du må fylle inn fra dato.' })).toBeInTheDocument()
             expect(errorSection.getByRole('link', { name: 'Du må fylle inn til dato.' })).toBeInTheDocument()
             expect(
@@ -176,19 +171,14 @@ describe('SykmeldingForm', () => {
 })
 
 async function fillPasientOpplysningerSection({
-    fnr,
     skrevetDato,
     land,
 }: {
-    fnr: string
     skrevetDato: string
     land: { type: string; click: string }
 }): Promise<void> {
     const section = within(screen.getByRole('region', { name: 'Pasientopplysninger' }))
 
-    const fodselsnummerInput = section.getByRole('textbox', { name: 'Fødselsnummer (11 siffer)' })
-    await userEvent.clear(fodselsnummerInput)
-    await userEvent.type(fodselsnummerInput, fnr)
     await userEvent.type(section.getByRole('textbox', { name: 'Datoen sykmeldingen ble skrevet' }), skrevetDato)
     await userEvent.type(section.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), land.type)
     await userEvent.click(await section.findByRole('option', { name: land.click }))

@@ -41,7 +41,7 @@ function PeriodePicker({ name }: PeriodePickerProps): JSX.Element {
     return (
         <>
             <div className={styles.periodePicker}>
-                <UNSAFE_DatePicker {...datepickerProps}>
+                <UNSAFE_DatePicker {...datepickerProps} wrapperClassName={styles.dateRangePicker}>
                     <UNSAFE_DatePicker.Input
                         id={fromField.name}
                         {...fromInputProps}
