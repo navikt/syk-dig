@@ -1,0 +1,4 @@
+.countryPicker {
+    max-width: calc(var(--a-spacing-32) * 3);
+    margin-bottom: var(--a-spacing-4);
+}

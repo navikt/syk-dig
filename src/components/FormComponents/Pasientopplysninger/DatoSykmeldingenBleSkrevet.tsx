@@ -1,5 +1,5 @@
 import { useController } from 'react-hook-form'
-import { Button, DateValidationT, UNSAFE_DatePicker, UNSAFE_useDatepicker } from '@navikt/ds-react'
+import { DateValidationT, UNSAFE_DatePicker, UNSAFE_useDatepicker } from '@navikt/ds-react'
 import { useState } from 'react'
 
 import { toDate } from '../../../utils/dateUtils'
@@ -7,11 +7,9 @@ import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 
 import styles from './DatoSykmeldingenBleSkrevet.module.css'
 
-type DateName = 'behandletTidspunkt'
-
 function DatoSykmeldingenBleSkrevet(): JSX.Element {
     const [validationError, setValidationError] = useState<DateValidationT | null>(null)
-    const { field, fieldState } = useController<SykmeldingFormValues, DateName>({
+    const { field, fieldState } = useController<SykmeldingFormValues, 'behandletTidspunkt'>({
         name: 'behandletTidspunkt',
         rules: {
             validate: (value) => {
@@ -26,7 +24,7 @@ function DatoSykmeldingenBleSkrevet(): JSX.Element {
         },
     })
 
-    const { datepickerProps, inputProps, setSelected } = UNSAFE_useDatepicker({
+    const { datepickerProps, inputProps } = UNSAFE_useDatepicker({
         toDate: new Date(),
         today: new Date(),
         defaultSelected: field.value ? toDate(field.value) : undefined,
@@ -49,18 +47,6 @@ function DatoSykmeldingenBleSkrevet(): JSX.Element {
                     error={fieldState.error?.message}
                 />
             </UNSAFE_DatePicker>
-            <div>
-                <Button
-                    className={styles.nullstillButton}
-                    variant="tertiary"
-                    type="button"
-                    onClick={() => {
-                        setSelected(undefined)
-                    }}
-                >
-                    Nullstill dato
-                </Button>
-            </div>
         </div>
     )
 }

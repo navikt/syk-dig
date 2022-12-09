@@ -1,5 +1,5 @@
 import { useController } from 'react-hook-form'
-import { Button, UNSAFE_DatePicker, UNSAFE_useRangeDatepicker } from '@navikt/ds-react'
+import { UNSAFE_DatePicker, UNSAFE_useRangeDatepicker } from '@navikt/ds-react'
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 
@@ -27,7 +27,7 @@ function PeriodePicker({ name }: PeriodePickerProps): JSX.Element {
         rules: { required: 'Du må fylle inn til dato.' },
     })
 
-    const { datepickerProps, toInputProps, fromInputProps, setSelected } = UNSAFE_useRangeDatepicker({
+    const { datepickerProps, toInputProps, fromInputProps } = UNSAFE_useRangeDatepicker({
         defaultSelected: {
             from: fromField.value,
             to: toField.value,
@@ -39,37 +39,25 @@ function PeriodePicker({ name }: PeriodePickerProps): JSX.Element {
     })
 
     return (
-        <>
-            <div className={styles.periodePicker}>
-                <UNSAFE_DatePicker {...datepickerProps} wrapperClassName={styles.dateRangePicker}>
-                    <UNSAFE_DatePicker.Input
-                        id={fromField.name}
-                        {...fromInputProps}
-                        label="Fra"
-                        placeholder="DD.MM.ÅÅÅÅ"
-                        error={fromFieldState.error?.message}
-                    />
+        <div className={styles.periodePicker}>
+            <UNSAFE_DatePicker {...datepickerProps} wrapperClassName={styles.dateRangePicker}>
+                <UNSAFE_DatePicker.Input
+                    id={fromField.name}
+                    {...fromInputProps}
+                    label="Fra"
+                    placeholder="DD.MM.ÅÅÅÅ"
+                    error={fromFieldState.error?.message}
+                />
 
-                    <UNSAFE_DatePicker.Input
-                        id={toField.name}
-                        {...toInputProps}
-                        label="Til"
-                        placeholder="DD.MM.ÅÅÅÅ"
-                        error={toFieldState.error?.message}
-                    />
-                </UNSAFE_DatePicker>
-                <Button
-                    className={styles.nullstillButton}
-                    variant="tertiary"
-                    type="button"
-                    onClick={() => {
-                        setSelected({ from: undefined, to: undefined })
-                    }}
-                >
-                    Nullstill dato
-                </Button>
-            </div>
-        </>
+                <UNSAFE_DatePicker.Input
+                    id={toField.name}
+                    {...toInputProps}
+                    label="Til"
+                    placeholder="DD.MM.ÅÅÅÅ"
+                    error={toFieldState.error?.message}
+                />
+            </UNSAFE_DatePicker>
+        </div>
     )
 }
 

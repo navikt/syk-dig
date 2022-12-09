@@ -1,3 +1,10 @@
+.personInfo {
+    display: flex;
+    gap: var(--a-spacing-32);
+    margin-bottom: var(--a-spacing-4);
+}
+
+.fnr,
 .navn,
 .adresser {
     padding-bottom: var(--a-spacing-8);
@@ -5,8 +12,6 @@
 
 .adresser {
     display: flex;
-}
-
-.adresser div:first-of-type {
-    padding-right: var(--a-spacing-32);
+    gap: var(--a-spacing-32);
+    margin-bottom: var(--a-spacing-4);
 }

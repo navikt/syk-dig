@@ -191,7 +191,7 @@ async function fillPeriodeSection(
 
     let index = 0
     for (const periode of perioder) {
-        await userEvent.selectOptions(section.getAllByRole('combobox', { name: 'Periode' })[index], periode.option)
+        await userEvent.selectOptions(section.getAllByRole('combobox', { name: /Periode/ })[index], periode.option)
         if (periode.grad) {
             await userEvent.type(await section.findByRole('spinbutton', { name: 'Oppgi grad' }), `${periode.grad}`)
         }

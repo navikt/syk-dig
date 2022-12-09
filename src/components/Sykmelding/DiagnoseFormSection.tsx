@@ -1,7 +1,6 @@
 import React from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Button } from '@navikt/ds-react'
-import { Bandage } from '@navikt/ds-icons'
 
 import DiagnosePicker from '../FormComponents/DiagnosePicker/DiagnosePicker'
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
@@ -24,7 +23,7 @@ function DiagnoseFormSection(): JSX.Element {
     })
 
     return (
-        <SykmeldingSection id="diagnose-seksjon" title="Diagnose" Icon={Bandage}>
+        <SykmeldingSection id="diagnose-seksjon" title="Diagnose">
             <div className={styles.diagnoseFormSection}>
                 <DiagnosePicker name="diagnoser.hoveddiagnose" diagnoseType="hoveddiagnose" />
                 {fields.map((field, index) => (

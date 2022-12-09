@@ -9,24 +9,14 @@
     justify-content: space-between;
 }
 
-.periodePicker :global(.navds-form-field),
-.periodePicker :global(.navds-error-message) {
-    margin-right: var(--a-spacing-8);
-}
-
-.nullstillButton {
-    align-self: flex-start;
-    margin-top: var(--a-spacing-8);
-}
-
-.periodePicker :global(.navds-error-message::before) {
-    content: unset;
-}
-
 .dateRangePicker {
-    gap: 0.5rem;
+    gap: var(--a-spacing-4);
     display: grid;
     place-items: start;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 56ch;
+}
+
+.dateRangePicker :global(.navds-text-field__input[size]) {
+    width: calc(var(--a-spacing-32) * 1.4);
 }

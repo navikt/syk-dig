@@ -1,13 +1,11 @@
 .contentWrapper {
     display: flex;
     --content-height: calc(100vh - 48px);
-    --content-min-width: 50rem;
 }
 
 .scrollArea {
     position: relative;
     flex: 1 1 55%;
-    min-width: var(--content-min-width);
     max-width: var(--content-width);
     max-height: var(--content-height);
     overflow-y: scroll;
@@ -26,10 +24,6 @@
 .scrollArea.activeTab > .content {
     max-width: 60rem;
     margin: 0 auto;
-}
-
-.content {
-    padding: var(--a-spacing-12);
 }
 
 .pdf {

@@ -16,7 +16,7 @@ function Utenlandsk(): JSX.Element {
     })
 
     return (
-        <PageWrapper title="Digitalisering av Sykmeldinger">
+        <PageWrapper title="Registrering av sykmelding">
             <OppgaveView oppgaveId={oppgaveId}>
                 {loading && <Loader size="3xlarge" />}
                 {data && <SykmeldingForm oppgave={data.oppgave} />}
