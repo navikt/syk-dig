@@ -1,12 +1,15 @@
 import React, { PropsWithChildren, useCallback, useState } from 'react'
 import { Button, Tabs, Tooltip } from '@navikt/ds-react'
-import { FileContent, Findout, List, Task, File } from '@navikt/ds-icons'
+import { FileContent, Findout, List, Task, File, Close } from '@navikt/ds-icons'
 import cn from 'clsx'
 
 import Pdf from '../Pdf/Pdf'
 import PageTitle from '../PageTitle/PageTitle'
+import { getPublicEnv } from '../../utils/env'
 
 import styles from './OppgaveView.module.css'
+
+const publicEnv = getPublicEnv()
 
 interface Props {
     oppgaveId: string
@@ -71,31 +74,42 @@ function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProp
             title="Utenlandsk sykmelding"
             ingress="Vennligst skriv inn opplysningene fra sykmeldingen under"
             titleActions={
-                !showTabs ? (
-                    <Tooltip content="Vis PDF i egen fane">
+                <>
+                    {!showTabs ? (
+                        <Tooltip content="Vis PDF i egen fane">
+                            <Button
+                                size="small"
+                                variant="tertiary"
+                                icon={<Findout aria-label="Vis PDF i egen fane" />}
+                                onClick={toggleTabs}
+                            />
+                        </Tooltip>
+                    ) : (
+                        <Tooltip content="Vis PDF ved siden av skjema">
+                            <Button
+                                size="small"
+                                variant="tertiary"
+                                aria-label="Vis PDF ved siden av skjema"
+                                icon={
+                                    <>
+                                        <List aria-hidden />
+                                        <File aria-hidden />
+                                    </>
+                                }
+                                onClick={toggleTabs}
+                            />
+                        </Tooltip>
+                    )}
+                    <Tooltip content="Lukk oppgaven og gå tilbake til gosys uten å lagre">
                         <Button
                             size="small"
                             variant="tertiary"
-                            icon={<Findout aria-label="Vis PDF i egen fane" />}
-                            onClick={toggleTabs}
+                            as="a"
+                            href={publicEnv.gosysUrl}
+                            icon={<Close title="Lukk oppgaven og gå tilbake til gosys uten å lagre" />}
                         />
                     </Tooltip>
-                ) : (
-                    <Tooltip content="Vis PDF ved siden av skjema">
-                        <Button
-                            size="small"
-                            variant="tertiary"
-                            aria-label="Vis PDF ved siden av skjema"
-                            icon={
-                                <>
-                                    <List aria-hidden />
-                                    <File aria-hidden />
-                                </>
-                            }
-                            onClick={toggleTabs}
-                        />
-                    </Tooltip>
-                )
+                </>
             }
         />
     )

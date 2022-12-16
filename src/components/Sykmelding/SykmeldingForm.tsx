@@ -9,7 +9,7 @@ import Sykmeldingsperiode, { PeriodeFormValue } from './Sykmeldingsperiode'
 import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSection'
 import { createDefaultValues } from './formDataUtils'
 import ActionSection from './ActionSection/ActionSection'
-import { useHandleRegister } from './ActionSection/useHandleSave'
+import { useHandleRegister } from './ActionSection/mutations/useHandleSave'
 import AndreOpplysninger from './AndreOpplysninger'
 
 export interface SykmeldingFormValues {

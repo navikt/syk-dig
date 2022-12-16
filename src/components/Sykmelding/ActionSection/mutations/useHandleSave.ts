@@ -9,14 +9,14 @@ import {
     SaveOppgaveMutation,
     SykmeldingUnderArbeidStatus,
     SykmeldingUnderArbeidValues,
-} from '../../../graphql/queries/graphql.generated'
-import { Location, useParam } from '../../../utils/useParam'
-import { SykmeldingFormValues } from '../SykmeldingForm'
-import { safeDate, safeString } from '../../../utils/formUtils'
-import { DiagnoseFormValue } from '../DiagnoseFormSection'
-import { notNull } from '../../../utils/tsUtils'
-import { PeriodeFormValue } from '../Sykmeldingsperiode'
-import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
+} from '../../../../graphql/queries/graphql.generated'
+import { Location, useParam } from '../../../../utils/useParam'
+import { SykmeldingFormValues } from '../../SykmeldingForm'
+import { safeDate, safeString } from '../../../../utils/formUtils'
+import { DiagnoseFormValue } from '../../DiagnoseFormSection'
+import { notNull } from '../../../../utils/tsUtils'
+import { PeriodeFormValue } from '../../Sykmeldingsperiode'
+import { useSelectedModiaEnhet } from '../../../../graphql/localState/modia'
 
 type UseSave = [save: SubmitHandler<SykmeldingFormValues>, result: MutationResult<SaveOppgaveMutation>]
 type UseSaveOptions = { fnr: string; onCompleted?: () => void }

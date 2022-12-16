@@ -8,3 +8,9 @@ mutation SaveOppgave(
         ...Oppgave
     }
 }
+
+mutation TilbakeTilGosys($oppgaveId: String!) {
+    oppgaveTilbakeTilGosys(oppgaveId: $oppgaveId) {
+        ...Oppgave
+    }
+}

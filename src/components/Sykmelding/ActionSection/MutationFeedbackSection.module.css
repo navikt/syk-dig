@@ -1,0 +1,11 @@
+.mutationResultFeedback {
+    margin-top: var(--a-spacing-4);
+}
+
+.saveSuccess {
+    margin: var(--a-spacing-4) 0;
+}
+
+.demoWarning {
+    margin: var(--a-spacing-4) 0;
+}

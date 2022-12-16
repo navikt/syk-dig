@@ -45,7 +45,7 @@ describe('SykmeldingForm', () => {
                 mocks: [expectedRequest],
             })
 
-            await userEvent.click(screen.getByRole('button', { name: 'Fortsett senere' }))
+            await userEvent.click(screen.getByRole('button', { name: 'Lagre og lukk' }))
 
             expect(await screen.findByText(/Oppgaven ble lagret/)).toBeInTheDocument()
         })
@@ -120,7 +120,7 @@ describe('SykmeldingForm', () => {
                 }),
             ).toHaveNoViolations()
 
-            await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }))
+            await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
 
             expect(await screen.findByRole('dialog', { name: /Sykmeldingen er registrert/ })).toBeInTheDocument()
         }, 20000) // This tests fills out a very large form, so we can expect it to be long running,
@@ -131,7 +131,7 @@ describe('SykmeldingForm', () => {
             const oppgave = createOppgave()
             render(<SykmeldingForm oppgave={oppgave} />)
 
-            await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }))
+            await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
 
             const errorSection = within(
                 await screen.findByRole('region', {
@@ -150,7 +150,7 @@ describe('SykmeldingForm', () => {
             render(<SykmeldingForm oppgave={oppgave} />)
 
             await userEvent.click(screen.getByRole('button', { name: 'Legg til bidiagnose' }))
-            await userEvent.click(screen.getByRole('button', { name: 'Registrere og send' }))
+            await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
 
             const errorSection = within(
                 await screen.findByRole('region', {

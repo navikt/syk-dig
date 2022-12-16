@@ -307,6 +307,7 @@ export type ModiaEnhet = {
 export type Mutation = {
     __typename: 'Mutation'
     lagre?: Maybe<Digitaliseringsoppgave>
+    oppgaveTilbakeTilGosys?: Maybe<Digitaliseringsoppgave>
     updateModiaEnhet?: Maybe<ModiaContext>
 }
 
@@ -315,6 +316,10 @@ export type MutationLagreArgs = {
     oppgaveId: Scalars['String']
     status: SykmeldingUnderArbeidStatus
     values: SykmeldingUnderArbeidValues
+}
+
+export type MutationOppgaveTilbakeTilGosysArgs = {
+    oppgaveId: Scalars['String']
 }
 
 export type MutationUpdateModiaEnhetArgs = {
@@ -772,6 +777,95 @@ export type SaveOppgaveMutationVariables = Exact<{
 export type SaveOppgaveMutation = {
     __typename: 'Mutation'
     lagre?: {
+        __typename: 'Digitaliseringsoppgave'
+        oppgaveId: string
+        person: {
+            __typename: 'Person'
+            navn?: string | null
+            bostedsadresse?:
+                | {
+                      __typename: 'Matrikkeladresse'
+                      bruksenhetsnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
+                      tilleggsnavn?: string | null
+                  }
+                | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
+                | {
+                      __typename: 'UtenlandskAdresse'
+                      adressenavnNummer?: string | null
+                      bySted?: string | null
+                      landkode: string
+                      postboksNummerNavn?: string | null
+                      postkode?: string | null
+                  }
+                | {
+                      __typename: 'Vegadresse'
+                      adressenavn?: string | null
+                      husbokstav?: string | null
+                      husnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
+                  }
+                | null
+            oppholdsadresse?:
+                | {
+                      __typename: 'Matrikkeladresse'
+                      bruksenhetsnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
+                      tilleggsnavn?: string | null
+                  }
+                | { __typename: 'OppholdAnnetSted'; type?: string | null }
+                | {
+                      __typename: 'UtenlandskAdresse'
+                      adressenavnNummer?: string | null
+                      bySted?: string | null
+                      landkode: string
+                      postboksNummerNavn?: string | null
+                      postkode?: string | null
+                  }
+                | {
+                      __typename: 'Vegadresse'
+                      adressenavn?: string | null
+                      husbokstav?: string | null
+                      husnummer?: string | null
+                      postnummer?: string | null
+                      poststed?: string | null
+                  }
+                | null
+        }
+        values: {
+            __typename: 'OppgaveValues'
+            fnrPasient: string
+            behandletTidspunkt?: string | null
+            skrevetLand?: string | null
+            harAndreRelevanteOpplysninger?: boolean | null
+            perioder?: Array<{
+                __typename: 'PeriodeValue'
+                fom: string
+                tom: string
+                type: PeriodeType
+                grad?: number | null
+            }> | null
+            hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
+            biDiagnoser?: Array<{
+                __typename: 'DiagnoseValue'
+                kode: string
+                tekst?: string | null
+                system: string
+            }> | null
+        }
+    } | null
+}
+
+export type TilbakeTilGosysMutationVariables = Exact<{
+    oppgaveId: Scalars['String']
+}>
+
+export type TilbakeTilGosysMutation = {
+    __typename: 'Mutation'
+    oppgaveTilbakeTilGosys?: {
         __typename: 'Digitaliseringsoppgave'
         oppgaveId: string
         person: {
@@ -1401,3 +1495,51 @@ export const SaveOppgaveDocument = {
         ...DiagnoseFragmentDoc.definitions,
     ],
 } as unknown as DocumentNode<SaveOppgaveMutation, SaveOppgaveMutationVariables>
+export const TilbakeTilGosysDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'TilbakeTilGosys' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'oppgaveTilbakeTilGosys' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Oppgave' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        ...OppgaveFragmentDoc.definitions,
+        ...BostedsadresseFragmentDoc.definitions,
+        ...VegadresseFragmentDoc.definitions,
+        ...MatrikkeladresseFragmentDoc.definitions,
+        ...UtenlandskAdresseFragmentDoc.definitions,
+        ...UkjentBostedFragmentDoc.definitions,
+        ...OppholdsadresseFragmentDoc.definitions,
+        ...OppholdAnnetFragmentDoc.definitions,
+        ...OppgaveValuesFragmentDoc.definitions,
+        ...PeriodeFragmentDoc.definitions,
+        ...DiagnoseFragmentDoc.definitions,
+    ],
+} as unknown as DocumentNode<TilbakeTilGosysMutation, TilbakeTilGosysMutationVariables>
