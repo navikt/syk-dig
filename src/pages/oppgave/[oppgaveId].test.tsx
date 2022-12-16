@@ -23,7 +23,7 @@ describe('Utenlandsk page', () => {
             ],
         })
 
-        expect(await screen.findByRole('button', { name: 'Registrere og send' })).toBeInTheDocument()
+        expect(await screen.findByRole('button', { name: 'Registrer og send' })).toBeInTheDocument()
         expect(screen.getByTestId('pdf-embed').firstChild).toHaveAttribute('src', '/api/pdf?oppgaveId=123')
     })
 

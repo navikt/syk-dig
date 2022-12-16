@@ -10,6 +10,7 @@ import {
     PeriodeFragment,
     PeriodeInput,
     SaveOppgaveDocument,
+    TilbakeTilGosysDocument,
 } from '../graphql/queries/graphql.generated'
 import { notNull } from '../utils/tsUtils'
 
@@ -39,6 +40,11 @@ export const handlers = [
         oppgave.values.harAndreRelevanteOpplysninger = values.harAndreRelevanteOpplysninger
 
         return res(ctx.delay(), ctx.data({ __typename: 'Mutation', lagre: oppgave }))
+    }),
+    graphql.mutation(TilbakeTilGosysDocument, (req, res, ctx) => {
+        const oppgave = getMockDb().getOppgave(req.variables.oppgaveId)
+
+        return res(ctx.delay(), ctx.data({ __typename: 'Mutation', oppgaveTilbakeTilGosys: oppgave }))
     }),
     ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
 ]

@@ -8,4 +8,6 @@
     position: absolute;
     right: var(--a-spacing-4);
     top: var(--a-spacing-4);
+    display: flex;
+    gap: var(--a-spacing-1);
 }
