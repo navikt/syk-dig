@@ -7,6 +7,7 @@ import { Cancel } from '@navikt/ds-icons'
 import { getPublicEnv, isLocalOrDemo } from '../../../utils/env'
 import { SykmeldingFormValues } from '../SykmeldingForm'
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated'
+import ConfirmButton from '../../ConfirmButton/ConfirmButton'
 
 import { useHandleSave } from './mutations/useHandleSave'
 import { useHandleTilbakeTilGosys } from './mutations/useTilbakeTilGosys'
@@ -18,10 +19,11 @@ const publicEnv = getPublicEnv()
 interface Props {
     fnr: string
     registerResult: MutationResult<SaveOppgaveMutation>
+    focusErrorSection: () => void
 }
 
-function ActionSection({ fnr, registerResult }: Props): JSX.Element {
-    const { getValues, reset } = useFormContext<SykmeldingFormValues>()
+function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.Element {
+    const { getValues, reset, trigger } = useFormContext<SykmeldingFormValues>()
     const [saveAndClose, saveResult] = useHandleSave({
         fnr,
         onCompleted: () => {
@@ -47,9 +49,29 @@ function ActionSection({ fnr, registerResult }: Props): JSX.Element {
             />
 
             <div className={styles.buttons}>
-                <Button type="submit" loading={registerResult.loading}>
+                <ConfirmButton
+                    id="registrer-og-send"
+                    type="submit"
+                    form="sykmelding-form"
+                    loading={registerResult.loading}
+                    preModalCheck={async () => {
+                        // Only open modal if form validates
+                        const formValid = await trigger()
+
+                        if (!formValid) {
+                            focusErrorSection()
+                        }
+
+                        return formValid
+                    }}
+                    confirmation={{
+                        confirmButtonLabel: 'Registrer og send',
+                        title: 'Er du sikker på at du vil registrere og sende inn sykmeldingen?',
+                        body: ['Sykmeldingen vil bli registrert og sendt til Gosys'],
+                    }}
+                >
                     Registrer og send
-                </Button>
+                </ConfirmButton>
                 <Button
                     variant="secondary"
                     type="button"
@@ -63,14 +85,20 @@ function ActionSection({ fnr, registerResult }: Props): JSX.Element {
                 >
                     Lagre og lukk
                 </Button>
-                <Button
+                <ConfirmButton
+                    id="tilbake-til-gosys"
                     variant="tertiary"
                     type="button"
                     icon={<Cancel role="img" aria-hidden />}
-                    onClick={tilbakeTilGosys}
+                    onConfirm={tilbakeTilGosys}
+                    confirmation={{
+                        confirmButtonLabel: 'Ja, dette er ikke en sykmelding',
+                        title: 'Er du sikker på at dette ikke er en sykmelding?',
+                        body: ['Dersom du er sikker på at dette ikke er en sykmelding, sendes den tilbake til Gosys.'],
+                    }}
                 >
                     Dette er ikke en sykmelding
-                </Button>
+                </ConfirmButton>
             </div>
         </div>
     )

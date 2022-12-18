@@ -23,7 +23,7 @@ describe('DiagnosePicker', () => {
         await userEvent.click(await screen.findByRole('option', { name: 'L815' }))
 
         expect(await axe(container)).toHaveNoViolations()
-    })
+    }, 10000)
 
     it('should search and select value when seaching for specific code', async () => {
         const onSelectMock = jest.fn()

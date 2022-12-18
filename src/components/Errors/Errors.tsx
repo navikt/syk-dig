@@ -1,5 +1,5 @@
 import { ErrorSummary } from '@navikt/ds-react'
-import { useEffect, useRef } from 'react'
+import { ForwardedRef, forwardRef } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { SykmeldingFormValues } from '../Sykmelding/SykmeldingForm'
@@ -7,16 +7,10 @@ import { SykmeldingFormValues } from '../Sykmelding/SykmeldingForm'
 import { extractAllErrors } from './errorUtils'
 import styles from './Errors.module.css'
 
-function Errors(): JSX.Element | null {
+function Errors(_: unknown, ref: ForwardedRef<HTMLDivElement>): JSX.Element | null {
     const {
         formState: { errors },
     } = useFormContext<SykmeldingFormValues>()
-
-    const errorsRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        errorsRef.current?.focus()
-    }, [])
 
     const errorSummary = extractAllErrors(errors, null)
     if (!errorSummary.length) return null
@@ -25,7 +19,7 @@ function Errors(): JSX.Element | null {
         <ErrorSummary
             size="medium"
             heading="Du må fylle ut disse feltene før du kan registrere sykmeldingen."
-            ref={errorsRef}
+            ref={ref}
             className={styles.errorSummary}
         >
             {errorSummary.map(({ name, message }) => (
@@ -37,4 +31,4 @@ function Errors(): JSX.Element | null {
     )
 }
 
-export default Errors
+export default forwardRef(Errors)
