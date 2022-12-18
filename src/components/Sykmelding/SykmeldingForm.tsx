@@ -1,4 +1,5 @@
 import { FormProvider, useForm } from 'react-hook-form'
+import { useRef } from 'react'
 
 import Errors from '../Errors/Errors'
 import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
@@ -25,23 +26,33 @@ interface Props {
 }
 
 function SykmeldingForm({ oppgave }: Props): JSX.Element {
+    const errorSectionRef = useRef<HTMLDivElement>(null)
     const [onSave, result] = useHandleRegister({ fnr: oppgave.values.fnrPasient })
     const form = useForm<SykmeldingFormValues>({
         defaultValues: createDefaultValues(oppgave.values),
         shouldFocusError: false,
     })
+    const focusErrorSection = (): void => {
+        requestAnimationFrame(() => {
+            errorSectionRef.current?.focus()
+        })
+    }
     const shouldWarn = form.formState.isDirty && !form.formState.isSubmitSuccessful
     useWarnUnsavedPopup(shouldWarn)
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(onSave)}>
+            <form onSubmit={form.handleSubmit(onSave, focusErrorSection)} id="sykmelding-form">
                 <Pasientopplysninger fnr={oppgave.values.fnrPasient} person={oppgave.person} />
                 <Sykmeldingsperiode />
                 <DiagnoseFormSection />
                 <AndreOpplysninger />
-                <Errors />
-                <ActionSection fnr={oppgave.values.fnrPasient} registerResult={result} />
+                <Errors ref={errorSectionRef} />
+                <ActionSection
+                    fnr={oppgave.values.fnrPasient}
+                    registerResult={result}
+                    focusErrorSection={focusErrorSection}
+                />
             </form>
         </FormProvider>
     )

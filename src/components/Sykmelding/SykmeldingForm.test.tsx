@@ -122,6 +122,14 @@ describe('SykmeldingForm', () => {
 
             await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
 
+            const confirmationDialog = await screen.findByRole('dialog', {
+                name: 'Er du sikker på at du vil registrere og sende inn sykmeldingen?',
+            })
+
+            expect(confirmationDialog).toBeInTheDocument()
+
+            await userEvent.click(within(confirmationDialog).getByRole('button', { name: 'Registrer og send' }))
+
             expect(await screen.findByRole('dialog', { name: /Sykmeldingen er registrert/ })).toBeInTheDocument()
         }, 20000) // This tests fills out a very large form, so we can expect it to be long running,
     })

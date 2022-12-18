@@ -1,0 +1,15 @@
+.confirmationModalContent {
+    max-width: 30rem;
+}
+
+.confirmationModalHeader {
+    padding-right: var(--a-spacing-10);
+}
+
+.confirmationButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: var(--a-spacing-8);
+    gap: var(--a-spacing-4);
+}
