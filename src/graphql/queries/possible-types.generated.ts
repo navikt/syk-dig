@@ -6,6 +6,7 @@ export interface PossibleTypesResultData {
 const result: PossibleTypesResultData = {
     possibleTypes: {
         Bostedsadresse: ['Matrikkeladresse', 'UkjentBosted', 'UtenlandskAdresse', 'Vegadresse'],
+        DigitaliseringsoppgaveResult: ['Digitaliseringsoppgave', 'DigitaliseringsoppgaveStatus'],
         Oppholdsadresse: ['Matrikkeladresse', 'OppholdAnnetSted', 'UtenlandskAdresse', 'Vegadresse'],
     },
 }

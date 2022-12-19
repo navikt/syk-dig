@@ -43,6 +43,20 @@ export type Digitaliseringsoppgave = {
     values: OppgaveValues
 }
 
+export type DigitaliseringsoppgaveResult = Digitaliseringsoppgave | DigitaliseringsoppgaveStatus
+
+export type DigitaliseringsoppgaveStatus = {
+    __typename: 'DigitaliseringsoppgaveStatus'
+    oppgaveId: Scalars['String']
+    status: DigitaliseringsoppgaveStatusEnum
+}
+
+export enum DigitaliseringsoppgaveStatusEnum {
+    Ferdigstilt = 'FERDIGSTILT',
+    FinnesIkke = 'FINNES_IKKE',
+    IkkeEnSykmelding = 'IKKE_EN_SYKMELDING',
+}
+
 export enum ErrorDetail {
     /**
      * The deadline expired before the operation could complete.
@@ -306,8 +320,8 @@ export type ModiaEnhet = {
 
 export type Mutation = {
     __typename: 'Mutation'
-    lagre?: Maybe<Digitaliseringsoppgave>
-    oppgaveTilbakeTilGosys?: Maybe<Digitaliseringsoppgave>
+    lagre?: Maybe<DigitaliseringsoppgaveResult>
+    oppgaveTilbakeTilGosys?: Maybe<DigitaliseringsoppgaveStatus>
     updateModiaEnhet?: Maybe<ModiaContext>
 }
 
@@ -385,7 +399,7 @@ export type Query = {
     __typename: 'Query'
     _service: _Service
     modia?: Maybe<ModiaContext>
-    oppgave: Digitaliseringsoppgave
+    oppgave?: Maybe<DigitaliseringsoppgaveResult>
 }
 
 export type QueryOppgaveArgs = {
@@ -678,93 +692,194 @@ export type VegadresseFragment = {
 
 export type OppholdAnnetFragment = { __typename: 'OppholdAnnetSted'; type?: string | null }
 
+export type DigitaliseringsoppgaveStatusFragment = {
+    __typename: 'DigitaliseringsoppgaveStatus'
+    oppgaveId: string
+    status: DigitaliseringsoppgaveStatusEnum
+}
+
+export type DigitaliseringOppgaveResult_Digitaliseringsoppgave_Fragment = {
+    __typename: 'Digitaliseringsoppgave'
+    oppgaveId: string
+    person: {
+        __typename: 'Person'
+        navn?: string | null
+        bostedsadresse?:
+            | {
+                  __typename: 'Matrikkeladresse'
+                  bruksenhetsnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+                  tilleggsnavn?: string | null
+              }
+            | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
+            | {
+                  __typename: 'UtenlandskAdresse'
+                  adressenavnNummer?: string | null
+                  bySted?: string | null
+                  landkode: string
+                  postboksNummerNavn?: string | null
+                  postkode?: string | null
+              }
+            | {
+                  __typename: 'Vegadresse'
+                  adressenavn?: string | null
+                  husbokstav?: string | null
+                  husnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+              }
+            | null
+        oppholdsadresse?:
+            | {
+                  __typename: 'Matrikkeladresse'
+                  bruksenhetsnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+                  tilleggsnavn?: string | null
+              }
+            | { __typename: 'OppholdAnnetSted'; type?: string | null }
+            | {
+                  __typename: 'UtenlandskAdresse'
+                  adressenavnNummer?: string | null
+                  bySted?: string | null
+                  landkode: string
+                  postboksNummerNavn?: string | null
+                  postkode?: string | null
+              }
+            | {
+                  __typename: 'Vegadresse'
+                  adressenavn?: string | null
+                  husbokstav?: string | null
+                  husnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+              }
+            | null
+    }
+    values: {
+        __typename: 'OppgaveValues'
+        fnrPasient: string
+        behandletTidspunkt?: string | null
+        skrevetLand?: string | null
+        harAndreRelevanteOpplysninger?: boolean | null
+        perioder?: Array<{
+            __typename: 'PeriodeValue'
+            fom: string
+            tom: string
+            type: PeriodeType
+            grad?: number | null
+        }> | null
+        hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
+        biDiagnoser?: Array<{ __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string }> | null
+    }
+}
+
+export type DigitaliseringOppgaveResult_DigitaliseringsoppgaveStatus_Fragment = {
+    __typename: 'DigitaliseringsoppgaveStatus'
+    oppgaveId: string
+    status: DigitaliseringsoppgaveStatusEnum
+}
+
+export type DigitaliseringOppgaveResultFragment =
+    | DigitaliseringOppgaveResult_Digitaliseringsoppgave_Fragment
+    | DigitaliseringOppgaveResult_DigitaliseringsoppgaveStatus_Fragment
+
 export type OppgaveByIdQueryVariables = Exact<{
     oppgaveId: Scalars['String']
 }>
 
 export type OppgaveByIdQuery = {
     __typename: 'Query'
-    oppgave: {
-        __typename: 'Digitaliseringsoppgave'
-        oppgaveId: string
-        person: {
-            __typename: 'Person'
-            navn?: string | null
-            bostedsadresse?:
-                | {
-                      __typename: 'Matrikkeladresse'
-                      bruksenhetsnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                      tilleggsnavn?: string | null
-                  }
-                | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
-                | {
-                      __typename: 'UtenlandskAdresse'
-                      adressenavnNummer?: string | null
-                      bySted?: string | null
-                      landkode: string
-                      postboksNummerNavn?: string | null
-                      postkode?: string | null
-                  }
-                | {
-                      __typename: 'Vegadresse'
-                      adressenavn?: string | null
-                      husbokstav?: string | null
-                      husnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                  }
-                | null
-            oppholdsadresse?:
-                | {
-                      __typename: 'Matrikkeladresse'
-                      bruksenhetsnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                      tilleggsnavn?: string | null
-                  }
-                | { __typename: 'OppholdAnnetSted'; type?: string | null }
-                | {
-                      __typename: 'UtenlandskAdresse'
-                      adressenavnNummer?: string | null
-                      bySted?: string | null
-                      landkode: string
-                      postboksNummerNavn?: string | null
-                      postkode?: string | null
-                  }
-                | {
-                      __typename: 'Vegadresse'
-                      adressenavn?: string | null
-                      husbokstav?: string | null
-                      husnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                  }
-                | null
-        }
-        values: {
-            __typename: 'OppgaveValues'
-            fnrPasient: string
-            behandletTidspunkt?: string | null
-            skrevetLand?: string | null
-            harAndreRelevanteOpplysninger?: boolean | null
-            perioder?: Array<{
-                __typename: 'PeriodeValue'
-                fom: string
-                tom: string
-                type: PeriodeType
-                grad?: number | null
-            }> | null
-            hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
-            biDiagnoser?: Array<{
-                __typename: 'DiagnoseValue'
-                kode: string
-                tekst?: string | null
-                system: string
-            }> | null
-        }
-    }
+    oppgave?:
+        | {
+              __typename: 'Digitaliseringsoppgave'
+              oppgaveId: string
+              person: {
+                  __typename: 'Person'
+                  navn?: string | null
+                  bostedsadresse?:
+                      | {
+                            __typename: 'Matrikkeladresse'
+                            bruksenhetsnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                            tilleggsnavn?: string | null
+                        }
+                      | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
+                      | {
+                            __typename: 'UtenlandskAdresse'
+                            adressenavnNummer?: string | null
+                            bySted?: string | null
+                            landkode: string
+                            postboksNummerNavn?: string | null
+                            postkode?: string | null
+                        }
+                      | {
+                            __typename: 'Vegadresse'
+                            adressenavn?: string | null
+                            husbokstav?: string | null
+                            husnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                        }
+                      | null
+                  oppholdsadresse?:
+                      | {
+                            __typename: 'Matrikkeladresse'
+                            bruksenhetsnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                            tilleggsnavn?: string | null
+                        }
+                      | { __typename: 'OppholdAnnetSted'; type?: string | null }
+                      | {
+                            __typename: 'UtenlandskAdresse'
+                            adressenavnNummer?: string | null
+                            bySted?: string | null
+                            landkode: string
+                            postboksNummerNavn?: string | null
+                            postkode?: string | null
+                        }
+                      | {
+                            __typename: 'Vegadresse'
+                            adressenavn?: string | null
+                            husbokstav?: string | null
+                            husnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                        }
+                      | null
+              }
+              values: {
+                  __typename: 'OppgaveValues'
+                  fnrPasient: string
+                  behandletTidspunkt?: string | null
+                  skrevetLand?: string | null
+                  harAndreRelevanteOpplysninger?: boolean | null
+                  perioder?: Array<{
+                      __typename: 'PeriodeValue'
+                      fom: string
+                      tom: string
+                      type: PeriodeType
+                      grad?: number | null
+                  }> | null
+                  hoveddiagnose?: {
+                      __typename: 'DiagnoseValue'
+                      kode: string
+                      tekst?: string | null
+                      system: string
+                  } | null
+                  biDiagnoser?: Array<{
+                      __typename: 'DiagnoseValue'
+                      kode: string
+                      tekst?: string | null
+                      system: string
+                  }> | null
+              }
+          }
+        | { __typename: 'DigitaliseringsoppgaveStatus'; oppgaveId: string; status: DigitaliseringsoppgaveStatusEnum }
+        | null
 }
 
 export type SaveOppgaveMutationVariables = Exact<{
@@ -776,87 +891,95 @@ export type SaveOppgaveMutationVariables = Exact<{
 
 export type SaveOppgaveMutation = {
     __typename: 'Mutation'
-    lagre?: {
-        __typename: 'Digitaliseringsoppgave'
-        oppgaveId: string
-        person: {
-            __typename: 'Person'
-            navn?: string | null
-            bostedsadresse?:
-                | {
-                      __typename: 'Matrikkeladresse'
-                      bruksenhetsnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                      tilleggsnavn?: string | null
-                  }
-                | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
-                | {
-                      __typename: 'UtenlandskAdresse'
-                      adressenavnNummer?: string | null
-                      bySted?: string | null
-                      landkode: string
-                      postboksNummerNavn?: string | null
-                      postkode?: string | null
-                  }
-                | {
-                      __typename: 'Vegadresse'
-                      adressenavn?: string | null
-                      husbokstav?: string | null
-                      husnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                  }
-                | null
-            oppholdsadresse?:
-                | {
-                      __typename: 'Matrikkeladresse'
-                      bruksenhetsnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                      tilleggsnavn?: string | null
-                  }
-                | { __typename: 'OppholdAnnetSted'; type?: string | null }
-                | {
-                      __typename: 'UtenlandskAdresse'
-                      adressenavnNummer?: string | null
-                      bySted?: string | null
-                      landkode: string
-                      postboksNummerNavn?: string | null
-                      postkode?: string | null
-                  }
-                | {
-                      __typename: 'Vegadresse'
-                      adressenavn?: string | null
-                      husbokstav?: string | null
-                      husnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                  }
-                | null
-        }
-        values: {
-            __typename: 'OppgaveValues'
-            fnrPasient: string
-            behandletTidspunkt?: string | null
-            skrevetLand?: string | null
-            harAndreRelevanteOpplysninger?: boolean | null
-            perioder?: Array<{
-                __typename: 'PeriodeValue'
-                fom: string
-                tom: string
-                type: PeriodeType
-                grad?: number | null
-            }> | null
-            hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
-            biDiagnoser?: Array<{
-                __typename: 'DiagnoseValue'
-                kode: string
-                tekst?: string | null
-                system: string
-            }> | null
-        }
-    } | null
+    lagre?:
+        | {
+              __typename: 'Digitaliseringsoppgave'
+              oppgaveId: string
+              person: {
+                  __typename: 'Person'
+                  navn?: string | null
+                  bostedsadresse?:
+                      | {
+                            __typename: 'Matrikkeladresse'
+                            bruksenhetsnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                            tilleggsnavn?: string | null
+                        }
+                      | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
+                      | {
+                            __typename: 'UtenlandskAdresse'
+                            adressenavnNummer?: string | null
+                            bySted?: string | null
+                            landkode: string
+                            postboksNummerNavn?: string | null
+                            postkode?: string | null
+                        }
+                      | {
+                            __typename: 'Vegadresse'
+                            adressenavn?: string | null
+                            husbokstav?: string | null
+                            husnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                        }
+                      | null
+                  oppholdsadresse?:
+                      | {
+                            __typename: 'Matrikkeladresse'
+                            bruksenhetsnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                            tilleggsnavn?: string | null
+                        }
+                      | { __typename: 'OppholdAnnetSted'; type?: string | null }
+                      | {
+                            __typename: 'UtenlandskAdresse'
+                            adressenavnNummer?: string | null
+                            bySted?: string | null
+                            landkode: string
+                            postboksNummerNavn?: string | null
+                            postkode?: string | null
+                        }
+                      | {
+                            __typename: 'Vegadresse'
+                            adressenavn?: string | null
+                            husbokstav?: string | null
+                            husnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                        }
+                      | null
+              }
+              values: {
+                  __typename: 'OppgaveValues'
+                  fnrPasient: string
+                  behandletTidspunkt?: string | null
+                  skrevetLand?: string | null
+                  harAndreRelevanteOpplysninger?: boolean | null
+                  perioder?: Array<{
+                      __typename: 'PeriodeValue'
+                      fom: string
+                      tom: string
+                      type: PeriodeType
+                      grad?: number | null
+                  }> | null
+                  hoveddiagnose?: {
+                      __typename: 'DiagnoseValue'
+                      kode: string
+                      tekst?: string | null
+                      system: string
+                  } | null
+                  biDiagnoser?: Array<{
+                      __typename: 'DiagnoseValue'
+                      kode: string
+                      tekst?: string | null
+                      system: string
+                  }> | null
+              }
+          }
+        | { __typename: 'DigitaliseringsoppgaveStatus'; oppgaveId: string; status: DigitaliseringsoppgaveStatusEnum }
+        | null
 }
 
 export type TilbakeTilGosysMutationVariables = Exact<{
@@ -866,85 +989,9 @@ export type TilbakeTilGosysMutationVariables = Exact<{
 export type TilbakeTilGosysMutation = {
     __typename: 'Mutation'
     oppgaveTilbakeTilGosys?: {
-        __typename: 'Digitaliseringsoppgave'
+        __typename: 'DigitaliseringsoppgaveStatus'
         oppgaveId: string
-        person: {
-            __typename: 'Person'
-            navn?: string | null
-            bostedsadresse?:
-                | {
-                      __typename: 'Matrikkeladresse'
-                      bruksenhetsnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                      tilleggsnavn?: string | null
-                  }
-                | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
-                | {
-                      __typename: 'UtenlandskAdresse'
-                      adressenavnNummer?: string | null
-                      bySted?: string | null
-                      landkode: string
-                      postboksNummerNavn?: string | null
-                      postkode?: string | null
-                  }
-                | {
-                      __typename: 'Vegadresse'
-                      adressenavn?: string | null
-                      husbokstav?: string | null
-                      husnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                  }
-                | null
-            oppholdsadresse?:
-                | {
-                      __typename: 'Matrikkeladresse'
-                      bruksenhetsnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                      tilleggsnavn?: string | null
-                  }
-                | { __typename: 'OppholdAnnetSted'; type?: string | null }
-                | {
-                      __typename: 'UtenlandskAdresse'
-                      adressenavnNummer?: string | null
-                      bySted?: string | null
-                      landkode: string
-                      postboksNummerNavn?: string | null
-                      postkode?: string | null
-                  }
-                | {
-                      __typename: 'Vegadresse'
-                      adressenavn?: string | null
-                      husbokstav?: string | null
-                      husnummer?: string | null
-                      postnummer?: string | null
-                      poststed?: string | null
-                  }
-                | null
-        }
-        values: {
-            __typename: 'OppgaveValues'
-            fnrPasient: string
-            behandletTidspunkt?: string | null
-            skrevetLand?: string | null
-            harAndreRelevanteOpplysninger?: boolean | null
-            perioder?: Array<{
-                __typename: 'PeriodeValue'
-                fom: string
-                tom: string
-                type: PeriodeType
-                grad?: number | null
-            }> | null
-            hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
-            biDiagnoser?: Array<{
-                __typename: 'DiagnoseValue'
-                kode: string
-                tekst?: string | null
-                system: string
-            }> | null
-        }
+        status: DigitaliseringsoppgaveStatusEnum
     } | null
 }
 
@@ -1299,6 +1346,40 @@ export const OppgaveFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<OppgaveFragment, unknown>
+export const DigitaliseringsoppgaveStatusFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'DigitaliseringsoppgaveStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DigitaliseringsoppgaveStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<DigitaliseringsoppgaveStatusFragment, unknown>
+export const DigitaliseringOppgaveResultFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'DigitaliseringOppgaveResult' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DigitaliseringsoppgaveResult' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Oppgave' } },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'DigitaliseringsoppgaveStatus' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<DigitaliseringOppgaveResultFragment, unknown>
 export const ModiaContextDocument = {
     kind: 'Document',
     definitions: [
@@ -1392,12 +1473,18 @@ export const OppgaveByIdDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Oppgave' } }],
+                            selections: [
+                                {
+                                    kind: 'FragmentSpread',
+                                    name: { kind: 'Name', value: 'DigitaliseringOppgaveResult' },
+                                },
+                            ],
                         },
                     },
                 ],
             },
         },
+        ...DigitaliseringOppgaveResultFragmentDoc.definitions,
         ...OppgaveFragmentDoc.definitions,
         ...BostedsadresseFragmentDoc.definitions,
         ...VegadresseFragmentDoc.definitions,
@@ -1409,6 +1496,7 @@ export const OppgaveByIdDocument = {
         ...OppgaveValuesFragmentDoc.definitions,
         ...PeriodeFragmentDoc.definitions,
         ...DiagnoseFragmentDoc.definitions,
+        ...DigitaliseringsoppgaveStatusFragmentDoc.definitions,
     ],
 } as unknown as DocumentNode<OppgaveByIdQuery, OppgaveByIdQueryVariables>
 export const SaveOppgaveDocument = {
@@ -1476,12 +1564,18 @@ export const SaveOppgaveDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Oppgave' } }],
+                            selections: [
+                                {
+                                    kind: 'FragmentSpread',
+                                    name: { kind: 'Name', value: 'DigitaliseringOppgaveResult' },
+                                },
+                            ],
                         },
                     },
                 ],
             },
         },
+        ...DigitaliseringOppgaveResultFragmentDoc.definitions,
         ...OppgaveFragmentDoc.definitions,
         ...BostedsadresseFragmentDoc.definitions,
         ...VegadresseFragmentDoc.definitions,
@@ -1493,6 +1587,7 @@ export const SaveOppgaveDocument = {
         ...OppgaveValuesFragmentDoc.definitions,
         ...PeriodeFragmentDoc.definitions,
         ...DiagnoseFragmentDoc.definitions,
+        ...DigitaliseringsoppgaveStatusFragmentDoc.definitions,
     ],
 } as unknown as DocumentNode<SaveOppgaveMutation, SaveOppgaveMutationVariables>
 export const TilbakeTilGosysDocument = {
@@ -1524,22 +1619,17 @@ export const TilbakeTilGosysDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Oppgave' } }],
+                            selections: [
+                                {
+                                    kind: 'FragmentSpread',
+                                    name: { kind: 'Name', value: 'DigitaliseringsoppgaveStatus' },
+                                },
+                            ],
                         },
                     },
                 ],
             },
         },
-        ...OppgaveFragmentDoc.definitions,
-        ...BostedsadresseFragmentDoc.definitions,
-        ...VegadresseFragmentDoc.definitions,
-        ...MatrikkeladresseFragmentDoc.definitions,
-        ...UtenlandskAdresseFragmentDoc.definitions,
-        ...UkjentBostedFragmentDoc.definitions,
-        ...OppholdsadresseFragmentDoc.definitions,
-        ...OppholdAnnetFragmentDoc.definitions,
-        ...OppgaveValuesFragmentDoc.definitions,
-        ...PeriodeFragmentDoc.definitions,
-        ...DiagnoseFragmentDoc.definitions,
+        ...DigitaliseringsoppgaveStatusFragmentDoc.definitions,
     ],
 } as unknown as DocumentNode<TilbakeTilGosysMutation, TilbakeTilGosysMutationVariables>

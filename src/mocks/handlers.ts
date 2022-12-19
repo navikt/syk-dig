@@ -5,11 +5,13 @@ import { graphql, RequestHandler } from 'msw'
 import {
     DiagnoseFragment,
     DiagnoseInput,
+    DigitaliseringsoppgaveStatusEnum,
     InputMaybe,
     OppgaveByIdDocument,
     PeriodeFragment,
     PeriodeInput,
     SaveOppgaveDocument,
+    SykmeldingUnderArbeidStatus,
     TilbakeTilGosysDocument,
 } from '../graphql/queries/graphql.generated'
 import { notNull } from '../utils/tsUtils'
@@ -31,6 +33,20 @@ export const handlers = [
         const oppgave = getMockDb().getOppgave(req.variables.id)
         const values = req.variables.values
 
+        if (req.variables.status === SykmeldingUnderArbeidStatus.Ferdigstilt) {
+            return res(
+                ctx.delay(),
+                ctx.data({
+                    __typename: 'Mutation',
+                    lagre: {
+                        __typename: 'DigitaliseringsoppgaveStatus',
+                        oppgaveId: req.variables.id,
+                        status: DigitaliseringsoppgaveStatusEnum.Ferdigstilt,
+                    },
+                }),
+            )
+        }
+
         oppgave.values.fnrPasient = values.fnrPasient
         oppgave.values.skrevetLand = values.skrevetLand
         oppgave.values.behandletTidspunkt = values.behandletTidspunkt
@@ -42,9 +58,17 @@ export const handlers = [
         return res(ctx.delay(), ctx.data({ __typename: 'Mutation', lagre: oppgave }))
     }),
     graphql.mutation(TilbakeTilGosysDocument, (req, res, ctx) => {
-        const oppgave = getMockDb().getOppgave(req.variables.oppgaveId)
-
-        return res(ctx.delay(), ctx.data({ __typename: 'Mutation', oppgaveTilbakeTilGosys: oppgave }))
+        return res(
+            ctx.delay(),
+            ctx.data({
+                __typename: 'Mutation',
+                oppgaveTilbakeTilGosys: {
+                    __typename: 'DigitaliseringsoppgaveStatus',
+                    oppgaveId: req.variables.oppgaveId,
+                    status: DigitaliseringsoppgaveStatusEnum.IkkeEnSykmelding,
+                },
+            }),
+        )
     }),
     ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
 ]
