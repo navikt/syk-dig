@@ -9,7 +9,7 @@
 .confirmationButtons {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-end;
     margin-top: var(--a-spacing-8);
     gap: var(--a-spacing-4);
 }

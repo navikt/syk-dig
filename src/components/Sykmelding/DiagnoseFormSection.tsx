@@ -34,11 +34,12 @@ function DiagnoseFormSection(): JSX.Element {
                         onRemove={() => remove(index)}
                     />
                 ))}
-                <div className={styles.buttonSection}>
+                <div>
                     <Button
                         variant="secondary"
                         onClick={() => append({ system: 'ICD10', code: null, text: null }, { shouldFocus: true })}
                         type="button"
+                        size="small"
                     >
                         Legg til bidiagnose
                     </Button>

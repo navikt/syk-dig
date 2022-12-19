@@ -13,6 +13,6 @@
 
 .onRemoveButtonWrapper {
     position: absolute;
-    top: calc(var(--a-spacing-10) * -1);
+    top: 0;
     right: 0;
 }
