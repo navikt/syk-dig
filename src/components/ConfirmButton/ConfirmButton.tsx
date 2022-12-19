@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from 'react'
+import React, { PropsWithChildren, ReactNode, useState } from 'react'
 import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react'
 import { ButtonProps } from '@navikt/ds-react'
 
@@ -12,6 +12,7 @@ interface Props extends Pick<ButtonProps, 'variant' | 'type' | 'icon' | 'loading
         title: string
         body: string[]
         confirmButtonLabel: string
+        error: ReactNode | undefined
     }
 }
 
@@ -50,14 +51,17 @@ function ConfirmButton({
                         {confirmation.title}
                     </Heading>
                     {confirmation.body.map((paragraph) => (
-                        <BodyShort key={paragraph}>{paragraph}</BodyShort>
+                        <BodyShort key={paragraph} spacing>
+                            {paragraph}
+                        </BodyShort>
                     ))}
+                    {confirmation.error}
                     <div className={styles.confirmationButtons}>
+                        <Button onClick={closeModal} type="button" variant="secondary">
+                            Avbryt
+                        </Button>
                         <Button onClick={onConfirm} type={type} form={form} variant="danger" loading={loading}>
                             {confirmation.confirmButtonLabel}
-                        </Button>
-                        <Button onClick={closeModal} type="button" variant="tertiary">
-                            Avbryt
                         </Button>
                     </div>
                 </Modal.Content>

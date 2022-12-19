@@ -65,13 +65,13 @@ function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysRe
     )
 }
 
-function MutationResultFeedback({
+export function MutationResultFeedback({
     what,
     result,
     children,
 }: PropsWithChildren<{
     what: 'lagre' | 'registrere' | 'sende tilbake'
-    result: MutationResult<SaveOppgaveMutation>
+    result: MutationResult
 }>): JSX.Element | null {
     if (!result.called || result.loading) return null
 

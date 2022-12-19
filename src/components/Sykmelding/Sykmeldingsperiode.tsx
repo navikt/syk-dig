@@ -1,5 +1,7 @@
 import { Button } from '@navikt/ds-react'
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
+import { Close } from '@navikt/ds-icons'
+import React from 'react'
 
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
 import PeriodeSelect from '../FormComponents/Sykmeldingsperiode/PeriodeSelect'
@@ -45,14 +47,13 @@ function Sykmeldingsperiode(): JSX.Element {
                     {index > 0 && (
                         <div className={styles.deleteButton}>
                             <Button
-                                variant="tertiary"
+                                variant="secondary"
                                 type="button"
                                 onClick={() => remove(index)}
                                 className={styles.deleteButton}
-                                size="small"
-                            >
-                                Fjern periode
-                            </Button>
+                                size="xsmall"
+                                icon={<Close title="Fjern periode" />}
+                            />
                         </div>
                     )}
                 </div>
@@ -61,6 +62,7 @@ function Sykmeldingsperiode(): JSX.Element {
                 className={styles.leggTilButton}
                 variant="secondary"
                 type="button"
+                size="small"
                 onClick={() => {
                     append({
                         sykmeldingstype: PeriodeType.AktivitetIkkeMulig,

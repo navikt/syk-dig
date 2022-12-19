@@ -2,7 +2,6 @@ import React from 'react'
 import { Button } from '@navikt/ds-react'
 import { useFormContext } from 'react-hook-form'
 import { MutationResult } from '@apollo/client'
-import { Cancel } from '@navikt/ds-icons'
 
 import { getPublicEnv, isLocalOrDemo } from '../../../utils/env'
 import { SykmeldingFormValues } from '../SykmeldingForm'
@@ -11,7 +10,7 @@ import ConfirmButton from '../../ConfirmButton/ConfirmButton'
 
 import { useHandleSave } from './mutations/useHandleSave'
 import { useHandleTilbakeTilGosys } from './mutations/useTilbakeTilGosys'
-import MutationFeedbackSection from './MutationFeedbackSection'
+import MutationFeedbackSection, { MutationResultFeedback } from './MutationFeedbackSection'
 import styles from './ActionSection.module.css'
 
 const publicEnv = getPublicEnv()
@@ -65,9 +64,10 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
                         return formValid
                     }}
                     confirmation={{
-                        confirmButtonLabel: 'Registrer og send',
                         title: 'Er du sikker på at du vil registrere og sende inn sykmeldingen?',
-                        body: ['Sykmeldingen vil bli registrert og sendt til Gosys'],
+                        body: ['Sykmeldingen vil bli sendt til den sykmeldte.'],
+                        confirmButtonLabel: 'Ja, jeg er sikker',
+                        error: <MutationResultFeedback result={registerResult} what="registrere" />,
                     }}
                 >
                     Registrer og send
@@ -89,15 +89,16 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
                     id="tilbake-til-gosys"
                     variant="tertiary"
                     type="button"
-                    icon={<Cancel role="img" aria-hidden />}
                     onConfirm={tilbakeTilGosys}
+                    loading={tilbakeTilGosysResult.loading}
                     confirmation={{
-                        confirmButtonLabel: 'Ja, dette er ikke en sykmelding',
                         title: 'Er du sikker på at dette ikke er en sykmelding?',
                         body: ['Dersom du er sikker på at dette ikke er en sykmelding, sendes den tilbake til Gosys.'],
+                        confirmButtonLabel: 'Ja, jeg er sikker',
+                        error: <MutationResultFeedback result={tilbakeTilGosysResult} what="sende tilbake" />,
                     }}
                 >
-                    Dette er ikke en sykmelding
+                    Ikke en sykmelding?
                 </ConfirmButton>
             </div>
         </div>
