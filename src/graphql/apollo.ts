@@ -12,6 +12,7 @@ export const cacheConfig: Pick<InMemoryCacheConfig, 'possibleTypes' | 'typePolic
     possibleTypes: possibleTypesGenerated.possibleTypes,
     typePolicies: {
         Digitaliseringsoppgave: { keyFields: ['oppgaveId'] },
+        DigitaliseringsoppgaveStatus: { keyFields: ['oppgaveId'] },
     },
 }
 
