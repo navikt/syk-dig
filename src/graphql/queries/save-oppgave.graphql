@@ -5,12 +5,12 @@ mutation SaveOppgave(
     $enhetId: String!
 ) {
     lagre(oppgaveId: $id, values: $values, status: $status, enhetId: $enhetId) {
-        ...Oppgave
+        ...DigitaliseringOppgaveResult
     }
 }
 
 mutation TilbakeTilGosys($oppgaveId: String!) {
     oppgaveTilbakeTilGosys(oppgaveId: $oppgaveId) {
-        ...Oppgave
+        ...DigitaliseringsoppgaveStatus
     }
 }

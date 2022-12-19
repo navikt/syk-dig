@@ -104,8 +104,18 @@ fragment OppholdAnnet on OppholdAnnetSted {
     type
 }
 
+fragment DigitaliseringsoppgaveStatus on DigitaliseringsoppgaveStatus {
+    oppgaveId
+    status
+}
+
+fragment DigitaliseringOppgaveResult on DigitaliseringsoppgaveResult {
+    ...Oppgave
+    ...DigitaliseringsoppgaveStatus
+}
+
 query OppgaveById($oppgaveId: String!) {
     oppgave(oppgaveId: $oppgaveId) {
-        ...Oppgave
+        ...DigitaliseringOppgaveResult
     }
 }
