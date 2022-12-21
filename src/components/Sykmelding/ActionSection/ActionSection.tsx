@@ -33,9 +33,7 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
     })
     const [tilbakeTilGosys, tilbakeTilGosysResult] = useHandleTilbakeTilGosys({
         onCompleted: () => {
-            if (!isLocalOrDemo) {
-                window.location.href = publicEnv.gosysUrl
-            }
+            redirectTilGosys()
         },
     })
 
@@ -53,6 +51,7 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
                     type="submit"
                     form="sykmelding-form"
                     loading={registerResult.loading}
+                    onConfirm={redirectTilGosys}
                     preModalCheck={async () => {
                         // Only open modal if form validates
                         const formValid = await trigger()
@@ -67,7 +66,8 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
                         title: 'Er du sikker på at du vil registrere og sende inn sykmeldingen?',
                         body: ['Sykmeldingen vil bli sendt til den sykmeldte.'],
                         confirmButtonLabel: 'Ja, jeg er sikker',
-                        error: <MutationResultFeedback result={registerResult} what="registrere" />,
+                        feedback: <MutationResultFeedback result={registerResult} what="registrere" />,
+                        hide: isMutationSuccess(registerResult),
                     }}
                 >
                     Registrer og send
@@ -93,9 +93,12 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
                     loading={tilbakeTilGosysResult.loading}
                     confirmation={{
                         title: 'Er du sikker på at dette ikke er en sykmelding?',
-                        body: ['Dersom du er sikker på at dette ikke er en sykmelding, sendes den tilbake til Gosys.'],
+                        body: [
+                            'Dersom du er sikker på at dette ikke er en utenlandsk sykmelding kan du sende den tilbake til Gosys for journalføring der.',
+                        ],
                         confirmButtonLabel: 'Ja, jeg er sikker',
-                        error: <MutationResultFeedback result={tilbakeTilGosysResult} what="sende tilbake" />,
+                        feedback: <MutationResultFeedback result={tilbakeTilGosysResult} what="sende tilbake" />,
+                        hide: isMutationSuccess(tilbakeTilGosysResult),
                     }}
                 >
                     Ikke en sykmelding?
@@ -103,6 +106,16 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
             </div>
         </div>
     )
+}
+
+function isMutationSuccess(result: MutationResult): boolean {
+    return result.called && !result.loading && !result.error
+}
+
+function redirectTilGosys(): void {
+    if (!isLocalOrDemo) {
+        window.location.href = publicEnv.gosysUrl
+    }
 }
 
 export default ActionSection

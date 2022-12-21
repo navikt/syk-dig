@@ -12,7 +12,8 @@ interface Props extends Pick<ButtonProps, 'variant' | 'type' | 'icon' | 'loading
         title: string
         body: string[]
         confirmButtonLabel: string
-        error: ReactNode | undefined
+        feedback: ReactNode | undefined
+        hide: boolean
     }
 }
 
@@ -45,7 +46,7 @@ function ConfirmButton({
             >
                 {children}
             </Button>
-            <Modal open={showConfirm} onClose={closeModal} aria-labelledby={id}>
+            <Modal open={showConfirm && !confirmation.hide} onClose={closeModal} aria-labelledby={id}>
                 <Modal.Content className={styles.confirmationModalContent}>
                     <Heading id={id} spacing level="2" size="medium" className={styles.confirmationModalHeader}>
                         {confirmation.title}
@@ -55,7 +56,7 @@ function ConfirmButton({
                             {paragraph}
                         </BodyShort>
                     ))}
-                    {confirmation.error}
+                    {confirmation.feedback}
                     <div className={styles.confirmationButtons}>
                         <Button onClick={closeModal} type="button" variant="secondary">
                             Avbryt
