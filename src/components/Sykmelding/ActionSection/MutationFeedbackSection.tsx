@@ -26,8 +26,11 @@ function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysRe
                             Dette er bare en demo, du kan ikke gå til gosys. Last siden på nytt for å fortsette demoen.
                         </Alert>
                     )}
-                    <Button variant="secondary" as="a" href={publicEnv.gosysUrl}>
-                        Tilbake til GOSYS
+                    <Alert variant="success" className={styles.saveSuccess}>
+                        Oppgaven ble registrert
+                    </Alert>
+                    <Button variant="tertiary" as="a" href={publicEnv.gosysUrl}>
+                        Klikk her dersom du ikke blir videresendt...
                     </Button>
                 </FeedbackModal>
             </MutationResultFeedback>
