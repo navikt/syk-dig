@@ -28,19 +28,19 @@ describe('PeriodeSelect', () => {
         const select = screen.getByRole('combobox', { name: 'Periode 1' })
         const options = screen.getAllByRole('option')
 
-        expect(options).toHaveLength(5)
+        expect(options).toHaveLength(2)
         expect(select).toHaveValue('AKTIVITET_IKKE_MULIG')
     })
 
-    it('should select periodetype BEHANDLINGSDAGER', async () => {
+    it('should select periodetype GRADERT', async () => {
         render(<PeriodeSelectComp />)
 
         const select = screen.getByRole('combobox', { name: 'Periode 1' })
         const options = screen.getAllByRole('option')
 
-        expect(options).toHaveLength(5)
-        await userEvent.selectOptions(screen.getByRole('combobox'), 'Behandlingsdager')
+        expect(options).toHaveLength(2)
+        await userEvent.selectOptions(screen.getByRole('combobox'), 'Gradert sykmelding')
 
-        expect(select).toHaveValue('BEHANDLINGSDAGER')
+        expect(select).toHaveValue('GRADERT')
     })
 })

@@ -25,10 +25,7 @@ function PeriodeSelect({ name, index }: Props): JSX.Element {
         <div className={styles.periodeSelect}>
             <Select id={name} label={`Periode ${index + 1}`} {...field}>
                 <option value={PeriodeType.AktivitetIkkeMulig}>100% sykmeldt</option>
-                <option value={PeriodeType.Avventende}>Avventende sykmelding</option>
-                <option value={PeriodeType.Behandlingsdager}>Behandlingsdager</option>
                 <option value={PeriodeType.Gradert}>Gradert sykmelding</option>
-                <option value={PeriodeType.Reisetilskudd}>Reisetilskudd</option>
             </Select>
             <FieldError error={fieldState.error} />
         </div>
