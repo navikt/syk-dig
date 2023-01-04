@@ -4,16 +4,18 @@ import { ButtonProps } from '@navikt/ds-react'
 
 import styles from './ConfirmButton.module.css'
 
-interface Props extends Pick<ButtonProps, 'variant' | 'type' | 'icon' | 'loading' | 'form'> {
+interface Props extends Pick<ButtonProps, 'variant' | 'icon'> {
     id: string
     preModalCheck?: () => Promise<boolean>
-    onConfirm?: ButtonProps['onClick']
     confirmation: {
         title: string
         body: string[]
-        confirmButtonLabel: string
         feedback: ReactNode | undefined
         hide: boolean
+        confirmButton: {
+            text: string
+        } & Pick<ButtonProps, 'onClick' | 'type' | 'form' | 'loading'>
+        closeButton: Pick<ButtonProps, 'onClick'>
     }
 }
 
@@ -21,12 +23,8 @@ function ConfirmButton({
     id,
     children,
     variant,
-    form,
-    type,
     icon,
-    loading,
     preModalCheck,
-    onConfirm,
     confirmation,
 }: PropsWithChildren<Props>): JSX.Element {
     const [showConfirm, setShowConfirm] = useState(false)
@@ -58,11 +56,24 @@ function ConfirmButton({
                     ))}
                     {confirmation.feedback}
                     <div className={styles.confirmationButtons}>
-                        <Button onClick={closeModal} type="button" variant="secondary">
+                        <Button
+                            onClick={(event) => {
+                                closeModal()
+                                confirmation.closeButton?.onClick?.(event)
+                            }}
+                            type="button"
+                            variant="secondary"
+                        >
                             Avbryt
                         </Button>
-                        <Button onClick={onConfirm} type={type} form={form} variant="danger" loading={loading}>
-                            {confirmation.confirmButtonLabel}
+                        <Button
+                            onClick={confirmation.confirmButton.onClick}
+                            type={confirmation.confirmButton.type}
+                            form={confirmation.confirmButton.form}
+                            variant="danger"
+                            loading={confirmation.confirmButton.loading}
+                        >
+                            {confirmation.confirmButton.text}
                         </Button>
                     </div>
                 </Modal.Content>

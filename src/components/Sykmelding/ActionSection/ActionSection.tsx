@@ -26,9 +26,7 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
     const [saveAndClose, saveResult] = useHandleSave({
         fnr,
         onCompleted: () => {
-            if (!isLocalOrDemo) {
-                window.location.href = publicEnv.gosysUrl
-            }
+            redirectTilGosys()
         },
     })
     const [tilbakeTilGosys, tilbakeTilGosysResult] = useHandleTilbakeTilGosys({
@@ -48,10 +46,6 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
             <div className={styles.buttons}>
                 <ConfirmButton
                     id="registrer-og-send"
-                    type="submit"
-                    form="sykmelding-form"
-                    loading={registerResult.loading}
-                    onConfirm={redirectTilGosys}
                     preModalCheck={async () => {
                         // Only open modal if form validates
                         const formValid = await trigger()
@@ -65,7 +59,17 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
                     confirmation={{
                         title: 'Er du sikker på at du vil registrere og sende inn sykmeldingen?',
                         body: ['Sykmeldingen vil bli sendt til den sykmeldte.'],
-                        confirmButtonLabel: 'Ja, jeg er sikker',
+                        confirmButton: {
+                            text: 'Ja, jeg er sikker',
+                            type: 'submit',
+                            form: 'sykmelding-form',
+                            loading: registerResult.loading,
+                        },
+                        closeButton: {
+                            onClick: () => {
+                                registerResult.reset()
+                            },
+                        },
                         feedback: <MutationResultFeedback result={registerResult} what="registrere" />,
                         hide: isMutationSuccess(registerResult),
                     }}
@@ -88,15 +92,22 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
                 <ConfirmButton
                     id="tilbake-til-gosys"
                     variant="tertiary"
-                    type="button"
-                    onConfirm={tilbakeTilGosys}
-                    loading={tilbakeTilGosysResult.loading}
                     confirmation={{
                         title: 'Er du sikker på at dette ikke er en sykmelding?',
                         body: [
                             'Dersom du er sikker på at dette ikke er en utenlandsk sykmelding kan du sende den tilbake til Gosys for journalføring der.',
                         ],
-                        confirmButtonLabel: 'Ja, jeg er sikker',
+                        confirmButton: {
+                            text: 'Ja, jeg er sikker',
+                            type: 'button',
+                            onClick: tilbakeTilGosys,
+                            loading: tilbakeTilGosysResult.loading,
+                        },
+                        closeButton: {
+                            onClick: () => {
+                                tilbakeTilGosysResult.reset()
+                            },
+                        },
                         feedback: <MutationResultFeedback result={tilbakeTilGosysResult} what="sende tilbake" />,
                         hide: isMutationSuccess(tilbakeTilGosysResult),
                     }}
@@ -112,7 +123,7 @@ function isMutationSuccess(result: MutationResult): boolean {
     return result.called && !result.loading && !result.error
 }
 
-function redirectTilGosys(): void {
+export function redirectTilGosys(): void {
     if (!isLocalOrDemo) {
         window.location.href = publicEnv.gosysUrl
     }
