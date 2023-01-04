@@ -9,7 +9,7 @@ import Pasientopplysninger from './Pasientopplysninger'
 import Sykmeldingsperiode, { PeriodeFormValue } from './Sykmeldingsperiode'
 import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSection'
 import { createDefaultValues } from './formDataUtils'
-import ActionSection from './ActionSection/ActionSection'
+import ActionSection, { redirectTilGosys } from './ActionSection/ActionSection'
 import { useHandleRegister } from './ActionSection/mutations/useHandleSave'
 import AndreOpplysninger from './AndreOpplysninger'
 
@@ -27,7 +27,12 @@ interface Props {
 
 function SykmeldingForm({ oppgave }: Props): JSX.Element {
     const errorSectionRef = useRef<HTMLDivElement>(null)
-    const [onSave, result] = useHandleRegister({ fnr: oppgave.values.fnrPasient })
+    const [onSave, result] = useHandleRegister({
+        fnr: oppgave.values.fnrPasient,
+        onCompleted: () => {
+            redirectTilGosys()
+        },
+    })
     const form = useForm<SykmeldingFormValues>({
         defaultValues: createDefaultValues(oppgave.values),
         shouldFocusError: false,
