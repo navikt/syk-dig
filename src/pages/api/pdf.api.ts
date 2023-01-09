@@ -34,11 +34,6 @@ const handler = withAuthenticatedApi<Buffer>(async (req, res, accessToken) => {
         return
     }
 
-    logger.info(`
-    DEBUG!! TODO REMOVE!! Got bearer token for pdf proxy
-${bearerToken}
-`)
-
     await proxyApiRouteRequest({
         hostname: env.SYK_DIG_BACKEND_HOST,
         path: req.url ?? '',

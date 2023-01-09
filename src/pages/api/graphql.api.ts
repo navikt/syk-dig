@@ -31,11 +31,6 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
         return
     }
 
-    logger.info(`
-    DEBUG!! TODO REMOVE!! Got bearer token for graphql proxy
-${bearerToken}
-`)
-
     try {
         await proxyApiRouteRequest({
             hostname: env.SYK_DIG_BACKEND_HOST,
