@@ -23,7 +23,7 @@ function OppgaveStatus({ oppgave }: Props): JSX.Element {
                     <BodyShort spacing>
                         Dersom du kom hit fra Gosys kan du prøve å oppfriske Gosys og prøve igjen.
                     </BodyShort>
-                    <BodyShort spacing>Dersom problemet vedvarer kan du ta kontakt.</BodyShort>
+                    <BodyShort spacing>Dersom problemet vedvarer kan du ta kontakt med brukerstøtte.</BodyShort>
                 </Alert>
             )
         case DigitaliseringsoppgaveStatusEnum.IkkeEnSykmelding:
@@ -35,7 +35,7 @@ function OppgaveStatus({ oppgave }: Props): JSX.Element {
                     <BodyShort spacing>
                         Dersom du kom hit fra Gosys kan du prøve å oppfriske Gosys og prøve igjen.
                     </BodyShort>
-                    <BodyShort spacing>Dersom problemet vedvarer kan du ta kontakt.</BodyShort>
+                    <BodyShort spacing>Dersom problemet vedvarer kan du ta kontakt med brukerstøtte.</BodyShort>
                 </Alert>
             )
         case DigitaliseringsoppgaveStatusEnum.FinnesIkke:
@@ -50,7 +50,7 @@ function OppgaveStatus({ oppgave }: Props): JSX.Element {
                     <BodyShort spacing>
                         Dersom du kom hit fra Gosys kan du prøve å oppfriske Gosys og prøve igjen.
                     </BodyShort>
-                    <BodyShort spacing>Dersom problemet vedvarer kan du ta kontakt.</BodyShort>
+                    <BodyShort spacing>Dersom problemet vedvarer kan du ta kontakt med brukerstøtte.</BodyShort>
                 </Alert>
             )
     }
