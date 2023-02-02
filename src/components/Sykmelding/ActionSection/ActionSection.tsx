@@ -3,7 +3,7 @@ import { Button } from '@navikt/ds-react'
 import { useFormContext } from 'react-hook-form'
 import { MutationResult } from '@apollo/client'
 
-import { getPublicEnv, isLocalOrDemo } from '../../../utils/env'
+import { getPublicEnv } from '../../../utils/env'
 import { SykmeldingFormValues } from '../SykmeldingForm'
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated'
 import ConfirmButton from '../../ConfirmButton/ConfirmButton'
@@ -100,7 +100,10 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
                         confirmButton: {
                             text: 'Ja, jeg er sikker',
                             type: 'button',
-                            onClick: tilbakeTilGosys,
+                            onClick: async () => {
+                                reset(undefined, { keepValues: true })
+                                await tilbakeTilGosys()
+                            },
                             loading: tilbakeTilGosysResult.loading,
                         },
                         closeButton: {
@@ -124,9 +127,7 @@ function isMutationSuccess(result: MutationResult): boolean {
 }
 
 export function redirectTilGosys(): void {
-    if (!isLocalOrDemo) {
-        window.location.href = publicEnv.gosysUrl
-    }
+    window.location.href = publicEnv.gosysUrl
 }
 
 export default ActionSection

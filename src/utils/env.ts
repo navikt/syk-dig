@@ -3,7 +3,6 @@ import getConfig from 'next/config'
 interface PublicEnv {
     runtimeEnv: 'local' | 'test' | 'demo' | 'dev' | 'production'
     gosysUrl: string
-    modiaUrl: string
 }
 
 type ServerEnv = Record<

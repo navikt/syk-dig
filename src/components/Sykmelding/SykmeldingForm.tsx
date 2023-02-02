@@ -30,9 +30,14 @@ function SykmeldingForm({ oppgave }: Props): JSX.Element {
     const [onSave, result] = useHandleRegister({
         fnr: oppgave.values.fnrPasient,
         onCompleted: () => {
-            redirectTilGosys()
+            // TODO: Better solution to this hacky implementation of a delay:
+            // Necessary to let RHF re-render with isSubmitSuccessful before we redirect to GOSYS
+            setTimeout(() => {
+                redirectTilGosys()
+            }, 100)
         },
     })
+
     const form = useForm<SykmeldingFormValues>({
         defaultValues: createDefaultValues(oppgave.values),
         shouldFocusError: false,

@@ -23,7 +23,6 @@ const nextConfig = {
     },
     publicRuntimeConfig: {
         gosysUrl: process.env.GOSYS_URL,
-        modiaUrl: process.env.MODIA_URL,
         runtimeEnv: process.env.RUNTIME_ENVIRONMENT,
     },
 };
