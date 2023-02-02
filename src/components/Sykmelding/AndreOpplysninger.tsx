@@ -2,6 +2,7 @@ import { ConfirmationPanel } from '@navikt/ds-react'
 import { useController } from 'react-hook-form'
 
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
+import DatoSykmeldingenBleSkrevet from '../FormComponents/Pasientopplysninger/DatoSykmeldingenBleSkrevet'
 
 import { SykmeldingFormValues } from './SykmeldingForm'
 import styles from './AndreOpplysninger.module.css'
@@ -15,6 +16,7 @@ function AndreOpplysninger(): JSX.Element {
 
     return (
         <SykmeldingSection id="andre-opplysninger-seksjon" title="Andre opplysninger">
+            <DatoSykmeldingenBleSkrevet />
             <ConfirmationPanel
                 id={field.name}
                 className={styles.andreOpplysninger}

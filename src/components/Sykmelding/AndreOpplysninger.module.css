@@ -1,7 +1,3 @@
-.andreOpplysninger {
-    margin-left: var(--a-spacing-10);
-}
-
 .andreOpplysninger :global(.navds-confirmation-panel__inner) {
     background-color: transparent;
     border: 0;
