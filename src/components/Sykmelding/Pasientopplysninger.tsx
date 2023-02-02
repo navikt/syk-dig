@@ -1,6 +1,5 @@
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
 import PersonInfo from '../FormComponents/Pasientopplysninger/PersonInfo'
-import DatoSykmeldingenBleSkrevet from '../FormComponents/Pasientopplysninger/DatoSykmeldingenBleSkrevet'
 import CountryPicker from '../FormComponents/CountryPicker/CountryPicker'
 import { Person } from '../../graphql/queries/graphql.generated'
 
@@ -14,7 +13,6 @@ function Pasientopplysninger({ fnr, person }: PasientopplysningerProps): JSX.Ele
         <SykmeldingSection id="pasientopplysninger-seksjon" title="Pasientopplysninger">
             <PersonInfo fnr={fnr} person={person} />
             <CountryPicker name="land" />
-            <DatoSykmeldingenBleSkrevet />
         </SykmeldingSection>
     )
 }

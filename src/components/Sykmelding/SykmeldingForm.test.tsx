@@ -7,8 +7,8 @@ import { render, screen, within } from '../../utils/testUtils'
 import { PeriodeType, SaveOppgaveDocument, SykmeldingUnderArbeidStatus } from '../../graphql/queries/graphql.generated'
 import { createMock } from '../../utils/test/apolloTestUtils'
 
-import SykmeldingForm from './SykmeldingForm'
 import { DiagnoseSystem } from './DiagnoseFormSection'
+import SykmeldingForm from './SykmeldingForm'
 
 describe('SykmeldingForm', () => {
     beforeAll(() => {
@@ -88,7 +88,6 @@ describe('SykmeldingForm', () => {
             })
 
             await fillPasientOpplysningerSection({
-                skrevetDato: '07.06.2022',
                 land: { type: 'Pol', click: 'Polen' },
             })
 
@@ -101,6 +100,10 @@ describe('SykmeldingForm', () => {
                 { system: 'ICD10', search: 'L81', click: 'L815' },
                 { system: 'ICPC2', search: 'Y0', click: 'Y04' },
             ])
+
+            await fillAndreOpplysningerSection({
+                skrevetDato: '07.06.2022',
+            })
 
             expect(
                 await axe(container, {
@@ -167,18 +170,19 @@ describe('SykmeldingForm', () => {
     })
 })
 
-async function fillPasientOpplysningerSection({
-    skrevetDato,
-    land,
-}: {
-    skrevetDato: string
-    land: { type: string; click: string }
-}): Promise<void> {
+async function fillPasientOpplysningerSection({ land }: { land: { type: string; click: string } }): Promise<void> {
     const section = within(screen.getByRole('region', { name: 'Pasientopplysninger' }))
 
-    await userEvent.type(section.getByRole('textbox', { name: 'Datoen sykmeldingen ble skrevet' }), skrevetDato)
-    await userEvent.type(section.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), land.type)
+    await section.findByPlaceholderText('Søk etter land')
+    await userEvent.type(await section.findByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), land.type)
     await userEvent.click(await section.findByRole('option', { name: land.click }))
+}
+
+async function fillAndreOpplysningerSection({ skrevetDato }: { skrevetDato: string }): Promise<void> {
+    const section = within(screen.getByRole('region', { name: 'Andre opplysninger' }))
+
+    await userEvent.type(section.getByRole('textbox', { name: 'Datoen sykmeldingen ble skrevet' }), skrevetDato)
+    await userEvent.keyboard('{Escape}')
 }
 
 async function fillPeriodeSection(
