@@ -27,6 +27,7 @@ spec:
     application:
       enabled: true
       tenant: trygdeetaten.no
+      allowAllUsers: true
     sidecar:
       enabled: true
   accessPolicy:

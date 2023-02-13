@@ -18,7 +18,7 @@ function Utenlandsk(): JSX.Element {
 
     return (
         <PageWrapper title="Registrering av sykmelding">
-            <OppgaveView oppgaveId={oppgaveId}>
+            <OppgaveView oppgave={data?.oppgave}>
                 {loading && <Loader size="3xlarge" />}
                 {data?.oppgave && <DigitaliseringsOppgave oppgave={data.oppgave} />}
                 {error && <Alert variant="error">Klarte ikke å laste oppgave med oppgave-id {oppgaveId}</Alert>}

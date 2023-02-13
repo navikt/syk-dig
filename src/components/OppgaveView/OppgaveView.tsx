@@ -3,25 +3,28 @@ import { Button, Tabs, Tooltip } from '@navikt/ds-react'
 import { FileContent, Findout, List, Task, File, Close } from '@navikt/ds-icons'
 import cn from 'clsx'
 
-import Pdf from '../Pdf/Pdf'
 import PageTitle from '../PageTitle/PageTitle'
 import { getPublicEnv } from '../../utils/env'
+import { DigitaliseringOppgaveResultFragment } from '../../graphql/queries/graphql.generated'
+import { Location, useParam } from '../../utils/useParam'
 
 import styles from './OppgaveView.module.css'
+import DocumentsViewer from './DocumentsViewer'
 
 const publicEnv = getPublicEnv()
 
 interface Props {
-    oppgaveId: string
+    oppgave: DigitaliseringOppgaveResultFragment | undefined | null
 }
 
-function OppgaveView({ oppgaveId, children }: PropsWithChildren<Props>): JSX.Element {
+function OppgaveView({ oppgave, children }: PropsWithChildren<Props>): JSX.Element {
+    const { oppgaveId } = useParam(Location.Utenlansk)
     const [tabState, setTabState] = useState('skjema')
     const [showTabs, setShowTabs] = useState(false)
     const toggleTabs = useCallback(() => setShowTabs((b) => !b), [])
 
     return (
-        <div>
+        <>
             {showTabs && <OppgaveViewTabs value={tabState} onTabChange={setTabState} />}
             <div className={styles.contentWrapper}>
                 <section
@@ -34,15 +37,16 @@ function OppgaveView({ oppgaveId, children }: PropsWithChildren<Props>): JSX.Ele
                     <OppgaveViewPageTitle showTabs={showTabs} toggleTabs={toggleTabs} />
                     <div className={styles.content}>{children} </div>
                 </section>
-                <Pdf
+                <DocumentsViewer
                     className={cn(styles.pdf, {
                         [styles.activeTab]: showTabs && tabState === 'pdf',
                         [styles.inactiveTab]: showTabs && tabState === 'skjema',
                     })}
-                    href={`/api/pdf?oppgaveId=${oppgaveId}`}
+                    oppgaveId={oppgaveId}
+                    documents={oppgave?.__typename === 'Digitaliseringsoppgave' ? oppgave.documents : null}
                 />
             </div>
-        </div>
+        </>
     )
 }
 

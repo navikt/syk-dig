@@ -1,0 +1,21 @@
+.sectionRoot {
+    display: flex;
+    flex-direction: column;
+}
+
+.pdf {
+    height: 100%;
+    flex-grow: 1;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    background-color: var(--a-bg-subtle);
+    height: var(--a-spacing-10);
+    padding-left: var(--a-spacing-4);
+}
+
+.tabsRoot :global(.navds-tabs__tablist) {
+    flex-wrap: wrap;
+}
