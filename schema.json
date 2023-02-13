@@ -146,6 +146,26 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "documents",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "OBJECT", "name": "Document", "ofType": null }
+                                    }
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "person",
                             "description": null,
                             "args": [],
@@ -257,6 +277,41 @@
                         },
                         { "name": "FINNES_IKKE", "description": null, "isDeprecated": false, "deprecationReason": null }
                     ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "Document",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "tittel",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "dokumentInfoId",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
                     "possibleTypes": null
                 },
                 {
@@ -784,20 +839,7 @@
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
-                        { "name": "AVVENTENDE", "description": null, "isDeprecated": false, "deprecationReason": null },
-                        {
-                            "name": "BEHANDLINGSDAGER",
-                            "description": null,
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        { "name": "GRADERT", "description": null, "isDeprecated": false, "deprecationReason": null },
-                        {
-                            "name": "REISETILSKUDD",
-                            "description": null,
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        }
+                        { "name": "GRADERT", "description": null, "isDeprecated": false, "deprecationReason": null }
                     ],
                     "possibleTypes": null
                 },

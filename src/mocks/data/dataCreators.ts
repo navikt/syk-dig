@@ -5,6 +5,18 @@ export function createOppgave(overrides?: Partial<OppgaveFragment>): OppgaveFrag
     return {
         __typename: 'Digitaliseringsoppgave',
         oppgaveId: '987654321',
+        documents: [
+            {
+                __typename: 'Document',
+                tittel: 'annet_dokument.pdf',
+                dokumentInfoId: `some-doc`,
+            },
+            {
+                __typename: 'Document',
+                tittel: 'more-doc.pdf',
+                dokumentInfoId: 'more-doc.pdf',
+            },
+        ],
         person: {
             __typename: 'Person',
             navn: 'Ola Nordmann',

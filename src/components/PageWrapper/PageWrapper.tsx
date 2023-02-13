@@ -10,13 +10,13 @@ interface Props {
 
 function PageWrapper({ children, title, className }: PropsWithChildren<Props>): JSX.Element {
     return (
-        <div>
+        <>
             <Head>
                 <title>{title}</title>
             </Head>
             <PageHeader />
             <main className={className}>{children}</main>
-        </div>
+        </>
     )
 }
 

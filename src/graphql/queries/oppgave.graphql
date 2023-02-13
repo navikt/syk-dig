@@ -29,6 +29,10 @@ fragment OppgaveValues on OppgaveValues {
 
 fragment Oppgave on Digitaliseringsoppgave {
     oppgaveId
+    documents {
+        tittel
+        dokumentInfoId
+    }
     person {
         navn
         bostedsadresse {

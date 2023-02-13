@@ -37,6 +37,7 @@ export type DiagnoseValue = {
 
 export type Digitaliseringsoppgave = {
     __typename: 'Digitaliseringsoppgave'
+    documents: Array<Document>
     oppgaveId: Scalars['String']
     person: Person
     type: SykmeldingsType
@@ -55,6 +56,12 @@ export enum DigitaliseringsoppgaveStatusEnum {
     Ferdigstilt = 'FERDIGSTILT',
     FinnesIkke = 'FINNES_IKKE',
     IkkeEnSykmelding = 'IKKE_EN_SYKMELDING',
+}
+
+export type Document = {
+    __typename: 'Document'
+    dokumentInfoId: Scalars['String']
+    tittel: Scalars['String']
 }
 
 export enum ErrorDetail {
@@ -374,10 +381,7 @@ export type PeriodeInput = {
 
 export enum PeriodeType {
     AktivitetIkkeMulig = 'AKTIVITET_IKKE_MULIG',
-    Avventende = 'AVVENTENDE',
-    Behandlingsdager = 'BEHANDLINGSDAGER',
     Gradert = 'GRADERT',
-    Reisetilskudd = 'REISETILSKUDD',
 }
 
 export type PeriodeValue = {
@@ -520,6 +524,7 @@ export type OppgaveValuesFragment = {
 export type OppgaveFragment = {
     __typename: 'Digitaliseringsoppgave'
     oppgaveId: string
+    documents: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
     person: {
         __typename: 'Person'
         navn?: string | null
@@ -701,6 +706,7 @@ export type DigitaliseringsoppgaveStatusFragment = {
 export type DigitaliseringOppgaveResult_Digitaliseringsoppgave_Fragment = {
     __typename: 'Digitaliseringsoppgave'
     oppgaveId: string
+    documents: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
     person: {
         __typename: 'Person'
         navn?: string | null
@@ -795,6 +801,7 @@ export type OppgaveByIdQuery = {
         | {
               __typename: 'Digitaliseringsoppgave'
               oppgaveId: string
+              documents: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
               person: {
                   __typename: 'Person'
                   navn?: string | null
@@ -895,6 +902,7 @@ export type SaveOppgaveMutation = {
         | {
               __typename: 'Digitaliseringsoppgave'
               oppgaveId: string
+              documents: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
               person: {
                   __typename: 'Person'
                   navn?: string | null
@@ -1300,6 +1308,17 @@ export const OppgaveFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documents' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                            ],
+                        },
+                    },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'person' },

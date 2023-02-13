@@ -2,14 +2,14 @@ import { logger } from '@navikt/next-logger'
 import { proxyApiRouteRequest } from '@navikt/next-api-proxy'
 import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall'
 
-import { withAuthenticatedApi } from '../../auth/withAuth'
-import { getServerEnv } from '../../utils/env'
-import { pdf } from '../../mocks/data/examplePdfbase64'
+import { withAuthenticatedApi } from '../../../auth/withAuth'
+import { getServerEnv } from '../../../utils/env'
+import { pdf, alternativeDocumentPdf } from '../../../mocks/data/examplePdfbase64'
 
 const env = getServerEnv()
 
 const handler = withAuthenticatedApi<Buffer>(async (req, res, accessToken) => {
-    logger.info('Proxying request to syk-dig pdf')
+    logger.info('Proxying document request to syk-dig-backend')
 
     if (req.method !== 'GET') {
         res.status(405).json({ message: 'Method not supported' })
@@ -19,7 +19,7 @@ const handler = withAuthenticatedApi<Buffer>(async (req, res, accessToken) => {
     if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
         logger.warn(`Running with mock, mocking PDF for local and demo for ${req.url}`)
         res.setHeader('Content-Type', 'application/pdf')
-        res.status(200).send(Buffer.from(pdf, 'base64'))
+        res.status(200).send(Buffer.from(req.url?.endsWith('primary') ? pdf : alternativeDocumentPdf, 'base64'))
         return
     }
 
