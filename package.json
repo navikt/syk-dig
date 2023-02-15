@@ -3,6 +3,9 @@
     "version": "0.1.0",
     "private": true,
     "packageManager": "yarn@3.2.3",
+    "engines": {
+        "node": "18"
+    },
     "scripts": {
         "start": "concurrently -n next,codegen \"yarn start:watch\" \"yarn gen:watch\"",
         "start:watch": "next dev | pino-pretty",
