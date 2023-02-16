@@ -61,7 +61,7 @@ jobs:
       - name: Build app
         run: yarn build
       - name: Login GCP dev
-        uses: google-github-actions/auth@v0.7.1
+        uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.STATIC_FILES_DEV }}
       - name: Upload static files to NAV CDN
