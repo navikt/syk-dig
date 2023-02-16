@@ -23,9 +23,21 @@ export type Scalars = {
 
 export type Bostedsadresse = Matrikkeladresse | UkjentBosted | UtenlandskAdresse | Vegadresse
 
+export type Country = {
+    __typename: 'Country'
+    code: Scalars['String']
+    name: Scalars['String']
+}
+
 export type DiagnoseInput = {
     kode: Scalars['String']
     system: Scalars['String']
+}
+
+export type DiagnoseSuggestion = {
+    __typename: 'DiagnoseSuggestion'
+    code: Scalars['String']
+    text: Scalars['String']
 }
 
 export type DiagnoseValue = {
@@ -398,12 +410,21 @@ export type Person = {
 export type Query = {
     __typename: 'Query'
     _service: _Service
+    /** Only to be used with @rest directive */
+    countries: Array<Country>
     modia?: Maybe<ModiaContext>
     oppgave?: Maybe<DigitaliseringsoppgaveResult>
+    /** Only to be used with @rest directive */
+    suggestions: Array<DiagnoseSuggestion>
 }
 
 export type QueryOppgaveArgs = {
     oppgaveId: Scalars['String']
+}
+
+export type QuerySuggestionsArgs = {
+    system: Scalars['String']
+    value: Scalars['String']
 }
 
 export enum SykmeldingUnderArbeidStatus {
@@ -993,6 +1014,23 @@ export type TilbakeTilGosysMutation = {
         oppgaveId: string
         status: DigitaliseringsoppgaveStatusEnum
     } | null
+}
+
+export type CountriesQueryVariables = Exact<{ [key: string]: never }>
+
+export type CountriesQuery = {
+    __typename: 'Query'
+    countries: Array<{ __typename: 'Country'; name: string; code: string }>
+}
+
+export type DiagnoseSuggestionsQueryVariables = Exact<{
+    system: Scalars['String']
+    value: Scalars['String']
+}>
+
+export type DiagnoseSuggestionsQuery = {
+    __typename: 'Query'
+    suggestions: Array<{ __typename: 'DiagnoseSuggestion'; code: string; text: string }>
 }
 
 export const ModiaFragmentDoc = {
@@ -1633,3 +1671,119 @@ export const TilbakeTilGosysDocument = {
         ...DigitaliseringsoppgaveStatusFragmentDoc.definitions,
     ],
 } as unknown as DocumentNode<TilbakeTilGosysMutation, TilbakeTilGosysMutationVariables>
+export const CountriesDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'Countries' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'countries' },
+                        directives: [
+                            {
+                                kind: 'Directive',
+                                name: { kind: 'Name', value: 'rest' },
+                                arguments: [
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'type' },
+                                        value: { kind: 'StringValue', value: 'Country', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'path' },
+                                        value: { kind: 'StringValue', value: '/country', block: false },
+                                    },
+                                ],
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<CountriesQuery, CountriesQueryVariables>
+export const DiagnoseSuggestionsDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'DiagnoseSuggestions' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'system' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'value' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'suggestions' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'system' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'system' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'value' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'value' } },
+                            },
+                        ],
+                        directives: [
+                            {
+                                kind: 'Directive',
+                                name: { kind: 'Name', value: 'rest' },
+                                arguments: [
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'type' },
+                                        value: { kind: 'StringValue', value: 'DiagnoseSuggestion', block: false },
+                                    },
+                                    {
+                                        kind: 'Argument',
+                                        name: { kind: 'Name', value: 'path' },
+                                        value: {
+                                            kind: 'StringValue',
+                                            value: '/diagnose/{args.system}?value={args.value}',
+                                            block: false,
+                                        },
+                                    },
+                                ],
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'code' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<DiagnoseSuggestionsQuery, DiagnoseSuggestionsQueryVariables>

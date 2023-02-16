@@ -1,19 +1,19 @@
 import { BodyShort } from '@navikt/ds-react'
+import { useQuery } from '@apollo/client'
 
-import { UtenlandskAdresse } from '../../../../graphql/queries/graphql.generated'
-import { useCountrySuggestions } from '../../CountryPicker/CountryCombobox/CountryCombobox'
+import { CountriesDocument, UtenlandskAdresse } from '../../../../graphql/queries/graphql.generated'
 
 type UtenlandskAdresseProps = {
     utenlandskAdresse: UtenlandskAdresse
 }
 
 function UtenlandskAdresse({ utenlandskAdresse }: UtenlandskAdresseProps): JSX.Element {
-    const [loadingCountries, countries] = useCountrySuggestions()
-    const country = countries.find((country) => country.code === utenlandskAdresse.landkode)?.name
+    const { loading, data } = useQuery(CountriesDocument)
+    const country = data?.countries.find((country) => country.code === utenlandskAdresse.landkode)?.name
 
     return (
         <>
-            {loadingCountries ? (
+            {loading ? (
                 <BodyShort>Laster adresse...</BodyShort>
             ) : (
                 <>

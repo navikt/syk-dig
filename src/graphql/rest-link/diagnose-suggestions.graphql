@@ -1,0 +1,7 @@
+query DiagnoseSuggestions($system: String!, $value: String!) {
+    suggestions(system: $system, value: $value)
+        @rest(type: "DiagnoseSuggestion", path: "/diagnose/{args.system}?value={args.value}") {
+        code
+        text
+    }
+}

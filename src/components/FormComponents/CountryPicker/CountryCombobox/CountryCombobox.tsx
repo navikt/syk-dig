@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useComboboxState } from 'ariakit/combobox'
+import { useQuery } from '@apollo/client'
 
-import { api } from '../../../../utils/apiUtils'
-import { Country } from '../../../../pages/api/country/index.api'
 import {
     ComboboxWrapper,
     DsCombobox,
@@ -10,6 +9,7 @@ import {
     DsComboboxNoResult,
     DsComboboxPopover,
 } from '../../CustomFormComponents/Combobox'
+import { CountriesDocument } from '../../../../graphql/queries/graphql.generated'
 
 interface Props {
     id?: string
@@ -19,13 +19,13 @@ interface Props {
 }
 
 function CountryCombobox({ id, onSelect, onChange, initialValue }: Props): JSX.Element {
-    const [loadingCountries, countries] = useCountrySuggestions()
+    const { loading, data } = useQuery(CountriesDocument)
     const combobox = useComboboxState({
         gutter: 8,
         sameWidth: true,
-        list: countries.map((it) => it.name),
+        list: data?.countries?.map((it) => it.name),
         setValue: (value) => {
-            const country = countries.find((country) => country.name === value)
+            const country = data?.countries.find((country) => country.name === value)
 
             // Don't trigger onChange when we are setting the lazy loaded initial value
             if (country?.code === initialValue) return
@@ -37,7 +37,7 @@ function CountryCombobox({ id, onSelect, onChange, initialValue }: Props): JSX.E
             onSelect(country.code)
         },
     })
-    const defaultCountry = countries.find((country) => country.code === initialValue)?.name
+    const defaultCountry = data?.countries.find((country) => country.code === initialValue)?.name
 
     useEffect(() => {
         if (!defaultCountry) return
@@ -47,17 +47,13 @@ function CountryCombobox({ id, onSelect, onChange, initialValue }: Props): JSX.E
     }, [combobox, defaultCountry])
 
     return (
-        <ComboboxWrapper
-            labelId="country-typeahead-label"
-            label="Landet sykmeldingen ble skrevet"
-            disabled={loadingCountries}
-        >
+        <ComboboxWrapper labelId="country-typeahead-label" label="Landet sykmeldingen ble skrevet" disabled={loading}>
             <DsCombobox
                 id={id}
                 aria-labelledby="country-typeahead-label"
                 state={combobox}
-                disabled={loadingCountries}
-                placeholder={loadingCountries ? 'Laster land...' : 'Søk etter land'}
+                disabled={loading}
+                placeholder={loading ? 'Laster land...' : 'Søk etter land'}
             />
             <DsComboboxPopover state={combobox}>
                 {combobox.matches.map((country) => (
@@ -69,23 +65,6 @@ function CountryCombobox({ id, onSelect, onChange, initialValue }: Props): JSX.E
             </DsComboboxPopover>
         </ComboboxWrapper>
     )
-}
-
-export function useCountrySuggestions(): [loading: boolean, result: Country[]] {
-    const [loading, setLoading] = useState<boolean>(true)
-    const [countries, setCountries] = useState<Country[]>([])
-    useEffect(() => {
-        fetch(api('/api/country'))
-            .then((res) => res.json())
-            .then((countries: Country[]) => {
-                setCountries(countries)
-            })
-            .finally(() => {
-                setLoading(false)
-            })
-    }, [])
-
-    return [loading, countries]
 }
 
 export default CountryCombobox

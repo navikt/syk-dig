@@ -15,11 +15,7 @@ export const handlers: RequestHandler[] = [
             throw new Error(`Illegal path parameter: ${system}`)
         }
 
-        return res(
-            ctx.json<DiagnoseSearchResult>({
-                suggestions: searchSystem(system, value),
-            }),
-        )
+        return res(ctx.json<DiagnoseSearchResult>(searchSystem(system, value)))
     }),
     rest.get(api('/api/country'), async (req, res, ctx) => {
         return res(ctx.json<Country[]>(countriesResponse))

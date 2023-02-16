@@ -1,0 +1,22 @@
+directive @rest(type: String!, path: String!, method: String, endpoint: String) on FIELD
+
+type DiagnoseSuggestion {
+    code: String!
+    text: String!
+}
+
+type Country {
+    code: String!
+    name: String!
+}
+
+extend type Query {
+    """
+    Only to be used with @rest directive
+    """
+    suggestions(system: String!, value: String!): [DiagnoseSuggestion!]!
+    """
+    Only to be used with @rest directive
+    """
+    countries: [Country!]!
+}

@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useComboboxState } from 'ariakit/combobox'
+import { useQuery } from '@apollo/client'
 
 import { ComboboxWrapper, DsCombobox, DsComboboxItem, DsComboboxPopover } from '../../CustomFormComponents/Combobox'
 import { DiagnoseSystem } from '../../../Sykmelding/DiagnoseFormSection'
-import { DiagnoseSearchResult, DiagnoseSuggestion } from '../../../../pages/api/diagnose/[system].api'
-import { api } from '../../../../utils/apiUtils'
+import { DiagnoseSuggestion } from '../../../../pages/api/diagnose/[system].api'
 import { DsComboboxNoResult } from '../../CustomFormComponents/Combobox'
 import { PossiblePickerFormNames } from '../DiagnosePicker'
+import { DiagnoseSuggestionsDocument } from '../../../../graphql/queries/graphql.generated'
 
 interface Props {
     id?: string
@@ -25,7 +26,7 @@ function DiagnoseCombobox({ id, name, system, onSelect, onChange, initialValue }
         setValue: (value) => {
             onChange()
 
-            const diagnose = suggestions.find((it) => it.code.toLowerCase() === value.toLowerCase())
+            const diagnose = data?.suggestions.find((it) => it.code.toLowerCase() === value.toLowerCase())
 
             // User input doesn't match any actual codes, do nothing
             if (!diagnose) return
@@ -35,14 +36,19 @@ function DiagnoseCombobox({ id, name, system, onSelect, onChange, initialValue }
             combobox.hide()
         },
     })
-    const suggestions = useDiagnoseSuggestions(system, combobox.value)
+    const { data, loading } = useQuery(DiagnoseSuggestionsDocument, {
+        variables: { system: system.toLowerCase(), value: combobox.value.trim() },
+        skip: combobox.value.trim() === '',
+    })
 
     return (
         <ComboboxWrapper labelId={`${id}-label`} label="Diagnosekode">
             <DsCombobox id={name} aria-labelledby={`${id}-label`} state={combobox} placeholder={`Velg`} />
             <DsComboboxPopover state={combobox}>
-                {suggestions.length > 0 ? (
-                    suggestions.map((suggestion) => (
+                {loading ? (
+                    <DsComboboxNoResult text={`Laster forslag..."`} />
+                ) : data && data.suggestions.length > 0 ? (
+                    data.suggestions.map((suggestion) => (
                         <DsComboboxItem key={suggestion.code} value={suggestion.code}>
                             {suggestion.code}
                         </DsComboboxItem>
@@ -55,36 +61,6 @@ function DiagnoseCombobox({ id, name, system, onSelect, onChange, initialValue }
             </DsComboboxPopover>
         </ComboboxWrapper>
     )
-}
-
-function useDiagnoseSuggestions(system: DiagnoseSystem, searchTerm: string): DiagnoseSuggestion[] {
-    const [suggestions, setSuggestions] = useState<DiagnoseSuggestion[]>([])
-
-    useEffect(() => {
-        if (searchTerm.trim() !== '') {
-            let isCurrentSearch = true
-            fetchDiagnoseSuggestions(system, searchTerm).then((result) => {
-                if (isCurrentSearch) setSuggestions(result.suggestions)
-            })
-
-            return () => {
-                isCurrentSearch = false
-            }
-        }
-    }, [searchTerm, system])
-
-    return suggestions
-}
-
-const cache: Record<string, DiagnoseSearchResult> = {}
-async function fetchDiagnoseSuggestions(system: DiagnoseSystem, value: string): Promise<DiagnoseSearchResult> {
-    if (cache[`${system}-${value}`]) {
-        return cache[value]
-    }
-
-    const result = await fetch(api(`/api/diagnose/${system.toLowerCase()}?value=${value}`)).then((res) => res.json())
-    cache[value] = result
-    return result
 }
 
 export default DiagnoseCombobox

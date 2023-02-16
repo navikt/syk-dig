@@ -2,6 +2,7 @@ import { ApolloClient, from, HttpLink, InMemoryCache, InMemoryCacheConfig, Norma
 import { onError } from '@apollo/client/link/error'
 import { RetryLink } from '@apollo/client/link/retry'
 import { logger } from '@navikt/next-logger'
+import { RestLink } from 'apollo-link-rest'
 
 import { ModiaContext, ModiaContextError } from '../modia/ModiaService'
 
@@ -29,6 +30,10 @@ export function createApolloClient(
         uri: `/api/graphql`,
     })
 
+    const restLink = new RestLink({
+        uri: '/api',
+    })
+
     return new ApolloClient({
         connectToDevTools: true,
         ssrMode: typeof window === 'undefined',
@@ -38,6 +43,7 @@ export function createApolloClient(
             new RetryLink({
                 attempts: { max: 3 },
             }),
+            restLink,
             httpLink,
         ]),
         resolvers: {

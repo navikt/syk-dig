@@ -7,16 +7,29 @@ import open from 'open'
 import { cacheConfig } from '../graphql/apollo'
 import { modiaLocalResolvers, setInitialModiaQueryState } from '../graphql/localState/modia'
 import { createModiaContext } from '../mocks/data/dataCreators'
+import { CountriesDocument } from '../graphql/queries/graphql.generated'
+import { countriesResponse } from '../pages/api/country/index.api'
 
 type ProviderProps = {
     readonly initialState?: Cache.WriteQueryOptions<unknown, unknown>[]
     readonly mocks?: MockedResponse[]
 }
 
+const initialCountryQuery = createInitialQuery(CountriesDocument, {
+    __typename: 'Query',
+    countries: [
+        ...countriesResponse.map((country) => ({
+            __typename: 'Country',
+            ...country,
+        })),
+    ],
+})
+
 function AllTheProviders({ children, initialState, mocks }: PropsWithChildren<ProviderProps>): JSX.Element {
     const cache = new InMemoryCache(cacheConfig)
     setInitialModiaQueryState(cache, createModiaContext())
     initialState?.forEach((it) => cache.writeQuery(it))
+    cache.writeQuery(initialCountryQuery)
 
     return (
         // TODO maybe use MSW?

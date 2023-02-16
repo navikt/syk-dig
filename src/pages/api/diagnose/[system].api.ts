@@ -14,9 +14,7 @@ export interface DiagnoseSuggestion {
     text: string
 }
 
-export interface DiagnoseSearchResult {
-    suggestions: DiagnoseSuggestion[]
-}
+export type DiagnoseSearchResult = DiagnoseSuggestion[]
 
 const diagnoseSearch = withAuthenticatedApi<DiagnoseSearchResult>(async (req, res) => {
     const { system, value } = req.query
@@ -39,7 +37,7 @@ const diagnoseSearch = withAuthenticatedApi<DiagnoseSearchResult>(async (req, re
         return
     }
 
-    res.status(200).json({ suggestions: searchSystem(system, value) })
+    res.status(200).json(searchSystem(system, value))
 })
 
 export function searchSystem(system: 'icd10' | 'icpc2', value: string): DiagnoseSuggestion[] {

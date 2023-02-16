@@ -1,0 +1,6 @@
+query Countries {
+    countries @rest(type: "Country", path: "/country") {
+        name
+        code
+    }
+}
