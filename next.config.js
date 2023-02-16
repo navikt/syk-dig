@@ -25,6 +25,6 @@ const nextConfig = {
         gosysUrl: process.env.GOSYS_URL,
         runtimeEnv: process.env.RUNTIME_ENVIRONMENT,
     },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
