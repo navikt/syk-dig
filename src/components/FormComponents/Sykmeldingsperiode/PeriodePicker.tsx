@@ -1,5 +1,6 @@
-import { useController } from 'react-hook-form'
+import { useController, useFormContext } from 'react-hook-form'
 import { UNSAFE_DatePicker, UNSAFE_useRangeDatepicker } from '@navikt/ds-react'
+import { isBefore, isSameDay } from 'date-fns'
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 
@@ -14,17 +15,38 @@ type FormName = `periode.${number}.range`
 type FormField = `${FormName}.${'fom' | 'tom'}`
 
 interface PeriodePickerProps {
+    index: number
     name: FormName
 }
 
-function PeriodePicker({ name }: PeriodePickerProps): JSX.Element {
+function PeriodePicker({ index, name }: PeriodePickerProps): JSX.Element {
+    const { watch } = useFormContext<SykmeldingFormValues>()
+    const previousTom: Date | null = watch(`periode.${index - 1}.range.tom`) ?? null
+
     const { field: fromField, fieldState: fromFieldState } = useController<SykmeldingFormValues, FormField>({
         name: `${name}.fom`,
-        rules: { required: 'Du må fylle inn fra dato.' },
+        rules: {
+            validate: (value) => {
+                if (!value) {
+                    return 'Du må fylle inn fra dato.'
+                }
+                if (previousTom && (isBefore(value, previousTom) || isSameDay(value, previousTom))) {
+                    return 'Fra kan ikke være tidligere eller samme dag som forrige periode.'
+                }
+                return undefined
+            },
+        },
     })
     const { field: toField, fieldState: toFieldState } = useController<SykmeldingFormValues, FormField>({
         name: `${name}.tom`,
-        rules: { required: 'Du må fylle inn til dato.' },
+        rules: {
+            validate: (value) => {
+                if (!value) {
+                    return 'Du må fylle inn til dato.'
+                }
+                return undefined
+            },
+        },
     })
 
     const { datepickerProps, toInputProps, fromInputProps } = UNSAFE_useRangeDatepicker({

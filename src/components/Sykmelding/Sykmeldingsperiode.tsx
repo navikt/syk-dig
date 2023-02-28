@@ -42,7 +42,7 @@ function Sykmeldingsperiode(): JSX.Element {
                                 <GradInput name={`periode.${index}.grad`} />
                             )}
                         </div>
-                        <PeriodePicker name={`periode.${index}.range`} />
+                        <PeriodePicker index={index} name={`periode.${index}.range`} />
                     </div>
                     {index > 0 && (
                         <div className={styles.deleteButton}>
