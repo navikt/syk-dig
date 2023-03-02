@@ -3,25 +3,25 @@ import { Heading, Tabs } from '@navikt/ds-react'
 import cn from 'clsx'
 
 import Pdf from '../Pdf/Pdf'
+import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
 
 import styles from './DocumentsViewer.module.css'
 
 interface Props {
     className?: string
-    oppgaveId: string
-    documents: { tittel: string; dokumentInfoId: string }[] | null
+    oppgave: OppgaveFragment
 }
 
-function DocumentsViewer({ oppgaveId, documents, className }: Props): JSX.Element {
-    const [tabState, setTabState] = useState('primary')
+function DocumentsViewer({ oppgave, className }: Props): JSX.Element {
+    const [tabState, setTabState] = useState(oppgave.documents[0].dokumentInfoId)
 
     return (
         <section className={cn(styles.sectionRoot, className)} aria-labelledby="pdf-viewer-section-heading">
             <Heading id="pdf-viewer-section-heading" level="2" size="xsmall" className={styles.heading}>
                 Dokumenter som er mottatt
             </Heading>
-            <DocumentTabs documents={documents ?? []} value={tabState} onTabChange={setTabState} />
-            <Pdf className={styles.pdf} href={`/api/document/${oppgaveId}/${tabState}`}></Pdf>
+            <DocumentTabs documents={oppgave.documents} value={tabState} onTabChange={setTabState} />
+            <Pdf className={styles.pdf} href={`/api/document/${oppgave.oppgaveId}/${tabState}`}></Pdf>
         </section>
     )
 }
@@ -38,7 +38,6 @@ function DocumentTabs({
     return (
         <Tabs className={styles.tabsRoot} value={value} onChange={onTabChange}>
             <Tabs.List>
-                <Tabs.Tab value="primary" label="Sykmelding" />
                 {documents.map((document) => (
                     <Tabs.Tab key={document.dokumentInfoId} value={document.dokumentInfoId} label={document.tittel} />
                 ))}
