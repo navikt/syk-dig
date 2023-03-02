@@ -11,6 +11,18 @@ export class FakeMockDB {
     private _oppgaver: Record<string, OppgaveFragment> = {
         blank: createOppgave({ oppgaveId: 'blank-id' }),
         eksisterende: createOppgave({
+            documents: [
+                {
+                    __typename: 'Document',
+                    dokumentInfoId: '1234',
+                    tittel: 'Sykmelding',
+                },
+                {
+                    __typename: 'Document',
+                    dokumentInfoId: '12345',
+                    tittel: 'Sykmelding-doc-2',
+                },
+            ],
             oppgaveId: 'eksisterende-id',
             values: {
                 __typename: 'OppgaveValues',

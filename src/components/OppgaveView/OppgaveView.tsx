@@ -6,7 +6,6 @@ import cn from 'clsx'
 import PageTitle from '../PageTitle/PageTitle'
 import { getPublicEnv } from '../../utils/env'
 import { DigitaliseringOppgaveResultFragment } from '../../graphql/queries/graphql.generated'
-import { Location, useParam } from '../../utils/useParam'
 
 import styles from './OppgaveView.module.css'
 import DocumentsViewer from './DocumentsViewer'
@@ -18,11 +17,9 @@ interface Props {
 }
 
 function OppgaveView({ oppgave, children }: PropsWithChildren<Props>): JSX.Element {
-    const { oppgaveId } = useParam(Location.Utenlansk)
     const [tabState, setTabState] = useState('skjema')
     const [showTabs, setShowTabs] = useState(false)
     const toggleTabs = useCallback(() => setShowTabs((b) => !b), [])
-
     return (
         <>
             {showTabs && <OppgaveViewTabs value={tabState} onTabChange={setTabState} />}
@@ -30,21 +27,22 @@ function OppgaveView({ oppgave, children }: PropsWithChildren<Props>): JSX.Eleme
                 <section
                     aria-labelledby="oppgave-header"
                     className={cn(styles.scrollArea, {
-                        [styles.activeTab]: showTabs && tabState === 'skjema',
+                        [styles.activeTab]: showTabs && tabState === 'schema',
                         [styles.inactiveTab]: showTabs && tabState === 'pdf',
                     })}
                 >
                     <OppgaveViewPageTitle showTabs={showTabs} toggleTabs={toggleTabs} />
                     <div className={styles.content}>{children} </div>
                 </section>
-                <DocumentsViewer
-                    className={cn(styles.pdf, {
-                        [styles.activeTab]: showTabs && tabState === 'pdf',
-                        [styles.inactiveTab]: showTabs && tabState === 'skjema',
-                    })}
-                    oppgaveId={oppgaveId}
-                    documents={oppgave?.__typename === 'Digitaliseringsoppgave' ? oppgave.documents : null}
-                />
+                {oppgave != null && oppgave?.__typename === 'Digitaliseringsoppgave' && (
+                    <DocumentsViewer
+                        className={cn(styles.pdf, {
+                            [styles.activeTab]: showTabs && tabState === 'pdf',
+                            [styles.inactiveTab]: showTabs && tabState === 'schema',
+                        })}
+                        oppgave={oppgave}
+                    />
+                )}
             </div>
         </>
     )
