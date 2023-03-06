@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: 'Ingress'
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: https://syk-dig.dev.intern.nav.no/oppgave/$arg_oppgaveid?
+    nginx.ingress.kubernetes.io/rewrite-target: https://syk-dig.intern.dev.nav.no/oppgave/$arg_oppgaveid?
   labels:
     app: syk-dig
     team: teamsykmelding
