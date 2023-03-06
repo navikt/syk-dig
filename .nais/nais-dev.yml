@@ -35,7 +35,7 @@ spec:
       rules:
         - application: syk-dig-backend
   ingresses:
-    - 'https://syk-dig.dev.intern.nav.no'
+    - 'https://syk-dig.intern.dev.nav.no'
   env:
     - name: ASSET_PREFIX
       value: 'https://cdn.nav.no/teamsykmelding/syk-dig'
