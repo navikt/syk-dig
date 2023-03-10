@@ -167,6 +167,54 @@ describe('SykmeldingForm', () => {
                 errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for bidiagnose' }),
             ).toBeInTheDocument()
         })
+
+        it('should show validation error if fom is before previous tom', async () => {
+            const oppgave = createOppgave()
+            render(<SykmeldingForm oppgave={oppgave} />)
+
+            await fillPeriodeSection([
+                { fom: '09.03.2023', tom: '22.03.2023', option: '100% sykmeldt' },
+                { fom: '18.03.2023', tom: '28.03.2023', option: 'Gradert sykmelding', grad: 80 },
+            ])
+
+            await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
+
+            const errorSection = within(
+                await screen.findByRole('region', {
+                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
+                }),
+            )
+
+            expect(
+                errorSection.getByRole('link', {
+                    name: 'Fra kan ikke være tidligere eller samme dag som forrige periode.',
+                }),
+            ).toBeInTheDocument()
+        })
+
+        it('should show validation error if fom is the same day as previous tom', async () => {
+            const oppgave = createOppgave()
+            render(<SykmeldingForm oppgave={oppgave} />)
+
+            await fillPeriodeSection([
+                { fom: '09.03.2023', tom: '22.03.2023', option: '100% sykmeldt' },
+                { fom: '22.03.2023', tom: '28.03.2023', option: '100% sykmeldt' },
+            ])
+
+            await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
+
+            const errorSection = within(
+                await screen.findByRole('region', {
+                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
+                }),
+            )
+
+            expect(
+                errorSection.getByRole('link', {
+                    name: 'Fra kan ikke være tidligere eller samme dag som forrige periode.',
+                }),
+            ).toBeInTheDocument()
+        })
     })
 })
 
