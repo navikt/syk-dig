@@ -1,7 +1,7 @@
 apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
-  name: syk-dig
+  name: syk-dig-demo
   namespace: teamsykmelding
   labels:
     team: teamsykmelding
@@ -31,7 +31,7 @@ spec:
       cpu: 100m
       memory: 128Mi
   ingresses:
-    - 'https://syk-dig.labs.nais.io/'
+    - 'https://syk-dig.ekstern.dev.nav.no/'
   env:
     - name: IS_NAIS_LABS_DEMO
       value: 'true'
