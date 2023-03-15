@@ -1,6 +1,7 @@
 name: Push
 on: push
 env:
+  IMAGE: ghcr.io/navikt/syk-dig:${{ github.sha }}
   NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 jobs:
   snyk-monitor:
@@ -69,20 +70,23 @@ jobs:
           cdn-team-name: teamsykmelding
           source: ./.next/static
           destination: '/syk-dig/_next'
-      - name: docker-build-push
-        uses: nais/docker-build-push@v0
-        id: docker-build-push
+      - uses: docker/setup-buildx-action@v2
+      - uses: docker/login-action@v2
         with:
-          team: teamsykmelding
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-    outputs:
-      image: ${{ steps.docker-build-push.outputs.image }}
-
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and publish Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            "NPM_AUTH_TOKEN=${{ secrets.READER_TOKEN }}"
   build-mocked-app:
-    permissions:
-      contents: "read"
-      id-token: "write"
     name: build and publish app with build in mocking
     runs-on: ubuntu-latest
     steps:
@@ -103,16 +107,22 @@ jobs:
         run: yarn build
         env:
           NEXT_PUBLIC_API_MOCKING: enabled
-      - name: docker-build-push
-        uses: nais/docker-build-push@v0
-        id: docker-build-push
+      - uses: docker/setup-buildx-action@v2
+      - uses: docker/login-action@v2
         with:
-          team: teamsykmelding
-          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-    outputs:
-      image: ${{ steps.docker-build-push.outputs.image }}
-
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and publish Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE }}-demo
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            "NPM_AUTH_TOKEN=${{ secrets.READER_TOKEN }}"
   deploy-to-dev-gcp:
     name: deploy to nais dev
     needs: [snyk-test, build]
@@ -124,7 +134,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais-dev.yml
-          VAR: image=${{ needs.build.outputs.image }}
+          VAR: image=${{ env.IMAGE }}
 
   deploy-to-labs-gcp:
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/labs')
@@ -139,7 +149,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: labs-gcp
           RESOURCE: .nais/nais-demo.yml
-          VAR: image=${{ needs.build-mocked-app.outputs.image }}
+          VAR: image=${{ env.IMAGE }}-demo
 
   deploy:
     if: github.ref == 'refs/heads/main'
@@ -153,4 +163,4 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
           RESOURCE: .nais/nais-prod.yml
-          VAR: image=${{ needs.build.outputs.image }}
+          VAR: image=${{ env.IMAGE }}
