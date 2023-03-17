@@ -28,6 +28,9 @@ spec:
       enabled: true
       tenant: nav.no
       allowAllUsers: true
+      claims:
+        extra:
+          - 'NAVident'
     sidecar:
       enabled: true
   ingresses:

@@ -28,6 +28,9 @@ spec:
       enabled: true
       tenant: trygdeetaten.no
       allowAllUsers: true
+      claims:
+        extra:
+          - 'NAVident'
     sidecar:
       enabled: true
   accessPolicy:
