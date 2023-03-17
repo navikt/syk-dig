@@ -81,8 +81,8 @@ jobs:
 
   build-mocked-app:
     permissions:
-      contents: "read"
-      id-token: "write"
+      contents: 'read'
+      id-token: 'write'
     name: build and publish app with build in mocking
     runs-on: ubuntu-latest
     steps:
@@ -110,6 +110,7 @@ jobs:
           team: teamsykmelding
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          image_suffix: demo
     outputs:
       image: ${{ steps.docker-build-push.outputs.image }}
 
