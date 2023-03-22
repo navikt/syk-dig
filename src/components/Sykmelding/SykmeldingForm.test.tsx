@@ -4,7 +4,14 @@ import { axe } from 'jest-axe'
 
 import { createOppgave } from '../../mocks/data/dataCreators'
 import { render, screen, within } from '../../utils/testUtils'
-import { PeriodeType, SaveOppgaveDocument, SykmeldingUnderArbeidStatus } from '../../graphql/queries/graphql.generated'
+import {
+    Avvisingsgrunn,
+    AvvisOppgaveDocument,
+    DigitaliseringsoppgaveStatusEnum,
+    PeriodeType,
+    SaveOppgaveDocument,
+    SykmeldingUnderArbeidStatus,
+} from '../../graphql/queries/graphql.generated'
 import { createMock } from '../../utils/test/apolloTestUtils'
 
 import { DiagnoseSystem } from './DiagnoseFormSection'
@@ -131,24 +138,21 @@ describe('SykmeldingForm', () => {
             const oppgave = createOppgave()
             const expectedRequest = createMock({
                 request: {
-                    query: SaveOppgaveDocument,
+                    query: AvvisOppgaveDocument,
                     variables: {
-                        id: 'test-oppgave-id',
-                        values: {
-                            fnrPasient: 'fnr-pasient',
-                            skrevetLand: null,
-                            behandletTidspunkt: null,
-                            hovedDiagnose: null,
-                            biDiagnoser: [],
-                            perioder: [],
-                            harAndreRelevanteOpplysninger: false,
-                        },
-                        status: SykmeldingUnderArbeidStatus.UnderArbeid,
-                        enhetId: 'B17',
+                        oppgaveId: 'test-oppgave-id',
+                        avvisningsgrunn: Avvisingsgrunn.ManglendePeriodeEllerSluttdato,
                     },
                 },
                 result: {
-                    data: { __typename: 'Mutation', lagre: oppgave },
+                    data: {
+                        __typename: 'Mutation',
+                        avvis: {
+                            __typename: 'DigitaliseringsoppgaveStatus',
+                            oppgaveId: 'test-oppgave-id',
+                            status: DigitaliseringsoppgaveStatusEnum.Avvist,
+                        },
+                    },
                 },
             })
 
@@ -166,10 +170,10 @@ describe('SykmeldingForm', () => {
 
             const avvisDialog = within(await screen.findByRole('dialog', { name: 'Avvis sykmeldingen' }))
 
+            await userEvent.selectOptions(avvisDialog.getByRole('combobox'), 'Manglende periode eller slutt-dato')
             await userEvent.click(avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }))
 
-            // TODO assert that the correct request was sent
-            // TODO assert having to pick a reason
+            expect(await screen.findByRole('dialog', { name: /Sykmeldingen er avvist/ })).toBeInTheDocument()
         })
     })
 
