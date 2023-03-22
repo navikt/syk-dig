@@ -18,7 +18,7 @@ type Props = {
 
 function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysResult }: Props): JSX.Element {
     return (
-        <div>
+        <>
             <MutationResultFeedback what="registrere" result={registerResult}>
                 <FeedbackModal title="Sykmeldingen er registrert">
                     {isLocalOrDemo && (
@@ -64,7 +64,7 @@ function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysRe
                     </Button>
                 </FeedbackModal>
             </MutationResultFeedback>
-        </div>
+        </>
     )
 }
 

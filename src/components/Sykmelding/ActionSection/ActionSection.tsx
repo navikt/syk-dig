@@ -36,7 +36,7 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.E
     })
 
     return (
-        <div className={styles.stickyActionSection}>
+        <div className={styles.actionSection}>
             <MutationFeedbackSection
                 registerResult={registerResult}
                 saveResult={saveResult}
