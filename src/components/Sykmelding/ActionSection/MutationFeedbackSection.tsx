@@ -73,7 +73,7 @@ export function MutationResultFeedback({
     result,
     children,
 }: PropsWithChildren<{
-    what: 'lagre' | 'registrere' | 'sende tilbake'
+    what: 'lagre' | 'registrere' | 'sende tilbake' | 'avvise'
     result: MutationResult
 }>): JSX.Element | null {
     if (!result.called || result.loading) return null

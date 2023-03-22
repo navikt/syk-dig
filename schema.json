@@ -6,6 +6,42 @@
             "subscriptionType": null,
             "types": [
                 {
+                    "kind": "ENUM",
+                    "name": "Avvisingsgrunn",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "MANGLENDE_DIAGNOSE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "MANGLENDE_PERIODE_ELLER_SLUTTDATO",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "MANGLENDE_UNDERSKRIFT_ELLER_STEMPEL_FRA_SYKMELDER",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "MANGLENDE_ORGINAL_SYKMELDING",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "ANNET", "description": null, "isDeprecated": false, "deprecationReason": null }
+                    ],
+                    "possibleTypes": null
+                },
+                {
                     "kind": "SCALAR",
                     "name": "Boolean",
                     "description": "Built-in Boolean",
@@ -275,7 +311,13 @@
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
-                        { "name": "FINNES_IKKE", "description": null, "isDeprecated": false, "deprecationReason": null }
+                        {
+                            "name": "FINNES_IKKE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "AVVIST", "description": null, "isDeprecated": false, "deprecationReason": null }
                     ],
                     "possibleTypes": null
                 },
@@ -590,6 +632,39 @@
                                         "kind": "NON_NULL",
                                         "name": null,
                                         "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                }
+                            ],
+                            "type": { "kind": "OBJECT", "name": "DigitaliseringsoppgaveStatus", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "avvis",
+                            "description": null,
+                            "args": [
+                                {
+                                    "name": "oppgaveId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                },
+                                {
+                                    "name": "avvisningsgrunn",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "ENUM", "name": "Avvisingsgrunn", "ofType": null }
                                     },
                                     "defaultValue": null,
                                     "isDeprecated": false,
