@@ -14,6 +14,15 @@ interface Props {
 
 function OppgaveStatus({ oppgave }: Props): JSX.Element {
     switch (oppgave.status) {
+        case DigitaliseringsoppgaveStatusEnum.Avvist:
+            return (
+                <Alert variant="warning" className={styles.alert}>
+                    <Heading size="medium" spacing>
+                        Oppgaven er avvist
+                    </Heading>
+                    <BodyShort spacing>Dersom dette ikke dette stemmer, kan du ta kontakt med brukerstøtte.</BodyShort>
+                </Alert>
+            )
         case DigitaliseringsoppgaveStatusEnum.Ferdigstilt:
             return (
                 <Alert variant="warning" className={styles.alert}>
