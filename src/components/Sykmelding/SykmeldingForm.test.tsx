@@ -126,6 +126,53 @@ describe('SykmeldingForm', () => {
         }, 20000) // This tests fills out a very large form, so we can expect it to be long running,
     })
 
+    describe('when avvising', () => {
+        it('should allow avvising sykmelding', async () => {
+            const oppgave = createOppgave()
+            const expectedRequest = createMock({
+                request: {
+                    query: SaveOppgaveDocument,
+                    variables: {
+                        id: 'test-oppgave-id',
+                        values: {
+                            fnrPasient: 'fnr-pasient',
+                            skrevetLand: null,
+                            behandletTidspunkt: null,
+                            hovedDiagnose: null,
+                            biDiagnoser: [],
+                            perioder: [],
+                            harAndreRelevanteOpplysninger: false,
+                        },
+                        status: SykmeldingUnderArbeidStatus.UnderArbeid,
+                        enhetId: 'B17',
+                    },
+                },
+                result: {
+                    data: { __typename: 'Mutation', lagre: oppgave },
+                },
+            })
+
+            render(<SykmeldingForm oppgave={oppgave} />, {
+                mocks: [expectedRequest],
+            })
+
+            const section = within(screen.getByRole('region', { name: /Mangelfull sykmelding/ }))
+            await userEvent.click(
+                section.getByRole('checkbox', {
+                    name: 'Sykmeldingen mangler viktige opplysninger som må innhentes før den kan registreres',
+                }),
+            )
+            await userEvent.click(screen.getByRole('button', { name: 'Avvis registreringen' }))
+
+            const avvisDialog = within(await screen.findByRole('dialog', { name: 'Avvis sykmeldingen' }))
+
+            await userEvent.click(avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }))
+
+            // TODO assert that the correct request was sent
+            // TODO assert having to pick a reason
+        })
+    })
+
     describe('Error summary', () => {
         it('should show validation errors when registering a sykmelding with missing fields', async () => {
             const oppgave = createOppgave()

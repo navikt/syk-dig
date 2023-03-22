@@ -9,7 +9,7 @@ export interface Props {
 
 function SykmeldingSection({ id, title, children }: PropsWithChildren<Props>): JSX.Element {
     return (
-        <section className="mt-4 last-of-type:mb-14" aria-labelledby={id}>
+        <section className="mt-4 last-of-type:mb-8" aria-labelledby={id}>
             <SectionHeader headingId={id} title={title} />
             <div className="p-4">{children}</div>
         </section>

@@ -12,6 +12,8 @@ import { createDefaultValues } from './formDataUtils'
 import ActionSection, { redirectTilGosys } from './ActionSection/ActionSection'
 import { useHandleRegister } from './ActionSection/mutations/useHandleSave'
 import AndreOpplysninger from './AndreOpplysninger'
+import MangelfullSykmelding from './MangelfullSykmelding'
+import AvvisSection from './AvvisSection/AvvisSection'
 
 export interface SykmeldingFormValues {
     diagnoser: DiagnoseFormSectionValues
@@ -19,6 +21,7 @@ export interface SykmeldingFormValues {
     land: string
     periode: Array<PeriodeFormValue>
     harAndreRelevanteOpplysninger: boolean
+    mangelfullSykmelding: boolean
 }
 
 interface Props {
@@ -27,6 +30,12 @@ interface Props {
 
 function SykmeldingForm({ oppgave }: Props): JSX.Element {
     const errorSectionRef = useRef<HTMLDivElement>(null)
+    const focusErrorSection = (): void => {
+        requestAnimationFrame(() => {
+            errorSectionRef.current?.focus()
+        })
+    }
+
     const [onSave, result] = useHandleRegister({
         fnr: oppgave.values.fnrPasient,
         onCompleted: () => {
@@ -42,13 +51,9 @@ function SykmeldingForm({ oppgave }: Props): JSX.Element {
         defaultValues: createDefaultValues(oppgave.values),
         shouldFocusError: false,
     })
-    const focusErrorSection = (): void => {
-        requestAnimationFrame(() => {
-            errorSectionRef.current?.focus()
-        })
-    }
-    const shouldWarn = form.formState.isDirty && !form.formState.isSubmitSuccessful
-    useWarnUnsavedPopup(shouldWarn)
+    const shouldShowAvvisActions = form.watch('mangelfullSykmelding') === true
+
+    useWarnUnsavedPopup(form.formState.isDirty && !form.formState.isSubmitSuccessful)
 
     return (
         <FormProvider {...form}>
@@ -57,12 +62,19 @@ function SykmeldingForm({ oppgave }: Props): JSX.Element {
                 <Sykmeldingsperiode />
                 <DiagnoseFormSection />
                 <AndreOpplysninger />
+                <MangelfullSykmelding />
                 <Errors ref={errorSectionRef} />
-                <ActionSection
-                    fnr={oppgave.values.fnrPasient}
-                    registerResult={result}
-                    focusErrorSection={focusErrorSection}
-                />
+                <div className="sticky bottom-0 z-10 border-t-2 border-border-default bg-bg-default p-4">
+                    {shouldShowAvvisActions ? (
+                        <AvvisSection fnr={oppgave.values.fnrPasient} />
+                    ) : (
+                        <ActionSection
+                            fnr={oppgave.values.fnrPasient}
+                            registerResult={result}
+                            focusErrorSection={focusErrorSection}
+                        />
+                    )}
+                </div>
             </form>
         </FormProvider>
     )

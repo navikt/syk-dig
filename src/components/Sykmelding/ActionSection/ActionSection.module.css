@@ -1,11 +1,4 @@
-.stickyActionSection {
-    position: sticky;
-    bottom: 0;
-    background-color: var(--a-bg-default);
-    border-top: 2px solid rgba(0, 0, 0, 0.19);
-    z-index: 1;
-    padding: var(--a-spacing-4);
-    padding-top: 0;
+.actionSection {
     display: flex;
     flex-direction: column;
     gap: var(--a-spacing-4);
