@@ -21,6 +21,14 @@ export type Scalars = {
     _FieldSet: any
 }
 
+export enum Avvisingsgrunn {
+    Annet = 'ANNET',
+    ManglendeDiagnose = 'MANGLENDE_DIAGNOSE',
+    ManglendeOrginalSykmelding = 'MANGLENDE_ORGINAL_SYKMELDING',
+    ManglendePeriodeEllerSluttdato = 'MANGLENDE_PERIODE_ELLER_SLUTTDATO',
+    ManglendeUnderskriftEllerStempelFraSykmelder = 'MANGLENDE_UNDERSKRIFT_ELLER_STEMPEL_FRA_SYKMELDER',
+}
+
 export type Bostedsadresse = Matrikkeladresse | UkjentBosted | UtenlandskAdresse | Vegadresse
 
 export type DiagnoseInput = {
@@ -53,6 +61,7 @@ export type DigitaliseringsoppgaveStatus = {
 }
 
 export enum DigitaliseringsoppgaveStatusEnum {
+    Avvist = 'AVVIST',
     Ferdigstilt = 'FERDIGSTILT',
     FinnesIkke = 'FINNES_IKKE',
     IkkeEnSykmelding = 'IKKE_EN_SYKMELDING',
@@ -327,9 +336,15 @@ export type ModiaEnhet = {
 
 export type Mutation = {
     __typename: 'Mutation'
+    avvis?: Maybe<DigitaliseringsoppgaveStatus>
     lagre?: Maybe<DigitaliseringsoppgaveResult>
     oppgaveTilbakeTilGosys?: Maybe<DigitaliseringsoppgaveStatus>
     updateModiaEnhet?: Maybe<ModiaContext>
+}
+
+export type MutationAvvisArgs = {
+    avvisningsgrunn: Avvisingsgrunn
+    oppgaveId: Scalars['String']
 }
 
 export type MutationLagreArgs = {
@@ -997,6 +1012,20 @@ export type TilbakeTilGosysMutationVariables = Exact<{
 export type TilbakeTilGosysMutation = {
     __typename: 'Mutation'
     oppgaveTilbakeTilGosys?: {
+        __typename: 'DigitaliseringsoppgaveStatus'
+        oppgaveId: string
+        status: DigitaliseringsoppgaveStatusEnum
+    } | null
+}
+
+export type AvvisOppgaveMutationVariables = Exact<{
+    oppgaveId: Scalars['String']
+    avvisningsgrunn: Avvisingsgrunn
+}>
+
+export type AvvisOppgaveMutation = {
+    __typename: 'Mutation'
+    avvis?: {
         __typename: 'DigitaliseringsoppgaveStatus'
         oppgaveId: string
         status: DigitaliseringsoppgaveStatusEnum
@@ -2925,3 +2954,70 @@ export const TilbakeTilGosysDocument = {
         },
     ],
 } as unknown as DocumentNode<TilbakeTilGosysMutation, TilbakeTilGosysMutationVariables>
+export const AvvisOppgaveDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'AvvisOppgave' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'avvisningsgrunn' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'Avvisingsgrunn' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'avvis' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'avvisningsgrunn' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'avvisningsgrunn' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'FragmentSpread',
+                                    name: { kind: 'Name', value: 'DigitaliseringsoppgaveStatus' },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'DigitaliseringsoppgaveStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DigitaliseringsoppgaveStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<AvvisOppgaveMutation, AvvisOppgaveMutationVariables>

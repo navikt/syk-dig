@@ -3,6 +3,7 @@
 import { graphql, RequestHandler } from 'msw'
 
 import {
+    AvvisOppgaveDocument,
     DiagnoseFragment,
     DiagnoseInput,
     DigitaliseringsoppgaveStatusEnum,
@@ -66,6 +67,19 @@ export const handlers = [
                     __typename: 'DigitaliseringsoppgaveStatus',
                     oppgaveId: req.variables.oppgaveId,
                     status: DigitaliseringsoppgaveStatusEnum.IkkeEnSykmelding,
+                },
+            }),
+        )
+    }),
+    graphql.mutation(AvvisOppgaveDocument, (req, res, ctx) => {
+        return res(
+            ctx.delay(),
+            ctx.data({
+                __typename: 'Mutation',
+                avvis: {
+                    __typename: 'DigitaliseringsoppgaveStatus',
+                    oppgaveId: req.variables.oppgaveId,
+                    status: DigitaliseringsoppgaveStatusEnum.Avvist,
                 },
             }),
         )

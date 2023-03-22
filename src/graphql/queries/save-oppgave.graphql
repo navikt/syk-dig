@@ -14,3 +14,9 @@ mutation TilbakeTilGosys($oppgaveId: String!) {
         ...DigitaliseringsoppgaveStatus
     }
 }
+
+mutation AvvisOppgave($oppgaveId: String!, $avvisningsgrunn: Avvisingsgrunn!) {
+    avvis(oppgaveId: $oppgaveId, avvisningsgrunn: $avvisningsgrunn) {
+        ...DigitaliseringsoppgaveStatus
+    }
+}
