@@ -22,7 +22,6 @@ export type Scalars = {
 }
 
 export enum Avvisingsgrunn {
-    Annet = 'ANNET',
     ManglendeDiagnose = 'MANGLENDE_DIAGNOSE',
     ManglendeOrginalSykmelding = 'MANGLENDE_ORGINAL_SYKMELDING',
     ManglendePeriodeEllerSluttdato = 'MANGLENDE_PERIODE_ELLER_SLUTTDATO',
