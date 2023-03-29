@@ -141,7 +141,7 @@ describe('SykmeldingForm', () => {
                     query: AvvisOppgaveDocument,
                     variables: {
                         oppgaveId: 'test-oppgave-id',
-                        enhetId: '0393',
+                        enhetId: 'B17',
                         avvisningsgrunn: Avvisingsgrunn.ManglendePeriodeEllerSluttdato,
                     },
                 },
