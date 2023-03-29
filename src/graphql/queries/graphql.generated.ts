@@ -344,6 +344,7 @@ export type Mutation = {
 export type MutationAvvisArgs = {
     avvisningsgrunn: Avvisingsgrunn
     oppgaveId: Scalars['String']
+    enhetId: Scalars['String']
 }
 
 export type MutationLagreArgs = {
@@ -1019,6 +1020,7 @@ export type TilbakeTilGosysMutation = {
 
 export type AvvisOppgaveMutationVariables = Exact<{
     oppgaveId: Scalars['String']
+    enhetId: Scalars['String']
     avvisningsgrunn: Avvisingsgrunn
 }>
 
@@ -2964,6 +2966,11 @@ export const AvvisOppgaveDocument = {
                 {
                     kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'enhetId' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
                 {
