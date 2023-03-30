@@ -37,6 +37,8 @@ spec:
     outbound:
       rules:
         - application: syk-dig-backend
+    external:
+      - host: modiacontextholder-q1.dev-fss-pub.nais.io
   ingresses:
     - 'https://syk-dig.intern.dev.nav.no'
   env:
