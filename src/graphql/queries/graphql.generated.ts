@@ -343,8 +343,8 @@ export type Mutation = {
 
 export type MutationAvvisArgs = {
     avvisningsgrunn: Avvisingsgrunn
-    oppgaveId: Scalars['String']
     enhetId: Scalars['String']
+    oppgaveId: Scalars['String']
 }
 
 export type MutationLagreArgs = {
@@ -2993,6 +2993,11 @@ export const AvvisOppgaveDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'oppgaveId' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'enhetId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'enhetId' } },
                             },
                             {
                                 kind: 'Argument',
