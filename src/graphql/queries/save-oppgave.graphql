@@ -15,8 +15,8 @@ mutation TilbakeTilGosys($oppgaveId: String!) {
     }
 }
 
-mutation AvvisOppgave($oppgaveId: String!, $avvisningsgrunn: Avvisingsgrunn!) {
-    avvis(oppgaveId: $oppgaveId, avvisningsgrunn: $avvisningsgrunn) {
+mutation AvvisOppgave($oppgaveId: String!, $enhetId: String!, $avvisningsgrunn: Avvisingsgrunn!) {
+    avvis(oppgaveId: $oppgaveId, enhetId: $enhetId, avvisningsgrunn: $avvisningsgrunn) {
         ...DigitaliseringsoppgaveStatus
     }
 }

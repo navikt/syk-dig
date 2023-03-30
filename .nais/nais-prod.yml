@@ -39,6 +39,8 @@ spec:
     outbound:
       rules:
         - application: syk-dig-backend
+      external:
+        - host: modiacontextholder.prod-fss-pub.nais.io
   env:
     - name: ASSET_PREFIX
       value: 'https://cdn.nav.no/teamsykmelding/syk-dig'

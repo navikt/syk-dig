@@ -11,6 +11,7 @@ import FeedbackModal from '../ActionSection/FeedbackModal'
 import { redirectTilGosys } from '../ActionSection/ActionSection'
 import { Location, useParam } from '../../../utils/useParam'
 import { SykmeldingFormValues } from '../SykmeldingForm'
+import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
 
 const publicEnv = getPublicEnv()
 
@@ -21,6 +22,7 @@ interface Props {
 function AvvisSection({}: Props): JSX.Element {
     const { reset } = useFormContext<SykmeldingFormValues>()
     const params = useParam(Location.Utenlansk)
+    const enhetId = useSelectedModiaEnhet()
     const grunnRef = useRef<HTMLSelectElement>(null)
     const [showAvvisModal, setShowAvvisModal] = useState(false)
     const [selectError, setSelectError] = useState<string | null>(null)
@@ -96,6 +98,7 @@ function AvvisSection({}: Props): JSX.Element {
                                 avvis({
                                     variables: {
                                         oppgaveId: params.oppgaveId,
+                                        enhetId: enhetId,
                                         avvisningsgrunn: selectValueToAvvisingsgrunn(value),
                                     },
                                 })
