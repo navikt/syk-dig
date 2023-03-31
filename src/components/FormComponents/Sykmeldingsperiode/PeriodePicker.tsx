@@ -1,7 +1,8 @@
 import { useController, useFormContext } from 'react-hook-form'
 import { UNSAFE_DatePicker, UNSAFE_useRangeDatepicker } from '@navikt/ds-react'
-import { isBefore, isSameDay } from 'date-fns'
+import { differenceInDays, isAfter, isBefore, isSameDay } from 'date-fns'
 
+import { toDate } from '../../../utils/dateUtils'
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 
 import styles from './PeriodePicker.module.css'
@@ -22,6 +23,7 @@ interface PeriodePickerProps {
 function PeriodePicker({ index, name }: PeriodePickerProps): JSX.Element {
     const { watch } = useFormContext<SykmeldingFormValues>()
     const previousTom: Date | null = watch(`periode.${index - 1}.range.tom`) ?? null
+    const behandletTidspunkt = watch('behandletTidspunkt')
 
     const { field: fromField, fieldState: fromFieldState } = useController<SykmeldingFormValues, FormField>({
         name: `${name}.fom`,
@@ -32,6 +34,14 @@ function PeriodePicker({ index, name }: PeriodePickerProps): JSX.Element {
                 }
                 if (previousTom && (isBefore(value, previousTom) || isSameDay(value, previousTom))) {
                     return 'Fra kan ikke være tidligere eller samme dag som forrige periode.'
+                }
+                if (
+                    index === 0 &&
+                    behandletTidspunkt &&
+                    isAfter(value, toDate(behandletTidspunkt)) &&
+                    differenceInDays(value, toDate(behandletTidspunkt)) > 30
+                ) {
+                    return 'Fra kan ikke være mer enn 30 dager etter datoen sykmeldingen ble skrevet.'
                 }
                 return undefined
             },

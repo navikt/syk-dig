@@ -267,6 +267,33 @@ describe('SykmeldingForm', () => {
                 }),
             ).toBeInTheDocument()
         })
+
+        it('should show validation error if fom is more than 30 days after behandletTidspunkt', async () => {
+            const oppgave = createOppgave({
+                values: {
+                    __typename: 'OppgaveValues',
+                    fnrPasient: '09870011223',
+                    behandletTidspunkt: '2023-03-01',
+                },
+            })
+            render(<SykmeldingForm oppgave={oppgave} />)
+
+            await fillPeriodeSection([{ fom: '04.04.2023', tom: '10.04.2023', option: '100% sykmeldt' }])
+
+            await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
+
+            const errorSection = within(
+                await screen.findByRole('region', {
+                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
+                }),
+            )
+
+            expect(
+                errorSection.getByRole('link', {
+                    name: 'Fra kan ikke være mer enn 30 dager etter datoen sykmeldingen ble skrevet.',
+                }),
+            ).toBeInTheDocument()
+        })
     })
 })
 
