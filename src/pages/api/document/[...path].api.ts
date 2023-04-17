@@ -6,8 +6,6 @@ import { withAuthenticatedApi } from '../../../auth/withAuth'
 import { getServerEnv } from '../../../utils/env'
 import { pdf, alternativeDocumentPdf } from '../../../mocks/data/examplePdfbase64'
 
-const env = getServerEnv()
-
 const handler = withAuthenticatedApi<Buffer>(async (req, res, accessToken) => {
     logger.info('Proxying document request to syk-dig-backend')
 
@@ -16,14 +14,15 @@ const handler = withAuthenticatedApi<Buffer>(async (req, res, accessToken) => {
         return
     }
 
-    if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+    const serverEnv = getServerEnv()
+    if (serverEnv.NEXT_PUBLIC_API_MOCKING === 'enabled') {
         logger.warn(`Running with mock, mocking PDF for local and demo for ${req.url}`)
         res.setHeader('Content-Type', 'application/pdf')
         res.status(200).send(Buffer.from(req.url?.endsWith('primary') ? pdf : alternativeDocumentPdf, 'base64'))
         return
     }
 
-    const bearerToken = await grantAzureOboToken(accessToken, env.SYK_DIG_BACKEND_SCOPE)
+    const bearerToken = await grantAzureOboToken(accessToken, serverEnv.SYK_DIG_BACKEND_SCOPE)
     if (isInvalidTokenSet(bearerToken)) {
         if (bearerToken.error instanceof Error) {
             logger.error(new Error(bearerToken.message, { cause: bearerToken.error }))
@@ -35,7 +34,7 @@ const handler = withAuthenticatedApi<Buffer>(async (req, res, accessToken) => {
     }
 
     await proxyApiRouteRequest({
-        hostname: env.SYK_DIG_BACKEND_HOST,
+        hostname: serverEnv.SYK_DIG_BACKEND_HOST,
         path: req.url ?? '',
         req,
         res,

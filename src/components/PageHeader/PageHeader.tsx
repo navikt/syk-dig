@@ -5,11 +5,9 @@ import { Select } from '@navikt/ds-react'
 import Link from 'next/link'
 
 import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/queries/graphql.generated'
-import { getPublicEnv } from '../../utils/env'
+import { browserEnv } from '../../utils/env'
 
 import styles from './PageHeader.module.css'
-
-const publicEnv = getPublicEnv()
 
 function PageHeader(): JSX.Element {
     const { data } = useQuery(ModiaContextDocument)
@@ -50,7 +48,7 @@ function PageHeader(): JSX.Element {
 }
 
 function HeaderText(): JSX.Element {
-    if (publicEnv.runtimeEnv === 'production') {
+    if (browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === 'production') {
         return <Header.Title as="div">Registrering av sykmelding</Header.Title>
     }
 

@@ -3,12 +3,10 @@ import { Alert, Button } from '@navikt/ds-react'
 import React, { PropsWithChildren } from 'react'
 
 import { SaveOppgaveMutation, TilbakeTilGosysMutation } from '../../../graphql/queries/graphql.generated'
-import { getPublicEnv, isLocalOrDemo } from '../../../utils/env'
+import { browserEnv, isLocalOrDemo } from '../../../utils/env'
 
 import FeedbackModal from './FeedbackModal'
 import styles from './MutationFeedbackSection.module.css'
-
-const publicEnv = getPublicEnv()
 
 type Props = {
     registerResult: MutationResult<SaveOppgaveMutation>
@@ -29,7 +27,7 @@ function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysRe
                     <Alert variant="success" className={styles.saveSuccess}>
                         Oppgaven ble registrert
                     </Alert>
-                    <Button variant="tertiary" as="a" href={publicEnv.gosysUrl}>
+                    <Button variant="tertiary" as="a" href={browserEnv.NEXT_PUBLIC_GOSYS_URL}>
                         Klikk her dersom du ikke blir videresendt...
                     </Button>
                 </FeedbackModal>
@@ -44,7 +42,7 @@ function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysRe
                     <Alert variant="success" className={styles.saveSuccess}>
                         Oppgaven ble lagret, sender deg tilbake til GOSYS...
                     </Alert>
-                    <Button variant="tertiary" as="a" href={publicEnv.gosysUrl}>
+                    <Button variant="tertiary" as="a" href={browserEnv.NEXT_PUBLIC_GOSYS_URL}>
                         Klikk her dersom du ikke blir videresendt...
                     </Button>
                 </FeedbackModal>
@@ -59,7 +57,7 @@ function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysRe
                     <Alert variant="success" className={styles.saveSuccess}>
                         Sykmeldingen ble sendt tilbake til Gosys, sender deg tilbake til GOSYS...
                     </Alert>
-                    <Button variant="tertiary" as="a" href={publicEnv.gosysUrl}>
+                    <Button variant="tertiary" as="a" href={browserEnv.NEXT_PUBLIC_GOSYS_URL}>
                         Klikk her dersom du ikke blir videresendt...
                     </Button>
                 </FeedbackModal>

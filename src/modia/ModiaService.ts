@@ -6,8 +6,6 @@ import { getServerEnv, isLocalOrDemo } from '../utils/env'
 
 import { AktivEnhet, AktivEnhetSchema, Veileder, VeilederSchema } from './ModiaResponseSchema'
 
-const env = getServerEnv()
-
 export interface ClientError<T> {
     errorType: T
     message: string
@@ -31,7 +29,7 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
         }
     }
 
-    const modiaOboToken = await grantAzureOboToken(userAccessToken, env.MODIACONTEXTHOLDER_SCOPE)
+    const modiaOboToken = await grantAzureOboToken(userAccessToken, getServerEnv().MODIACONTEXTHOLDER_SCOPE)
     if (isInvalidTokenSet(modiaOboToken)) {
         logger.error(
             new Error(`Unable to get modia obo token: ${modiaOboToken.errorType} ${modiaOboToken.message}`, {
@@ -81,7 +79,7 @@ async function fetchModia<SchemaType extends z.ZodTypeAny>(
     { path, schema, what }: { path: string; schema: SchemaType; what: 'veileder' | 'aktiv enhet' },
     accessToken: string,
 ): Promise<z.infer<SchemaType> | ModiaContextError> {
-    const url = `https://${env.MODIACONTEXTHOLDER_HOST}/modiacontextholder/api/${path}`
+    const url = `https://${getServerEnv().MODIACONTEXTHOLDER_HOST}/modiacontextholder/api/${path}`
 
     try {
         const response = await fetch(url, {

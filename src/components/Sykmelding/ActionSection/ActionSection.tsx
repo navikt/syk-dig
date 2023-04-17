@@ -3,7 +3,7 @@ import { Button } from '@navikt/ds-react'
 import { useFormContext } from 'react-hook-form'
 import { MutationResult } from '@apollo/client'
 
-import { getPublicEnv } from '../../../utils/env'
+import { browserEnv } from '../../../utils/env'
 import { SykmeldingFormValues } from '../SykmeldingForm'
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated'
 import ConfirmButton from '../../ConfirmButton/ConfirmButton'
@@ -12,8 +12,6 @@ import { useHandleSave } from './mutations/useHandleSave'
 import { useHandleTilbakeTilGosys } from './mutations/useTilbakeTilGosys'
 import MutationFeedbackSection, { MutationResultFeedback } from './MutationFeedbackSection'
 import styles from './ActionSection.module.css'
-
-const publicEnv = getPublicEnv()
 
 interface Props {
     fnr: string
@@ -127,7 +125,7 @@ function isMutationSuccess(result: MutationResult): boolean {
 }
 
 export function redirectTilGosys(): void {
-    window.location.href = publicEnv.gosysUrl
+    window.location.href = browserEnv.NEXT_PUBLIC_GOSYS_URL
 }
 
 export default ActionSection

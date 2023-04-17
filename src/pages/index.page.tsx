@@ -6,7 +6,7 @@ import React from 'react'
 import { withAuthenticatedPage } from '../auth/withAuth'
 import { getModiaContext } from '../modia/ModiaService'
 import PageWrapper from '../components/PageWrapper/PageWrapper'
-import { getPublicEnv } from '../utils/env'
+import { getServerEnv } from '../utils/env'
 
 const Home: NextPage = () => {
     return (
@@ -27,7 +27,7 @@ const Home: NextPage = () => {
 }
 
 export const getServerSideProps = withAuthenticatedPage(async (context, accessToken) => {
-    if (getPublicEnv().runtimeEnv === 'production') {
+    if (getServerEnv().NEXT_PUBLIC_RUNTIME_ENVIRONMENT === 'production') {
         return { notFound: true }
     }
 

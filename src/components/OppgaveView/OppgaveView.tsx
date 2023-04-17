@@ -4,13 +4,11 @@ import { FileContent, Findout, List, Task, File, Close } from '@navikt/ds-icons'
 import cn from 'clsx'
 
 import PageTitle from '../PageTitle/PageTitle'
-import { getPublicEnv } from '../../utils/env'
+import { browserEnv } from '../../utils/env'
 import { DigitaliseringOppgaveResultFragment } from '../../graphql/queries/graphql.generated'
 
 import styles from './OppgaveView.module.css'
 import DocumentsViewer from './DocumentsViewer'
-
-const publicEnv = getPublicEnv()
 
 interface Props {
     oppgave: DigitaliseringOppgaveResultFragment | undefined | null
@@ -107,7 +105,7 @@ function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProp
                             size="small"
                             variant="tertiary"
                             as="a"
-                            href={publicEnv.gosysUrl}
+                            href={browserEnv.NEXT_PUBLIC_GOSYS_URL}
                             icon={<Close title="Lukk oppgaven og gå tilbake til gosys uten å lagre" />}
                         />
                     </Tooltip>
