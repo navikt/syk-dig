@@ -26,33 +26,29 @@ spec:
   azure:
     application:
       enabled: true
-      tenant: trygdeetaten.no
+      tenant: nav.no
       allowAllUsers: true
       claims:
         extra:
           - 'NAVident'
     sidecar:
       enabled: true
+  ingresses:
+    - 'https://syk-dig.intern.nav.no'
   accessPolicy:
     outbound:
       rules:
         - application: syk-dig-backend
       external:
-        - host: modiacontextholder-q1.dev-fss-pub.nais.io
-  ingresses:
-    - 'https://syk-dig.intern.dev.nav.no'
+        - host: modiacontextholder.prod-fss-pub.nais.io
   env:
-    - name: ASSET_PREFIX
-      value: 'https://cdn.nav.no/teamsykmelding/syk-dig'
-    - name: GOSYS_URL
-      value: https://gosys-q1.dev.intern.nav.no/gosys/bruker/brukeroversikt.jsf
     - name: SYK_DIG_BACKEND_SCOPE
-      value: api://dev-gcp.teamsykmelding.syk-dig-backend/.default
+      value: api://prod-gcp.teamsykmelding.syk-dig-backend/.default
     - name: SYK_DIG_BACKEND_HOST
       value: syk-dig-backend
     - name: MODIACONTEXTHOLDER_SCOPE
-      value: api://dev-fss.personoversikt.modiacontextholder-q1/.default
+      value: api://prod-fss.personoversikt.modiacontextholder/.default
     - name: MODIACONTEXTHOLDER_HOST
-      value: modiacontextholder-q1.dev-fss-pub.nais.io
-    - name: RUNTIME_ENVIRONMENT
-      value: dev
+      value: modiacontextholder.prod-fss-pub.nais.io
+  envFrom:
+    - configmap: syk-dig-config

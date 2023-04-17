@@ -9,8 +9,9 @@ import { Modal } from '@navikt/ds-react'
 import { createApolloClient } from '../graphql/apollo'
 import { ModiaContext, ModiaContextError } from '../modia/ModiaService'
 import { useModiaContextUpdated } from '../graphql/localState/modia'
+import { browserEnv } from '../utils/env'
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+if (browserEnv.NEXT_PUBLIC_API_MOCKING === 'enabled') {
     logger.info('Setting up MSW for local or demo')
     require('../mocks')
 }

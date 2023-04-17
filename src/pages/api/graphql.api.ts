@@ -5,8 +5,6 @@ import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderw
 import { withAuthenticatedApi } from '../../auth/withAuth'
 import { getServerEnv, isLocalOrDemo } from '../../utils/env'
 
-const env = getServerEnv()
-
 const handler = withAuthenticatedApi(async (req, res, accessToken) => {
     logger.info('Proxying request to syk-dig GraphQL API')
 
@@ -20,7 +18,8 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
         return
     }
 
-    const bearerToken = await grantAzureOboToken(accessToken, env.SYK_DIG_BACKEND_SCOPE)
+    const serverEnv = getServerEnv()
+    const bearerToken = await grantAzureOboToken(accessToken, serverEnv.SYK_DIG_BACKEND_SCOPE)
     if (isInvalidTokenSet(bearerToken)) {
         if (bearerToken.error instanceof Error) {
             logger.error(new Error(bearerToken.message, { cause: bearerToken.error }))
@@ -33,7 +32,7 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
 
     try {
         await proxyApiRouteRequest({
-            hostname: env.SYK_DIG_BACKEND_HOST,
+            hostname: serverEnv.SYK_DIG_BACKEND_HOST,
             path: '/api/graphql',
             https: false,
             req,

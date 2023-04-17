@@ -5,15 +5,13 @@ import { useFormContext } from 'react-hook-form'
 
 import { Avvisingsgrunn, AvvisOppgaveDocument } from '../../../graphql/queries/graphql.generated'
 import { MutationResultFeedback } from '../ActionSection/MutationFeedbackSection'
-import { getPublicEnv, isLocalOrDemo } from '../../../utils/env'
+import { browserEnv, isLocalOrDemo } from '../../../utils/env'
 import styles from '../ActionSection/MutationFeedbackSection.module.css'
 import FeedbackModal from '../ActionSection/FeedbackModal'
 import { redirectTilGosys } from '../ActionSection/ActionSection'
 import { Location, useParam } from '../../../utils/useParam'
 import { SykmeldingFormValues } from '../SykmeldingForm'
 import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
-
-const publicEnv = getPublicEnv()
 
 interface Props {
     fnr: string
@@ -45,7 +43,7 @@ function AvvisSection({}: Props): JSX.Element {
                     <Alert variant="success" className={styles.saveSuccess}>
                         Oppgaven ble avvist
                     </Alert>
-                    <Button variant="tertiary" as="a" href={publicEnv.gosysUrl}>
+                    <Button variant="tertiary" as="a" href={browserEnv.NEXT_PUBLIC_GOSYS_URL}>
                         Klikk her dersom du ikke blir videresendt...
                     </Button>
                 </FeedbackModal>
