@@ -17,6 +17,8 @@ node_modules
 # misc
 *.env
 .DS_Store
+# This should be provided by nais/envs during build
+.env.production
 .env.local
 .env.development.local
 .env.test.local
