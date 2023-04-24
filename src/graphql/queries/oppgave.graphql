@@ -30,8 +30,7 @@ fragment OppgaveValues on OppgaveValues {
 fragment Oppgave on Digitaliseringsoppgave {
     oppgaveId
     documents {
-        tittel
-        dokumentInfoId
+        ...Document
     }
     person {
         navn
@@ -116,6 +115,11 @@ fragment DigitaliseringsoppgaveStatus on DigitaliseringsoppgaveStatus {
 fragment DigitaliseringOppgaveResult on DigitaliseringsoppgaveResult {
     ...Oppgave
     ...DigitaliseringsoppgaveStatus
+}
+
+fragment Document on Document {
+    tittel
+    dokumentInfoId
 }
 
 query OppgaveById($oppgaveId: String!) {
