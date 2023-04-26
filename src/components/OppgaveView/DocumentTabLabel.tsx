@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Heading, Modal, TextField } from '@navikt/ds-react'
+import { Alert, Button, Heading, Modal, TextField, Tabs } from '@navikt/ds-react'
 import { Edit } from '@navikt/ds-icons'
 import { useMutation } from '@apollo/client'
 
@@ -15,17 +15,16 @@ function DocumentTabLabel({ document, oppdaveId }: Props): JSX.Element {
 
     return (
         <>
-            <div className={'flex items-center'}>
-                <div className={'mr-5'}> {document.tittel}</div>
-                <Button
-                    variant={'tertiary'}
-                    icon={<Edit aria-hidden />}
-                    size={'small'}
-                    onClick={() => {
-                        setShowModal(true)
-                    }}
-                />
-            </div>
+            <Tabs.Tab value={document.dokumentInfoId} label={document.tittel} className={'pr-12'} />
+            <Button
+                className={'-ml-10 mt-2 h-8 w-8'}
+                variant={'tertiary'}
+                icon={<Edit title="Rediger dokumentnavn" />}
+                size={'small'}
+                onClick={() => {
+                    setShowModal(true)
+                }}
+            />
             {showModal && (
                 <EditDocumentModal document={document} oppdaveId={oppdaveId} close={() => setShowModal(false)} />
             )}
@@ -43,19 +42,15 @@ function EditDocumentModal({
     close: () => void
 }): JSX.Element {
     const [newTitle, setNewTitle] = useState(document.tittel)
-    const [mutate] = useMutation(NavngiDokumentDocument)
+    const [mutate, result] = useMutation(NavngiDokumentDocument)
     const handleSave = async (): Promise<void> => {
         if (newTitle === document.tittel) {
-            return
+            close()
         } else {
-            try {
-                await mutate({
-                    variables: { oppgaveId: oppdaveId, tittel: newTitle, dokumentInfoId: document.dokumentInfoId },
-                })
-                close()
-            } catch (e) {
-                // Vise feilmeldirng
-            }
+            await mutate({
+                variables: { oppgaveId: oppdaveId, tittel: newTitle, dokumentInfoId: document.dokumentInfoId },
+            })
+            close()
         }
     }
 
@@ -77,12 +72,22 @@ function EditDocumentModal({
                     onChange={(event) => {
                         setNewTitle(event.target.value)
                     }}
+                    onKeyUp={(event) => {
+                        if (event.key === 'Enter') {
+                            handleSave()
+                        }
+                    }}
                 />
+                {result.error != null && (
+                    <Alert variant="error" className="mt-4">
+                        Klarte ikke å oppdatere dokument, prøv igjen senere.
+                    </Alert>
+                )}
                 <div className={'mt-4 flex justify-end gap-3'}>
                     <Button variant="secondary" onClick={close}>
                         Avbryt
                     </Button>
-                    <Button variant="primary" onClick={handleSave}>
+                    <Button variant="primary" onClick={handleSave} loading={result.loading}>
                         Lagre
                     </Button>
                 </div>
