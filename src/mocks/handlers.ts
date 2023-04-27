@@ -86,22 +86,6 @@ export const handlers = [
         )
     }),
     graphql.mutation(NavngiDokumentDocument, (req, res, ctx) => {
-        /*if (false) {
-            return res(
-                ctx.delay(),
-                ctx.errors([
-                    {
-                        message: 'Failed to log in: username or password are invalid',
-                        locations: [
-                            {
-                                line: 8,
-                                column: 12,
-                            },
-                        ],
-                    },
-                ]),
-            )
-        }*/
         getMockDb().saveDocument(req.variables.oppgaveId, req.variables.dokumentInfoId, req.variables.tittel)
         return res(
             ctx.delay(),
