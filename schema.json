@@ -658,6 +658,18 @@
                                     "deprecationReason": null
                                 },
                                 {
+                                    "name": "enhetId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                },
+                                {
                                     "name": "avvisningsgrunn",
                                     "description": null,
                                     "type": {
@@ -668,9 +680,42 @@
                                     "defaultValue": null,
                                     "isDeprecated": false,
                                     "deprecationReason": null
+                                }
+                            ],
+                            "type": { "kind": "OBJECT", "name": "DigitaliseringsoppgaveStatus", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "dokument",
+                            "description": null,
+                            "args": [
+                                {
+                                    "name": "oppgaveId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
                                 },
                                 {
-                                    "name": "enhetId",
+                                    "name": "dokumentInfoId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                },
+                                {
+                                    "name": "tittel",
                                     "description": null,
                                     "type": {
                                         "kind": "NON_NULL",
@@ -682,7 +727,7 @@
                                     "deprecationReason": null
                                 }
                             ],
-                            "type": { "kind": "OBJECT", "name": "DigitaliseringsoppgaveStatus", "ofType": null },
+                            "type": { "kind": "OBJECT", "name": "Document", "ofType": null },
                             "isDeprecated": false,
                             "deprecationReason": null
                         }

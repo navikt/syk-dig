@@ -8,6 +8,7 @@ import {
     DiagnoseInput,
     DigitaliseringsoppgaveStatusEnum,
     InputMaybe,
+    NavngiDokumentDocument,
     OppgaveByIdDocument,
     PeriodeFragment,
     PeriodeInput,
@@ -80,6 +81,20 @@ export const handlers = [
                     __typename: 'DigitaliseringsoppgaveStatus',
                     oppgaveId: req.variables.oppgaveId,
                     status: DigitaliseringsoppgaveStatusEnum.Avvist,
+                },
+            }),
+        )
+    }),
+    graphql.mutation(NavngiDokumentDocument, (req, res, ctx) => {
+        getMockDb().saveDocument(req.variables.oppgaveId, req.variables.dokumentInfoId, req.variables.tittel)
+        return res(
+            ctx.delay(),
+            ctx.data({
+                __typename: 'Mutation',
+                dokument: {
+                    __typename: 'Document',
+                    dokumentInfoId: req.variables.dokumentInfoId,
+                    tittel: req.variables.tittel,
                 },
             }),
         )

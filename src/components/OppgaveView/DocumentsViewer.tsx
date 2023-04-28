@@ -6,6 +6,7 @@ import Pdf from '../Pdf/Pdf'
 import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
 
 import styles from './DocumentsViewer.module.css'
+import DocumentTab from './DocumentTabLabel'
 
 interface Props {
     className?: string
@@ -20,7 +21,12 @@ function DocumentsViewer({ oppgave, className }: Props): JSX.Element {
             <Heading id="pdf-viewer-section-heading" level="2" size="xsmall" className={styles.heading}>
                 Dokumenter som er mottatt
             </Heading>
-            <DocumentTabs documents={oppgave.documents} value={tabState} onTabChange={setTabState} />
+            <DocumentTabs
+                documents={oppgave.documents}
+                value={tabState}
+                onTabChange={setTabState}
+                oppgaveId={oppgave.oppgaveId}
+            />
             <Pdf className={styles.pdf} href={`/api/document/${oppgave.oppgaveId}/${tabState}`}></Pdf>
         </section>
     )
@@ -30,16 +36,18 @@ function DocumentTabs({
     value,
     documents,
     onTabChange,
+    oppgaveId,
 }: {
     value: string
     onTabChange: (value: string) => void
     documents: { tittel: string; dokumentInfoId: string }[]
+    oppgaveId: string
 }): JSX.Element {
     return (
         <Tabs className={styles.tabsRoot} value={value} onChange={onTabChange}>
-            <Tabs.List>
+            <Tabs.List className={'w-full'}>
                 {documents.map((document) => (
-                    <Tabs.Tab key={document.dokumentInfoId} value={document.dokumentInfoId} label={document.tittel} />
+                    <DocumentTab key={document.dokumentInfoId} document={document} oppdaveId={oppgaveId} />
                 ))}
             </Tabs.List>
         </Tabs>

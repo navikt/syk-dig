@@ -20,3 +20,9 @@ mutation AvvisOppgave($oppgaveId: String!, $enhetId: String!, $avvisningsgrunn: 
         ...DigitaliseringsoppgaveStatus
     }
 }
+
+mutation NavngiDokument($oppgaveId: String!, $dokumentInfoId: String!, $tittel: String!) {
+    dokument(oppgaveId: $oppgaveId, dokumentInfoId: $dokumentInfoId, tittel: $tittel) {
+        ...Document
+    }
+}

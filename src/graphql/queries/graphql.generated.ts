@@ -336,6 +336,7 @@ export type ModiaEnhet = {
 export type Mutation = {
     __typename: 'Mutation'
     avvis?: Maybe<DigitaliseringsoppgaveStatus>
+    dokument?: Maybe<Document>
     lagre?: Maybe<DigitaliseringsoppgaveResult>
     oppgaveTilbakeTilGosys?: Maybe<DigitaliseringsoppgaveStatus>
     updateModiaEnhet?: Maybe<ModiaContext>
@@ -345,6 +346,12 @@ export type MutationAvvisArgs = {
     avvisningsgrunn: Avvisingsgrunn
     enhetId: Scalars['String']
     oppgaveId: Scalars['String']
+}
+
+export type MutationDokumentArgs = {
+    dokumentInfoId: Scalars['String']
+    oppgaveId: Scalars['String']
+    tittel: Scalars['String']
 }
 
 export type MutationLagreArgs = {
@@ -806,6 +813,8 @@ export type DigitaliseringOppgaveResultFragment =
     | DigitaliseringOppgaveResult_Digitaliseringsoppgave_Fragment
     | DigitaliseringOppgaveResult_DigitaliseringsoppgaveStatus_Fragment
 
+export type DocumentFragment = { __typename: 'Document'; tittel: string; dokumentInfoId: string }
+
 export type OppgaveByIdQueryVariables = Exact<{
     oppgaveId: Scalars['String']
 }>
@@ -1033,6 +1042,17 @@ export type AvvisOppgaveMutation = {
     } | null
 }
 
+export type NavngiDokumentMutationVariables = Exact<{
+    oppgaveId: Scalars['String']
+    dokumentInfoId: Scalars['String']
+    tittel: Scalars['String']
+}>
+
+export type NavngiDokumentMutation = {
+    __typename: 'Mutation'
+    dokument?: { __typename: 'Document'; tittel: string; dokumentInfoId: string } | null
+}
+
 export const ModiaFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -1062,6 +1082,23 @@ export const ModiaFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<ModiaFragment, unknown>
+export const DocumentFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Document' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<DocumentFragment, unknown>
 export const VegadresseFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -1476,10 +1513,7 @@ export const OppgaveFragmentDoc = {
                         name: { kind: 'Name', value: 'documents' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Document' } }],
                         },
                     },
                     {
@@ -1612,6 +1646,18 @@ export const OppgaveFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Document' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
                 ],
             },
         },
@@ -1772,6 +1818,18 @@ export const DigitaliseringOppgaveResultFragmentDoc = {
                 selections: [
                     { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Oppgave' } },
                     { kind: 'FragmentSpread', name: { kind: 'Name', value: 'DigitaliseringsoppgaveStatus' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Document' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
                 ],
             },
         },
@@ -2003,10 +2061,7 @@ export const DigitaliseringOppgaveResultFragmentDoc = {
                         name: { kind: 'Name', value: 'documents' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Document' } }],
                         },
                     },
                     {
@@ -2219,6 +2274,18 @@ export const OppgaveByIdDocument = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Document' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'Vegadresse' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
             selectionSet: {
@@ -2445,10 +2512,7 @@ export const OppgaveByIdDocument = {
                         name: { kind: 'Name', value: 'documents' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Document' } }],
                         },
                     },
                     {
@@ -2599,6 +2663,18 @@ export const SaveOppgaveDocument = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Document' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'Vegadresse' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
             selectionSet: {
@@ -2825,10 +2901,7 @@ export const SaveOppgaveDocument = {
                         name: { kind: 'Name', value: 'documents' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
-                            ],
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Document' } }],
                         },
                     },
                     {
@@ -3032,3 +3105,72 @@ export const AvvisOppgaveDocument = {
         },
     ],
 } as unknown as DocumentNode<AvvisOppgaveMutation, AvvisOppgaveMutationVariables>
+export const NavngiDokumentDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'NavngiDokument' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'tittel' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'dokument' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'dokumentInfoId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'tittel' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'tittel' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Document' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Document' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NavngiDokumentMutation, NavngiDokumentMutationVariables>

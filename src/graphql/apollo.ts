@@ -13,6 +13,7 @@ export const cacheConfig: Pick<InMemoryCacheConfig, 'possibleTypes' | 'typePolic
     typePolicies: {
         Digitaliseringsoppgave: { keyFields: ['oppgaveId'] },
         DigitaliseringsoppgaveStatus: { keyFields: ['oppgaveId'] },
+        Document: { keyFields: ['dokumentInfoId'] },
     },
 }
 

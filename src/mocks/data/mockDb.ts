@@ -23,7 +23,7 @@ export class FakeMockDB {
                     tittel: 'Sykmelding-doc-2',
                 },
             ],
-            oppgaveId: 'eksisterende-id',
+            oppgaveId: 'eksisterende',
             values: {
                 __typename: 'OppgaveValues',
                 fnrPasient: '12345678910',
@@ -63,13 +63,23 @@ export class FakeMockDB {
         }),
     }
 
+    public saveDocument(oppgaveId: string, dokumentId: string, tittel: string): void {
+        const oppgave = this._oppgaver[oppgaveId.toLowerCase()]
+        oppgave.documents = oppgave.documents.map((it) => {
+            if (it.dokumentInfoId === dokumentId) {
+                return { __typename: 'Document', tittel: tittel, dokumentInfoId: dokumentId }
+            } else {
+                return it
+            }
+        })
+        this._oppgaver[oppgaveId.toLowerCase()] = oppgave
+    }
+
     public getOppgave(oppgaveId: string): OppgaveFragment {
         const oppgave = this._oppgaver[oppgaveId.toLowerCase()]
-
         if (!oppgave) {
             throw new Error(`No oppgave found with id ${oppgaveId}`)
         }
-
         return oppgave
     }
 }
