@@ -50,5 +50,3 @@ spec:
       value: api://prod-fss.personoversikt.modiacontextholder/.default
     - name: MODIACONTEXTHOLDER_HOST
       value: modiacontextholder.prod-fss-pub.nais.io
-  envFrom:
-    - configmap: syk-dig-config

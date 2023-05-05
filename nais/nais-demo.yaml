@@ -35,5 +35,3 @@ spec:
   env:
     - name: RUNTIME_ENVIRONMENT
       value: demo
-  envFrom:
-    - configmap: syk-dig-config
