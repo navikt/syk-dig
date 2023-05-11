@@ -36,6 +36,24 @@
                             "description": null,
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "TILBAKEDATERT_SYKMELDING",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "RISIKOSAK",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FOR_LANG_PERIODE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "possibleTypes": null
