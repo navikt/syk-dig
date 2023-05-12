@@ -80,6 +80,9 @@ function AvvisSection({}: Props): JSX.Element {
                         <option value={Avvisingsgrunn.ManglendeUnderskriftEllerStempelFraSykmelder}>
                             Manglende underskrift eller stempler fra sykmelder
                         </option>
+                        <option value={Avvisingsgrunn.ForLangPeriode}>Sykmeldingen har for lang periode</option>
+                        <option value={Avvisingsgrunn.Risikosak}>Risikosak</option>
+                        <option value={Avvisingsgrunn.TilbakedatertSykmelding}>Sykmeldingen er tilbakedatert</option>
                     </Select>
                     <MutationResultFeedback what="avvise" result={mutationResult}></MutationResultFeedback>
                     <Button
@@ -121,6 +124,12 @@ function selectValueToAvvisingsgrunn(value: string | null | undefined): Avvising
             return Avvisingsgrunn.ManglendePeriodeEllerSluttdato
         case Avvisingsgrunn.ManglendeUnderskriftEllerStempelFraSykmelder:
             return Avvisingsgrunn.ManglendeUnderskriftEllerStempelFraSykmelder
+        case Avvisingsgrunn.ForLangPeriode:
+            return Avvisingsgrunn.ForLangPeriode
+        case Avvisingsgrunn.Risikosak:
+            return Avvisingsgrunn.Risikosak
+        case Avvisingsgrunn.TilbakedatertSykmelding:
+            return Avvisingsgrunn.TilbakedatertSykmelding
         default:
             throw new Error('Ugyldig avvisingsgrunn. Er Select-komponenten brukt feil?')
     }
