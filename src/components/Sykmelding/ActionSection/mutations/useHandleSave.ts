@@ -71,7 +71,6 @@ function mapFormValues(fnr: string, formValues: SykmeldingFormValues): Sykmeldin
         hovedDiagnose: mapDiagnose(formValues.diagnoser.hoveddiagnose),
         biDiagnoser: formValues.diagnoser.bidiagnoser.map(mapDiagnose).filter(notNull),
         perioder: formValues.periode.map(mapPeriode).filter(notNull),
-        harAndreRelevanteOpplysninger: formValues.harAndreRelevanteOpplysninger,
     }
 }
 
