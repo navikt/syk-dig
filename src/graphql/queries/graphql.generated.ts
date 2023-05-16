@@ -534,7 +534,6 @@ export type OppgaveValuesFragment = {
     fnrPasient: string
     behandletTidspunkt?: string | null
     skrevetLand?: string | null
-    harAndreRelevanteOpplysninger?: boolean | null
     perioder?: Array<{
         __typename: 'PeriodeValue'
         fom: string
@@ -611,7 +610,6 @@ export type OppgaveFragment = {
         fnrPasient: string
         behandletTidspunkt?: string | null
         skrevetLand?: string | null
-        harAndreRelevanteOpplysninger?: boolean | null
         perioder?: Array<{
             __typename: 'PeriodeValue'
             fom: string
@@ -793,7 +791,6 @@ export type DigitaliseringOppgaveResult_Digitaliseringsoppgave_Fragment = {
         fnrPasient: string
         behandletTidspunkt?: string | null
         skrevetLand?: string | null
-        harAndreRelevanteOpplysninger?: boolean | null
         perioder?: Array<{
             __typename: 'PeriodeValue'
             fom: string
@@ -890,7 +887,6 @@ export type OppgaveByIdQuery = {
                   fnrPasient: string
                   behandletTidspunkt?: string | null
                   skrevetLand?: string | null
-                  harAndreRelevanteOpplysninger?: boolean | null
                   perioder?: Array<{
                       __typename: 'PeriodeValue'
                       fom: string
@@ -991,7 +987,6 @@ export type SaveOppgaveMutation = {
                   fnrPasient: string
                   behandletTidspunkt?: string | null
                   skrevetLand?: string | null
-                  harAndreRelevanteOpplysninger?: boolean | null
                   perioder?: Array<{
                       __typename: 'PeriodeValue'
                       fom: string
@@ -1467,7 +1462,6 @@ export const OppgaveValuesFragmentDoc = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
                         },
                     },
-                    { kind: 'Field', name: { kind: 'Name', value: 'harAndreRelevanteOpplysninger' } },
                 ],
             },
         },
@@ -1786,7 +1780,6 @@ export const OppgaveFragmentDoc = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
                         },
                     },
-                    { kind: 'Field', name: { kind: 'Name', value: 'harAndreRelevanteOpplysninger' } },
                 ],
             },
         },
@@ -2047,7 +2040,6 @@ export const DigitaliseringOppgaveResultFragmentDoc = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
                         },
                     },
-                    { kind: 'Field', name: { kind: 'Name', value: 'harAndreRelevanteOpplysninger' } },
                 ],
             },
         },
@@ -2498,7 +2490,6 @@ export const OppgaveByIdDocument = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
                         },
                     },
-                    { kind: 'Field', name: { kind: 'Name', value: 'harAndreRelevanteOpplysninger' } },
                 ],
             },
         },
@@ -2887,7 +2878,6 @@ export const SaveOppgaveDocument = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
                         },
                     },
-                    { kind: 'Field', name: { kind: 'Name', value: 'harAndreRelevanteOpplysninger' } },
                 ],
             },
         },

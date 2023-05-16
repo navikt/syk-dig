@@ -58,7 +58,6 @@ export class FakeMockDB {
                 ],
                 behandletTidspunkt: '2021-01-01T13:37:00.000Z',
                 skrevetLand: 'NOR',
-                harAndreRelevanteOpplysninger: false,
             },
         }),
     }
