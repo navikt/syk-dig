@@ -20,7 +20,6 @@ export interface SykmeldingFormValues {
     behandletTidspunkt: Date | string | null
     land: string
     periode: Array<PeriodeFormValue>
-    harAndreRelevanteOpplysninger: boolean
     mangelfullSykmelding: boolean
 }
 
