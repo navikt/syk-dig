@@ -384,7 +384,6 @@ export type OppgaveValues = {
     behandletTidspunkt?: Maybe<Scalars['DateTime']>
     biDiagnoser?: Maybe<Array<DiagnoseValue>>
     fnrPasient: Scalars['String']
-    harAndreRelevanteOpplysninger?: Maybe<Scalars['Boolean']>
     hoveddiagnose?: Maybe<DiagnoseValue>
     perioder?: Maybe<Array<PeriodeValue>>
     skrevetLand?: Maybe<Scalars['String']>
@@ -444,7 +443,6 @@ export type SykmeldingUnderArbeidValues = {
     behandletTidspunkt?: InputMaybe<Scalars['Date']>
     biDiagnoser?: InputMaybe<Array<DiagnoseInput>>
     fnrPasient: Scalars['String']
-    harAndreRelevanteOpplysninger?: InputMaybe<Scalars['Boolean']>
     hovedDiagnose?: InputMaybe<DiagnoseInput>
     perioder?: InputMaybe<Array<PeriodeInput>>
     skrevetLand?: InputMaybe<Scalars['String']>
