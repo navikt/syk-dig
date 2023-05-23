@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client'
-import { Alert, Loader } from '@navikt/ds-react'
+import { Alert } from '@navikt/ds-react'
 import React from 'react'
+import { range } from 'remeda'
 
 import { withAuthenticatedPage } from '../../auth/withAuth'
 import PageWrapper from '../../components/PageWrapper/PageWrapper'
@@ -9,6 +10,8 @@ import { DigitaliseringOppgaveResultFragment, OppgaveByIdDocument } from '../../
 import { Location, useParam } from '../../utils/useParam'
 import OppgaveView from '../../components/OppgaveView/OppgaveView'
 import OppgaveStatus from '../../components/OppgaveStatus/OppgaveStatus'
+import { SykmeldingSectionSkeleton } from '../../components/SykmeldingSection/SykmeldingSection'
+import { InfoWithHeaderSkeleton, InputWithTitleSkeleton } from '../../components/skeleton/Skeletons'
 
 function Utenlandsk(): JSX.Element {
     const { oppgaveId } = useParam(Location.Utenlansk)
@@ -19,7 +22,7 @@ function Utenlandsk(): JSX.Element {
     return (
         <PageWrapper title="Registrering av sykmelding">
             <OppgaveView oppgave={data?.oppgave}>
-                {loading && <Loader size="3xlarge" />}
+                {loading && <OppgaveSkeleton />}
                 {data?.oppgave && <DigitaliseringsOppgave oppgave={data.oppgave} />}
                 {error && <Alert variant="error">Klarte ikke å laste oppgave med oppgave-id {oppgaveId}</Alert>}
             </OppgaveView>
@@ -33,6 +36,26 @@ function DigitaliseringsOppgave({ oppgave }: { oppgave: DigitaliseringOppgaveRes
     } else {
         return <OppgaveStatus oppgave={oppgave} />
     }
+}
+
+function OppgaveSkeleton(): JSX.Element {
+    return (
+        <>
+            {range(0, 4).map((it) => (
+                <SykmeldingSectionSkeleton key={it}>
+                    <div className="mb-12 flex gap-32">
+                        <InfoWithHeaderSkeleton />
+                        <InfoWithHeaderSkeleton />
+                    </div>
+                    <div className="mb-12 flex gap-32">
+                        <InfoWithHeaderSkeleton />
+                        <InfoWithHeaderSkeleton />
+                    </div>
+                    <InputWithTitleSkeleton />
+                </SykmeldingSectionSkeleton>
+            ))}
+        </>
+    )
 }
 
 export const getServerSideProps = withAuthenticatedPage()
