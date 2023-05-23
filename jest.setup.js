@@ -1,6 +1,8 @@
 import 'next'
 import '@testing-library/jest-dom/extend-expect'
 
+import { TextDecoder, TextEncoder } from 'node:util'
+
 import { toHaveNoViolations } from 'jest-axe'
 import { Modal } from '@navikt/ds-react'
 import mockRouter from 'next-router-mock'
@@ -18,13 +20,15 @@ jest.mock('@navikt/next-auth-wonderwall', () => ({
     validateAzureToken: () => Promise.resolve(true),
 }))
 
+window.TextEncoder = TextEncoder
+window.TextDecoder = TextDecoder
 window.ResizeObserver = jest.fn().mockImplementation(() => ({
     disconnect: jest.fn(),
     observe: jest.fn(),
     unobserve: jest.fn(),
 }))
 
-const url = "http://example.com";
+const url = 'http://example.com'
 Object.defineProperty(window, 'location', {
     value: {
         href: url,
