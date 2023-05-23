@@ -7,17 +7,18 @@ import PageTitle from '../PageTitle/PageTitle'
 import { browserEnv } from '../../utils/env'
 import { DigitaliseringOppgaveResultFragment } from '../../graphql/queries/graphql.generated'
 
-import styles from './OppgaveView.module.css'
 import DocumentsViewer from './DocumentsViewer'
+import styles from './OppgaveView.module.css'
 
 interface Props {
     oppgave: DigitaliseringOppgaveResultFragment | undefined | null
 }
 
 function OppgaveView({ oppgave, children }: PropsWithChildren<Props>): JSX.Element {
-    const [tabState, setTabState] = useState('skjema')
+    const [tabState, setTabState] = useState<'form' | 'pdf'>('form')
     const [showTabs, setShowTabs] = useState(false)
     const toggleTabs = useCallback(() => setShowTabs((b) => !b), [])
+
     return (
         <>
             {showTabs && <OppgaveViewTabs value={tabState} onTabChange={setTabState} />}
@@ -25,7 +26,7 @@ function OppgaveView({ oppgave, children }: PropsWithChildren<Props>): JSX.Eleme
                 <section
                     aria-labelledby="oppgave-header"
                     className={cn(styles.scrollArea, {
-                        [styles.activeTab]: showTabs && tabState === 'schema',
+                        [styles.activeTab]: showTabs && tabState === 'form',
                         [styles.inactiveTab]: showTabs && tabState === 'pdf',
                     })}
                 >
@@ -36,7 +37,7 @@ function OppgaveView({ oppgave, children }: PropsWithChildren<Props>): JSX.Eleme
                     <DocumentsViewer
                         className={cn(styles.pdf, {
                             [styles.activeTab]: showTabs && tabState === 'pdf',
-                            [styles.inactiveTab]: showTabs && tabState === 'schema',
+                            [styles.inactiveTab]: showTabs && tabState === 'form',
                         })}
                         oppgave={oppgave}
                     />
@@ -48,14 +49,23 @@ function OppgaveView({ oppgave, children }: PropsWithChildren<Props>): JSX.Eleme
 
 interface OppgaveViewTabsProps {
     value: string
-    onTabChange: (value: string) => void
+    onTabChange: (value: 'form' | 'pdf') => void
 }
 
 function OppgaveViewTabs({ value, onTabChange }: OppgaveViewTabsProps): JSX.Element {
     return (
-        <Tabs value={value} onChange={onTabChange}>
+        <Tabs
+            value={value}
+            onChange={(value) => {
+                if (value !== 'form' && value !== 'pdf') {
+                    throw new Error(`Invalid tab value: ${value}`)
+                }
+
+                onTabChange(value)
+            }}
+        >
             <Tabs.List>
-                <Tabs.Tab value="skjema" label="Skjema" icon={<Task aria-hidden />} />
+                <Tabs.Tab value="form" label="Skjema" icon={<Task aria-hidden />} />
                 <Tabs.Tab value="pdf" label="Dokument" icon={<FileContent aria-hidden />} />
             </Tabs.List>
         </Tabs>
