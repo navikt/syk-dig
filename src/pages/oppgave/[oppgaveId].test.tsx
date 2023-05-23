@@ -29,7 +29,7 @@ describe('Utenlandsk page', () => {
         expect(screen.getByTestId('pdf-embed').firstChild).toHaveAttribute('src', '/api/document/987654321/some-doc')
     })
 
-    it('should load the second document when second tab is clicked', async () => {
+    it('should load the second document (without unmounting the first) when second tab is clicked', async () => {
         render(<Utenlandsk />, {
             mocks: [
                 createMock({
@@ -40,12 +40,19 @@ describe('Utenlandsk page', () => {
         })
 
         expect(await screen.findByRole('button', { name: 'Registrer og send' })).toBeInTheDocument()
+
+        // Assert first document loaded
         expect(screen.getByTestId('pdf-embed').firstChild).toHaveAttribute('src', '/api/document/987654321/some-doc')
         await userEvent.click(screen.getByRole('tab', { name: 'more-doc.pdf' }))
-        expect(screen.getByTestId('pdf-embed').firstChild).toHaveAttribute(
-            'src',
-            '/api/document/987654321/more-doc.pdf',
-        )
+
+        const embeds = screen.getAllByTestId('pdf-embed')
+
+        // First should be hidden
+        expect(embeds.at(0)).toHaveClass('hidden')
+        // Second should be visible
+        expect(embeds.at(1)).not.toHaveClass('hidden')
+        // The now visible one should have correct URL
+        expect(embeds.at(1)?.firstChild).toHaveAttribute('src', '/api/document/987654321/more-doc.pdf')
     })
 
     it('should show error message when it fails to load', async () => {
