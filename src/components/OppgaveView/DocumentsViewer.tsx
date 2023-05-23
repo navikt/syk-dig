@@ -4,9 +4,10 @@ import cn from 'clsx'
 
 import Pdf from '../Pdf/Pdf'
 import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
+import { PdfSkeleton, TabsSkeleton } from '../skeleton/Skeletons'
 
-import styles from './DocumentsViewer.module.css'
 import DocumentTab from './DocumentTabLabel'
+import styles from './DocumentsViewer.module.css'
 
 interface Props {
     className?: string
@@ -15,6 +16,7 @@ interface Props {
 
 function DocumentsViewer({ oppgave, className }: Props): JSX.Element {
     const [tabState, setTabState] = useState(oppgave.documents[0].dokumentInfoId)
+    const [renderedDocuments, setRenderedDocuments] = useState<string[]>([oppgave.documents[0].dokumentInfoId])
 
     return (
         <section className={cn(styles.sectionRoot, className)} aria-labelledby="pdf-viewer-section-heading">
@@ -24,10 +26,23 @@ function DocumentsViewer({ oppgave, className }: Props): JSX.Element {
             <DocumentTabs
                 documents={oppgave.documents}
                 value={tabState}
-                onTabChange={setTabState}
+                onTabChange={(value) => {
+                    if (!renderedDocuments.includes(value)) {
+                        setRenderedDocuments((docs) => [...docs, value])
+                    }
+                    setTabState(value)
+                }}
                 oppgaveId={oppgave.oppgaveId}
             />
-            <Pdf className={styles.pdf} href={`/api/document/${oppgave.oppgaveId}/${tabState}`}></Pdf>
+            {renderedDocuments.map((documentId) => (
+                <Pdf
+                    key={documentId}
+                    className={cn(styles.pdf, {
+                        hidden: tabState !== documentId,
+                    })}
+                    href={`/api/document/${oppgave.oppgaveId}/${documentId}`}
+                />
+            ))}
         </section>
     )
 }
@@ -51,6 +66,18 @@ function DocumentTabs({
                 ))}
             </Tabs.List>
         </Tabs>
+    )
+}
+
+export function DocumentsViewerSkeleton({ className }: { className?: string }): JSX.Element {
+    return (
+        <div className={cn(styles.sectionRoot, className)}>
+            <Heading level="2" size="xsmall" className={styles.heading}>
+                Dokumenter som er mottatt
+            </Heading>
+            <TabsSkeleton />
+            <PdfSkeleton />
+        </div>
     )
 }
 

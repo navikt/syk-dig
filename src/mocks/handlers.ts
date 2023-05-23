@@ -29,7 +29,7 @@ export const handlers = [
     graphql.query(OppgaveByIdDocument, (req, res, ctx) => {
         const oppgave = getMockDb().getOppgave(req.variables.oppgaveId)
 
-        return res(ctx.delay(), ctx.data({ __typename: 'Query', oppgave }))
+        return res(ctx.delay(3000), ctx.data({ __typename: 'Query', oppgave }))
     }),
     graphql.mutation(SaveOppgaveDocument, (req, res, ctx) => {
         const oppgave = getMockDb().getOppgave(req.variables.id)

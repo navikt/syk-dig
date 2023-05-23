@@ -12,7 +12,7 @@
     display: flex;
     align-items: center;
     background-color: var(--a-bg-subtle);
-    height: var(--a-spacing-10);
+    min-height: var(--a-spacing-10);
     padding-left: var(--a-spacing-4);
 }
 

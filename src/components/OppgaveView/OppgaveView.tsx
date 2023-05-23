@@ -7,17 +7,23 @@ import PageTitle from '../PageTitle/PageTitle'
 import { browserEnv } from '../../utils/env'
 import { DigitaliseringOppgaveResultFragment } from '../../graphql/queries/graphql.generated'
 
-import DocumentsViewer from './DocumentsViewer'
+import DocumentsViewer, { DocumentsViewerSkeleton } from './DocumentsViewer'
 import styles from './OppgaveView.module.css'
 
 interface Props {
     oppgave: DigitaliseringOppgaveResultFragment | undefined | null
+    loading: boolean
 }
 
-function OppgaveView({ oppgave, children }: PropsWithChildren<Props>): JSX.Element {
+function OppgaveView({ oppgave, loading, children }: PropsWithChildren<Props>): JSX.Element {
     const [tabState, setTabState] = useState<'form' | 'pdf'>('form')
     const [showTabs, setShowTabs] = useState(false)
     const toggleTabs = useCallback(() => setShowTabs((b) => !b), [])
+
+    const documentsSectionClassNames = cn(styles.pdf, {
+        [styles.activeTab]: showTabs && tabState === 'pdf',
+        [styles.inactiveTab]: showTabs && tabState === 'form',
+    })
 
     return (
         <>
@@ -33,14 +39,9 @@ function OppgaveView({ oppgave, children }: PropsWithChildren<Props>): JSX.Eleme
                     <OppgaveViewPageTitle showTabs={showTabs} toggleTabs={toggleTabs} />
                     <div className={styles.content}>{children} </div>
                 </section>
+                {loading && <DocumentsViewerSkeleton className={documentsSectionClassNames} />}
                 {oppgave != null && oppgave?.__typename === 'Digitaliseringsoppgave' && (
-                    <DocumentsViewer
-                        className={cn(styles.pdf, {
-                            [styles.activeTab]: showTabs && tabState === 'pdf',
-                            [styles.inactiveTab]: showTabs && tabState === 'form',
-                        })}
-                        oppgave={oppgave}
-                    />
+                    <DocumentsViewer className={documentsSectionClassNames} oppgave={oppgave} />
                 )}
             </div>
         </>
