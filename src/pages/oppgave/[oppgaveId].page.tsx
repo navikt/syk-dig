@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { Alert } from '@navikt/ds-react'
+import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react'
 import React from 'react'
 import { range } from 'remeda'
 
@@ -24,7 +24,7 @@ function Utenlandsk(): JSX.Element {
             <OppgaveView oppgave={data?.oppgave} loading={loading}>
                 {loading && <OppgaveSkeleton />}
                 {data?.oppgave && <DigitaliseringsOppgave oppgave={data.oppgave} />}
-                {error && <Alert variant="error">Klarte ikke å laste oppgave med oppgave-id {oppgaveId}</Alert>}
+                {error && <OppgaveError oppgaveId={oppgaveId} />}
             </OppgaveView>
         </PageWrapper>
     )
@@ -55,6 +55,21 @@ function OppgaveSkeleton(): JSX.Element {
                 </SykmeldingSectionSkeleton>
             ))}
         </>
+    )
+}
+
+function OppgaveError({ oppgaveId }: { oppgaveId: string }): JSX.Element {
+    return (
+        <Alert variant="error" className="m-4">
+            <Heading size="small" spacing>
+                En uventet feil oppsto
+            </Heading>
+            <BodyShort spacing>{`Klarte ikke å laste oppgave med oppgave-id "${oppgaveId}".`}</BodyShort>
+            <BodyShort>
+                Du kan klikke her for å <Link href="">oppfriske</Link> siden. Dersom problemet vedvarer kan du kontakte
+                Team Sykmelding på Teams!
+            </BodyShort>
+        </Alert>
     )
 }
 

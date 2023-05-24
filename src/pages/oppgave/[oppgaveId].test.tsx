@@ -65,7 +65,7 @@ describe('Utenlandsk page', () => {
             ],
         })
 
-        expect(await screen.findByText('Klarte ikke å laste oppgave med oppgave-id 987654321'))
+        expect(await screen.findByRole('heading', { name: 'En uventet feil oppsto' })).toBeInTheDocument()
     })
 
     it('should rename dokument', async () => {

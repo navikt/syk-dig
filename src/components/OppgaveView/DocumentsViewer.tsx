@@ -4,7 +4,6 @@ import cn from 'clsx'
 
 import Pdf from '../Pdf/Pdf'
 import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
-import { PdfSkeleton, TabsSkeleton } from '../skeleton/Skeletons'
 
 import DocumentTab from './DocumentTabLabel'
 import styles from './DocumentsViewer.module.css'
@@ -66,18 +65,6 @@ function DocumentTabs({
                 ))}
             </Tabs.List>
         </Tabs>
-    )
-}
-
-export function DocumentsViewerSkeleton({ className }: { className?: string }): JSX.Element {
-    return (
-        <div className={cn(styles.sectionRoot, className)}>
-            <Heading level="2" size="xsmall" className={styles.heading}>
-                Dokumenter som er mottatt
-            </Heading>
-            <TabsSkeleton />
-            <PdfSkeleton />
-        </div>
     )
 }
 

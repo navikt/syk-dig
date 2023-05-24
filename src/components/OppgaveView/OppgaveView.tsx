@@ -7,8 +7,9 @@ import PageTitle from '../PageTitle/PageTitle'
 import { browserEnv } from '../../utils/env'
 import { DigitaliseringOppgaveResultFragment } from '../../graphql/queries/graphql.generated'
 
-import DocumentsViewer, { DocumentsViewerSkeleton } from './DocumentsViewer'
+import DocumentsViewer from './DocumentsViewer'
 import styles from './OppgaveView.module.css'
+import { DocumentsViewerNoDocuments, DocumentsViewerSkeleton } from './DocumentViewerStates'
 
 interface Props {
     oppgave: DigitaliseringOppgaveResultFragment | undefined | null
@@ -16,6 +17,7 @@ interface Props {
 }
 
 function OppgaveView({ oppgave, loading, children }: PropsWithChildren<Props>): JSX.Element {
+    const isStatus = oppgave?.__typename === 'DigitaliseringsoppgaveStatus'
     const [tabState, setTabState] = useState<'form' | 'pdf'>('form')
     const [showTabs, setShowTabs] = useState(false)
     const toggleTabs = useCallback(() => setShowTabs((b) => !b), [])
@@ -40,6 +42,9 @@ function OppgaveView({ oppgave, loading, children }: PropsWithChildren<Props>): 
                     <div className={styles.content}>{children} </div>
                 </section>
                 {loading && <DocumentsViewerSkeleton className={documentsSectionClassNames} />}
+                {!loading && isStatus && (
+                    <DocumentsViewerNoDocuments className={documentsSectionClassNames} text="Oppgaven er ikke åpen" />
+                )}
                 {oppgave != null && oppgave?.__typename === 'Digitaliseringsoppgave' && (
                     <DocumentsViewer className={documentsSectionClassNames} oppgave={oppgave} />
                 )}
