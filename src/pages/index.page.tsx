@@ -21,6 +21,18 @@ const Home: NextPage = () => {
                 <li>
                     <Link href="/oppgave/blank">Eksempel utenlansk oppgave uten eksisterende data</Link>
                 </li>
+                <li>
+                    <Link href="/oppgave/ferdigstilt">Eksempel utenlansk oppgave med status Ferdigstilt</Link>
+                </li>
+                <li>
+                    <Link href="/oppgave/finnesikke">Eksempel utenlansk oppgave med status FinnesIkke</Link>
+                </li>
+                <li>
+                    <Link href="/oppgave/avvist">Eksempel utenlansk oppgave med status Avvist</Link>
+                </li>
+                <li>
+                    <Link href="/oppgave/ikkeensykmelding">Eksempel utenlansk oppgave med status IkkeEnSykmelding</Link>
+                </li>
             </ul>
         </PageWrapper>
     )

@@ -11043,6 +11043,7 @@ __metadata:
     "@graphql-codegen/typed-document-node": ^4.0.1
     "@graphql-codegen/typescript-operations": ^3.0.4
     "@hookform/error-message": ^2.0.1
+    "@navikt/aksel-icons": ^3.2.3
     "@navikt/ds-css": ^3.2.3
     "@navikt/ds-css-internal": ^3.2.3
     "@navikt/ds-icons": ^3.2.3

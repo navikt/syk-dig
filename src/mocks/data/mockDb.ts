@@ -1,4 +1,9 @@
-import { OppgaveFragment, PeriodeType } from '../../graphql/queries/graphql.generated'
+import {
+    DigitaliseringsoppgaveStatusEnum,
+    DigitaliseringsoppgaveStatusFragment,
+    OppgaveFragment,
+    PeriodeType,
+} from '../../graphql/queries/graphql.generated'
 
 import { createOppgave } from './dataCreators'
 
@@ -61,6 +66,28 @@ export class FakeMockDB {
             },
         }),
     }
+    private _status: Record<string, DigitaliseringsoppgaveStatusFragment> = {
+        ferdigstilt: {
+            __typename: 'DigitaliseringsoppgaveStatus',
+            oppgaveId: 'ferdigstilt',
+            status: DigitaliseringsoppgaveStatusEnum.Ferdigstilt,
+        },
+        finnesikke: {
+            __typename: 'DigitaliseringsoppgaveStatus',
+            oppgaveId: 'finnesikke',
+            status: DigitaliseringsoppgaveStatusEnum.FinnesIkke,
+        },
+        avvist: {
+            __typename: 'DigitaliseringsoppgaveStatus',
+            oppgaveId: 'finnesikke',
+            status: DigitaliseringsoppgaveStatusEnum.Avvist,
+        },
+        ikkeensykmelding: {
+            __typename: 'DigitaliseringsoppgaveStatus',
+            oppgaveId: 'ikkeensykmelding',
+            status: DigitaliseringsoppgaveStatusEnum.IkkeEnSykmelding,
+        },
+    }
 
     public saveDocument(oppgaveId: string, dokumentId: string, tittel: string): void {
         const oppgave = this._oppgaver[oppgaveId.toLowerCase()]
@@ -72,6 +99,20 @@ export class FakeMockDB {
             }
         })
         this._oppgaver[oppgaveId.toLowerCase()] = oppgave
+    }
+
+    public getOppgaveOrStatus(oppgaveId: string): OppgaveFragment | DigitaliseringsoppgaveStatusFragment {
+        const oppgave = this._oppgaver[oppgaveId.toLowerCase()]
+        if (oppgave) {
+            return oppgave
+        }
+
+        const status = this._status[oppgaveId.toLowerCase()]
+        if (status) {
+            return status
+        }
+
+        throw new Error(`No oppgave or status found with id ${oppgaveId}`)
     }
 
     public getOppgave(oppgaveId: string): OppgaveFragment {

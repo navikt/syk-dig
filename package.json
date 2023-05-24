@@ -24,6 +24,7 @@
     "dependencies": {
         "@apollo/client": "^3.7.14",
         "@hookform/error-message": "^2.0.1",
+        "@navikt/aksel-icons": "^3.2.3",
         "@navikt/ds-css": "^3.2.3",
         "@navikt/ds-css-internal": "^3.2.3",
         "@navikt/ds-icons": "^3.2.3",
