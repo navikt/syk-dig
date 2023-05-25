@@ -1,6 +1,13 @@
 import { StartOptions } from 'msw'
 
-const whitelistRequests = ['/_next/', '/api/country', '/api/diagnose', '/api/logger']
+const whitelistRequests = [
+    '/_next/',
+    '/api/country',
+    '/api/diagnose',
+    '/api/logger',
+    '/teamsykmelding/syk-dig/_next',
+    '/aksel/fonts',
+]
 
 const onUnhandledRequest: StartOptions['onUnhandledRequest'] = (req, print): void => {
     if (whitelistRequests.some((whitelisted) => req.url.pathname.startsWith(whitelisted))) {

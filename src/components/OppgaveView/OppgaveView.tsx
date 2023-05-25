@@ -13,10 +13,11 @@ import { DocumentsViewerNoDocuments, DocumentsViewerSkeleton } from './DocumentV
 
 interface Props {
     oppgave: DigitaliseringOppgaveResultFragment | undefined | null
+    isError: boolean
     loading: boolean
 }
 
-function OppgaveView({ oppgave, loading, children }: PropsWithChildren<Props>): JSX.Element {
+function OppgaveView({ oppgave, loading, isError, children }: PropsWithChildren<Props>): JSX.Element {
     const isStatus = oppgave?.__typename === 'DigitaliseringsoppgaveStatus'
     const [tabState, setTabState] = useState<'form' | 'pdf'>('form')
     const [showTabs, setShowTabs] = useState(false)
@@ -44,6 +45,12 @@ function OppgaveView({ oppgave, loading, children }: PropsWithChildren<Props>): 
                 {loading && <DocumentsViewerSkeleton className={documentsSectionClassNames} />}
                 {!loading && isStatus && (
                     <DocumentsViewerNoDocuments className={documentsSectionClassNames} text="Oppgaven er ikke åpen" />
+                )}
+                {isError && (
+                    <DocumentsViewerNoDocuments
+                        className={documentsSectionClassNames}
+                        text="Oppgaven ble ikke lastet"
+                    />
                 )}
                 {oppgave != null && oppgave?.__typename === 'Digitaliseringsoppgave' && (
                     <DocumentsViewer className={documentsSectionClassNames} oppgave={oppgave} />
