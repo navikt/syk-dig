@@ -14,7 +14,7 @@ export type Scalars = {
     Float: number
     /** An RFC-3339 compliant Full Date Scalar */
     Date: string
-    /** An RFC-3339 compliant DateTime Scalar */
+    /** A slightly refined version of RFC-3339 compliant DateTime Scalar */
     DateTime: string
     /** A universally unique identifier compliant UUID Scalar */
     UUID: any
@@ -384,6 +384,7 @@ export type OppgaveValues = {
     behandletTidspunkt?: Maybe<Scalars['DateTime']>
     biDiagnoser?: Maybe<Array<DiagnoseValue>>
     fnrPasient: Scalars['String']
+    folkeRegistertAdresseErBrakkeEllerTilsvarende?: Maybe<Scalars['Boolean']>
     hoveddiagnose?: Maybe<DiagnoseValue>
     perioder?: Maybe<Array<PeriodeValue>>
     skrevetLand?: Maybe<Scalars['String']>
@@ -443,6 +444,7 @@ export type SykmeldingUnderArbeidValues = {
     behandletTidspunkt?: InputMaybe<Scalars['Date']>
     biDiagnoser?: InputMaybe<Array<DiagnoseInput>>
     fnrPasient: Scalars['String']
+    folkeRegistertAdresseErBrakkeEllerTilsvarende?: InputMaybe<Scalars['Boolean']>
     hovedDiagnose?: InputMaybe<DiagnoseInput>
     perioder?: InputMaybe<Array<PeriodeInput>>
     skrevetLand?: InputMaybe<Scalars['String']>

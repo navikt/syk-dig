@@ -43,5 +43,6 @@ export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
             },
         ],
         behandletTidspunkt: values.behandletTidspunkt,
+        folkeRegistertAdresseErBrakkeEllerTilsvarende: values.folkeRegistertAdresseErBrakkeEllerTilsvarende ?? false,
     }
 }

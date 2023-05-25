@@ -21,6 +21,7 @@ export interface SykmeldingFormValues {
     land: string
     periode: Array<PeriodeFormValue>
     mangelfullSykmelding: boolean
+    folkeRegistertAdresseErBrakkeEllerTilsvarende: boolean
 }
 
 interface Props {

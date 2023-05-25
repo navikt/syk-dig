@@ -43,12 +43,7 @@
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
-                        {
-                            "name": "RISIKOSAK",
-                            "description": null,
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
+                        { "name": "RISIKOSAK", "description": null, "isDeprecated": false, "deprecationReason": null },
                         {
                             "name": "FOR_LANG_PERIODE",
                             "description": null,
@@ -96,7 +91,7 @@
                 {
                     "kind": "SCALAR",
                     "name": "DateTime",
-                    "description": "An RFC-3339 compliant DateTime Scalar",
+                    "description": "A slightly refined version of RFC-3339 compliant DateTime Scalar",
                     "fields": null,
                     "inputFields": null,
                     "interfaces": null,
@@ -870,6 +865,14 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "folkeRegistertAdresseErBrakkeEllerTilsvarende",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -1219,6 +1222,14 @@
                             "defaultValue": null,
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "folkeRegistertAdresseErBrakkeEllerTilsvarende",
+                            "description": null,
+                            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "interfaces": null,
@@ -1491,30 +1502,6 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
-                        },
-                        {
-                            "name": "onOperation",
-                            "description": null,
-                            "args": [],
-                            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
-                        },
-                        {
-                            "name": "onFragment",
-                            "description": null,
-                            "args": [],
-                            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
-                        },
-                        {
-                            "name": "onField",
-                            "description": null,
-                            "args": [],
-                            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
-                            "isDeprecated": true,
-                            "deprecationReason": "Use `locations`."
                         }
                     ],
                     "inputFields": null,
@@ -2093,12 +2080,20 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "specifiedByUrl",
+                            "name": "specifiedByURL",
                             "description": null,
                             "args": [],
                             "type": { "kind": "SCALAR", "name": "String", "ofType": null },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "specifiedByUrl",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": true,
+                            "deprecationReason": "This legacy name has been replaced by `specifiedByURL`"
                         }
                     ],
                     "inputFields": null,
@@ -2116,7 +2111,7 @@
                     "enumValues": [
                         {
                             "name": "SCALAR",
-                            "description": "Indicates this type is a scalar. 'specifiedByUrl' is a valid field",
+                            "description": "Indicates this type is a scalar. 'specifiedByURL' is a valid field",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },

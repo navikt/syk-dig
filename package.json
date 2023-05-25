@@ -15,7 +15,7 @@
         "test": "jest",
         "gen": "graphql-codegen --config codegen.ts",
         "gen:watch": "graphql-codegen -w --config codegen.ts",
-        "update-schema": "wget https://syk-dig-backend.dev.intern.nav.no/schema.json -O ./schema.json && prettier -w schema.json",
+        "update-schema": "wget https://syk-dig-backend.intern.dev.nav.no/schema.json -O ./schema.json && prettier -w schema.json",
         "postinstall": "node ./scripts/postinstall.js"
     },
     "msw": {
