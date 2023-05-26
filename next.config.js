@@ -5,6 +5,8 @@ const isMsw = process.env.NEXT_PUBLIC_API_MOCKING === 'enabled'
 const nextConfig = {
     output: 'standalone',
     reactStrictMode: true,
+    // Until jest supports ESM-modules, or we replace jest with vitest
+    transpilePackages: ['nextleton'],
     swcMinify: !isMsw,
     webpack: isMsw
         ? (config) => {

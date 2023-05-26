@@ -29,11 +29,13 @@ export function SmallTextSkeleton({ width = 'medium' }: { width?: 'small' | 'med
     )
 }
 
-export function InfoWithHeaderSkeleton(): JSX.Element {
+export function InfoWithHeaderSkeleton({ lines = 1 }: { lines?: number }): JSX.Element {
     return (
         <div className="flex flex-col gap-1">
             <SmallHeadingSkeleton width="small" />
-            <SmallTextSkeleton width="small" />
+            {range(0, lines).map((it) => (
+                <SmallTextSkeleton key={it} width="small" />
+            ))}
         </div>
     )
 }
