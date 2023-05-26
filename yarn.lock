@@ -8771,6 +8771,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nextleton@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "nextleton@npm:0.5.0"
+  checksum: bf2f1fbb4874988a72636e0b900368e55c6ceef4b28bac7dcd4a675fd43cf9d6e85f32361a76a0143e5d1193ee46ea694a179d2201caabd1d5ba4689550284be
+  languageName: node
+  linkType: hard
+
 "no-case@npm:^3.0.4":
   version: 3.0.4
   resolution: "no-case@npm:3.0.4"
@@ -11080,6 +11087,7 @@ __metadata:
     next: ^13.4.3
     next-logger: ^3.0.2
     next-router-mock: ^0.9.3
+    nextleton: ^0.5.0
     open: ^8.4.2
     pdfobject: ^2.2.11
     pino: ^8.14.1

@@ -43,13 +43,13 @@ function OppgaveSkeleton(): JSX.Element {
         <>
             {range(0, 4).map((it) => (
                 <SykmeldingSectionSkeleton key={it}>
-                    <div className="mb-12 flex gap-32">
+                    <div className="mb-16 flex gap-32">
                         <InfoWithHeaderSkeleton />
                         <InfoWithHeaderSkeleton />
                     </div>
-                    <div className="mb-12 flex gap-32">
-                        <InfoWithHeaderSkeleton />
-                        <InfoWithHeaderSkeleton />
+                    <div className="mb-18 flex gap-32">
+                        <InfoWithHeaderSkeleton lines={2} />
+                        <InfoWithHeaderSkeleton lines={3} />
                     </div>
                     <InputWithTitleSkeleton />
                 </SykmeldingSectionSkeleton>

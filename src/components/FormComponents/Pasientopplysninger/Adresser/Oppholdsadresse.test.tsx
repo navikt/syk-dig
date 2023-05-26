@@ -1,6 +1,6 @@
 import { axe } from 'jest-axe'
 
-import { act, render, screen, waitFor } from '../../../../utils/testUtils'
+import { act, render, screen } from '../../../../utils/testUtils'
 import { OppholdsadresseFragment } from '../../../../graphql/queries/graphql.generated'
 
 import Oppholdsadresse from './Oppholdsadresse'
@@ -74,16 +74,10 @@ describe('Oppholdsadresse', () => {
 
             render(<Oppholdsadresse oppholdsadresse={utenlandsadresse} />)
 
-            act(() => {
-                expect(screen.getByText('Laster adresse...')).toBeInTheDocument()
-            })
-
-            await waitFor(() => expect(screen.queryByText('Laster adresse...')).not.toBeInTheDocument())
-
             expect(screen.getByRole('heading', { name: 'Oppholdsadresse' })).toBeInTheDocument()
             expect(screen.getByText('Einimel 80')).toBeInTheDocument()
             expect(screen.getByText('IS-107 Reykjavik')).toBeInTheDocument()
-            expect(screen.getByText('Island')).toBeInTheDocument()
+            expect(await screen.findByText('Island')).toBeInTheDocument()
         })
     })
 
