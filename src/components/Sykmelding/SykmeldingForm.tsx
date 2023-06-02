@@ -22,6 +22,7 @@ export interface SykmeldingFormValues {
     periode: Array<PeriodeFormValue>
     mangelfullSykmelding: boolean
     folkeRegistertAdresseErBrakkeEllerTilsvarende: boolean
+    avvisningsgrunnAnnet?: string
 }
 
 interface Props {
@@ -66,7 +67,7 @@ function SykmeldingForm({ oppgave }: Props): JSX.Element {
                 <Errors ref={errorSectionRef} />
                 <div className="sticky bottom-0 z-10 border-t-2 border-border-default bg-bg-default p-4">
                     {shouldShowAvvisActions ? (
-                        <AvvisSection fnr={oppgave.values.fnrPasient} />
+                        <AvvisSection />
                     ) : (
                         <ActionSection
                             fnr={oppgave.values.fnrPasient}
