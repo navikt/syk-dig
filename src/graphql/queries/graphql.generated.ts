@@ -22,6 +22,8 @@ export type Scalars = {
 }
 
 export enum Avvisingsgrunn {
+    Annet = 'ANNET',
+    BasertPaaTelefonkontakt = 'BASERT_PAA_TELEFONKONTAKT',
     ForLangPeriode = 'FOR_LANG_PERIODE',
     ManglendeDiagnose = 'MANGLENDE_DIAGNOSE',
     ManglendeOrginalSykmelding = 'MANGLENDE_ORGINAL_SYKMELDING',
@@ -347,6 +349,7 @@ export type Mutation = {
 
 export type MutationAvvisArgs = {
     avvisningsgrunn: Avvisingsgrunn
+    avvisningsgrunnAnnet?: InputMaybe<Scalars['String']>
     enhetId: Scalars['String']
     oppgaveId: Scalars['String']
 }

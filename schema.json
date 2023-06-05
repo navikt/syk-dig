@@ -49,7 +49,14 @@
                             "description": null,
                             "isDeprecated": false,
                             "deprecationReason": null
-                        }
+                        },
+                        {
+                            "name": "BASERT_PAA_TELEFONKONTAKT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "ANNET", "description": null, "isDeprecated": false, "deprecationReason": null }
                     ],
                     "possibleTypes": null
                 },
@@ -690,6 +697,14 @@
                                         "name": null,
                                         "ofType": { "kind": "ENUM", "name": "Avvisingsgrunn", "ofType": null }
                                     },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                },
+                                {
+                                    "name": "avvisningsgrunnAnnet",
+                                    "description": null,
+                                    "type": { "kind": "SCALAR", "name": "String", "ofType": null },
                                     "defaultValue": null,
                                     "isDeprecated": false,
                                     "deprecationReason": null
