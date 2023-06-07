@@ -1032,6 +1032,7 @@ export type AvvisOppgaveMutationVariables = Exact<{
     oppgaveId: Scalars['String']
     enhetId: Scalars['String']
     avvisningsgrunn: Avvisingsgrunn
+    avvisningsgrunnAnnet?: InputMaybe<Scalars['String']>
 }>
 
 export type AvvisOppgaveMutation = {
@@ -3050,6 +3051,11 @@ export const AvvisOppgaveDocument = {
                         type: { kind: 'NamedType', name: { kind: 'Name', value: 'Avvisingsgrunn' } },
                     },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'avvisningsgrunnAnnet' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -3072,6 +3078,11 @@ export const AvvisOppgaveDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'avvisningsgrunn' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'avvisningsgrunn' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'avvisningsgrunnAnnet' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'avvisningsgrunnAnnet' } },
                             },
                         ],
                         selectionSet: {

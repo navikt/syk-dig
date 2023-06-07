@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react'
-import { Alert, BodyShort, Button, Heading, Modal, Select } from '@navikt/ds-react'
+import React, { useState } from 'react'
+import { Alert, BodyShort, Button, Heading, Modal, Select, Textarea } from '@navikt/ds-react'
 import { useMutation } from '@apollo/client'
 import { useFormContext } from 'react-hook-form'
 
@@ -13,23 +13,32 @@ import { Location, useParam } from '../../../utils/useParam'
 import { SykmeldingFormValues } from '../SykmeldingForm'
 import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
 
-interface Props {
-    fnr: string
-}
-
-function AvvisSection({}: Props): JSX.Element {
+function AvvisSection(): JSX.Element {
     const { reset } = useFormContext<SykmeldingFormValues>()
     const params = useParam(Location.Utenlansk)
     const enhetId = useSelectedModiaEnhet()
-    const grunnRef = useRef<HTMLSelectElement>(null)
+    const [avvisningsgrunn, setAvvisningsgrunn] = useState<{ grunn: string | null; grunnAnnet?: string | null }>({
+        grunn: null,
+        grunnAnnet: null,
+    })
     const [showAvvisModal, setShowAvvisModal] = useState(false)
     const [selectError, setSelectError] = useState<string | null>(null)
+    const [textareaError, setTextareaError] = useState<string | null>(null)
     const [avvis, mutationResult] = useMutation(AvvisOppgaveDocument, {
         onCompleted: () => {
             setShowAvvisModal(false)
             redirectTilGosys()
         },
     })
+
+    const isAnnet: boolean = avvisningsgrunn.grunn === Avvisingsgrunn.Annet
+    const isGrunnAnnetMissing: boolean = isAnnet && !avvisningsgrunn.grunnAnnet
+    const isGrunnAnnetWhitespace: boolean =
+        isAnnet && !!avvisningsgrunn.grunnAnnet && avvisningsgrunn.grunnAnnet.trim().length === 0
+    const isGrunnAnnetUnderMinLength: boolean =
+        isAnnet && !!avvisningsgrunn.grunnAnnet && avvisningsgrunn.grunnAnnet.length < 6
+    const isGrunnAnnetOverMaxLength: boolean =
+        isAnnet && !!avvisningsgrunn.grunnAnnet && avvisningsgrunn.grunnAnnet.length > 25
 
     return (
         <div className="flex flex-col gap-3">
@@ -53,7 +62,21 @@ function AvvisSection({}: Props): JSX.Element {
                     Avvis registreringen
                 </Button>
             </div>
-            <Modal open={showAvvisModal} onClose={() => setShowAvvisModal(false)} aria-labelledby="avvis-modal-heading">
+            <Modal
+                open={showAvvisModal}
+                onClose={() => {
+                    if (avvisningsgrunn.grunn) {
+                        setAvvisningsgrunn({
+                            grunn: null,
+                            grunnAnnet: null,
+                        })
+                    }
+                    setSelectError(null)
+                    setTextareaError(null)
+                    setShowAvvisModal(false)
+                }}
+                aria-labelledby="avvis-modal-heading"
+            >
                 <Modal.Content className="w-[32rem]">
                     <Heading id="avvis-modal-heading" spacing level="2" size="medium">
                         Avvis sykmeldingen
@@ -63,13 +86,21 @@ function AvvisSection({}: Props): JSX.Element {
                     </BodyShort>
                     <BodyShort>Er du sikker på at du vil avvise?</BodyShort>
                     <Select
-                        ref={grunnRef}
                         className="mt-8"
                         label="Begrunnelse for avvisning"
-                        defaultValue={'none'}
+                        defaultValue=""
+                        onChange={(event) => {
+                            setAvvisningsgrunn({
+                                grunn: event.target.value,
+                                grunnAnnet: avvisningsgrunn.grunnAnnet,
+                            })
+                            if (selectError) {
+                                setSelectError(null)
+                            }
+                        }}
                         error={selectError}
                     >
-                        <option disabled hidden value="none">
+                        <option disabled hidden value="">
                             Velg en grunn...
                         </option>
                         <option value={Avvisingsgrunn.ManglendeDiagnose}>Manglende diagnose</option>
@@ -83,24 +114,54 @@ function AvvisSection({}: Props): JSX.Element {
                         <option value={Avvisingsgrunn.ForLangPeriode}>Sykmeldingen har for lang periode</option>
                         <option value={Avvisingsgrunn.Risikosak}>Risikosak</option>
                         <option value={Avvisingsgrunn.TilbakedatertSykmelding}>Sykmeldingen er tilbakedatert</option>
+                        <option value={Avvisingsgrunn.BasertPaaTelefonkontakt}>
+                            Sykmelding basert på telefonkontakt
+                        </option>
+                        <option value={Avvisingsgrunn.Annet}>Annet</option>
                     </Select>
+                    {avvisningsgrunn.grunn === Avvisingsgrunn.Annet && (
+                        <Textarea
+                            className="mt-6"
+                            label="Hva er grunn Annet?"
+                            value={avvisningsgrunn.grunnAnnet ?? ''}
+                            onChange={(event) => {
+                                setAvvisningsgrunn({
+                                    grunn: avvisningsgrunn.grunn,
+                                    grunnAnnet: event.target.value,
+                                })
+                                if (textareaError) {
+                                    setTextareaError(null)
+                                }
+                            }}
+                            maxLength={25}
+                            size="small"
+                            error={textareaError}
+                        />
+                    )}
                     <MutationResultFeedback what="avvise" result={mutationResult}></MutationResultFeedback>
                     <Button
                         type="button"
                         className="mt-8"
                         loading={mutationResult.loading}
                         onClick={() => {
-                            const value = grunnRef.current?.value
-                            if (value === 'none') {
+                            if (!avvisningsgrunn.grunn) {
                                 setSelectError('Du må velge en grunn')
+                            } else if (isGrunnAnnetMissing || isGrunnAnnetWhitespace) {
+                                setTextareaError('Du må fylle inn en grunn for Annet')
+                            } else if (isGrunnAnnetUnderMinLength) {
+                                setTextareaError('Grunn må ha minst 6 tegn')
+                            } else if (isGrunnAnnetOverMaxLength) {
+                                setTextareaError('Grunn kan maks ha 25 tegn')
                             } else {
                                 setSelectError(null)
+                                setTextareaError(null)
                                 reset(undefined, { keepValues: true })
                                 avvis({
                                     variables: {
                                         oppgaveId: params.oppgaveId,
                                         enhetId: enhetId,
-                                        avvisningsgrunn: selectValueToAvvisingsgrunn(value),
+                                        avvisningsgrunn: selectValueToAvvisingsgrunn(avvisningsgrunn.grunn),
+                                        avvisningsgrunnAnnet: avvisningsgrunn.grunnAnnet,
                                     },
                                 })
                             }
@@ -130,6 +191,10 @@ function selectValueToAvvisingsgrunn(value: string | null | undefined): Avvising
             return Avvisingsgrunn.Risikosak
         case Avvisingsgrunn.TilbakedatertSykmelding:
             return Avvisingsgrunn.TilbakedatertSykmelding
+        case Avvisingsgrunn.BasertPaaTelefonkontakt:
+            return Avvisingsgrunn.BasertPaaTelefonkontakt
+        case Avvisingsgrunn.Annet:
+            return Avvisingsgrunn.Annet
         default:
             throw new Error('Ugyldig avvisingsgrunn. Er Select-komponenten brukt feil?')
     }

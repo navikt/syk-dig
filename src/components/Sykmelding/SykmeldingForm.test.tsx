@@ -143,6 +143,7 @@ describe('SykmeldingForm', () => {
                         oppgaveId: 'test-oppgave-id',
                         enhetId: 'B17',
                         avvisningsgrunn: Avvisingsgrunn.ManglendePeriodeEllerSluttdato,
+                        avvisningsgrunnAnnet: null,
                     },
                 },
                 result: {
@@ -172,6 +173,55 @@ describe('SykmeldingForm', () => {
             const avvisDialog = within(await screen.findByRole('dialog', { name: 'Avvis sykmeldingen' }))
 
             await userEvent.selectOptions(avvisDialog.getByRole('combobox'), 'Manglende periode eller slutt-dato')
+            await userEvent.click(avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }))
+
+            expect(await screen.findByRole('dialog', { name: /Sykmeldingen er avvist/ })).toBeInTheDocument()
+        })
+
+        it('should allow avvising sykmelding with avvisningsgrunn Annet and require description', async () => {
+            const oppgave = createOppgave()
+            const expectedRequest = createMock({
+                request: {
+                    query: AvvisOppgaveDocument,
+                    variables: {
+                        oppgaveId: 'test-oppgave-id',
+                        enhetId: 'B17',
+                        avvisningsgrunn: Avvisingsgrunn.Annet,
+                        avvisningsgrunnAnnet: 'Feil info',
+                    },
+                },
+                result: {
+                    data: {
+                        __typename: 'Mutation',
+                        avvis: {
+                            __typename: 'DigitaliseringsoppgaveStatus',
+                            oppgaveId: 'test-oppgave-id',
+                            status: DigitaliseringsoppgaveStatusEnum.Avvist,
+                        },
+                    },
+                },
+            })
+
+            render(<SykmeldingForm oppgave={oppgave} />, {
+                mocks: [expectedRequest],
+            })
+
+            const section = within(screen.getByRole('region', { name: /Mangelfull sykmelding/ }))
+            await userEvent.click(
+                section.getByRole('checkbox', {
+                    name: 'Sykmeldingen mangler viktige opplysninger som må innhentes før den kan registreres',
+                }),
+            )
+            await userEvent.click(screen.getByRole('button', { name: 'Avvis registreringen' }))
+
+            const avvisDialog = within(await screen.findByRole('dialog', { name: 'Avvis sykmeldingen' }))
+
+            await userEvent.selectOptions(avvisDialog.getByRole('combobox'), 'Annet')
+            await userEvent.click(avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }))
+
+            expect(screen.getByText('Du må fylle inn en grunn for Annet')).toBeInTheDocument()
+
+            await userEvent.type(avvisDialog.getByRole('textbox'), 'Feil info')
             await userEvent.click(avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }))
 
             expect(await screen.findByRole('dialog', { name: /Sykmeldingen er avvist/ })).toBeInTheDocument()
