@@ -5,20 +5,22 @@ export type InputMaybe<T> = Maybe<T>
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] }
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> }
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> }
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never }
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-    ID: string
-    String: string
-    Boolean: boolean
-    Int: number
-    Float: number
+    ID: { input: string | number; output: string }
+    String: { input: string; output: string }
+    Boolean: { input: boolean; output: boolean }
+    Int: { input: number; output: number }
+    Float: { input: number; output: number }
     /** An RFC-3339 compliant Full Date Scalar */
-    Date: string
+    Date: { input: string; output: string }
     /** A slightly refined version of RFC-3339 compliant DateTime Scalar */
-    DateTime: string
+    DateTime: { input: string; output: string }
     /** A universally unique identifier compliant UUID Scalar */
-    UUID: any
-    _FieldSet: any
+    UUID: { input: any; output: any }
+    _FieldSet: { input: any; output: any }
 }
 
 export enum Avvisingsgrunn {
@@ -36,21 +38,21 @@ export enum Avvisingsgrunn {
 export type Bostedsadresse = Matrikkeladresse | UkjentBosted | UtenlandskAdresse | Vegadresse
 
 export type DiagnoseInput = {
-    kode: Scalars['String']
-    system: Scalars['String']
+    kode: Scalars['String']['input']
+    system: Scalars['String']['input']
 }
 
 export type DiagnoseValue = {
     __typename: 'DiagnoseValue'
-    kode: Scalars['String']
-    system: Scalars['String']
-    tekst?: Maybe<Scalars['String']>
+    kode: Scalars['String']['output']
+    system: Scalars['String']['output']
+    tekst?: Maybe<Scalars['String']['output']>
 }
 
 export type Digitaliseringsoppgave = {
     __typename: 'Digitaliseringsoppgave'
     documents: Array<Document>
-    oppgaveId: Scalars['String']
+    oppgaveId: Scalars['String']['output']
     person: Person
     type: SykmeldingsType
     values: OppgaveValues
@@ -60,7 +62,7 @@ export type DigitaliseringsoppgaveResult = Digitaliseringsoppgave | Digitaliseri
 
 export type DigitaliseringsoppgaveStatus = {
     __typename: 'DigitaliseringsoppgaveStatus'
-    oppgaveId: Scalars['String']
+    oppgaveId: Scalars['String']['output']
     status: DigitaliseringsoppgaveStatusEnum
 }
 
@@ -73,8 +75,8 @@ export enum DigitaliseringsoppgaveStatusEnum {
 
 export type Document = {
     __typename: 'Document'
-    dokumentInfoId: Scalars['String']
-    tittel: Scalars['String']
+    dokumentInfoId: Scalars['String']['output']
+    tittel: Scalars['String']['output']
 }
 
 export enum ErrorDetail {
@@ -318,24 +320,24 @@ export enum ErrorType {
 
 export type Matrikkeladresse = {
     __typename: 'Matrikkeladresse'
-    bruksenhetsnummer?: Maybe<Scalars['String']>
-    postnummer?: Maybe<Scalars['String']>
-    poststed?: Maybe<Scalars['String']>
-    tilleggsnavn?: Maybe<Scalars['String']>
+    bruksenhetsnummer?: Maybe<Scalars['String']['output']>
+    postnummer?: Maybe<Scalars['String']['output']>
+    poststed?: Maybe<Scalars['String']['output']>
+    tilleggsnavn?: Maybe<Scalars['String']['output']>
 }
 
 export type ModiaContext = {
     __typename: 'ModiaContext'
-    aktivEnhet?: Maybe<Scalars['String']>
+    aktivEnhet?: Maybe<Scalars['String']['output']>
     enheter: Array<ModiaEnhet>
-    ident: Scalars['String']
-    navn: Scalars['String']
+    ident: Scalars['String']['output']
+    navn: Scalars['String']['output']
 }
 
 export type ModiaEnhet = {
     __typename: 'ModiaEnhet'
-    enhetId: Scalars['String']
-    navn: Scalars['String']
+    enhetId: Scalars['String']['output']
+    navn: Scalars['String']['output']
 }
 
 export type Mutation = {
@@ -349,61 +351,61 @@ export type Mutation = {
 
 export type MutationAvvisArgs = {
     avvisningsgrunn: Avvisingsgrunn
-    avvisningsgrunnAnnet?: InputMaybe<Scalars['String']>
-    enhetId: Scalars['String']
-    oppgaveId: Scalars['String']
+    avvisningsgrunnAnnet?: InputMaybe<Scalars['String']['input']>
+    enhetId: Scalars['String']['input']
+    oppgaveId: Scalars['String']['input']
 }
 
 export type MutationDokumentArgs = {
-    dokumentInfoId: Scalars['String']
-    oppgaveId: Scalars['String']
-    tittel: Scalars['String']
+    dokumentInfoId: Scalars['String']['input']
+    oppgaveId: Scalars['String']['input']
+    tittel: Scalars['String']['input']
 }
 
 export type MutationLagreArgs = {
-    enhetId: Scalars['String']
-    oppgaveId: Scalars['String']
+    enhetId: Scalars['String']['input']
+    oppgaveId: Scalars['String']['input']
     status: SykmeldingUnderArbeidStatus
     values: SykmeldingUnderArbeidValues
 }
 
 export type MutationOppgaveTilbakeTilGosysArgs = {
-    oppgaveId: Scalars['String']
+    oppgaveId: Scalars['String']['input']
 }
 
 export type MutationUpdateModiaEnhetArgs = {
-    enhetId: Scalars['String']
+    enhetId: Scalars['String']['input']
 }
 
 export type Navn = {
     __typename: 'Navn'
-    etternavn: Scalars['String']
-    fornavn: Scalars['String']
-    mellomnavn?: Maybe<Scalars['String']>
+    etternavn: Scalars['String']['output']
+    fornavn: Scalars['String']['output']
+    mellomnavn?: Maybe<Scalars['String']['output']>
 }
 
 export type OppgaveValues = {
     __typename: 'OppgaveValues'
-    behandletTidspunkt?: Maybe<Scalars['DateTime']>
+    behandletTidspunkt?: Maybe<Scalars['DateTime']['output']>
     biDiagnoser?: Maybe<Array<DiagnoseValue>>
-    fnrPasient: Scalars['String']
-    folkeRegistertAdresseErBrakkeEllerTilsvarende?: Maybe<Scalars['Boolean']>
+    fnrPasient: Scalars['String']['output']
+    folkeRegistertAdresseErBrakkeEllerTilsvarende?: Maybe<Scalars['Boolean']['output']>
     hoveddiagnose?: Maybe<DiagnoseValue>
     perioder?: Maybe<Array<PeriodeValue>>
-    skrevetLand?: Maybe<Scalars['String']>
+    skrevetLand?: Maybe<Scalars['String']['output']>
 }
 
 export type OppholdAnnetSted = {
     __typename: 'OppholdAnnetSted'
-    type?: Maybe<Scalars['String']>
+    type?: Maybe<Scalars['String']['output']>
 }
 
 export type Oppholdsadresse = Matrikkeladresse | OppholdAnnetSted | UtenlandskAdresse | Vegadresse
 
 export type PeriodeInput = {
-    fom: Scalars['Date']
-    grad?: InputMaybe<Scalars['Int']>
-    tom: Scalars['Date']
+    fom: Scalars['Date']['input']
+    grad?: InputMaybe<Scalars['Int']['input']>
+    tom: Scalars['Date']['input']
     type: PeriodeType
 }
 
@@ -414,16 +416,16 @@ export enum PeriodeType {
 
 export type PeriodeValue = {
     __typename: 'PeriodeValue'
-    fom: Scalars['Date']
-    grad?: Maybe<Scalars['Int']>
-    tom: Scalars['Date']
+    fom: Scalars['Date']['output']
+    grad?: Maybe<Scalars['Int']['output']>
+    tom: Scalars['Date']['output']
     type: PeriodeType
 }
 
 export type Person = {
     __typename: 'Person'
     bostedsadresse?: Maybe<Bostedsadresse>
-    navn?: Maybe<Scalars['String']>
+    navn?: Maybe<Scalars['String']['output']>
     oppholdsadresse?: Maybe<Oppholdsadresse>
 }
 
@@ -435,7 +437,7 @@ export type Query = {
 }
 
 export type QueryOppgaveArgs = {
-    oppgaveId: Scalars['String']
+    oppgaveId: Scalars['String']['input']
 }
 
 export enum SykmeldingUnderArbeidStatus {
@@ -444,13 +446,13 @@ export enum SykmeldingUnderArbeidStatus {
 }
 
 export type SykmeldingUnderArbeidValues = {
-    behandletTidspunkt?: InputMaybe<Scalars['Date']>
+    behandletTidspunkt?: InputMaybe<Scalars['Date']['input']>
     biDiagnoser?: InputMaybe<Array<DiagnoseInput>>
-    fnrPasient: Scalars['String']
-    folkeRegistertAdresseErBrakkeEllerTilsvarende?: InputMaybe<Scalars['Boolean']>
+    fnrPasient: Scalars['String']['input']
+    folkeRegistertAdresseErBrakkeEllerTilsvarende?: InputMaybe<Scalars['Boolean']['input']>
     hovedDiagnose?: InputMaybe<DiagnoseInput>
     perioder?: InputMaybe<Array<PeriodeInput>>
-    skrevetLand?: InputMaybe<Scalars['String']>
+    skrevetLand?: InputMaybe<Scalars['String']['input']>
 }
 
 export enum SykmeldingsType {
@@ -460,30 +462,30 @@ export enum SykmeldingsType {
 
 export type UkjentBosted = {
     __typename: 'UkjentBosted'
-    bostedskommune?: Maybe<Scalars['String']>
+    bostedskommune?: Maybe<Scalars['String']['output']>
 }
 
 export type UtenlandskAdresse = {
     __typename: 'UtenlandskAdresse'
-    adressenavnNummer?: Maybe<Scalars['String']>
-    bySted?: Maybe<Scalars['String']>
-    landkode: Scalars['String']
-    postboksNummerNavn?: Maybe<Scalars['String']>
-    postkode?: Maybe<Scalars['String']>
+    adressenavnNummer?: Maybe<Scalars['String']['output']>
+    bySted?: Maybe<Scalars['String']['output']>
+    landkode: Scalars['String']['output']
+    postboksNummerNavn?: Maybe<Scalars['String']['output']>
+    postkode?: Maybe<Scalars['String']['output']>
 }
 
 export type Vegadresse = {
     __typename: 'Vegadresse'
-    adressenavn?: Maybe<Scalars['String']>
-    husbokstav?: Maybe<Scalars['String']>
-    husnummer?: Maybe<Scalars['String']>
-    postnummer?: Maybe<Scalars['String']>
-    poststed?: Maybe<Scalars['String']>
+    adressenavn?: Maybe<Scalars['String']['output']>
+    husbokstav?: Maybe<Scalars['String']['output']>
+    husnummer?: Maybe<Scalars['String']['output']>
+    postnummer?: Maybe<Scalars['String']['output']>
+    poststed?: Maybe<Scalars['String']['output']>
 }
 
 export type _Service = {
     __typename: '_Service'
-    sdl: Scalars['String']
+    sdl: Scalars['String']['output']
 }
 
 export type ModiaFragment = {
@@ -508,7 +510,7 @@ export type ModiaContextQuery = {
 }
 
 export type UpdateAktivEnhetMutationVariables = Exact<{
-    enhetId: Scalars['String']
+    enhetId: Scalars['String']['input']
 }>
 
 export type UpdateAktivEnhetMutation = {
@@ -819,7 +821,7 @@ export type DigitaliseringOppgaveResultFragment =
 export type DocumentFragment = { __typename: 'Document'; tittel: string; dokumentInfoId: string }
 
 export type OppgaveByIdQueryVariables = Exact<{
-    oppgaveId: Scalars['String']
+    oppgaveId: Scalars['String']['input']
 }>
 
 export type OppgaveByIdQuery = {
@@ -916,10 +918,10 @@ export type OppgaveByIdQuery = {
 }
 
 export type SaveOppgaveMutationVariables = Exact<{
-    id: Scalars['String']
+    id: Scalars['String']['input']
     values: SykmeldingUnderArbeidValues
     status: SykmeldingUnderArbeidStatus
-    enhetId: Scalars['String']
+    enhetId: Scalars['String']['input']
 }>
 
 export type SaveOppgaveMutation = {
@@ -1016,7 +1018,7 @@ export type SaveOppgaveMutation = {
 }
 
 export type TilbakeTilGosysMutationVariables = Exact<{
-    oppgaveId: Scalars['String']
+    oppgaveId: Scalars['String']['input']
 }>
 
 export type TilbakeTilGosysMutation = {
@@ -1029,10 +1031,10 @@ export type TilbakeTilGosysMutation = {
 }
 
 export type AvvisOppgaveMutationVariables = Exact<{
-    oppgaveId: Scalars['String']
-    enhetId: Scalars['String']
+    oppgaveId: Scalars['String']['input']
+    enhetId: Scalars['String']['input']
     avvisningsgrunn: Avvisingsgrunn
-    avvisningsgrunnAnnet?: InputMaybe<Scalars['String']>
+    avvisningsgrunnAnnet?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type AvvisOppgaveMutation = {
@@ -1045,9 +1047,9 @@ export type AvvisOppgaveMutation = {
 }
 
 export type NavngiDokumentMutationVariables = Exact<{
-    oppgaveId: Scalars['String']
-    dokumentInfoId: Scalars['String']
-    tittel: Scalars['String']
+    oppgaveId: Scalars['String']['input']
+    dokumentInfoId: Scalars['String']['input']
+    tittel: Scalars['String']['input']
 }>
 
 export type NavngiDokumentMutation = {
