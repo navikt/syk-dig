@@ -1,5 +1,5 @@
 import { useController } from 'react-hook-form'
-import { DateValidationT, UNSAFE_DatePicker, UNSAFE_useDatepicker } from '@navikt/ds-react'
+import { DateValidationT, DatePicker, useDatepicker } from '@navikt/ds-react'
 import { useState } from 'react'
 
 import { toDate } from '../../../utils/dateUtils'
@@ -24,7 +24,7 @@ function DatoSykmeldingenBleSkrevet(): JSX.Element {
         },
     })
 
-    const { datepickerProps, inputProps } = UNSAFE_useDatepicker({
+    const { datepickerProps, inputProps } = useDatepicker({
         toDate: new Date(),
         today: new Date(),
         defaultSelected: field.value ? toDate(field.value) : undefined,
@@ -38,15 +38,15 @@ function DatoSykmeldingenBleSkrevet(): JSX.Element {
 
     return (
         <div className={styles.datoSykmeldingenBleSkrevet}>
-            <UNSAFE_DatePicker {...datepickerProps} wrapperClassName={styles.datePicker}>
-                <UNSAFE_DatePicker.Input
+            <DatePicker {...datepickerProps} wrapperClassName={styles.datePicker}>
+                <DatePicker.Input
                     id={field.name}
                     {...inputProps}
                     label="Datoen sykmeldingen ble skrevet"
                     placeholder="DD.MM.ÅÅÅÅ"
                     error={fieldState.error?.message}
                 />
-            </UNSAFE_DatePicker>
+            </DatePicker>
         </div>
     )
 }
