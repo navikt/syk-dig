@@ -59,7 +59,7 @@ function DocumentTabs({
 }): JSX.Element {
     return (
         <Tabs className={styles.tabsRoot} value={value} onChange={onTabChange}>
-            <Tabs.List className={'w-full'}>
+            <Tabs.List className="w-full">
                 {documents.map((document) => (
                     <DocumentTab key={document.dokumentInfoId} document={document} oppdaveId={oppgaveId} />
                 ))}

@@ -15,12 +15,12 @@ function DocumentTabLabel({ document, oppdaveId }: Props): JSX.Element {
 
     return (
         <>
-            <Tabs.Tab value={document.dokumentInfoId} label={document.tittel} className={'pr-12'} />
+            <Tabs.Tab value={document.dokumentInfoId} label={document.tittel} className="pr-12" />
             <Button
-                className={'-ml-10 mt-2 h-8 w-8'}
-                variant={'tertiary'}
+                className="-ml-10 mt-2 h-8 w-8"
+                variant="tertiary"
                 icon={<Edit title="Rediger dokumentnavn" />}
-                size={'small'}
+                size="small"
                 onClick={() => {
                     setShowModal(true)
                 }}
@@ -83,7 +83,7 @@ function EditDocumentModal({
                         Klarte ikke å oppdatere dokument, prøv igjen senere.
                     </Alert>
                 )}
-                <div className={'mt-4 flex justify-end gap-3'}>
+                <div className="mt-4 flex justify-end gap-3">
                     <Button variant="secondary" onClick={close}>
                         Avbryt
                     </Button>
