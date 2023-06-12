@@ -1,5 +1,5 @@
 import { useController, useFormContext } from 'react-hook-form'
-import { UNSAFE_DatePicker, UNSAFE_useRangeDatepicker } from '@navikt/ds-react'
+import { DatePicker, useRangeDatepicker } from '@navikt/ds-react'
 import { differenceInDays, isAfter, isBefore, isSameDay } from 'date-fns'
 
 import { toDate } from '../../../utils/dateUtils'
@@ -59,7 +59,7 @@ function PeriodePicker({ index, name }: PeriodePickerProps): JSX.Element {
         },
     })
 
-    const { datepickerProps, toInputProps, fromInputProps } = UNSAFE_useRangeDatepicker({
+    const { datepickerProps, toInputProps, fromInputProps } = useRangeDatepicker({
         defaultSelected: {
             from: fromField.value,
             to: toField.value,
@@ -72,8 +72,8 @@ function PeriodePicker({ index, name }: PeriodePickerProps): JSX.Element {
 
     return (
         <div className={styles.periodePicker}>
-            <UNSAFE_DatePicker {...datepickerProps} wrapperClassName={styles.dateRangePicker}>
-                <UNSAFE_DatePicker.Input
+            <DatePicker {...datepickerProps} wrapperClassName={styles.dateRangePicker}>
+                <DatePicker.Input
                     id={fromField.name}
                     {...fromInputProps}
                     label="Fra"
@@ -81,14 +81,14 @@ function PeriodePicker({ index, name }: PeriodePickerProps): JSX.Element {
                     error={fromFieldState.error?.message}
                 />
 
-                <UNSAFE_DatePicker.Input
+                <DatePicker.Input
                     id={toField.name}
                     {...toInputProps}
                     label="Til"
                     placeholder="DD.MM.ÅÅÅÅ"
                     error={toFieldState.error?.message}
                 />
-            </UNSAFE_DatePicker>
+            </DatePicker>
         </div>
     )
 }

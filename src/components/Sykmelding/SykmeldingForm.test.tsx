@@ -115,7 +115,7 @@ describe('SykmeldingForm', () => {
             expect(
                 await axe(container, {
                     // TODO: Remove once ds-datepicker fixes it's validations
-                    rules: { 'aria-valid-attr-value': { enabled: false } },
+                    rules: { 'aria-valid-attr-value': { enabled: false }, 'aria-dialog-name': { enabled: false } },
                 }),
             ).toHaveNoViolations()
 

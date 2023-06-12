@@ -39,7 +39,7 @@ function DiagnoseCombobox({ id, name, system, onSelect, onChange, initialValue }
 
     return (
         <ComboboxWrapper labelId={`${id}-label`} label="Diagnosekode">
-            <DsCombobox id={name} aria-labelledby={`${id}-label`} state={combobox} placeholder={`Velg`} />
+            <DsCombobox id={name} aria-labelledby={`${id}-label`} state={combobox} placeholder="Velg" />
             <DsComboboxPopover state={combobox}>
                 {suggestions.length > 0 ? (
                     suggestions.map((suggestion) => (

@@ -51,7 +51,7 @@ describe('CountryTypeahead', () => {
 
     it('should correctly set initial value without invoking onSelect', async () => {
         const mockSelect = jest.fn()
-        render(<CountryCombobox onSelect={mockSelect} initialValue={'NOR'} onChange={() => void 0} />)
+        render(<CountryCombobox onSelect={mockSelect} initialValue="NOR" onChange={() => void 0} />)
 
         await waitForPickerToBeLoaded()
         await waitFor(() =>

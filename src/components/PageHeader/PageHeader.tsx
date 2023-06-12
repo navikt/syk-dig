@@ -1,7 +1,6 @@
 import React from 'react'
-import { Header } from '@navikt/ds-react-internal'
 import { useMutation, useQuery } from '@apollo/client'
-import { Select } from '@navikt/ds-react'
+import { Select, InternalHeader as Header } from '@navikt/ds-react'
 import Link from 'next/link'
 
 import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/queries/graphql.generated'
