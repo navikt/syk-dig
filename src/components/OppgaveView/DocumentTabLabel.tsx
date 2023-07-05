@@ -11,7 +11,7 @@ interface Props {
 }
 
 function DocumentTabLabel({ document, oppdaveId }: Props): JSX.Element {
-    const [showModal, setShowModal] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
         <>
@@ -22,12 +22,15 @@ function DocumentTabLabel({ document, oppdaveId }: Props): JSX.Element {
                 icon={<Edit title="Rediger dokumentnavn" />}
                 size="small"
                 onClick={() => {
-                    setShowModal(true)
+                    setIsModalOpen(true)
                 }}
             />
-            {showModal && (
-                <EditDocumentModal document={document} oppdaveId={oppdaveId} close={() => setShowModal(false)} />
-            )}
+            <EditDocumentModal
+                document={document}
+                oppdaveId={oppdaveId}
+                isModalOpen={isModalOpen}
+                close={() => setIsModalOpen(false)}
+            />
         </>
     )
 }
@@ -35,10 +38,12 @@ function DocumentTabLabel({ document, oppdaveId }: Props): JSX.Element {
 function EditDocumentModal({
     document,
     oppdaveId,
+    isModalOpen,
     close,
 }: {
     document: { tittel: string; dokumentInfoId: string }
     oppdaveId: string
+    isModalOpen: boolean
     close: () => void
 }): JSX.Element {
     const [newTitle, setNewTitle] = useState(document.tittel)
@@ -56,7 +61,7 @@ function EditDocumentModal({
 
     return (
         <Modal
-            open
+            open={isModalOpen}
             onClose={() => {
                 close()
             }}
