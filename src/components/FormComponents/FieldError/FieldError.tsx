@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { ErrorMessage } from '@navikt/ds-react'
 import { FieldError } from 'react-hook-form'
 
@@ -8,7 +8,7 @@ interface Props {
     error: FieldError | string | undefined
 }
 
-function FieldError({ error }: Props): JSX.Element | null {
+function FieldError({ error }: Props): ReactElement | null {
     if (error == null) return null
 
     return (

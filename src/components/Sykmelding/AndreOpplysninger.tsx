@@ -1,4 +1,5 @@
 import { useController } from 'react-hook-form'
+import { ReactElement } from 'react'
 
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
 import DatoSykmeldingenBleSkrevet from '../FormComponents/Pasientopplysninger/DatoSykmeldingenBleSkrevet'
@@ -8,7 +9,7 @@ import { SykmeldingFormValues } from './SykmeldingForm'
 
 type FolkeRegistertAdresseErBrakkeEllerTilsvarendeName = 'folkeRegistertAdresseErBrakkeEllerTilsvarende'
 
-function AndreOpplysninger(): JSX.Element {
+function AndreOpplysninger(): ReactElement {
     const { field } = useController<SykmeldingFormValues, FolkeRegistertAdresseErBrakkeEllerTilsvarendeName>({
         name: 'folkeRegistertAdresseErBrakkeEllerTilsvarende',
     })

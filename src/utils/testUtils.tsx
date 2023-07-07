@@ -13,7 +13,7 @@ type ProviderProps = {
     readonly mocks?: MockedResponse[]
 }
 
-function AllTheProviders({ children, initialState, mocks }: PropsWithChildren<ProviderProps>): JSX.Element {
+function AllTheProviders({ children, initialState, mocks }: PropsWithChildren<ProviderProps>): ReactElement {
     const cache = new InMemoryCache(cacheConfig)
     setInitialModiaQueryState(cache, createModiaContext())
     initialState?.forEach((it) => cache.writeQuery(it))

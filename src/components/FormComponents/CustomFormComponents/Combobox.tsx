@@ -1,5 +1,5 @@
 import { BodyShort, Label } from '@navikt/ds-react'
-import React, { HTMLAttributes, PropsWithChildren } from 'react'
+import { HTMLAttributes, PropsWithChildren, ReactElement } from 'react'
 import cn from 'clsx'
 import {
     Combobox,
@@ -10,7 +10,7 @@ import {
     ComboboxPopover,
     ComboboxPopoverOptions,
 } from 'ariakit/combobox'
-import { Expand } from '@navikt/ds-icons'
+import { ChevronDownIcon } from '@navikt/aksel-icons'
 
 import styles from './Combobox.module.css'
 
@@ -20,7 +20,7 @@ interface Props {
     disabled?: boolean
 }
 
-export function ComboboxWrapper({ labelId, label, disabled, children }: PropsWithChildren<Props>): JSX.Element {
+export function ComboboxWrapper({ labelId, label, disabled, children }: PropsWithChildren<Props>): ReactElement {
     return (
         <div className={cn('navds-form-field navds-form-field--medium', { 'navds-form-field--disabled': disabled })}>
             <Label id={labelId}>{label}</Label>
@@ -34,7 +34,7 @@ export function DsCombobox({
     className,
     'aria-labelledby': ariaLabelledby,
     ...props
-}: PropsWithChildren<HTMLAttributes<HTMLDivElement> & ComboboxOptions>): JSX.Element {
+}: PropsWithChildren<HTMLAttributes<HTMLDivElement> & ComboboxOptions>): ReactElement {
     return (
         <div className="navds-select__container">
             <Combobox
@@ -44,7 +44,12 @@ export function DsCombobox({
             >
                 {children}
             </Combobox>
-            <ComboboxDisclosure className="navds-select__chevron" state={props.state} as={Expand} aria-hidden />
+            <ComboboxDisclosure
+                className="navds-select__chevron"
+                state={props.state}
+                as={ChevronDownIcon}
+                aria-hidden
+            />
         </div>
     )
 }
@@ -53,7 +58,7 @@ export function DsComboboxPopover({
     children,
     className,
     ...props
-}: PropsWithChildren<HTMLAttributes<HTMLInputElement> & ComboboxPopoverOptions>): JSX.Element {
+}: PropsWithChildren<HTMLAttributes<HTMLInputElement> & ComboboxPopoverOptions>): ReactElement {
     return (
         <ComboboxPopover
             className={cn(className, styles.suggestionPopover)}
@@ -69,7 +74,7 @@ export function DsComboboxItem({
     children,
     className,
     ...props
-}: PropsWithChildren<HTMLAttributes<HTMLDivElement>> & ComboboxItemOptions): JSX.Element {
+}: PropsWithChildren<HTMLAttributes<HTMLDivElement>> & ComboboxItemOptions): ReactElement {
     return (
         <ComboboxItem className={cn(className, 'navds-body-short', styles.suggestion)} {...props}>
             {children}
@@ -77,6 +82,6 @@ export function DsComboboxItem({
     )
 }
 
-export function DsComboboxNoResult({ text }: { text: string }): JSX.Element {
+export function DsComboboxNoResult({ text }: { text: string }): ReactElement {
     return <BodyShort className={cn(styles.suggestionNoResult)}>{text}</BodyShort>
 }

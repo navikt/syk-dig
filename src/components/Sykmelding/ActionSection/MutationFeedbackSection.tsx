@@ -1,6 +1,6 @@
 import { MutationResult } from '@apollo/client'
 import { Alert, Button } from '@navikt/ds-react'
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren, ReactElement } from 'react'
 
 import { SaveOppgaveMutation, TilbakeTilGosysMutation } from '../../../graphql/queries/graphql.generated'
 import { browserEnv, isLocalOrDemo } from '../../../utils/env'
@@ -14,7 +14,7 @@ type Props = {
     tilbakeTilGosysResult: MutationResult<TilbakeTilGosysMutation>
 }
 
-function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysResult }: Props): JSX.Element {
+function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysResult }: Props): ReactElement {
     return (
         <>
             <MutationResultFeedback what="registrere" result={registerResult}>
@@ -73,7 +73,7 @@ export function MutationResultFeedback({
 }: PropsWithChildren<{
     what: 'lagre' | 'registrere' | 'sende tilbake' | 'avvise'
     result: MutationResult
-}>): JSX.Element | null {
+}>): ReactElement | null {
     if (!result.called || result.loading) return null
 
     return (

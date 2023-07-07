@@ -1,4 +1,5 @@
 import { BodyShort, Heading } from '@navikt/ds-react'
+import { ReactElement } from 'react'
 
 import { OppholdsadresseFragment } from '../../../../graphql/queries/graphql.generated'
 
@@ -11,7 +12,7 @@ type OppholdsadresseProps = {
     oppholdsadresse: OppholdsadresseFragment | null
 }
 
-function Oppholdsadresse({ oppholdsadresse }: OppholdsadresseProps): JSX.Element {
+function Oppholdsadresse({ oppholdsadresse }: OppholdsadresseProps): ReactElement {
     return (
         <div>
             <Heading level="3" size="xsmall">
@@ -22,7 +23,7 @@ function Oppholdsadresse({ oppholdsadresse }: OppholdsadresseProps): JSX.Element
     )
 }
 
-function OppholdsadresseVariant({ oppholdsadresse }: OppholdsadresseProps): JSX.Element {
+function OppholdsadresseVariant({ oppholdsadresse }: OppholdsadresseProps): ReactElement {
     if (!oppholdsadresse) {
         return <BodyShort>Oppholdsadresse mangler</BodyShort>
     }

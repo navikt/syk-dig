@@ -1,12 +1,13 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { axe } from 'jest-axe'
+import { ReactElement } from 'react'
 
 import { render } from '../../utils/testUtils'
 
 import Sykmeldingsperiode from './Sykmeldingsperiode'
 
 describe('Sykmeldingsperiode', () => {
-    const SykmeldingsperiodeComp = (): JSX.Element => {
+    const SykmeldingsperiodeComp = (): ReactElement => {
         const methods = useForm()
         return (
             <FormProvider {...methods}>

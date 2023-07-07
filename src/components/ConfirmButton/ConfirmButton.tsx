@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactNode, useState } from 'react'
+import { PropsWithChildren, ReactElement, ReactNode, useState } from 'react'
 import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react'
 import { ButtonProps } from '@navikt/ds-react'
 
@@ -26,7 +26,7 @@ function ConfirmButton({
     icon,
     preModalCheck,
     confirmation,
-}: PropsWithChildren<Props>): JSX.Element {
+}: PropsWithChildren<Props>): ReactElement {
     const [showConfirm, setShowConfirm] = useState(false)
     const closeModal = (): void => setShowConfirm(false)
 

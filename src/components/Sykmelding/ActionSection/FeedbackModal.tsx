@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren, ReactElement } from 'react'
 import { BodyLong, Heading, Modal } from '@navikt/ds-react'
 
 import styles from './FeedbackModal.module.css'
@@ -8,7 +8,7 @@ interface Props {
     body?: string
 }
 
-function FeedbackModal({ title, body, children }: PropsWithChildren<Props>): JSX.Element {
+function FeedbackModal({ title, body, children }: PropsWithChildren<Props>): ReactElement {
     return (
         <Modal
             open

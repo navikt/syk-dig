@@ -1,7 +1,6 @@
 import type { NextPage } from 'next'
 import { Alert, Heading, Label } from '@navikt/ds-react'
 import Link from 'next/link'
-import React from 'react'
 
 import { withAuthenticatedPage } from '../auth/withAuth'
 import { getModiaContext } from '../modia/ModiaService'

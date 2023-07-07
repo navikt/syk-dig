@@ -1,6 +1,6 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
-import { Select, InternalHeader as Header } from '@navikt/ds-react'
+import { Select, InternalHeader } from '@navikt/ds-react'
 import Link from 'next/link'
 
 import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/queries/graphql.generated'
@@ -8,12 +8,12 @@ import { browserEnv } from '../../utils/env'
 
 import styles from './PageHeader.module.css'
 
-function PageHeader(): JSX.Element {
+function PageHeader(): ReactElement {
     const { data } = useQuery(ModiaContextDocument)
     const [updateAktivEnhet] = useMutation(UpdateAktivEnhetDocument)
 
     return (
-        <Header className={styles.header}>
+        <InternalHeader className={styles.header}>
             <HeaderText />
             {data?.modia && (
                 <div className={styles.enhetMenu} data-theme="dark">
@@ -36,25 +36,25 @@ function PageHeader(): JSX.Element {
                 </div>
             )}
             {data?.modia && (
-                <Header.User
+                <InternalHeader.User
                     name={data.modia.navn}
                     description={`Enhet: ${data.modia.aktivEnhet ?? 'Ingen enhet valgt'}`}
                 />
             )}
-            {!data?.modia && <Header.User name="Feil under lasting" description="Klarte ikke å laste enhet" />}
-        </Header>
+            {!data?.modia && <InternalHeader.User name="Feil under lasting" description="Klarte ikke å laste enhet" />}
+        </InternalHeader>
     )
 }
 
-function HeaderText(): JSX.Element {
+function HeaderText(): ReactElement {
     if (browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === 'production') {
-        return <Header.Title as="div">Registrering av sykmelding</Header.Title>
+        return <InternalHeader.Title as="div">Registrering av sykmelding</InternalHeader.Title>
     }
 
     return (
-        <Link href="/" legacyBehavior passHref>
-            <Header.Title as="a">Registrering av sykmelding</Header.Title>
-        </Link>
+        <InternalHeader.Title as={Link} href="/">
+            Registrering av sykmelding
+        </InternalHeader.Title>
     )
 }
 

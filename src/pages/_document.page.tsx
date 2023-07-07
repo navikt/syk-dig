@@ -1,8 +1,9 @@
 import 'next-logger'
 
 import { Html, Head, Main, NextScript } from 'next/document'
+import { ReactElement } from 'react'
 
-function Document(): JSX.Element {
+function Document(): ReactElement {
     return (
         <Html>
             <Head>

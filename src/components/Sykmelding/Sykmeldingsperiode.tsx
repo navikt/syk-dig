@@ -1,7 +1,7 @@
 import { Button } from '@navikt/ds-react'
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
-import { Close } from '@navikt/ds-icons'
-import React from 'react'
+import { XMarkIcon } from '@navikt/aksel-icons'
+import { ReactElement } from 'react'
 
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
 import PeriodeSelect from '../FormComponents/Sykmeldingsperiode/PeriodeSelect'
@@ -21,7 +21,7 @@ export interface PeriodeFormValue {
     }
 }
 
-function Sykmeldingsperiode(): JSX.Element {
+function Sykmeldingsperiode(): ReactElement {
     const { control, clearErrors } = useFormContext<SykmeldingFormValues>()
 
     const { fields, append, remove } = useFieldArray({
@@ -52,7 +52,7 @@ function Sykmeldingsperiode(): JSX.Element {
                                 onClick={() => remove(index)}
                                 className={styles.deleteButton}
                                 size="xsmall"
-                                icon={<Close title="Fjern periode" />}
+                                icon={<XMarkIcon title="Fjern periode" />}
                             />
                         </div>
                     )}

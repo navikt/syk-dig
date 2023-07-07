@@ -1,5 +1,6 @@
 import { Alert } from '@navikt/ds-react'
 import { useController } from 'react-hook-form'
+import { ReactElement } from 'react'
 
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
 import SimpleConfirmationPanel from '../FormComponents/SimpleConfirmationPanel'
@@ -8,7 +9,7 @@ import { SykmeldingFormValues } from './SykmeldingForm'
 
 type AndreOpplysningerName = 'mangelfullSykmelding'
 
-function MangelfullSykmelding(): JSX.Element {
+function MangelfullSykmelding(): ReactElement {
     const { field } = useController<SykmeldingFormValues, AndreOpplysningerName>({
         name: 'mangelfullSykmelding',
     })

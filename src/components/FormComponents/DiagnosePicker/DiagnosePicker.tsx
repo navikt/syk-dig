@@ -1,11 +1,12 @@
-import React, { useCallback } from 'react'
+import { ReactElement, useCallback } from 'react'
 import { useController } from 'react-hook-form'
 import { BodyLong, Button, Label, Select } from '@navikt/ds-react'
 import cn from 'clsx'
-import { Close } from '@navikt/ds-icons'
+import { XMarkIcon } from '@navikt/aksel-icons'
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
+import { DiagnoseSystem } from '../../Sykmelding/DiagnoseFormSection'
 
 import styles from './DiagnosePicker.module.css'
 import DiagnoseCombobox from './DiagnoseCombobox/DiagnoseCombobox'
@@ -18,7 +19,7 @@ interface Props {
     onRemove?: () => void
 }
 
-function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
+function DiagnosePicker({ name, diagnoseType, onRemove }: Props): ReactElement {
     const { field, fieldState } = useController<SykmeldingFormValues, PossiblePickerFormNames>({
         name,
         rules: {
@@ -29,7 +30,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
     })
 
     const resetValues = useCallback(
-        (value: string) => {
+        (value: DiagnoseSystem) => {
             field.onChange({ system: value, code: null, text: null })
         },
         [field],
@@ -41,7 +42,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
                 <Select
                     label="Kodesystem"
                     value={field.value.system}
-                    onChange={(event) => resetValues(event.target.value)}
+                    onChange={(event) => resetValues(event.target.value as DiagnoseSystem)}
                 >
                     <option>ICD10</option>
                     <option>ICPC2</option>
@@ -66,7 +67,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
                             type="button"
                             onClick={onRemove}
                             size="xsmall"
-                            icon={<Close title="Fjern bidiagnose" />}
+                            icon={<XMarkIcon title="Fjern bidiagnose" />}
                         />
                     </div>
                 )}
@@ -76,7 +77,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): JSX.Element {
     )
 }
 
-function DiagnoseDescription({ text }: { text: string | null | undefined }): JSX.Element {
+function DiagnoseDescription({ text }: { text: string | null | undefined }): ReactElement {
     return (
         <div className={cn('navds-form-field navds-form-field--medium')}>
             <Label>Beskrivelse</Label>

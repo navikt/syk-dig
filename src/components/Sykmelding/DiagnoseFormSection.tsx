@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Button } from '@navikt/ds-react'
 
@@ -15,7 +15,7 @@ export type DiagnoseFormSectionValues = {
     bidiagnoser: DiagnoseFormValue[]
 }
 
-function DiagnoseFormSection(): JSX.Element {
+function DiagnoseFormSection(): ReactElement {
     const { control } = useFormContext<SykmeldingFormValues>()
     const { append, remove, fields } = useFieldArray({
         name: 'diagnoser.bidiagnoser',

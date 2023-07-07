@@ -1,6 +1,6 @@
 import '../style/global.css'
 
-import { PropsWithChildren, useEffect, useState } from 'react'
+import { PropsWithChildren, ReactElement, useEffect, useState } from 'react'
 import { ApolloProvider } from '@apollo/client'
 import type { AppProps as NextAppProps } from 'next/app'
 import { logger } from '@navikt/next-logger'
@@ -24,7 +24,7 @@ export interface AppProps<T> extends Omit<NextAppProps<T>, 'pageProps'> {
     pageProps: PropsWithChildren & Partial<RequiredPageProps>
 }
 
-function MyApp({ Component, pageProps }: AppProps<RequiredPageProps>): JSX.Element {
+function MyApp({ Component, pageProps }: AppProps<RequiredPageProps>): ReactElement {
     const [apolloClient] = useState(() => createApolloClient(pageProps.modiaContext))
 
     useModiaContextUpdated(apolloClient, pageProps.modiaContext)

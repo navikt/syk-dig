@@ -1,5 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { axe } from 'jest-axe'
+import { ReactElement } from 'react'
 
 import { render, screen } from '../../../utils/testUtils'
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
@@ -12,7 +13,7 @@ describe('GradInput', () => {
         sykmeldingstype = PeriodeType.AktivitetIkkeMulig,
     }: {
         sykmeldingstype?: PeriodeType
-    }): JSX.Element => {
+    }): ReactElement => {
         const methods = useForm<SykmeldingFormValues>({
             defaultValues: {
                 periode: [{ sykmeldingstype }],

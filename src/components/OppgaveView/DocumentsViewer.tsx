@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { Heading, Tabs } from '@navikt/ds-react'
 import cn from 'clsx'
 
@@ -13,7 +13,7 @@ interface Props {
     oppgave: OppgaveFragment
 }
 
-function DocumentsViewer({ oppgave, className }: Props): JSX.Element {
+function DocumentsViewer({ oppgave, className }: Props): ReactElement {
     const [tabState, setTabState] = useState(oppgave.documents[0].dokumentInfoId)
     const [renderedDocuments, setRenderedDocuments] = useState<string[]>([oppgave.documents[0].dokumentInfoId])
 
@@ -56,7 +56,7 @@ function DocumentTabs({
     onTabChange: (value: string) => void
     documents: { tittel: string; dokumentInfoId: string }[]
     oppgaveId: string
-}): JSX.Element {
+}): ReactElement {
     return (
         <Tabs className={styles.tabsRoot} value={value} onChange={onTabChange}>
             <Tabs.List className="w-full">

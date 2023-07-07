@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { BodyShort } from '@navikt/ds-react'
 
 import { OppholdAnnetFragment } from '../../../../graphql/queries/graphql.generated'
@@ -7,7 +7,7 @@ interface Props {
     oppholdAnnet: OppholdAnnetFragment
 }
 
-function OppholdAnnet({ oppholdAnnet }: Props): JSX.Element {
+function OppholdAnnet({ oppholdAnnet }: Props): ReactElement {
     return <BodyShort>{`Annet opphold: ${oppholdAnnetTypeToText(oppholdAnnet.type)}`}</BodyShort>
 }
 

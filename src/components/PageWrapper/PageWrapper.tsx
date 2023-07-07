@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren, ReactElement } from 'react'
 import Head from 'next/head'
 
 import PageHeader from '../PageHeader/PageHeader'
@@ -8,7 +8,7 @@ interface Props {
     className?: string
 }
 
-function PageWrapper({ children, title, className }: PropsWithChildren<Props>): JSX.Element {
+function PageWrapper({ children, title, className }: PropsWithChildren<Props>): ReactElement {
     return (
         <>
             <Head>

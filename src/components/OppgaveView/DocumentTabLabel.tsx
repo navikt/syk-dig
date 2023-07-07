@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { Alert, Button, Heading, Modal, TextField, Tabs } from '@navikt/ds-react'
-import { Edit } from '@navikt/ds-icons'
+import { PencilIcon } from '@navikt/aksel-icons'
 import { useMutation } from '@apollo/client'
 
 import { NavngiDokumentDocument } from '../../graphql/queries/graphql.generated'
@@ -10,7 +10,7 @@ interface Props {
     oppdaveId: string
 }
 
-function DocumentTabLabel({ document, oppdaveId }: Props): JSX.Element {
+function DocumentTabLabel({ document, oppdaveId }: Props): ReactElement {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
@@ -19,7 +19,7 @@ function DocumentTabLabel({ document, oppdaveId }: Props): JSX.Element {
             <Button
                 className="-ml-10 mt-2 h-8 w-8"
                 variant="tertiary"
-                icon={<Edit title="Rediger dokumentnavn" />}
+                icon={<PencilIcon title="Rediger dokumentnavn" />}
                 size="small"
                 onClick={() => {
                     setIsModalOpen(true)
@@ -45,7 +45,7 @@ function EditDocumentModal({
     oppdaveId: string
     isModalOpen: boolean
     close: () => void
-}): JSX.Element {
+}): ReactElement {
     const [newTitle, setNewTitle] = useState(document.tittel)
     const [mutate, result] = useMutation(NavngiDokumentDocument)
     const handleSave = async (): Promise<void> => {

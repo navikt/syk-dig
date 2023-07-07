@@ -1,12 +1,13 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import userEvent from '@testing-library/user-event'
+import { ReactElement } from 'react'
 
 import { render, screen, waitFor } from '../../../utils/testUtils'
 
 import PeriodePicker from './PeriodePicker'
 
 describe('PeriodePicker', () => {
-    const PeriodeSelectComp = (): JSX.Element => {
+    const PeriodeSelectComp = (): ReactElement => {
         const methods = useForm()
         return (
             <FormProvider {...methods}>

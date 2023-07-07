@@ -1,9 +1,9 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { range } from 'remeda'
 
 import { cn } from '../../utils/tw-utils'
 
-export function SmallHeadingSkeleton({ width = 'medium' }: { width?: 'small' | 'medium' }): JSX.Element {
+export function SmallHeadingSkeleton({ width = 'medium' }: { width?: 'small' | 'medium' }): ReactElement {
     return (
         <div className="w-full animate-pulse">
             <div
@@ -16,7 +16,7 @@ export function SmallHeadingSkeleton({ width = 'medium' }: { width?: 'small' | '
     )
 }
 
-export function SmallTextSkeleton({ width = 'medium' }: { width?: 'small' | 'medium' }): JSX.Element {
+export function SmallTextSkeleton({ width = 'medium' }: { width?: 'small' | 'medium' }): ReactElement {
     return (
         <div className="w-full animate-pulse">
             <div
@@ -29,7 +29,7 @@ export function SmallTextSkeleton({ width = 'medium' }: { width?: 'small' | 'med
     )
 }
 
-export function InfoWithHeaderSkeleton({ lines = 1 }: { lines?: number }): JSX.Element {
+export function InfoWithHeaderSkeleton({ lines = 1 }: { lines?: number }): ReactElement {
     return (
         <div className="flex flex-col gap-1">
             <SmallHeadingSkeleton width="small" />
@@ -40,7 +40,7 @@ export function InfoWithHeaderSkeleton({ lines = 1 }: { lines?: number }): JSX.E
     )
 }
 
-export function InputWithTitleSkeleton(): JSX.Element {
+export function InputWithTitleSkeleton(): ReactElement {
     return (
         <div className="flex animate-pulse flex-col gap-1">
             <SmallHeadingSkeleton width="small" />
@@ -49,7 +49,7 @@ export function InputWithTitleSkeleton(): JSX.Element {
     )
 }
 
-export function TabsSkeleton(): JSX.Element {
+export function TabsSkeleton(): ReactElement {
     return (
         <div className="flex animate-pulse flex-row gap-1">
             {range(0, 3).map((it) => (
@@ -61,7 +61,7 @@ export function TabsSkeleton(): JSX.Element {
     )
 }
 
-export function PdfSkeleton(): JSX.Element {
+export function PdfSkeleton(): ReactElement {
     return (
         <div className="flex h-full animate-pulse flex-col gap-1 p-2 pt-0">
             <div className="h-8 w-full bg-gray-500" />

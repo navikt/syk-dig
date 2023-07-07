@@ -1,13 +1,13 @@
 import { useController } from 'react-hook-form'
 import { DateValidationT, DatePicker, useDatepicker } from '@navikt/ds-react'
-import { useState } from 'react'
+import { ReactElement, useState } from 'react'
 
 import { toDate } from '../../../utils/dateUtils'
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 
 import styles from './DatoSykmeldingenBleSkrevet.module.css'
 
-function DatoSykmeldingenBleSkrevet(): JSX.Element {
+function DatoSykmeldingenBleSkrevet(): ReactElement {
     const [validationError, setValidationError] = useState<DateValidationT | null>(null)
     const { field, fieldState } = useController<SykmeldingFormValues, 'behandletTidspunkt'>({
         name: 'behandletTidspunkt',
@@ -29,7 +29,7 @@ function DatoSykmeldingenBleSkrevet(): JSX.Element {
         today: new Date(),
         defaultSelected: field.value ? toDate(field.value) : undefined,
         onDateChange: (date: Date | undefined) => {
-            field.onChange(date)
+            field.onChange(date ?? null)
         },
         onValidate: (validation) => {
             setValidationError(validation)

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useComboboxState } from 'ariakit/combobox'
 
 import { api } from '../../../../utils/apiUtils'
@@ -18,7 +18,7 @@ interface Props {
     initialValue: string | null
 }
 
-function CountryCombobox({ id, onSelect, onChange, initialValue }: Props): JSX.Element {
+function CountryCombobox({ id, onSelect, onChange, initialValue }: Props): ReactElement {
     const [loadingCountries, countries] = useCountrySuggestions()
     const combobox = useComboboxState({
         gutter: 8,

@@ -1,6 +1,7 @@
 import { TextField } from '@navikt/ds-react'
 import { useFormContext } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
+import { ReactElement } from 'react'
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
@@ -13,7 +14,7 @@ export interface Props {
     name: FormName
 }
 
-function GradInput({ name }: Props): JSX.Element {
+function GradInput({ name }: Props): ReactElement {
     const {
         register,
         formState: { errors },

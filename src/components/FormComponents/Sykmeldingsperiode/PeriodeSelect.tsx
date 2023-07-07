@@ -1,5 +1,6 @@
 import { Select } from '@navikt/ds-react'
 import { useController } from 'react-hook-form'
+import { ReactElement } from 'react'
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
@@ -14,7 +15,7 @@ interface Props {
     index: number
 }
 
-function PeriodeSelect({ name, index }: Props): JSX.Element {
+function PeriodeSelect({ name, index }: Props): ReactElement {
     const { field, fieldState } = useController<SykmeldingFormValues, FormName>({
         name,
         rules: {

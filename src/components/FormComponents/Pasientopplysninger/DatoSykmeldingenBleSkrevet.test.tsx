@@ -2,13 +2,14 @@ import { FormProvider, useForm } from 'react-hook-form'
 import userEvent from '@testing-library/user-event'
 import { add, format } from 'date-fns/fp'
 import * as R from 'remeda'
+import { ReactElement } from 'react'
 
 import { render, screen, waitFor } from '../../../utils/testUtils'
 
 import DatoSykmeldingenBleSkrevet from './DatoSykmeldingenBleSkrevet'
 
 describe('DatoSykmeldingenBleSkrevet', () => {
-    const DatoSykmeldingenBleSkrevetComp = (): JSX.Element => {
+    const DatoSykmeldingenBleSkrevetComp = (): ReactElement => {
         const form = useForm()
         return (
             <FormProvider {...form}>
