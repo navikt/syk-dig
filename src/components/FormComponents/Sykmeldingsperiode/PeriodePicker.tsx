@@ -1,6 +1,7 @@
 import { useController, useFormContext } from 'react-hook-form'
 import { DatePicker, useRangeDatepicker } from '@navikt/ds-react'
 import { differenceInDays, isAfter, isBefore, isSameDay } from 'date-fns'
+import { ReactElement } from 'react'
 
 import { toDate } from '../../../utils/dateUtils'
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
@@ -20,7 +21,7 @@ interface PeriodePickerProps {
     name: FormName
 }
 
-function PeriodePicker({ index, name }: PeriodePickerProps): JSX.Element {
+function PeriodePicker({ index, name }: PeriodePickerProps): ReactElement {
     const { watch } = useFormContext<SykmeldingFormValues>()
     const previousTom: Date | null = watch(`periode.${index - 1}.range.tom`) ?? null
     const behandletTidspunkt = watch('behandletTidspunkt')

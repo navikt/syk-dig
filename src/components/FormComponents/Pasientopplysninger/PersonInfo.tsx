@@ -1,4 +1,5 @@
 import { BodyShort, Heading } from '@navikt/ds-react'
+import { ReactElement } from 'react'
 
 import { Person } from '../../../graphql/queries/graphql.generated'
 
@@ -11,7 +12,7 @@ type PersonInfoProps = {
     person: Person
 }
 
-function PersonInfo({ fnr, person }: PersonInfoProps): JSX.Element {
+function PersonInfo({ fnr, person }: PersonInfoProps): ReactElement {
     return (
         <>
             <div className={styles.personInfo}>

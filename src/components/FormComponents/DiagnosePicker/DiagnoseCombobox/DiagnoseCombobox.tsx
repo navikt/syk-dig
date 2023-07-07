@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { useComboboxState } from 'ariakit/combobox'
 
 import { ComboboxWrapper, DsCombobox, DsComboboxItem, DsComboboxPopover } from '../../CustomFormComponents/Combobox'
@@ -17,7 +17,7 @@ interface Props {
     initialValue: string | null
 }
 
-function DiagnoseCombobox({ id, name, system, onSelect, onChange, initialValue }: Props): JSX.Element {
+function DiagnoseCombobox({ id, name, system, onSelect, onChange, initialValue }: Props): ReactElement {
     const combobox = useComboboxState({
         gutter: 8,
         sameWidth: true,

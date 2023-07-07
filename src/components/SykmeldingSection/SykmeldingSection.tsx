@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactNode } from 'react'
+import { PropsWithChildren, ReactElement, ReactNode } from 'react'
 import { Heading } from '@navikt/ds-react'
 
 import { SmallHeadingSkeleton } from '../skeleton/Skeletons'
@@ -9,7 +9,7 @@ export interface Props {
     variant?: 'blue' | 'light'
 }
 
-function SykmeldingSection({ id, title, children }: PropsWithChildren<Props>): JSX.Element {
+function SykmeldingSection({ id, title, children }: PropsWithChildren<Props>): ReactElement {
     return (
         <section className="mt-4 last-of-type:mb-8" aria-labelledby={id}>
             <SectionHeader headingId={id} title={title} />
@@ -23,7 +23,7 @@ interface SectionHeaderProps {
     title: string | ReactNode
 }
 
-export function SectionHeader({ headingId, title }: SectionHeaderProps): JSX.Element {
+export function SectionHeader({ headingId, title }: SectionHeaderProps): ReactElement {
     return (
         <Heading
             level="2"
@@ -36,7 +36,7 @@ export function SectionHeader({ headingId, title }: SectionHeaderProps): JSX.Ele
     )
 }
 
-export function SykmeldingSectionSkeleton({ children }: PropsWithChildren<Omit<Props, 'id' | 'title'>>): JSX.Element {
+export function SykmeldingSectionSkeleton({ children }: PropsWithChildren<Omit<Props, 'id' | 'title'>>): ReactElement {
     return (
         <div className="mt-4 last-of-type:mb-8">
             <SectionHeader title={<SmallHeadingSkeleton />} />

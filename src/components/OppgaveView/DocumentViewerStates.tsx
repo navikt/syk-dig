@@ -1,11 +1,11 @@
 import cn from 'clsx'
 import { BodyShort, Heading } from '@navikt/ds-react'
 import { FileXMarkIcon } from '@navikt/aksel-icons'
-import React from 'react'
+import { ReactElement } from 'react'
 
 import { PdfSkeleton, TabsSkeleton } from '../skeleton/Skeletons'
 
-export function DocumentsViewerSkeleton({ className }: { className?: string }): JSX.Element {
+export function DocumentsViewerSkeleton({ className }: { className?: string }): ReactElement {
     return (
         <div className={cn(className)}>
             <Heading level="2" size="xsmall" className="flex h-10 items-center bg-bg-subtle pl-4">
@@ -17,7 +17,7 @@ export function DocumentsViewerSkeleton({ className }: { className?: string }): 
     )
 }
 
-export function DocumentsViewerNoDocuments({ className, text }: { className?: string; text: string }): JSX.Element {
+export function DocumentsViewerNoDocuments({ className, text }: { className?: string; text: string }): ReactElement {
     return (
         <div className={cn('flex flex-col', className)}>
             <Heading

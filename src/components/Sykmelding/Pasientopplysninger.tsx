@@ -1,3 +1,5 @@
+import { ReactElement } from 'react'
+
 import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
 import PersonInfo from '../FormComponents/Pasientopplysninger/PersonInfo'
 import CountryPicker from '../FormComponents/CountryPicker/CountryPicker'
@@ -8,7 +10,7 @@ interface PasientopplysningerProps {
     person: Person
 }
 
-function Pasientopplysninger({ fnr, person }: PasientopplysningerProps): JSX.Element {
+function Pasientopplysninger({ fnr, person }: PasientopplysningerProps): ReactElement {
     return (
         <SykmeldingSection id="pasientopplysninger-seksjon" title="Pasientopplysninger">
             <PersonInfo fnr={fnr} person={person} />

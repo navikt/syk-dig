@@ -1,9 +1,9 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { Alert, Heading } from '@navikt/ds-react'
 
 import PageWrapper from '../components/PageWrapper/PageWrapper'
 
-function InternalServerError(): JSX.Element {
+function InternalServerError(): ReactElement {
     return (
         <PageWrapper title="Noe gikk galt">
             <Heading size="large" spacing>

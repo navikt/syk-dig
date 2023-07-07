@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react'
-import React from 'react'
+import { ReactElement } from 'react'
 import { range } from 'remeda'
 
 import { withAuthenticatedPage } from '../../auth/withAuth'
@@ -13,7 +13,7 @@ import OppgaveStatus from '../../components/OppgaveStatus/OppgaveStatus'
 import { SykmeldingSectionSkeleton } from '../../components/SykmeldingSection/SykmeldingSection'
 import { InfoWithHeaderSkeleton, InputWithTitleSkeleton } from '../../components/skeleton/Skeletons'
 
-function Utenlandsk(): JSX.Element {
+function Utenlandsk(): ReactElement {
     const { oppgaveId } = useParam(Location.Utenlansk)
     const { data, error, loading } = useQuery(OppgaveByIdDocument, {
         variables: { oppgaveId },
@@ -30,7 +30,7 @@ function Utenlandsk(): JSX.Element {
     )
 }
 
-function DigitaliseringsOppgave({ oppgave }: { oppgave: DigitaliseringOppgaveResultFragment }): JSX.Element {
+function DigitaliseringsOppgave({ oppgave }: { oppgave: DigitaliseringOppgaveResultFragment }): ReactElement {
     if (oppgave.__typename === 'Digitaliseringsoppgave') {
         return <SykmeldingForm oppgave={oppgave} />
     } else {
@@ -38,7 +38,7 @@ function DigitaliseringsOppgave({ oppgave }: { oppgave: DigitaliseringOppgaveRes
     }
 }
 
-function OppgaveSkeleton(): JSX.Element {
+function OppgaveSkeleton(): ReactElement {
     return (
         <>
             {range(0, 4).map((it) => (
@@ -58,7 +58,7 @@ function OppgaveSkeleton(): JSX.Element {
     )
 }
 
-function OppgaveError({ oppgaveId }: { oppgaveId: string }): JSX.Element {
+function OppgaveError({ oppgaveId }: { oppgaveId: string }): ReactElement {
     return (
         <Alert variant="error" className="m-4">
             <Heading size="small" spacing>

@@ -1,4 +1,5 @@
 import { BodyShort } from '@navikt/ds-react'
+import { ReactElement } from 'react'
 
 import { UtenlandskAdresse } from '../../../../graphql/queries/graphql.generated'
 import { useCountrySuggestions } from '../../CountryPicker/CountryCombobox/CountryCombobox'
@@ -8,7 +9,7 @@ type UtenlandskAdresseProps = {
     utenlandskAdresse: UtenlandskAdresse
 }
 
-function UtenlandskAdresse({ utenlandskAdresse }: UtenlandskAdresseProps): JSX.Element {
+function UtenlandskAdresse({ utenlandskAdresse }: UtenlandskAdresseProps): ReactElement {
     const [loadingCountries, countries] = useCountrySuggestions()
     const country = countries.find((country) => country.code === utenlandskAdresse.landkode)?.name
 

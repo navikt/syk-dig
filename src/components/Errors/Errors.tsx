@@ -1,5 +1,5 @@
 import { ErrorSummary } from '@navikt/ds-react'
-import { ForwardedRef, forwardRef } from 'react'
+import { ForwardedRef, forwardRef, ReactElement } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { SykmeldingFormValues } from '../Sykmelding/SykmeldingForm'
@@ -7,7 +7,7 @@ import { SykmeldingFormValues } from '../Sykmelding/SykmeldingForm'
 import { extractAllErrors } from './errorUtils'
 import styles from './Errors.module.css'
 
-function Errors(_: unknown, ref: ForwardedRef<HTMLDivElement>): JSX.Element | null {
+function Errors(_: unknown, ref: ForwardedRef<HTMLDivElement>): ReactElement | null {
     const {
         formState: { errors },
     } = useFormContext<SykmeldingFormValues>()

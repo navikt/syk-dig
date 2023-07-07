@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { Alert, BodyShort, Heading } from '@navikt/ds-react'
 
 import {
@@ -12,7 +12,7 @@ interface Props {
     oppgave: DigitaliseringsoppgaveStatusFragment
 }
 
-function OppgaveStatus({ oppgave }: Props): JSX.Element {
+function OppgaveStatus({ oppgave }: Props): ReactElement {
     switch (oppgave.status) {
         case DigitaliseringsoppgaveStatusEnum.Avvist:
             return (

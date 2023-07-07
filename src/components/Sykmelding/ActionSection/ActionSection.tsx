@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { Button } from '@navikt/ds-react'
 import { useFormContext } from 'react-hook-form'
 import { MutationResult } from '@apollo/client'
@@ -19,7 +19,7 @@ interface Props {
     focusErrorSection: () => void
 }
 
-function ActionSection({ fnr, registerResult, focusErrorSection }: Props): JSX.Element {
+function ActionSection({ fnr, registerResult, focusErrorSection }: Props): ReactElement {
     const { getValues, reset, trigger } = useFormContext<SykmeldingFormValues>()
     const [saveAndClose, saveResult] = useHandleSave({
         fnr,

@@ -1,6 +1,6 @@
-import React, { PropsWithChildren, useCallback, useState } from 'react'
+import { PropsWithChildren, ReactElement, useCallback, useState } from 'react'
 import { Button, Tabs, Tooltip } from '@navikt/ds-react'
-import { FileContent, Findout, List, Task, File, Close } from '@navikt/ds-icons'
+import { ExpandIcon, SidebarLeftIcon, XMarkIcon, TasklistStartIcon, FilePdfIcon } from '@navikt/aksel-icons'
 import cn from 'clsx'
 
 import PageTitle from '../PageTitle/PageTitle'
@@ -17,7 +17,7 @@ interface Props {
     loading: boolean
 }
 
-function OppgaveView({ oppgave, loading, isError, children }: PropsWithChildren<Props>): JSX.Element {
+function OppgaveView({ oppgave, loading, isError, children }: PropsWithChildren<Props>): ReactElement {
     const isStatus = oppgave?.__typename === 'DigitaliseringsoppgaveStatus'
     const [tabState, setTabState] = useState<'form' | 'pdf'>('form')
     const [showTabs, setShowTabs] = useState(false)
@@ -65,7 +65,7 @@ interface OppgaveViewTabsProps {
     onTabChange: (value: 'form' | 'pdf') => void
 }
 
-function OppgaveViewTabs({ value, onTabChange }: OppgaveViewTabsProps): JSX.Element {
+function OppgaveViewTabs({ value, onTabChange }: OppgaveViewTabsProps): ReactElement {
     return (
         <Tabs
             value={value}
@@ -78,8 +78,8 @@ function OppgaveViewTabs({ value, onTabChange }: OppgaveViewTabsProps): JSX.Elem
             }}
         >
             <Tabs.List>
-                <Tabs.Tab value="form" label="Skjema" icon={<Task aria-hidden />} />
-                <Tabs.Tab value="pdf" label="Dokument" icon={<FileContent aria-hidden />} />
+                <Tabs.Tab value="form" label="Skjema" icon={<TasklistStartIcon aria-hidden />} />
+                <Tabs.Tab value="pdf" label="Dokument" icon={<FilePdfIcon aria-hidden />} />
             </Tabs.List>
         </Tabs>
     )
@@ -90,7 +90,7 @@ interface OppgaveViewPageTitleProps {
     toggleTabs: () => void
 }
 
-function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProps): JSX.Element {
+function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProps): ReactElement {
     return (
         <PageTitle
             titleId="oppgave-header"
@@ -103,7 +103,7 @@ function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProp
                             <Button
                                 size="small"
                                 variant="tertiary"
-                                icon={<Findout aria-label="Vis PDF i egen fane" />}
+                                icon={<ExpandIcon aria-label="Vis PDF i egen fane" />}
                                 onClick={toggleTabs}
                             />
                         </Tooltip>
@@ -113,12 +113,7 @@ function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProp
                                 size="small"
                                 variant="tertiary"
                                 aria-label="Vis PDF ved siden av skjema"
-                                icon={
-                                    <>
-                                        <List aria-hidden />
-                                        <File aria-hidden />
-                                    </>
-                                }
+                                icon={<SidebarLeftIcon aria-hidden />}
                                 onClick={toggleTabs}
                             />
                         </Tooltip>
@@ -129,7 +124,7 @@ function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProp
                             variant="tertiary"
                             as="a"
                             href={browserEnv.NEXT_PUBLIC_GOSYS_URL}
-                            icon={<Close title="Lukk oppgaven og gå tilbake til gosys uten å lagre" />}
+                            icon={<XMarkIcon title="Lukk oppgaven og gå tilbake til gosys uten å lagre" />}
                         />
                     </Tooltip>
                 </>

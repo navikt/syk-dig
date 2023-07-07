@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from 'react-hook-form'
-import { useRef } from 'react'
+import { ReactElement, useRef } from 'react'
 
 import Errors from '../Errors/Errors'
 import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
@@ -18,7 +18,7 @@ import AvvisSection from './AvvisSection/AvvisSection'
 export interface SykmeldingFormValues {
     diagnoser: DiagnoseFormSectionValues
     behandletTidspunkt: Date | string | null
-    land: string
+    land: string | null
     periode: Array<PeriodeFormValue>
     mangelfullSykmelding: boolean
     folkeRegistertAdresseErBrakkeEllerTilsvarende: boolean
@@ -29,7 +29,7 @@ interface Props {
     oppgave: OppgaveFragment
 }
 
-function SykmeldingForm({ oppgave }: Props): JSX.Element {
+function SykmeldingForm({ oppgave }: Props): ReactElement {
     const errorSectionRef = useRef<HTMLDivElement>(null)
     const focusErrorSection = (): void => {
         requestAnimationFrame(() => {

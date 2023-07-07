@@ -1,7 +1,7 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { ConfirmationPanel, ConfirmationPanelProps } from '@navikt/ds-react'
 
-function SimpleConfirmationPanel(props: Omit<ConfirmationPanelProps, 'className' | 'size'>): JSX.Element {
+function SimpleConfirmationPanel(props: Omit<ConfirmationPanelProps, 'className' | 'size'>): ReactElement {
     return (
         <ConfirmationPanel
             {...props}

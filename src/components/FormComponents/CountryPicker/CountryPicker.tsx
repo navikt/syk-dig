@@ -1,4 +1,4 @@
-import React from 'react'
+import { ReactElement } from 'react'
 import { useController } from 'react-hook-form'
 
 import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
@@ -11,7 +11,7 @@ interface Props {
     name: 'land'
 }
 
-function CountryPicker({ name }: Props): JSX.Element {
+function CountryPicker({ name }: Props): ReactElement {
     const { field, fieldState } = useController<SykmeldingFormValues, 'land'>({
         name,
         rules: { required: 'Du må velge et land' },

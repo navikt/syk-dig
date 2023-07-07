@@ -1,4 +1,5 @@
 import { BodyShort } from '@navikt/ds-react'
+import { ReactElement } from 'react'
 
 import { Matrikkeladresse } from '../../../../graphql/queries/graphql.generated'
 
@@ -6,7 +7,7 @@ type MatrikkeladresseProps = {
     matrikkeladresse: Matrikkeladresse
 }
 
-function Matrikkeladresse({ matrikkeladresse }: MatrikkeladresseProps): JSX.Element {
+function Matrikkeladresse({ matrikkeladresse }: MatrikkeladresseProps): ReactElement {
     return (
         <>
             {matrikkeladresse.tilleggsnavn && <BodyShort>{matrikkeladresse.tilleggsnavn}</BodyShort>}

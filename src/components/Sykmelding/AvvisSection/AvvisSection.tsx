@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { Alert, BodyShort, Button, Heading, Modal, Select, Textarea } from '@navikt/ds-react'
 import { useMutation } from '@apollo/client'
 import { useFormContext } from 'react-hook-form'
@@ -13,7 +13,7 @@ import { Location, useParam } from '../../../utils/useParam'
 import { SykmeldingFormValues } from '../SykmeldingForm'
 import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
 
-function AvvisSection(): JSX.Element {
+function AvvisSection(): ReactElement {
     const { reset } = useFormContext<SykmeldingFormValues>()
     const params = useParam(Location.Utenlansk)
     const enhetId = useSelectedModiaEnhet()

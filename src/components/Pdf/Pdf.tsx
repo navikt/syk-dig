@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { ReactElement, useEffect, useRef } from 'react'
 import PDFObject from 'pdfobject'
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
     className?: string
 }
 
-function Pdf({ href, className }: Props): JSX.Element {
+function Pdf({ href, className }: Props): ReactElement {
     const embed = useRef(null)
 
     useEffect(() => {
