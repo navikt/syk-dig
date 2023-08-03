@@ -1,21 +1,16 @@
 import Fuse from 'fuse.js'
 import { logger } from '@navikt/next-logger'
+import { Diagnosekode, ICD10, ICPC2 } from '@navikt/diagnosekoder'
 
 import { withAuthenticatedApi } from '../../../auth/withAuth'
 
-import icd10 from './data/icd10.json'
-import icpc2 from './data/icpc2.json'
+export type { Diagnosekode as DiagnoseSuggestion }
 
-const fuseIcd10 = new Fuse(icd10, { keys: ['code', 'text'], threshold: 0.2 })
-const fuseIcpc2 = new Fuse(icpc2, { keys: ['code', 'text'], threshold: 0.2 })
-
-export interface DiagnoseSuggestion {
-    code: string
-    text: string
-}
+const fuseIcd10 = new Fuse(ICD10, { keys: ['code', 'text'], threshold: 0.2 })
+const fuseIcpc2 = new Fuse(ICPC2, { keys: ['code', 'text'], threshold: 0.2 })
 
 export interface DiagnoseSearchResult {
-    suggestions: DiagnoseSuggestion[]
+    suggestions: Diagnosekode[]
 }
 
 const diagnoseSearch = withAuthenticatedApi<DiagnoseSearchResult>(async (req, res) => {
@@ -42,10 +37,10 @@ const diagnoseSearch = withAuthenticatedApi<DiagnoseSearchResult>(async (req, re
     res.status(200).json({ suggestions: searchSystem(system, value) })
 })
 
-export function searchSystem(system: 'icd10' | 'icpc2', value: string): DiagnoseSuggestion[] {
+export function searchSystem(system: 'icd10' | 'icpc2', value: string): Diagnosekode[] {
     if (system === 'icd10') {
         if ((value ?? '').trim() === '') {
-            return icd10.slice(0, 100)
+            return ICD10.slice(0, 100)
         }
 
         return fuseIcd10
@@ -54,7 +49,7 @@ export function searchSystem(system: 'icd10' | 'icpc2', value: string): Diagnose
             .slice(0, 100)
     } else {
         if ((value ?? '').trim() === '') {
-            return icpc2.slice(0, 100)
+            return ICPC2.slice(0, 100)
         }
 
         return fuseIcpc2

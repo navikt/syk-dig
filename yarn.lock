@@ -1887,6 +1887,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@navikt/diagnosekoder@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@navikt/diagnosekoder@npm:1.0.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fdiagnosekoder%2F1.0.0%2Fa1b37ecc1212752fbad621bdc67500c42489859b"
+  checksum: eb91e24a1498d057552854bdc37595ee021dfcfea18dc89209f36e5cde9a42b58ef205ba70ffcfda4941c90f1ce3a294c02b45d7c41f33f89bf33b9e0212c509
+  languageName: node
+  linkType: hard
+
 "@navikt/ds-css@npm:^4.7.2":
   version: 4.7.2
   resolution: "@navikt/ds-css@npm:4.7.2::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fds-css%2F4.7.2%2F68cc42891f6ac554168c6249ab2d799229982e51"
@@ -10048,6 +10055,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": ^4.0.1
     "@hookform/error-message": ^2.0.1
     "@navikt/aksel-icons": ^4.7.2
+    "@navikt/diagnosekoder": ^1.0.0
     "@navikt/ds-css": ^4.7.2
     "@navikt/ds-react": ^4.7.2
     "@navikt/ds-tailwind": ^4.7.2
