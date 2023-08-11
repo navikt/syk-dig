@@ -1,7 +1,4 @@
-// Because of some weird minifcation bug with MSW, we need to disable minification when we create a bundle with MSW. 🥵
-const isMsw = process.env.NEXT_PUBLIC_API_MOCKING === 'enabled'
-
-/** @type {import('next').NextConfig} */
+import bundleAnalyzer from '@next/bundle-analyzer'
 
 const ContentSecurityPolicy = `
     default-src 'self';
@@ -13,6 +10,7 @@ const ContentSecurityPolicy = `
     connect-src 'self' https://*.nav.no;
 `
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
     async headers() {
         return [
@@ -31,13 +29,6 @@ const nextConfig = {
     reactStrictMode: true,
     // Until jest supports ESM-modules, or we replace jest with vitest
     transpilePackages: ['nextleton'],
-    swcMinify: !isMsw,
-    webpack: isMsw
-        ? (config) => {
-              config.optimization.minimizer = []
-              return config
-          }
-        : undefined,
     assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,
     pageExtensions: ['page.tsx', 'page.ts', 'api.ts'],
     eslint: {
@@ -47,4 +38,6 @@ const nextConfig = {
     productionBrowserSourceMaps: true,
 }
 
-module.exports = nextConfig
+export default bundleAnalyzer({
+    enabled: process.env.ANALYZE === 'true',
+})(nextConfig)
