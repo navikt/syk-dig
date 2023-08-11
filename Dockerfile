@@ -9,6 +9,7 @@ COPY public /app/public/
 
 EXPOSE 3000
 
+ENV HOSTNAME localhost
 ENV NODE_ENV=production
 ENV NODE_OPTIONS '-r next-logger'
 
