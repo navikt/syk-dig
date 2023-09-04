@@ -27,8 +27,6 @@ const nextConfig = {
     },
     output: 'standalone',
     reactStrictMode: true,
-    // Until jest supports ESM-modules, or we replace jest with vitest
-    transpilePackages: ['nextleton'],
     assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,
     pageExtensions: ['page.tsx', 'page.ts', 'api.ts'],
     eslint: {

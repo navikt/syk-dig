@@ -24,7 +24,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): ReactElement {
         name,
         rules: {
             validate: (value) => {
-                if (value.code == null) return `Du må velge en diagnosekode for ${diagnoseType}`
+                if (value.code == null) return `Du må velge en diagnosekode for ${diagnoseType}.`
             },
         },
     })

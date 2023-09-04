@@ -1,8 +1,9 @@
+import { describe, it, expect } from 'vitest'
 import { FormProvider, useForm } from 'react-hook-form'
 import userEvent from '@testing-library/user-event'
 import { ReactElement } from 'react'
 
-import { render, screen, waitFor } from '../../../utils/testUtils'
+import { render, screen } from '../../../utils/testUtils'
 
 import PeriodePicker from './PeriodePicker'
 
@@ -23,7 +24,7 @@ describe('PeriodePicker', () => {
 
         await userEvent.type(inputFom, '12.10.2022')
 
-        await waitFor(() => expect(inputFom).toHaveAttribute('value', '12.10.2022'))
+        expect(inputFom).toHaveAttribute('value', '12.10.2022')
     })
 
     it('should type in tom date', async () => {
@@ -33,6 +34,6 @@ describe('PeriodePicker', () => {
 
         await userEvent.type(inputTom, '20.10.2022')
 
-        await waitFor(() => expect(inputTom).toHaveAttribute('value', '20.10.2022'))
+        expect(inputTom).toHaveAttribute('value', '20.10.2022')
     })
 })
