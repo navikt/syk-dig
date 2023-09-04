@@ -14,7 +14,7 @@ interface Props {
 function CountryPicker({ name }: Props): ReactElement {
     const { field, fieldState } = useController<SykmeldingFormValues, 'land'>({
         name,
-        rules: { required: 'Du må velge et land' },
+        rules: { required: 'Du må velge et land.' },
     })
 
     return (

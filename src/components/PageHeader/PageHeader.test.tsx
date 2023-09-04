@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
 import { createInitialQuery, render, screen } from '../../utils/testUtils'
@@ -23,7 +24,7 @@ describe('PageHeader', () => {
         expect(screen.getByText('Enhet: 2345'))
         await userEvent.selectOptions(screen.getByRole('combobox'), '1234')
 
-        expect(await screen.findByText('Enhet: 1234'))
+        expect(screen.getByText('Enhet: 1234'))
     })
 })
 

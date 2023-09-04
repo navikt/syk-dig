@@ -1,5 +1,6 @@
+import { describe, it, expect } from 'vitest'
 import { FormProvider, useForm } from 'react-hook-form'
-import { axe } from 'jest-axe'
+import { axe } from 'vitest-axe'
 import userEvent from '@testing-library/user-event'
 import { ReactElement } from 'react'
 

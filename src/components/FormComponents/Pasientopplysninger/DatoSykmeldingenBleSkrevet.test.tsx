@@ -1,10 +1,11 @@
+import { describe, it, expect } from 'vitest'
 import { FormProvider, useForm } from 'react-hook-form'
 import userEvent from '@testing-library/user-event'
 import { add, format } from 'date-fns/fp'
 import * as R from 'remeda'
 import { ReactElement } from 'react'
 
-import { render, screen, waitFor } from '../../../utils/testUtils'
+import { render, screen } from '../../../utils/testUtils'
 
 import DatoSykmeldingenBleSkrevet from './DatoSykmeldingenBleSkrevet'
 
@@ -28,7 +29,7 @@ describe('DatoSykmeldingenBleSkrevet', () => {
 
         await userEvent.type(dateInput, '02.11.2022')
 
-        await waitFor(() => expect(dateInput).toHaveAttribute('value', '02.11.2022'))
+        expect(dateInput).toHaveAttribute('value', '02.11.2022')
     })
 
     describe('validation', () => {
@@ -37,9 +38,7 @@ describe('DatoSykmeldingenBleSkrevet', () => {
 
             await userEvent.click(screen.getByRole('button', { name: 'submit test' }))
 
-            expect(
-                await screen.findByText('Du må fylle inn dato for når sykmeldingen ble skrevet.'),
-            ).toBeInTheDocument()
+            expect(screen.getByText('Du må fylle inn dato for når sykmeldingen ble skrevet.')).toBeInTheDocument()
         })
 
         it('should not allow dates after today', async () => {
@@ -51,9 +50,7 @@ describe('DatoSykmeldingenBleSkrevet', () => {
             )
             await userEvent.click(screen.getByRole('button', { name: 'submit test' }))
 
-            expect(
-                await screen.findByText('Datoen sykmeldingen ble skrevet kan ikke være i fremtiden.'),
-            ).toBeInTheDocument()
+            expect(screen.getByText('Datoen sykmeldingen ble skrevet kan ikke være i fremtiden.')).toBeInTheDocument()
         })
     })
 })

@@ -1,6 +1,7 @@
-import { axe } from 'jest-axe'
+import { describe, it, expect } from 'vitest'
+import { axe } from 'vitest-axe'
 
-import { act, render, screen } from '../../../../utils/testUtils'
+import { render, screen } from '../../../../utils/testUtils'
 import { OppholdsadresseFragment } from '../../../../graphql/queries/graphql.generated'
 
 import Oppholdsadresse from './Oppholdsadresse'
@@ -57,9 +58,7 @@ describe('Oppholdsadresse', () => {
 
             const { container } = render(<Oppholdsadresse oppholdsadresse={utenlandskadresse} />)
 
-            await act(async () => {
-                expect(await axe(container)).toHaveNoViolations()
-            })
+            expect(await axe(container)).toHaveNoViolations()
         })
 
         it('should show utenlandskAdresse', async () => {

@@ -1,5 +1,6 @@
+import { describe, it, vi, expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { axe } from 'jest-axe'
+import { axe } from 'vitest-axe'
 
 import { render, screen } from '../../../../utils/testUtils'
 
@@ -7,7 +8,7 @@ import DiagnoseCombobox from './DiagnoseCombobox'
 
 describe('DiagnosePicker', () => {
     it('should have no a11y issues', async () => {
-        const onSelectMock = jest.fn()
+        const onSelectMock = vi.fn()
         const { container } = render(
             <DiagnoseCombobox
                 name="diagnoser.hoveddiagnose"
@@ -20,13 +21,13 @@ describe('DiagnosePicker', () => {
 
         const combobox = screen.getByRole('combobox', { name: 'Diagnosekode' })
         await userEvent.type(combobox, 'L81')
-        await userEvent.click(await screen.findByRole('option', { name: 'L815' }))
+        await userEvent.click(screen.getByRole('option', { name: 'L815' }))
 
         expect(await axe(container)).toHaveNoViolations()
     }, 10000)
 
     it('should search and select value when seaching for specific code', async () => {
-        const onSelectMock = jest.fn()
+        const onSelectMock = vi.fn()
         render(
             <DiagnoseCombobox
                 name="diagnoser.hoveddiagnose"
@@ -39,9 +40,8 @@ describe('DiagnosePicker', () => {
 
         const combobox = screen.getByRole('combobox', { name: 'Diagnosekode' })
         await userEvent.type(combobox, 'L81')
-        await userEvent.click(await screen.findByRole('option', { name: 'L815' }))
+        await userEvent.click(screen.getByRole('option', { name: 'L815' }))
 
-        expect(combobox).toHaveLabel
         expect(combobox).toHaveValue('L815')
         expect(onSelectMock).toHaveBeenCalledWith({
             code: 'L815',
@@ -50,7 +50,7 @@ describe('DiagnosePicker', () => {
     })
 
     it('should inform that code does not exist', async () => {
-        const onSelectMock = jest.fn()
+        const onSelectMock = vi.fn()
         render(
             <DiagnoseCombobox
                 name="diagnoser.hoveddiagnose"

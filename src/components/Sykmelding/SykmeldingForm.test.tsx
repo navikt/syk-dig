@@ -1,6 +1,7 @@
+import { describe, beforeAll, it, expect } from 'vitest'
 import mockRouter from 'next-router-mock'
 import userEvent from '@testing-library/user-event'
-import { axe } from 'jest-axe'
+import { axe } from 'vitest-axe'
 
 import { createOppgave } from '../../mocks/data/dataCreators'
 import { render, screen, within } from '../../utils/testUtils'
@@ -54,7 +55,7 @@ describe('SykmeldingForm', () => {
 
             await userEvent.click(screen.getByRole('button', { name: 'Lagre og lukk' }))
 
-            expect(await screen.findByText(/Oppgaven ble lagret/)).toBeInTheDocument()
+            expect(screen.getByText(/Oppgaven ble lagret/)).toBeInTheDocument()
         })
 
         it('should correctly save a completely filled out form given a blank oppgave', async () => {
@@ -121,7 +122,7 @@ describe('SykmeldingForm', () => {
 
             await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
 
-            const confirmationDialog = await screen.findByRole('dialog', {
+            const confirmationDialog = screen.getByRole('dialog', {
                 name: 'Er du sikker på at du vil registrere og sende inn sykmeldingen?',
             })
 
@@ -129,7 +130,7 @@ describe('SykmeldingForm', () => {
 
             await userEvent.click(within(confirmationDialog).getByRole('button', { name: 'Ja, jeg er sikker' }))
 
-            expect(await screen.findByRole('dialog', { name: /Sykmeldingen er registrert/ })).toBeInTheDocument()
+            expect(screen.getByRole('dialog', { name: /Sykmeldingen er registrert/ })).toBeInTheDocument()
         }, 20000) // This tests fills out a very large form, so we can expect it to be long running,
     })
 
@@ -175,7 +176,7 @@ describe('SykmeldingForm', () => {
             await userEvent.selectOptions(avvisDialog.getByRole('combobox'), 'Manglende periode eller slutt-dato')
             await userEvent.click(avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }))
 
-            expect(await screen.findByRole('dialog', { name: /Sykmeldingen er avvist/ })).toBeInTheDocument()
+            expect(screen.getByRole('dialog', { name: /Sykmeldingen er avvist/ })).toBeInTheDocument()
         })
 
         it('should allow avvising sykmelding with avvisningsgrunn Annet and require description', async () => {
@@ -224,7 +225,7 @@ describe('SykmeldingForm', () => {
             await userEvent.type(avvisDialog.getByRole('textbox'), 'Feil info')
             await userEvent.click(avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }))
 
-            expect(await screen.findByRole('dialog', { name: /Sykmeldingen er avvist/ })).toBeInTheDocument()
+            expect(screen.getByRole('dialog', { name: /Sykmeldingen er avvist/ })).toBeInTheDocument()
         })
     })
 
@@ -236,14 +237,14 @@ describe('SykmeldingForm', () => {
             await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
 
             const errorSection = within(
-                await screen.findByRole('region', {
+                screen.getByRole('region', {
                     name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
                 }),
             )
 
-            expect(errorSection.getByRole('link', { name: 'Du må velge et land' })).toBeInTheDocument()
+            expect(errorSection.getByRole('link', { name: 'Du må velge et land.' })).toBeInTheDocument()
             expect(
-                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose' }),
+                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose.' }),
             ).toBeInTheDocument()
         })
 
@@ -255,18 +256,22 @@ describe('SykmeldingForm', () => {
             await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
 
             const errorSection = within(
-                await screen.findByRole('region', {
+                screen.getByRole('region', {
                     name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
                 }),
             )
 
+            expect(errorSection.getByRole('link', { name: 'Du må velge et land.' })).toBeInTheDocument()
             expect(errorSection.getByRole('link', { name: 'Du må fylle inn fra dato.' })).toBeInTheDocument()
             expect(errorSection.getByRole('link', { name: 'Du må fylle inn til dato.' })).toBeInTheDocument()
             expect(
-                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose' }),
+                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose.' }),
             ).toBeInTheDocument()
             expect(
-                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for bidiagnose' }),
+                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for bidiagnose.' }),
+            ).toBeInTheDocument()
+            expect(
+                errorSection.getByRole('link', { name: 'Du må fylle inn dato for når sykmeldingen ble skrevet.' }),
             ).toBeInTheDocument()
         })
 
@@ -282,7 +287,7 @@ describe('SykmeldingForm', () => {
             await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
 
             const errorSection = within(
-                await screen.findByRole('region', {
+                screen.getByRole('region', {
                     name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
                 }),
             )
@@ -306,7 +311,7 @@ describe('SykmeldingForm', () => {
             await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
 
             const errorSection = within(
-                await screen.findByRole('region', {
+                screen.getByRole('region', {
                     name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
                 }),
             )
@@ -333,7 +338,7 @@ describe('SykmeldingForm', () => {
             await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
 
             const errorSection = within(
-                await screen.findByRole('region', {
+                screen.getByRole('region', {
                     name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
                 }),
             )

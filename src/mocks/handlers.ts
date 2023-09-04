@@ -18,11 +18,12 @@ import {
 } from '../graphql/queries/graphql.generated'
 import { notNull } from '../utils/tsUtils'
 
+import { handlers as handler } from './handlers-test'
 import getMockDb from './data'
 
 let testHandlers: RequestHandler[] = []
 if (process.env.NODE_ENV === 'test') {
-    testHandlers = require('./handlers-test').handlers
+    testHandlers = handler
 }
 
 export const handlers = [

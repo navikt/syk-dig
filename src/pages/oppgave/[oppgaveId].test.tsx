@@ -1,3 +1,4 @@
+import { describe, beforeAll, it, expect } from 'vitest'
 /* eslint-disable testing-library/no-node-access */
 import mockRouter from 'next-router-mock'
 import { GraphQLError } from 'graphql'
@@ -16,13 +17,12 @@ describe('Utenlandsk page', () => {
     })
 
     it('should load form and PDF', async () => {
+        const mock = createMock({
+            request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
+            result: { data: { __typename: 'Query', oppgave: createOppgave({ oppgaveId: '987654321' }) } },
+        })
         render(<Utenlandsk />, {
-            mocks: [
-                createMock({
-                    request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
-                    result: { data: { __typename: 'Query', oppgave: createOppgave({ oppgaveId: '987654321' }) } },
-                }),
-            ],
+            mocks: [mock],
         })
 
         expect(await screen.findByRole('button', { name: 'Registrer og send' })).toBeInTheDocument()
@@ -30,13 +30,12 @@ describe('Utenlandsk page', () => {
     })
 
     it('should load the second document (without unmounting the first) when second tab is clicked', async () => {
+        const mock = createMock({
+            request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
+            result: { data: { __typename: 'Query', oppgave: createOppgave({ oppgaveId: '987654321' }) } },
+        })
         render(<Utenlandsk />, {
-            mocks: [
-                createMock({
-                    request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
-                    result: { data: { __typename: 'Query', oppgave: createOppgave({ oppgaveId: '987654321' }) } },
-                }),
-            ],
+            mocks: [mock],
         })
 
         expect(await screen.findByRole('button', { name: 'Registrer og send' })).toBeInTheDocument()
@@ -56,63 +55,63 @@ describe('Utenlandsk page', () => {
     })
 
     it('should show error message when it fails to load', async () => {
+        const mock = createMock({
+            request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
+            result: { data: null, errors: [new GraphQLError('Fake test error')] },
+        })
         render(<Utenlandsk />, {
-            mocks: [
-                createMock({
-                    request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
-                    result: { data: null, errors: [new GraphQLError('Fake test error')] },
-                }),
-            ],
+            mocks: [mock],
         })
 
         expect(await screen.findByRole('heading', { name: 'En uventet feil oppsto' })).toBeInTheDocument()
     })
 
     it('should rename dokument', async () => {
+        const mock = [
+            createMock({
+                request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
+                result: {
+                    data: {
+                        __typename: 'Query',
+                        oppgave: createOppgave({
+                            oppgaveId: '987654321',
+                            documents: [
+                                {
+                                    __typename: 'Document',
+                                    tittel: 'redigerdokument.pdf',
+                                    dokumentInfoId: `some-doc`,
+                                },
+                            ],
+                        }),
+                    },
+                },
+            }),
+            createMock({
+                request: {
+                    query: NavngiDokumentDocument,
+                    variables: { oppgaveId: '987654321', dokumentInfoId: `some-doc`, tittel: 'nytt navn' },
+                },
+                result: {
+                    data: {
+                        __typename: 'Mutation',
+                        dokument: {
+                            __typename: 'Document',
+                            dokumentInfoId: 'some-doc',
+                            tittel: 'nytt navn',
+                        },
+                    },
+                },
+            }),
+        ]
         render(<Utenlandsk />, {
-            mocks: [
-                createMock({
-                    request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
-                    result: {
-                        data: {
-                            __typename: 'Query',
-                            oppgave: createOppgave({
-                                oppgaveId: '987654321',
-                                documents: [
-                                    {
-                                        __typename: 'Document',
-                                        tittel: 'redigerdokument.pdf',
-                                        dokumentInfoId: `some-doc`,
-                                    },
-                                ],
-                            }),
-                        },
-                    },
-                }),
-                createMock({
-                    request: {
-                        query: NavngiDokumentDocument,
-                        variables: { oppgaveId: '987654321', dokumentInfoId: `some-doc`, tittel: 'nytt navn' },
-                    },
-                    result: {
-                        data: {
-                            __typename: 'Mutation',
-                            dokument: {
-                                __typename: 'Document',
-                                dokumentInfoId: 'some-doc',
-                                tittel: 'nytt navn',
-                            },
-                        },
-                    },
-                }),
-            ],
+            mocks: mock,
         })
 
         expect(await screen.findByRole('button', { name: 'Registrer og send' })).toBeInTheDocument()
         await userEvent.click(screen.getByRole('button', { name: 'Rediger dokumentnavn' }))
         expect(screen.getByRole('dialog', { name: 'Endre navn på dokument' }))
 
-        const textbox = await screen.findByRole('textbox', { name: 'Dokument tittel' })
+        const textbox = screen.getByRole('textbox', { name: 'Dokument tittel' })
         await userEvent
             .click(textbox)
             .then(() => userEvent.clear(textbox))
@@ -121,37 +120,36 @@ describe('Utenlandsk page', () => {
 
         expect(screen.getByRole('tab', { name: 'redigerdokument.pdf' })).toBeInTheDocument()
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }))
-        expect(await screen.findByRole('tab', { name: 'nytt navn' })).toBeInTheDocument()
+        expect(screen.getByRole('tab', { name: 'nytt navn' })).toBeInTheDocument()
     })
     it('should not rename dokument on avbryt', async () => {
+        const mock = createMock({
+            request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
+            result: {
+                data: {
+                    __typename: 'Query',
+                    oppgave: createOppgave({
+                        oppgaveId: '987654321',
+                        documents: [
+                            {
+                                __typename: 'Document',
+                                tittel: 'redigerdokument.pdf',
+                                dokumentInfoId: `some-doc`,
+                            },
+                        ],
+                    }),
+                },
+            },
+        })
         render(<Utenlandsk />, {
-            mocks: [
-                createMock({
-                    request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
-                    result: {
-                        data: {
-                            __typename: 'Query',
-                            oppgave: createOppgave({
-                                oppgaveId: '987654321',
-                                documents: [
-                                    {
-                                        __typename: 'Document',
-                                        tittel: 'redigerdokument.pdf',
-                                        dokumentInfoId: `some-doc`,
-                                    },
-                                ],
-                            }),
-                        },
-                    },
-                }),
-            ],
+            mocks: [mock],
         })
 
         expect(await screen.findByRole('button', { name: 'Registrer og send' })).toBeInTheDocument()
         await userEvent.click(screen.getByRole('button', { name: 'Rediger dokumentnavn' }))
         expect(screen.getByRole('dialog', { name: 'Endre navn på dokument' }))
 
-        const textbox = await screen.findByRole('textbox', { name: 'Dokument tittel' })
+        const textbox = screen.getByRole('textbox', { name: 'Dokument tittel' })
         await userEvent
             .click(textbox)
             .then(() => userEvent.clear(textbox))
