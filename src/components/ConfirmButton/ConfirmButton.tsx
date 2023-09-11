@@ -1,11 +1,8 @@
 import { PropsWithChildren, ReactElement, ReactNode, useState } from 'react'
-import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react'
+import { BodyShort, Button, Modal } from '@navikt/ds-react'
 import { ButtonProps } from '@navikt/ds-react'
 
-import styles from './ConfirmButton.module.css'
-
 interface Props extends Pick<ButtonProps, 'variant' | 'icon'> {
-    id: string
     preModalCheck?: () => Promise<boolean>
     confirmation: {
         title: string
@@ -20,7 +17,6 @@ interface Props extends Pick<ButtonProps, 'variant' | 'icon'> {
 }
 
 function ConfirmButton({
-    id,
     children,
     variant,
     icon,
@@ -44,39 +40,44 @@ function ConfirmButton({
             >
                 {children}
             </Button>
-            <Modal open={showConfirm && !confirmation.hide} onClose={closeModal} aria-labelledby={id}>
-                <Modal.Content className={styles.confirmationModalContent}>
-                    <Heading id={id} spacing level="2" size="medium" className={styles.confirmationModalHeader}>
-                        {confirmation.title}
-                    </Heading>
+            <Modal
+                header={{
+                    heading: confirmation.title,
+                    size: 'medium',
+                }}
+                open={showConfirm && !confirmation.hide}
+                onClose={closeModal}
+                className="max-w-lg"
+            >
+                <Modal.Body>
                     {confirmation.body.map((paragraph) => (
                         <BodyShort key={paragraph} spacing>
                             {paragraph}
                         </BodyShort>
                     ))}
                     {confirmation.feedback}
-                    <div className={styles.confirmationButtons}>
-                        <Button
-                            onClick={(event) => {
-                                closeModal()
-                                confirmation.closeButton?.onClick?.(event)
-                            }}
-                            type="button"
-                            variant="secondary"
-                        >
-                            Avbryt
-                        </Button>
-                        <Button
-                            onClick={confirmation.confirmButton.onClick}
-                            type={confirmation.confirmButton.type}
-                            form={confirmation.confirmButton.form}
-                            variant="danger"
-                            loading={confirmation.confirmButton.loading}
-                        >
-                            {confirmation.confirmButton.text}
-                        </Button>
-                    </div>
-                </Modal.Content>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        onClick={confirmation.confirmButton.onClick}
+                        type={confirmation.confirmButton.type}
+                        form={confirmation.confirmButton.form}
+                        variant="danger"
+                        loading={confirmation.confirmButton.loading}
+                    >
+                        {confirmation.confirmButton.text}
+                    </Button>
+                    <Button
+                        onClick={(event) => {
+                            closeModal()
+                            confirmation.closeButton?.onClick?.(event)
+                        }}
+                        type="button"
+                        variant="secondary"
+                    >
+                        Avbryt
+                    </Button>
+                </Modal.Footer>
             </Modal>
         </>
     )
