@@ -1,5 +1,5 @@
 import { ReactElement, useState } from 'react'
-import { Alert, BodyShort, Button, Heading, Modal, Select, Textarea } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Modal, Select, Textarea } from '@navikt/ds-react'
 import { useMutation } from '@apollo/client'
 import { useFormContext } from 'react-hook-form'
 
@@ -57,12 +57,14 @@ function AvvisSection(): ReactElement {
                     </Button>
                 </FeedbackModal>
             </MutationResultFeedback>
-            <div>
-                <Button type="button" variant="danger" onClick={() => setShowAvvisModal(true)}>
-                    Avvis registreringen
-                </Button>
-            </div>
+            <Button type="button" variant="danger" onClick={() => setShowAvvisModal(true)} className="flex w-52">
+                Avvis registreringen
+            </Button>
             <Modal
+                header={{
+                    heading: 'Avvis sykmeldingen',
+                    size: 'medium',
+                }}
                 open={showAvvisModal}
                 onClose={() => {
                     if (avvisningsgrunn.grunn) {
@@ -75,12 +77,9 @@ function AvvisSection(): ReactElement {
                     setTextareaError(null)
                     setShowAvvisModal(false)
                 }}
-                aria-labelledby="avvis-modal-heading"
+                className="w-[32rem]"
             >
-                <Modal.Content className="w-[32rem]">
-                    <Heading id="avvis-modal-heading" spacing level="2" size="medium">
-                        Avvis sykmeldingen
-                    </Heading>
+                <Modal.Body>
                     <BodyShort spacing>
                         Oppgaven vil sendes til benken for de som innhenter opplysningene som mangler.
                     </BodyShort>
@@ -139,9 +138,10 @@ function AvvisSection(): ReactElement {
                         />
                     )}
                     <MutationResultFeedback what="avvise" result={mutationResult}></MutationResultFeedback>
+                </Modal.Body>
+                <Modal.Footer>
                     <Button
                         type="button"
-                        className="mt-8"
                         loading={mutationResult.loading}
                         onClick={() => {
                             if (!avvisningsgrunn.grunn) {
@@ -169,7 +169,7 @@ function AvvisSection(): ReactElement {
                     >
                         Ja, avvis sykmeldingen
                     </Button>
-                </Modal.Content>
+                </Modal.Footer>
             </Modal>
         </div>
     )

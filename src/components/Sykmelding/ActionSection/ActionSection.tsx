@@ -43,7 +43,6 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): React
 
             <div className={styles.buttons}>
                 <ConfirmButton
-                    id="registrer-og-send"
                     preModalCheck={async () => {
                         // Only open modal if form validates
                         const formValid = await trigger()
@@ -88,7 +87,6 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): React
                     Lagre og lukk
                 </Button>
                 <ConfirmButton
-                    id="tilbake-til-gosys"
                     variant="tertiary"
                     confirmation={{
                         title: 'Er du sikker på at dette ikke er en sykmelding?',

@@ -1,5 +1,5 @@
 import { ReactElement, useState } from 'react'
-import { Alert, Button, Heading, Modal, TextField, Tabs } from '@navikt/ds-react'
+import { Alert, Button, Modal, TextField, Tabs } from '@navikt/ds-react'
 import { PencilIcon } from '@navikt/aksel-icons'
 import { useMutation } from '@apollo/client'
 
@@ -61,16 +61,17 @@ function EditDocumentModal({
 
     return (
         <Modal
+            header={{
+                heading: 'Endre navn på dokument',
+                size: 'medium',
+            }}
             open={isModalOpen}
             onClose={() => {
                 close()
             }}
-            aria-labelledby={`edit-document-modal-${document.dokumentInfoId}`}
+            className="w-[32rem]"
         >
-            <Modal.Content className="w-[32rem]">
-                <Heading id={`edit-document-modal-${document.dokumentInfoId}`} spacing level="2" size="medium">
-                    Endre navn på dokument
-                </Heading>
+            <Modal.Body>
                 <TextField
                     label="Dokument tittel"
                     value={newTitle}
@@ -88,15 +89,15 @@ function EditDocumentModal({
                         Klarte ikke å oppdatere dokument, prøv igjen senere.
                     </Alert>
                 )}
-                <div className="mt-4 flex justify-end gap-3">
-                    <Button variant="secondary" onClick={close}>
-                        Avbryt
-                    </Button>
-                    <Button variant="primary" onClick={handleSave} loading={result.loading}>
-                        Lagre
-                    </Button>
-                </div>
-            </Modal.Content>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={close}>
+                    Avbryt
+                </Button>
+                <Button variant="primary" onClick={handleSave} loading={result.loading}>
+                    Lagre
+                </Button>
+            </Modal.Footer>
         </Modal>
     )
 }

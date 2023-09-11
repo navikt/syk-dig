@@ -3,7 +3,6 @@ import 'vitest-dom/extend-expect'
 import * as matchers from 'vitest-dom/matchers'
 import * as vitestAxeMatchers from 'vitest-axe/matchers'
 import { vi, beforeAll, afterEach, afterAll, expect } from 'vitest'
-import { Modal } from '@navikt/ds-react'
 import mockRouter from 'next-router-mock'
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes'
 import { cleanup } from '@testing-library/react'
@@ -28,8 +27,6 @@ dirtyGlobal.ResizeObserver = vi.fn().mockImplementation(() => ({
 }))
 
 dirtyGlobal.HTMLCanvasElement.prototype.getContext = vi.fn()
-
-Modal.setAppElement(document.createElement('div'))
 
 vi.mock('next/router', () => vi.importActual('next-router-mock'))
 

@@ -171,7 +171,7 @@ describe('SykmeldingForm', () => {
             )
             await userEvent.click(screen.getByRole('button', { name: 'Avvis registreringen' }))
 
-            const avvisDialog = within(await screen.findByRole('dialog', { name: 'Avvis sykmeldingen' }))
+            const avvisDialog = within(screen.getByRole('dialog', { name: 'Avvis sykmeldingen' }))
 
             await userEvent.selectOptions(avvisDialog.getByRole('combobox'), 'Manglende periode eller slutt-dato')
             await userEvent.click(avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }))
@@ -215,14 +215,14 @@ describe('SykmeldingForm', () => {
             )
             await userEvent.click(screen.getByRole('button', { name: 'Avvis registreringen' }))
 
-            const avvisDialog = within(await screen.findByRole('dialog', { name: 'Avvis sykmeldingen' }))
+            const avvisDialog = within(screen.getByRole('dialog', { name: 'Avvis sykmeldingen' }))
 
             await userEvent.selectOptions(avvisDialog.getByRole('combobox'), 'Annet')
             await userEvent.click(avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }))
 
             expect(screen.getByText('Du må fylle inn en grunn for Annet')).toBeInTheDocument()
 
-            await userEvent.type(avvisDialog.getByRole('textbox'), 'Feil info')
+            await userEvent.type(avvisDialog.getByRole('textbox', { name: 'Hva er grunn Annet?' }), 'Feil info')
             await userEvent.click(avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }))
 
             expect(screen.getByRole('dialog', { name: /Sykmeldingen er avvist/ })).toBeInTheDocument()

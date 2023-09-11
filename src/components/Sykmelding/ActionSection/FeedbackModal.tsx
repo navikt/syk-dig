@@ -1,29 +1,25 @@
 import { PropsWithChildren, ReactElement } from 'react'
-import { BodyLong, Heading, Modal } from '@navikt/ds-react'
+import { Modal } from '@navikt/ds-react'
 
 import styles from './FeedbackModal.module.css'
 
 interface Props {
     title: string
-    body?: string
 }
 
-function FeedbackModal({ title, body, children }: PropsWithChildren<Props>): ReactElement {
+function FeedbackModal({ title, children }: PropsWithChildren<Props>): ReactElement {
     return (
         <Modal
+            header={{
+                heading: title,
+                size: 'medium',
+                closeButton: false,
+            }}
             open
             onClose={() => void 0}
-            closeButton={false}
-            aria-labelledby="feedback-modal-header"
             className={styles.modalRoot}
         >
-            <Modal.Content>
-                <Heading id="feedback-modal-header" spacing level="2" size="medium">
-                    {title}
-                </Heading>
-                <BodyLong spacing>{body}</BodyLong>
-                {children && <div>{children}</div>}
-            </Modal.Content>
+            <Modal.Body>{children && <div>{children}</div>}</Modal.Body>
         </Modal>
     )
 }
