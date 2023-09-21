@@ -44,9 +44,9 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-hook-form": "^7.45.4",
-        "remeda": "^1.24.0",
+        "remeda": "^1.27.0",
         "tailwind-merge": "^1.14.0",
-        "zod": "^3.21.4"
+        "zod": "^3.22.2"
     },
     "devDependencies": {
         "@graphql-codegen/add": "^5.0.0",
