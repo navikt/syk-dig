@@ -28,7 +28,7 @@
         "@navikt/ds-css": "^5.4.0",
         "@navikt/ds-react": "^5.4.0",
         "@navikt/next-api-proxy": "^3.2.0",
-        "@navikt/next-auth-wonderwall": "^1.4.0",
+        "@navikt/next-auth-wonderwall": "^1.5.0",
         "@navikt/next-logger": "^1.19.0",
         "@next/bundle-analyzer": "13.4.12",
         "ariakit": "^2.0.0-next.44",
