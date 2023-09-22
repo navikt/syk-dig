@@ -57,7 +57,7 @@
         "@navikt/ds-tailwind": "^5.4.0",
         "@navikt/eslint-config-teamsykmelding": "^3.0.0",
         "@testing-library/react": "^14.0.0",
-        "@testing-library/user-event": "^14.4.3",
+        "@testing-library/user-event": "^14.5.1",
         "@types/node": "18.17.4",
         "@types/pdfobject": "^2.2.3",
         "@types/react": "18.2.20",
@@ -72,17 +72,17 @@
         "jsdom": "^22.1.0",
         "lint-staged": "^13.2.3",
         "msw": "1.2.3",
-        "next-router-mock": "^0.9.8",
-        "open": "^8.4.2",
+        "next-router-mock": "^0.9.9",
+        "open": "^9.1.0",
         "postcss": "^8.4.27",
         "postcss-import": "^15.1.0",
         "prettier": "^3.0.1",
         "prettier-plugin-tailwindcss": "^0.5.1",
         "tailwindcss": "^3.3.3",
         "typescript": "5.1.6",
-        "vitest": "^0.34.3",
+        "vitest": "^0.34.5",
         "vitest-axe": "^0.1.0",
-        "vitest-dom": "^0.1.0"
+        "vitest-dom": "^0.1.1"
     },
     "resolutions": {
         "eslint-plugin-react-hooks": "5.0.0-canary-7118f5dd7-20230705"
