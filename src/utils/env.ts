@@ -26,6 +26,9 @@ export const serverEnvSchema = z.object({
     AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: z.string(),
     AZURE_APP_WELL_KNOWN_URL: z.string(),
     AZURE_APP_PRE_AUTHORIZED_APPS: z.string(),
+    // for unleash
+    UNLEASH_SERVER_API_URL: z.string().optional(),
+    UNLEASH_SERVER_API_TOKEN: z.string().optional(),
 })
 
 export const browserEnv = publicEnvSchema.parse({
@@ -48,6 +51,9 @@ const getRawServerConfig = (): Partial<unknown> =>
         AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
         AZURE_APP_WELL_KNOWN_URL: process.env.AZURE_APP_WELL_KNOWN_URL,
         AZURE_APP_PRE_AUTHORIZED_APPS: process.env.AZURE_APP_PRE_AUTHORIZED_APPS,
+        // for unleash
+        UNLEASH_SERVER_API_URL: process.env.UNLEASH_SERVER_API_URL,
+        UNLEASH_SERVER_API_TOKEN: process.env.UNLEASH_SERVER_API_TOKEN,
     }) satisfies Record<keyof ServerEnv, string | undefined>
 
 /**

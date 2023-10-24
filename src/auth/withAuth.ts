@@ -5,6 +5,7 @@ import { validateAzureToken } from '@navikt/next-auth-wonderwall'
 import { isLocalOrDemo } from '../utils/env'
 import { RequiredPageProps } from '../pages/_app.page'
 import { getModiaContext } from '../modia/ModiaService'
+import { getFlagsServerSide } from '../toggles/ssr'
 
 type ApiHandler<Response> = (
     req: NextApiRequest,
@@ -17,10 +18,10 @@ type PageHandler = (
     accessToken: string,
 ) => Promise<GetServerSidePropsResult<RequiredPageProps>>
 
-const defaultPageHandler: PageHandler = async (_, accessToken) => {
+const defaultPageHandler: PageHandler = async (context, accessToken) => {
     const modiaContext = await getModiaContext(accessToken)
-
-    return { props: { modiaContext } }
+    const flags = await getFlagsServerSide(context.req, context.res)
+    return { props: { modiaContext, toggles: flags.toggles } }
 }
 
 /**

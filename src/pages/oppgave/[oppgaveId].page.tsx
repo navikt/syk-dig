@@ -12,17 +12,19 @@ import OppgaveView from '../../components/OppgaveView/OppgaveView'
 import OppgaveStatus from '../../components/OppgaveStatus/OppgaveStatus'
 import { SykmeldingSectionSkeleton } from '../../components/SykmeldingSection/SykmeldingSection'
 import { InfoWithHeaderSkeleton, InputWithTitleSkeleton } from '../../components/skeleton/Skeletons'
+import { useFlag } from '../../toggles/context'
 
 function Utenlandsk(): ReactElement {
     const { oppgaveId } = useParam(Location.Utenlansk)
     const { data, error, loading } = useQuery(OppgaveByIdDocument, {
         variables: { oppgaveId },
     })
-
+    const tole = useFlag('SYK_DIG_CREATE_NEW_SYKMELDING')
     return (
         <PageWrapper title="Registrering av sykmelding">
             <OppgaveView oppgave={data?.oppgave} loading={loading} isError={error != null}>
                 {loading && <OppgaveSkeleton />}
+                <div>tole:{tole.enabled}</div>
                 {data?.oppgave && <DigitaliseringsOppgave oppgave={data.oppgave} />}
                 {error && <OppgaveError oppgaveId={oppgaveId} />}
             </OppgaveView>
