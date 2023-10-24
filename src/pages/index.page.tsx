@@ -6,8 +6,11 @@ import { withAuthenticatedPage } from '../auth/withAuth'
 import { getModiaContext } from '../modia/ModiaService'
 import PageWrapper from '../components/PageWrapper/PageWrapper'
 import { getServerEnv } from '../utils/env'
+import { getFlagsServerSide } from '../toggles/ssr'
+import { useFlag } from '../toggles/context'
 
 const Home: NextPage = () => {
+    const tole = useFlag('SYK_DIG_CREATE_NEW_SYKMELDING')
     return (
         <PageWrapper title="Digitalisering av Sykmeldinger">
             <Alert variant="warning" className="m-4 max-w-prose">
@@ -17,6 +20,7 @@ const Home: NextPage = () => {
 
             <div className="m-4">
                 <h2 className="mt-8 text-xl font-bold">Eksempler på oppgaver</h2>
+                <div>tole:{tole.enabled}</div>
                 <ul className="list-disc pl-8">
                     <li>
                         <Link href="/oppgave/eksisterende">Oppgave med eksisterende data</Link>
@@ -52,10 +56,12 @@ export const getServerSideProps = withAuthenticatedPage(async (context, accessTo
     }
 
     const modiaContext = await getModiaContext(accessToken)
+    const flags = await getFlagsServerSide(context.req, context.res)
 
     return {
         props: {
             modiaContext,
+            toggles: flags.toggles,
         },
     }
 })

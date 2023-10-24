@@ -4,11 +4,13 @@ import { PropsWithChildren, ReactElement, useState } from 'react'
 import { ApolloProvider } from '@apollo/client'
 import type { AppProps as NextAppProps } from 'next/app'
 import { logger } from '@navikt/next-logger'
+import { IToggle } from '@unleash/nextjs'
 
 import { createApolloClient } from '../graphql/apollo'
 import { ModiaContext, ModiaContextError } from '../modia/ModiaService'
 import { useModiaContextUpdated } from '../graphql/localState/modia'
 import { browserEnv } from '../utils/env'
+import { FlagProvider } from '../toggles/context'
 
 if (browserEnv.NEXT_PUBLIC_API_MOCKING === 'enabled') {
     logger.info('Setting up MSW for local or demo')
@@ -16,11 +18,12 @@ if (browserEnv.NEXT_PUBLIC_API_MOCKING === 'enabled') {
 }
 
 export interface RequiredPageProps {
-    modiaContext: ModiaContext | ModiaContextError
+    modiaContext?: ModiaContext | ModiaContextError
+    toggles: IToggle[]
 }
 
 export interface AppProps<T> extends Omit<NextAppProps<T>, 'pageProps'> {
-    pageProps: PropsWithChildren & Partial<RequiredPageProps>
+    pageProps: PropsWithChildren & RequiredPageProps
 }
 
 function MyApp({ Component, pageProps }: AppProps<RequiredPageProps>): ReactElement {
@@ -30,7 +33,9 @@ function MyApp({ Component, pageProps }: AppProps<RequiredPageProps>): ReactElem
 
     return (
         <ApolloProvider client={apolloClient}>
-            <Component {...pageProps} />
+            <FlagProvider toggles={pageProps.toggles}>
+                <Component {...pageProps} />
+            </FlagProvider>
         </ApolloProvider>
     )
 }

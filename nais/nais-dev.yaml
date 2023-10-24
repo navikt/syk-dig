@@ -50,3 +50,7 @@ spec:
       value: api://dev-fss.personoversikt.modiacontextholder-q1/.default
     - name: MODIACONTEXTHOLDER_HOST
       value: modiacontextholder-q1.dev-fss-pub.nais.io
+    - name: UNLEASH_SERVER_API_URL
+      value: 'https://teamsykmelding-unleash-api.nav.cloud.nais.io/api'
+  envFrom:
+    - secret: syk-dig-unleash-secrets
