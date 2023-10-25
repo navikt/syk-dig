@@ -20,7 +20,10 @@ const Home: NextPage = () => {
 
             <div className="m-4">
                 <h2 className="mt-8 text-xl font-bold">Eksempler på oppgaver</h2>
-                <div>tole:{tole.enabled}</div>
+                <div>
+                    tole:
+                    {tole.enabled ? 'true' : 'false'}
+                </div>
                 <ul className="list-disc pl-8">
                     <li>
                         <Link href="/oppgave/eksisterende">Oppgave med eksisterende data</Link>

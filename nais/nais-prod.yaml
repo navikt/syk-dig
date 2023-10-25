@@ -41,6 +41,7 @@ spec:
         - application: syk-dig-backend
       external:
         - host: modiacontextholder.prod-fss-pub.nais.io
+        - host: teamsykmelding-unleash-api.nav.cloud.nais.io
   env:
     - name: SYK_DIG_BACKEND_SCOPE
       value: api://prod-gcp.teamsykmelding.syk-dig-backend/.default
