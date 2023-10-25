@@ -24,7 +24,10 @@ function Utenlandsk(): ReactElement {
         <PageWrapper title="Registrering av sykmelding">
             <OppgaveView oppgave={data?.oppgave} loading={loading} isError={error != null}>
                 {loading && <OppgaveSkeleton />}
-                <div>tole:{tole.enabled}</div>
+                <div>
+                    tole:
+                    {tole.enabled ? 'true' : 'false'}
+                </div>
                 {data?.oppgave && <DigitaliseringsOppgave oppgave={data.oppgave} />}
                 {error && <OppgaveError oppgaveId={oppgaveId} />}
             </OppgaveView>
