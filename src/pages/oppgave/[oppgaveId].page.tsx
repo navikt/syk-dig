@@ -66,7 +66,7 @@ function OppgaveError({ oppgaveId }: { oppgaveId: string }): ReactElement {
             <BodyShort spacing>{`Klarte ikke å laste oppgave med oppgave-id "${oppgaveId}".`}</BodyShort>
             <BodyShort>
                 Du kan klikke her for å <Link href="">oppfriske</Link> siden. Dersom problemet vedvarer kan du kontakte
-                Team Sykmelding på Teams!
+                Team Sykmelding på <Link href="https://nav-it.slack.com/archives/CMA3XV997">Slack!</Link> 
             </BodyShort>
         </Alert>
     )
