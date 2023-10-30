@@ -16,17 +16,11 @@ export default () => {
         <PageWrapper title="Registrer sykmelding">
             <div className="container p-4 mx-auto">
                 <Heading size="large">Registrer sykmelding</Heading>
-
-                <TextField
-                    label="Har du noen tilbakemeldinger?"
-                    value={fnr}
-                    onChange={(event) => setFnr(event.target.value)}
-                />
+                <TextField label="JournalpostId" value={fnr} onChange={(event) => setFnr(event.target.value)} />
                 <Button variant="primary" onClick={() => registrer({ variables: { oppgaveId: fnr } })}>
-                    Send tilbakemelding
+                    Hent journalpost
                 </Button>
             </div>
-
             {JSON.stringify(registrerResult.data)}
         </PageWrapper>
     )
