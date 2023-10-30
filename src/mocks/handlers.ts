@@ -91,7 +91,7 @@ export const handlers = [
                 journalpost: {
                     __typename: 'Journalpost',
                     journalpostId: 'noko-anna',
-                    journalstatus: 'JOURNALFØRT',
+                    journalstatus: 'NOE ANNET',
                 },
             }
         })
