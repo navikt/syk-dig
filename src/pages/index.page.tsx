@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { Alert, GuidePanel, Heading, Label } from '@navikt/ds-react'
+import { GuidePanel } from '@navikt/ds-react'
 import Link from 'next/link'
 
 import { withAuthenticatedPage } from '../auth/withAuth'

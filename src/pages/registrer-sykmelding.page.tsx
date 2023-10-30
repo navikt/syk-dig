@@ -1,12 +1,13 @@
-import { withAuthenticatedPage } from '../auth/withAuth'
-import PageWrapper from '../components/PageWrapper/PageWrapper'
 import { Button, Heading, TextField } from '@navikt/ds-react'
 import { useState } from 'react'
-import { useLazyQuery, useMutation } from '@apollo/client'
-import { redirectTilGosys } from '../components/Sykmelding/ActionSection/ActionSection'
-import { OppgaveByIdDocument } from '../graphql/queries/graphql.generated'
+import { useLazyQuery } from '@apollo/client'
+import { NextPage } from 'next'
 
-export default () => {
+import { OppgaveByIdDocument } from '../graphql/queries/graphql.generated'
+import PageWrapper from '../components/PageWrapper/PageWrapper'
+import { withAuthenticatedPage } from '../auth/withAuth'
+
+const RegistrerSykmelding: NextPage = () => {
     const [fnr, setFnr] = useState('')
     const [registrer, registrerResult] = useLazyQuery(OppgaveByIdDocument, {
         onCompleted: () => {},
@@ -27,3 +28,4 @@ export default () => {
 }
 
 export const getServerSideProps = withAuthenticatedPage()
+export default RegistrerSykmelding
