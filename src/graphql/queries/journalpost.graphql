@@ -1,0 +1,6 @@
+query JournalpostById($id: String!) {
+    journalpost(id: $id) {
+        journalpostId
+        journalstatus
+    }
+}

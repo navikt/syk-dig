@@ -1,28 +1,32 @@
-import { Button, Heading, TextField } from '@navikt/ds-react'
-import { useState } from 'react'
+import { Button, Heading, TextField, Alert } from '@navikt/ds-react'
+import { ReactElement, useState } from 'react'
 import { useLazyQuery } from '@apollo/client'
-import { NextPage } from 'next'
 
-import { OppgaveByIdDocument } from '../graphql/queries/graphql.generated'
+import { JournalpostByIdDocument } from '../graphql/queries/graphql.generated'
 import PageWrapper from '../components/PageWrapper/PageWrapper'
 import { withAuthenticatedPage } from '../auth/withAuth'
 
-const RegistrerSykmelding: NextPage = () => {
-    const [fnr, setFnr] = useState('')
-    const [registrer, registrerResult] = useLazyQuery(OppgaveByIdDocument, {
-        onCompleted: () => {},
-    })
+function RegistrerSykmelding(): ReactElement {
+    const [journalPost, setJournalPost] = useState('')
+    const [registrer, registrerResult] = useLazyQuery(JournalpostByIdDocument, {})
 
     return (
         <PageWrapper title="Registrer sykmelding">
             <div className="container p-4 mx-auto">
                 <Heading size="large">Registrer sykmelding</Heading>
-                <TextField label="JournalpostId" value={fnr} onChange={(event) => setFnr(event.target.value)} />
-                <Button variant="primary" onClick={() => registrer({ variables: { oppgaveId: fnr } })}>
+                <TextField
+                    label="JournalpostId"
+                    value={journalPost}
+                    onChange={(event) => setJournalPost(event.target.value)}
+                />
+                <Button variant="primary" onClick={() => registrer({ variables: { id: journalPost } })}>
                     Hent journalpost
                 </Button>
             </div>
-            {JSON.stringify(registrerResult.data)}
+            {registrerResult.error && <Alert variant="error">Klarte ikke å laste inn journalposten</Alert>}
+            {registrerResult.data && (
+                <div className="p-4">Is good! {registrerResult.data.journalpost.journalstatus}</div>
+            )}
         </PageWrapper>
     )
 }

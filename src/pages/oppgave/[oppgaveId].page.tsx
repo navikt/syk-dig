@@ -18,6 +18,7 @@ function Utenlandsk(): ReactElement {
     const { data, error, loading } = useQuery(OppgaveByIdDocument, {
         variables: { oppgaveId },
     })
+
     return (
         <PageWrapper title="Registrering av sykmelding">
             <OppgaveView oppgave={data?.oppgave} loading={loading} isError={error != null}>

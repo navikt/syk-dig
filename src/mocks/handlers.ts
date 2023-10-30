@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import { delay, graphql, HttpResponse, RequestHandler } from 'msw'
-
 import {
     AvvisOppgaveDocument,
     AvvisOppgaveMutation,
@@ -10,6 +9,7 @@ import {
     DiagnoseInput,
     DigitaliseringsoppgaveStatusEnum,
     InputMaybe,
+    JournalpostByIdDocument, JournalpostByIdQuery, JournalpostByIdQueryVariables,
     NavngiDokumentDocument,
     NavngiDokumentMutation,
     NavngiDokumentMutationVariables,
@@ -70,6 +70,31 @@ export const handlers = [
 
         await delay()
         return HttpResponse.json({ data: { __typename: 'Mutation', lagre: oppgave } })
+    }),
+    graphql.query<JournalpostByIdQuery, JournalpostByIdQueryVariables>(JournalpostByIdDocument, async ({ variables }) =>  {
+        await delay()
+        if (variables.id === 'jørn') {
+            return HttpResponse.json({
+                data: {
+                    __typename: 'Query',
+                    journalpost: {
+                        __typename: 'Journalpost',
+                        journalpostId: 'hei-jørn',
+                        journalstatus: 'JOURNALFØRT',
+                    }
+                }
+            })
+        }
+        return HttpResponse.json({
+            data: {
+                __typename: 'Query',
+                journalpost: {
+                    __typename: 'Journalpost',
+                    journalpostId: 'noko-anna',
+                    journalstatus: 'JOURNALFØRT',
+                },
+            }
+        })
     }),
     graphql.mutation<TilbakeTilGosysMutation, TilbakeTilGosysMutationVariables>(
         TilbakeTilGosysDocument,
