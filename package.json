@@ -44,7 +44,7 @@
         "pino-pretty": "^10.2.3",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "react-hook-form": "^7.47.0",
+        "react-hook-form": "^7.48.1",
         "remeda": "^1.28.0",
         "tailwind-merge": "^1.14.0",
         "zod": "^3.22.4"
