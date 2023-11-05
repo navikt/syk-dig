@@ -29,7 +29,7 @@
         "@navikt/ds-react": "^5.7.6",
         "@navikt/next-api-proxy": "^3.3.1",
         "@navikt/next-auth-wonderwall": "^1.5.0",
-        "@navikt/next-logger": "^1.19.0",
+        "@navikt/next-logger": "^1.21.0",
         "@next/bundle-analyzer": "13.5.6",
         "@unleash/nextjs": "^1.2.0",
         "ariakit": "^2.0.0-next.44",
