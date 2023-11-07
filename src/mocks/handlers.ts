@@ -1,20 +1,30 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import { graphql, RequestHandler } from 'msw'
+import { delay, graphql, HttpResponse, RequestHandler } from 'msw'
 
 import {
     AvvisOppgaveDocument,
+    AvvisOppgaveMutation,
+    AvvisOppgaveMutationVariables,
     DiagnoseFragment,
     DiagnoseInput,
     DigitaliseringsoppgaveStatusEnum,
     InputMaybe,
     NavngiDokumentDocument,
+    NavngiDokumentMutation,
+    NavngiDokumentMutationVariables,
     OppgaveByIdDocument,
+    OppgaveByIdQuery,
+    OppgaveByIdQueryVariables,
     PeriodeFragment,
     PeriodeInput,
     SaveOppgaveDocument,
+    SaveOppgaveMutation,
+    SaveOppgaveMutationVariables,
     SykmeldingUnderArbeidStatus,
     TilbakeTilGosysDocument,
+    TilbakeTilGosysMutation,
+    TilbakeTilGosysMutationVariables,
 } from '../graphql/queries/graphql.generated'
 import { notNull } from '../utils/tsUtils'
 
@@ -27,27 +37,28 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 export const handlers = [
-    graphql.query(OppgaveByIdDocument, (req, res, ctx) => {
-        const oppgave = getMockDb().getOppgaveOrStatus(req.variables.oppgaveId)
+    graphql.query<OppgaveByIdQuery, OppgaveByIdQueryVariables>(OppgaveByIdDocument, async ({ variables }) => {
+        const oppgave = getMockDb().getOppgaveOrStatus(variables.oppgaveId)
 
-        return res(ctx.delay(), ctx.data({ __typename: 'Query', oppgave }))
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Query', oppgave } })
     }),
-    graphql.mutation(SaveOppgaveDocument, (req, res, ctx) => {
-        const oppgave = getMockDb().getOppgave(req.variables.id)
-        const values = req.variables.values
+    graphql.mutation<SaveOppgaveMutation, SaveOppgaveMutationVariables>(SaveOppgaveDocument, async ({ variables }) => {
+        const oppgave = getMockDb().getOppgave(variables.id)
+        const values = variables.values
 
-        if (req.variables.status === SykmeldingUnderArbeidStatus.Ferdigstilt) {
-            return res(
-                ctx.delay(),
-                ctx.data({
+        if (variables.status === SykmeldingUnderArbeidStatus.Ferdigstilt) {
+            await delay()
+            return HttpResponse.json({
+                data: {
                     __typename: 'Mutation',
                     lagre: {
                         __typename: 'DigitaliseringsoppgaveStatus',
-                        oppgaveId: req.variables.id,
+                        oppgaveId: variables.id,
                         status: DigitaliseringsoppgaveStatusEnum.Ferdigstilt,
                     },
-                }),
-            )
+                },
+            })
         }
 
         oppgave.values.fnrPasient = values.fnrPasient
@@ -57,48 +68,59 @@ export const handlers = [
         oppgave.values.biDiagnoser = values.biDiagnoser?.map(mapInputDiagnoseToOppgaveDiagnose).filter(notNull)
         oppgave.values.perioder = values.perioder?.map(mapInputPeriodeToOppgavePeriode).filter(notNull)
 
-        return res(ctx.delay(), ctx.data({ __typename: 'Mutation', lagre: oppgave }))
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Mutation', lagre: oppgave } })
     }),
-    graphql.mutation(TilbakeTilGosysDocument, (req, res, ctx) => {
-        return res(
-            ctx.delay(),
-            ctx.data({
-                __typename: 'Mutation',
-                oppgaveTilbakeTilGosys: {
-                    __typename: 'DigitaliseringsoppgaveStatus',
-                    oppgaveId: req.variables.oppgaveId,
-                    status: DigitaliseringsoppgaveStatusEnum.IkkeEnSykmelding,
+    graphql.mutation<TilbakeTilGosysMutation, TilbakeTilGosysMutationVariables>(
+        TilbakeTilGosysDocument,
+        async ({ variables }) => {
+            await delay()
+            return HttpResponse.json({
+                data: {
+                    __typename: 'Mutation',
+                    oppgaveTilbakeTilGosys: {
+                        __typename: 'DigitaliseringsoppgaveStatus',
+                        oppgaveId: variables.oppgaveId,
+                        status: DigitaliseringsoppgaveStatusEnum.IkkeEnSykmelding,
+                    },
                 },
-            }),
-        )
-    }),
-    graphql.mutation(AvvisOppgaveDocument, (req, res, ctx) => {
-        return res(
-            ctx.delay(),
-            ctx.data({
-                __typename: 'Mutation',
-                avvis: {
-                    __typename: 'DigitaliseringsoppgaveStatus',
-                    oppgaveId: req.variables.oppgaveId,
-                    status: DigitaliseringsoppgaveStatusEnum.Avvist,
+            })
+        },
+    ),
+    graphql.mutation<AvvisOppgaveMutation, AvvisOppgaveMutationVariables>(
+        AvvisOppgaveDocument,
+        async ({ variables }) => {
+            await delay()
+            return HttpResponse.json({
+                data: {
+                    __typename: 'Mutation',
+                    avvis: {
+                        __typename: 'DigitaliseringsoppgaveStatus',
+                        oppgaveId: variables.oppgaveId,
+                        status: DigitaliseringsoppgaveStatusEnum.Avvist,
+                    },
                 },
-            }),
-        )
-    }),
-    graphql.mutation(NavngiDokumentDocument, (req, res, ctx) => {
-        getMockDb().saveDocument(req.variables.oppgaveId, req.variables.dokumentInfoId, req.variables.tittel)
-        return res(
-            ctx.delay(),
-            ctx.data({
-                __typename: 'Mutation',
-                dokument: {
-                    __typename: 'Document',
-                    dokumentInfoId: req.variables.dokumentInfoId,
-                    tittel: req.variables.tittel,
+            })
+        },
+    ),
+    graphql.mutation<NavngiDokumentMutation, NavngiDokumentMutationVariables>(
+        NavngiDokumentDocument,
+        async ({ variables }) => {
+            getMockDb().saveDocument(variables.oppgaveId, variables.dokumentInfoId, variables.tittel)
+
+            await delay()
+            return HttpResponse.json({
+                data: {
+                    __typename: 'Mutation',
+                    dokument: {
+                        __typename: 'Document',
+                        dokumentInfoId: variables.dokumentInfoId,
+                        tittel: variables.tittel,
+                    },
                 },
-            }),
-        )
-    }),
+            })
+        },
+    ),
     ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
 ]
 
