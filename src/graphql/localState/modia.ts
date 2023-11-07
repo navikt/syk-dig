@@ -33,7 +33,11 @@ export function setInitialModiaQueryState(cache: ApolloCache<unknown>, modiaCont
             modia: {
                 __typename: 'ModiaContext',
                 ...modiaContext,
-                aktivEnhet: existingContext?.modia?.aktivEnhet ?? modiaContext.aktivEnhet,
+                aktivEnhet:
+                    existingContext?.modia?.aktivEnhet ??
+                    modiaContext.aktivEnhet ??
+                    modiaContext.enheter[0]?.enhetId ??
+                    null,
                 enheter: modiaContext.enheter.map((it) => ({
                     __typename: 'ModiaEnhet' as const,
                     ...it,
