@@ -1,4 +1,4 @@
-import { StartOptions } from 'msw'
+import { StartOptions } from 'msw/browser'
 
 const whitelistRequests = [
     '/_next/',
@@ -10,7 +10,8 @@ const whitelistRequests = [
 ]
 
 const onUnhandledRequest: StartOptions['onUnhandledRequest'] = (req, print): void => {
-    if (whitelistRequests.some((whitelisted) => req.url.pathname.startsWith(whitelisted))) {
+    const url: URL = new URL(req.url)
+    if (whitelistRequests.some((whitelisted) => url.pathname.startsWith(whitelisted))) {
         return
     }
 
