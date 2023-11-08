@@ -320,6 +320,7 @@ export enum ErrorType {
 
 export type Journalpost = {
     __typename: 'Journalpost'
+    dokumenter: Array<Document>
     journalpostId: Scalars['String']['output']
     journalstatus: Scalars['String']['output']
 }
@@ -535,13 +536,25 @@ export type UpdateAktivEnhetMutation = {
     } | null
 }
 
+export type JournalpostFragment = {
+    __typename: 'Journalpost'
+    journalpostId: string
+    journalstatus: string
+    dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
+}
+
 export type JournalpostByIdQueryVariables = Exact<{
     id: Scalars['String']['input']
 }>
 
 export type JournalpostByIdQuery = {
     __typename: 'Query'
-    journalpost: { __typename: 'Journalpost'; journalpostId: string; journalstatus: string }
+    journalpost: {
+        __typename: 'Journalpost'
+        journalpostId: string
+        journalstatus: string
+        dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
+    }
 }
 
 export type PeriodeFragment = {
@@ -1106,6 +1119,34 @@ export const ModiaFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<ModiaFragment, unknown>
+export const JournalpostFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Journalpost' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Journalpost' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalstatus' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'dokumenter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<JournalpostFragment, unknown>
 export const DocumentFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -2282,9 +2323,29 @@ export const JournalpostByIdDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Journalpost' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Journalpost' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Journalpost' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalstatus' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'dokumenter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
                             selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'journalstatus' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
                             ],
                         },
                     },
