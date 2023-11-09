@@ -6,6 +6,8 @@ import { JournalpostByIdDocument } from '../graphql/queries/graphql.generated'
 import PageWrapper from '../components/PageWrapper/PageWrapper'
 import { withAuthenticatedPage } from '../auth/withAuth'
 import JournalpostView from '../components/OppgaveView/JournalpostView'
+import { getModiaContext } from '../modia/ModiaService'
+import { getFlagsServerSide } from '../toggles/ssr'
 
 function RegistrerSykmelding(): ReactElement {
     const [journalPost, setJournalPost] = useState('')
@@ -66,5 +68,21 @@ function RegistrerSykmelding(): ReactElement {
     )
 }
 
-export const getServerSideProps = withAuthenticatedPage()
+export const getServerSideProps = withAuthenticatedPage(async (context, accessToken) => {
+    const flags = await getFlagsServerSide(context.req, context.res)
+    const flagEnabled = flags.toggles.find((it) => it.name === 'SYK_DIG_CREATE_NEW_SYKMELDING')?.enabled ?? false
+
+    if (!flagEnabled) {
+        return { notFound: true }
+    }
+
+    const modiaContext = await getModiaContext(accessToken)
+    return {
+        props: {
+            modiaContext,
+            toggles: flags.toggles,
+        },
+    }
+})
+
 export default RegistrerSykmelding
