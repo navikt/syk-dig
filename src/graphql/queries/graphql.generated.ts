@@ -318,6 +318,13 @@ export enum ErrorType {
     Unknown = 'UNKNOWN',
 }
 
+export type Journalpost = {
+    __typename: 'Journalpost'
+    dokumenter: Array<Document>
+    journalpostId: Scalars['String']['output']
+    journalstatus: Scalars['String']['output']
+}
+
 export type Matrikkeladresse = {
     __typename: 'Matrikkeladresse'
     bruksenhetsnummer?: Maybe<Scalars['String']['output']>
@@ -432,8 +439,13 @@ export type Person = {
 export type Query = {
     __typename: 'Query'
     _service: _Service
+    journalpost: Journalpost
     modia?: Maybe<ModiaContext>
     oppgave?: Maybe<DigitaliseringsoppgaveResult>
+}
+
+export type QueryJournalpostArgs = {
+    id: Scalars['String']['input']
 }
 
 export type QueryOppgaveArgs = {
@@ -522,6 +534,27 @@ export type UpdateAktivEnhetMutation = {
         ident: string
         enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>
     } | null
+}
+
+export type JournalpostFragment = {
+    __typename: 'Journalpost'
+    journalpostId: string
+    journalstatus: string
+    dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
+}
+
+export type JournalpostByIdQueryVariables = Exact<{
+    id: Scalars['String']['input']
+}>
+
+export type JournalpostByIdQuery = {
+    __typename: 'Query'
+    journalpost: {
+        __typename: 'Journalpost'
+        journalpostId: string
+        journalstatus: string
+        dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
+    }
 }
 
 export type PeriodeFragment = {
@@ -1086,6 +1119,34 @@ export const ModiaFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<ModiaFragment, unknown>
+export const JournalpostFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Journalpost' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Journalpost' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalstatus' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'dokumenter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<JournalpostFragment, unknown>
 export const DocumentFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -2233,6 +2294,66 @@ export const UpdateAktivEnhetDocument = {
         },
     ],
 } as unknown as DocumentNode<UpdateAktivEnhetMutation, UpdateAktivEnhetMutationVariables>
+export const JournalpostByIdDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'JournalpostById' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'journalpost' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'id' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Journalpost' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Journalpost' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Journalpost' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalstatus' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'dokumenter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<JournalpostByIdQuery, JournalpostByIdQueryVariables>
 export const OppgaveByIdDocument = {
     kind: 'Document',
     definitions: [

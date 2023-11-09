@@ -1,0 +1,14 @@
+fragment Journalpost on Journalpost {
+    journalpostId
+    journalstatus
+    dokumenter {
+        tittel
+        dokumentInfoId
+    }
+}
+
+query JournalpostById($id: String!) {
+    journalpost(id: $id) {
+        ...Journalpost
+    }
+}

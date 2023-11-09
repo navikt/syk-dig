@@ -7,7 +7,7 @@ import { NavngiDokumentDocument } from '../../graphql/queries/graphql.generated'
 
 interface Props {
     document: { tittel: string; dokumentInfoId: string }
-    oppdaveId: string
+    oppdaveId?: string
 }
 
 function DocumentTabLabel({ document, oppdaveId }: Props): ReactElement {
@@ -16,21 +16,26 @@ function DocumentTabLabel({ document, oppdaveId }: Props): ReactElement {
     return (
         <>
             <Tabs.Tab value={document.dokumentInfoId} label={document.tittel} className="pr-12" />
-            <Button
-                className="-ml-10 mt-2 h-8 w-8"
-                variant="tertiary"
-                icon={<PencilIcon title="Rediger dokumentnavn" />}
-                size="small"
-                onClick={() => {
-                    setIsModalOpen(true)
-                }}
-            />
-            <EditDocumentModal
-                document={document}
-                oppdaveId={oppdaveId}
-                isModalOpen={isModalOpen}
-                close={() => setIsModalOpen(false)}
-            />
+
+            {oppdaveId != null && (
+                <>
+                    <Button
+                        className="-ml-10 mt-2 h-8 w-8"
+                        variant="tertiary"
+                        icon={<PencilIcon title="Rediger dokumentnavn" />}
+                        size="small"
+                        onClick={() => {
+                            setIsModalOpen(true)
+                        }}
+                    />
+                    <EditDocumentModal
+                        document={document}
+                        oppdaveId={oppdaveId}
+                        isModalOpen={isModalOpen}
+                        close={() => setIsModalOpen(false)}
+                    />
+                </>
+            )}
         </>
     )
 }
