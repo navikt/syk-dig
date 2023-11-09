@@ -353,6 +353,7 @@ export type Mutation = {
     dokument?: Maybe<Document>
     lagre?: Maybe<DigitaliseringsoppgaveResult>
     oppgaveTilbakeTilGosys?: Maybe<DigitaliseringsoppgaveStatus>
+    sykmeldingFraJournalpost: Journalpost
     updateModiaEnhet?: Maybe<ModiaContext>
 }
 
@@ -378,6 +379,10 @@ export type MutationLagreArgs = {
 
 export type MutationOppgaveTilbakeTilGosysArgs = {
     oppgaveId: Scalars['String']['input']
+}
+
+export type MutationSykmeldingFraJournalpostArgs = {
+    journalpostId: Scalars['String']['input']
 }
 
 export type MutationUpdateModiaEnhetArgs = {
@@ -550,6 +555,20 @@ export type JournalpostByIdQueryVariables = Exact<{
 export type JournalpostByIdQuery = {
     __typename: 'Query'
     journalpost: {
+        __typename: 'Journalpost'
+        journalpostId: string
+        journalstatus: string
+        dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
+    }
+}
+
+export type SykmeldingFraJournalpostMutationVariables = Exact<{
+    id: Scalars['String']['input']
+}>
+
+export type SykmeldingFraJournalpostMutation = {
+    __typename: 'Mutation'
+    sykmeldingFraJournalpost: {
         __typename: 'Journalpost'
         journalpostId: string
         journalstatus: string
@@ -2354,6 +2373,66 @@ export const JournalpostByIdDocument = {
         },
     ],
 } as unknown as DocumentNode<JournalpostByIdQuery, JournalpostByIdQueryVariables>
+export const SykmeldingFraJournalpostDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'SykmeldingFraJournalpost' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'sykmeldingFraJournalpost' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'journalpostId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Journalpost' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Journalpost' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Journalpost' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalstatus' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'dokumenter' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SykmeldingFraJournalpostMutation, SykmeldingFraJournalpostMutationVariables>
 export const OppgaveByIdDocument = {
     kind: 'Document',
     definitions: [

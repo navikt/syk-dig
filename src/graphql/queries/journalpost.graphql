@@ -12,3 +12,9 @@ query JournalpostById($id: String!) {
         ...Journalpost
     }
 }
+
+mutation SykmeldingFraJournalpost($id: String!) {
+    sykmeldingFraJournalpost(journalpostId: $id) {
+        ...Journalpost
+    }
+}

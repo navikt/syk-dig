@@ -1,8 +1,8 @@
 import { Button, Heading, TextField, Alert, BodyShort } from '@navikt/ds-react'
 import { ReactElement, useState } from 'react'
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 
-import { JournalpostByIdDocument } from '../graphql/queries/graphql.generated'
+import { JournalpostByIdDocument, SykmeldingFraJournalpostDocument } from '../graphql/queries/graphql.generated'
 import PageWrapper from '../components/PageWrapper/PageWrapper'
 import { withAuthenticatedPage } from '../auth/withAuth'
 import JournalpostView from '../components/OppgaveView/JournalpostView'
@@ -60,11 +60,35 @@ function RegistrerSykmelding(): ReactElement {
                                     <BodyShort>DokumentId: {value.dokumentInfoId}</BodyShort>
                                 </div>
                             ))}
+                            <CreateSykmeldingForm journalpostId={registrerResult.data.journalpost.journalpostId} />
                         </div>
                     )}
                 </div>
             </JournalpostView>
         </PageWrapper>
+    )
+}
+
+function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): ReactElement {
+    const [create, createResult] = useMutation(SykmeldingFraJournalpostDocument, { variables: { id: journalpostId } })
+    return (
+        <div>
+            Journalpost: {journalpostId}
+            <div className="mt-4">
+                <Button
+                    variant="secondary"
+                    loading={createResult.loading}
+                    disabled={createResult.data != null}
+                    onClick={() => create({ variables: { id: journalpostId } })}
+                >
+                    Opprett sykmelding
+                </Button>
+            </div>
+            <div className="mt-4">
+                {createResult.data && <Alert variant="info">Sykmelding ble opprettet</Alert>}
+                {createResult.error && <Alert variant="error">Klarte ikke å opprette sykmelding</Alert>}
+            </div>
+        </div>
     )
 }
 
