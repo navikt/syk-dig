@@ -71,7 +71,7 @@
         "eslint-config-next": "14.0.1",
         "husky": "^8.0.3",
         "jsdom": "^22.1.0",
-        "lint-staged": "^15.0.2",
+        "lint-staged": "^15.1.0",
         "msw": "2.0.3",
         "next-router-mock": "^0.9.10",
         "open": "^9.1.0",
