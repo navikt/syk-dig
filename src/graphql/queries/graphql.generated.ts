@@ -331,10 +331,11 @@ export type JournalpostResult = Journalpost | JournalpostStatus
 export type JournalpostStatus = {
     __typename: 'JournalpostStatus'
     journalpostId: Scalars['String']['output']
-    status?: Maybe<JournalpostStatusEnum>
+    status: JournalpostStatusEnum
 }
 
 export enum JournalpostStatusEnum {
+    FeilKanal = 'FEIL_KANAL',
     FeilTema = 'FEIL_TEMA',
     ManglerFnr = 'MANGLER_FNR',
     Opprettet = 'OPPRETTET',
@@ -560,13 +561,14 @@ export type JournalpostFragment = {
     __typename: 'Journalpost'
     journalpostId: string
     journalstatus: string
+    fnr: string
     dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
 }
 
 export type JournalpostStatusFragment = {
     __typename: 'JournalpostStatus'
     journalpostId: string
-    status?: JournalpostStatusEnum | null
+    status: JournalpostStatusEnum
 }
 
 export type JournalpostByIdQueryVariables = Exact<{
@@ -580,9 +582,10 @@ export type JournalpostByIdQuery = {
               __typename: 'Journalpost'
               journalpostId: string
               journalstatus: string
+              fnr: string
               dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
           }
-        | { __typename: 'JournalpostStatus'; journalpostId: string; status?: JournalpostStatusEnum | null }
+        | { __typename: 'JournalpostStatus'; journalpostId: string; status: JournalpostStatusEnum }
 }
 
 export type SykmeldingFraJournalpostMutationVariables = Exact<{
@@ -591,11 +594,7 @@ export type SykmeldingFraJournalpostMutationVariables = Exact<{
 
 export type SykmeldingFraJournalpostMutation = {
     __typename: 'Mutation'
-    sykmeldingFraJournalpost: {
-        __typename: 'JournalpostStatus'
-        journalpostId: string
-        status?: JournalpostStatusEnum | null
-    }
+    sykmeldingFraJournalpost: { __typename: 'JournalpostStatus'; journalpostId: string; status: JournalpostStatusEnum }
 }
 
 export type PeriodeFragment = {
@@ -1183,6 +1182,7 @@ export const JournalpostFragmentDoc = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
                 ],
             },
         },
@@ -2410,6 +2410,7 @@ export const JournalpostByIdDocument = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
                 ],
             },
         },

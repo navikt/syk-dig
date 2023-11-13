@@ -76,8 +76,9 @@ function Journalpost({ journalpost }: { journalpost: JournalpostFragment }): Rea
     return (
         <div className="p-4 mt-4">
             <Heading size="medium">Fant journalpost</Heading>
-            <BodyShort>{journalpost.journalpostId}</BodyShort>
-            <BodyShort>{journalpost.journalstatus}</BodyShort>
+            <BodyShort>JournalpostId: {journalpost.journalpostId}</BodyShort>
+            <BodyShort>Journalstatus: {journalpost.journalstatus}</BodyShort>
+            <BodyShort>Fnr: {journalpost.fnr}</BodyShort>
             {journalpost.dokumenter.map((value) => (
                 <div key={value.dokumentInfoId} className="bg-bg-subtle mb-2 p-2">
                     <BodyShort>Tittel: {value.tittel}</BodyShort>

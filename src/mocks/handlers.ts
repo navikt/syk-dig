@@ -91,6 +91,7 @@ export const handlers = [
                             __typename: 'JournalpostStatus',
                             journalpostId: 'opprettet',
                             status: JournalpostStatusEnum.Opprettet,
+                            fnr: '12345678910',
                         },
                     },
                 })
@@ -104,6 +105,7 @@ export const handlers = [
                             __typename: 'JournalpostStatus',
                             journalpostId: 'mangler-fnr',
                             status: JournalpostStatusEnum.ManglerFnr,
+                            fnr: '12345678910',
                         },
                     },
                 })
@@ -117,6 +119,7 @@ export const handlers = [
                             __typename: 'JournalpostStatus',
                             journalpostId: 'feil-tema',
                             status: JournalpostStatusEnum.FeilTema,
+                            fnr: '12345678910',
                         },
                     },
                 })
@@ -131,6 +134,7 @@ export const handlers = [
                             journalpostId: 'uten-dokumnet',
                             journalstatus: 'JOURNALFØRT',
                             dokumenter: [],
+                            fnr: '12345678910',
                         },
                     },
                 })
@@ -154,6 +158,7 @@ export const handlers = [
                                 dokumentInfoId: 'kyrkje-id',
                             },
                         ],
+                        fnr: '12345678910',
                     },
                 },
             })

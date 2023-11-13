@@ -5,6 +5,7 @@ fragment Journalpost on Journalpost {
         tittel
         dokumentInfoId
     }
+    fnr
 }
 
 fragment JournalpostStatus on JournalpostStatus {
