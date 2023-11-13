@@ -13,6 +13,7 @@ import {
     JournalpostByIdDocument,
     JournalpostByIdQuery,
     JournalpostByIdQueryVariables,
+    JournalpostStatusEnum,
     NavngiDokumentDocument,
     NavngiDokumentMutation,
     NavngiDokumentMutationVariables,
@@ -24,6 +25,9 @@ import {
     SaveOppgaveDocument,
     SaveOppgaveMutation,
     SaveOppgaveMutationVariables,
+    SykmeldingFraJournalpostDocument,
+    SykmeldingFraJournalpostMutation,
+    SykmeldingFraJournalpostMutationVariables,
     SykmeldingUnderArbeidStatus,
     TilbakeTilGosysDocument,
     TilbakeTilGosysMutation,
@@ -78,13 +82,53 @@ export const handlers = [
         JournalpostByIdDocument,
         async ({ variables }) => {
             await delay()
-            if (variables.id === 'jørn') {
+
+            if (variables.id === 'opprettet') {
+                return HttpResponse.json({
+                    data: {
+                        __typename: 'Query',
+                        journalpost: {
+                            __typename: 'JournalpostStatus',
+                            journalpostId: 'opprettet',
+                            status: JournalpostStatusEnum.Opprettet,
+                        },
+                    },
+                })
+            }
+
+            if (variables.id === 'mangler-fnr') {
+                return HttpResponse.json({
+                    data: {
+                        __typename: 'Query',
+                        journalpost: {
+                            __typename: 'JournalpostStatus',
+                            journalpostId: 'mangler-fnr',
+                            status: JournalpostStatusEnum.ManglerFnr,
+                        },
+                    },
+                })
+            }
+
+            if (variables.id === 'feil-tema') {
+                return HttpResponse.json({
+                    data: {
+                        __typename: 'Query',
+                        journalpost: {
+                            __typename: 'JournalpostStatus',
+                            journalpostId: 'feil-tema',
+                            status: JournalpostStatusEnum.FeilTema,
+                        },
+                    },
+                })
+            }
+
+            if (variables.id === 'uten-dokument') {
                 return HttpResponse.json({
                     data: {
                         __typename: 'Query',
                         journalpost: {
                             __typename: 'Journalpost',
-                            journalpostId: 'hei-jørn',
+                            journalpostId: 'uten-dokumnet',
                             journalstatus: 'JOURNALFØRT',
                             dokumenter: [],
                         },
@@ -160,6 +204,23 @@ export const handlers = [
                         __typename: 'Document',
                         dokumentInfoId: variables.dokumentInfoId,
                         tittel: variables.tittel,
+                    },
+                },
+            })
+        },
+    ),
+    graphql.mutation<SykmeldingFraJournalpostMutation, SykmeldingFraJournalpostMutationVariables>(
+        SykmeldingFraJournalpostDocument,
+        async ({ variables }) => {
+            await delay()
+
+            return HttpResponse.json({
+                data: {
+                    __typename: 'Mutation',
+                    sykmeldingFraJournalpost: {
+                        __typename: 'JournalpostStatus',
+                        journalpostId: variables.id,
+                        status: JournalpostStatusEnum.Opprettet,
                     },
                 },
             })

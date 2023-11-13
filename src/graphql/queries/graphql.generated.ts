@@ -321,8 +321,23 @@ export enum ErrorType {
 export type Journalpost = {
     __typename: 'Journalpost'
     dokumenter: Array<Document>
+    fnr: Scalars['String']['output']
     journalpostId: Scalars['String']['output']
     journalstatus: Scalars['String']['output']
+}
+
+export type JournalpostResult = Journalpost | JournalpostStatus
+
+export type JournalpostStatus = {
+    __typename: 'JournalpostStatus'
+    journalpostId: Scalars['String']['output']
+    status?: Maybe<JournalpostStatusEnum>
+}
+
+export enum JournalpostStatusEnum {
+    FeilTema = 'FEIL_TEMA',
+    ManglerFnr = 'MANGLER_FNR',
+    Opprettet = 'OPPRETTET',
 }
 
 export type Matrikkeladresse = {
@@ -353,7 +368,7 @@ export type Mutation = {
     dokument?: Maybe<Document>
     lagre?: Maybe<DigitaliseringsoppgaveResult>
     oppgaveTilbakeTilGosys?: Maybe<DigitaliseringsoppgaveStatus>
-    sykmeldingFraJournalpost: Journalpost
+    sykmeldingFraJournalpost: JournalpostStatus
     updateModiaEnhet?: Maybe<ModiaContext>
 }
 
@@ -444,7 +459,7 @@ export type Person = {
 export type Query = {
     __typename: 'Query'
     _service: _Service
-    journalpost: Journalpost
+    journalpost: JournalpostResult
     modia?: Maybe<ModiaContext>
     oppgave?: Maybe<DigitaliseringsoppgaveResult>
 }
@@ -548,18 +563,26 @@ export type JournalpostFragment = {
     dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
 }
 
+export type JournalpostStatusFragment = {
+    __typename: 'JournalpostStatus'
+    journalpostId: string
+    status?: JournalpostStatusEnum | null
+}
+
 export type JournalpostByIdQueryVariables = Exact<{
     id: Scalars['String']['input']
 }>
 
 export type JournalpostByIdQuery = {
     __typename: 'Query'
-    journalpost: {
-        __typename: 'Journalpost'
-        journalpostId: string
-        journalstatus: string
-        dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
-    }
+    journalpost:
+        | {
+              __typename: 'Journalpost'
+              journalpostId: string
+              journalstatus: string
+              dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
+          }
+        | { __typename: 'JournalpostStatus'; journalpostId: string; status?: JournalpostStatusEnum | null }
 }
 
 export type SykmeldingFraJournalpostMutationVariables = Exact<{
@@ -569,10 +592,9 @@ export type SykmeldingFraJournalpostMutationVariables = Exact<{
 export type SykmeldingFraJournalpostMutation = {
     __typename: 'Mutation'
     sykmeldingFraJournalpost: {
-        __typename: 'Journalpost'
+        __typename: 'JournalpostStatus'
         journalpostId: string
-        journalstatus: string
-        dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
+        status?: JournalpostStatusEnum | null
     }
 }
 
@@ -1166,6 +1188,23 @@ export const JournalpostFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<JournalpostFragment, unknown>
+export const JournalpostStatusFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'JournalpostStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'JournalpostStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<JournalpostStatusFragment, unknown>
 export const DocumentFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -2342,7 +2381,10 @@ export const JournalpostByIdDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Journalpost' } }],
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Journalpost' } },
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'JournalpostStatus' } },
+                            ],
                         },
                     },
                 ],
@@ -2368,6 +2410,18 @@ export const JournalpostByIdDocument = {
                             ],
                         },
                     },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'JournalpostStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'JournalpostStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
                 ],
             },
         },
@@ -2402,7 +2456,9 @@ export const SykmeldingFraJournalpostDocument = {
                         ],
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Journalpost' } }],
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'JournalpostStatus' } },
+                            ],
                         },
                     },
                 ],
@@ -2410,24 +2466,13 @@ export const SykmeldingFraJournalpostDocument = {
         },
         {
             kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'Journalpost' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Journalpost' } },
+            name: { kind: 'Name', value: 'JournalpostStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'JournalpostStatus' } },
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'journalstatus' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'dokumenter' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
-                            ],
-                        },
-                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
                 ],
             },
         },

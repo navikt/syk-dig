@@ -7,14 +7,20 @@ fragment Journalpost on Journalpost {
     }
 }
 
+fragment JournalpostStatus on JournalpostStatus {
+    journalpostId
+    status
+}
+
 query JournalpostById($id: String!) {
     journalpost(id: $id) {
         ...Journalpost
+        ...JournalpostStatus
     }
 }
 
 mutation SykmeldingFraJournalpost($id: String!) {
     sykmeldingFraJournalpost(journalpostId: $id) {
-        ...Journalpost
+        ...JournalpostStatus
     }
 }
