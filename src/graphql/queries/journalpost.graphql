@@ -5,10 +5,23 @@ fragment Journalpost on Journalpost {
         tittel
         dokumentInfoId
     }
+    fnr
+}
+
+fragment JournalpostStatus on JournalpostStatus {
+    journalpostId
+    status
 }
 
 query JournalpostById($id: String!) {
     journalpost(id: $id) {
         ...Journalpost
+        ...JournalpostStatus
+    }
+}
+
+mutation SykmeldingFraJournalpost($id: String!) {
+    sykmeldingFraJournalpost(journalpostId: $id) {
+        ...JournalpostStatus
     }
 }
