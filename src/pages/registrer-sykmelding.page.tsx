@@ -101,8 +101,8 @@ function JournalpostStatus({ status }: { status: JournalpostStatusEnum }): React
                     {status === JournalpostStatusEnum.ManglerFnr
                         ? 'Mangler fødselsnummer'
                         : status === JournalpostStatusEnum.FeilTema
-                        ? 'Har ikke tema "SYM"'
-                        : 'Sykmelding er allerede opprettet'}
+                          ? 'Har ikke tema "SYM"'
+                          : 'Sykmelding er allerede opprettet'}
                 </BodyShort>
             </Alert>
         </div>
