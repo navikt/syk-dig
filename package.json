@@ -2,9 +2,9 @@
     "name": "syk-dig",
     "version": "0.1.0",
     "private": true,
-    "packageManager": "yarn@3.2.3",
+    "packageManager": "yarn@4.0.2",
     "engines": {
-        "node": ">=18.17"
+        "node": "20"
     },
     "scripts": {
         "dev": "yarn start",
