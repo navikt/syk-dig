@@ -14,7 +14,7 @@
         "lint": "next lint",
         "test": "vitest --config ./vitest.config.ts",
         "gen": "graphql-codegen --config codegen.ts",
-        "gen:watch": "graphql-codegen -w --config codegen.ts",
+        "gen:watch": "graphql-codegen --watch --config codegen.ts",
         "update-schema": "wget https://syk-dig-backend.intern.dev.nav.no/schema.json -O ./schema.json && prettier -w schema.json",
         "postinstall": "node ./scripts/postinstall.js"
     },
@@ -57,6 +57,7 @@
         "@graphql-codegen/typescript-operations": "^4.0.1",
         "@navikt/ds-tailwind": "^5.10.4",
         "@navikt/eslint-config-teamsykmelding": "^5.0.0",
+        "@parcel/watcher": "^2.3.0",
         "@testing-library/react": "^14.1.2",
         "@testing-library/user-event": "^14.5.1",
         "@types/node": "20.9.4",
@@ -81,6 +82,7 @@
         "prettier-plugin-tailwindcss": "^0.5.7",
         "tailwindcss": "^3.3.5",
         "typescript": "5.3.2",
+        "vite-tsconfig-paths": "^4.2.1",
         "vitest": "^0.34.6",
         "vitest-axe": "^0.1.0",
         "vitest-dom": "^0.1.1"

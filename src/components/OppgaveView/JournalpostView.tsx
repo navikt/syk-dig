@@ -23,7 +23,7 @@ function JournalpostView({ journalpost, loading, isError, children }: PropsWithC
                     <div className={styles.content}>{children} </div>
                 </section>
                 {loading && <DocumentsViewerSkeleton className={documentsSectionClassNames} />}
-                {!loading && journalpost == null && (
+                {!loading && journalpost == null && !isError && (
                     <DocumentsViewerNoDocuments
                         className={documentsSectionClassNames}
                         text="Journalposten er ikke åpen"

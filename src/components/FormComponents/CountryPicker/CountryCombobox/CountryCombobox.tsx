@@ -2,7 +2,6 @@ import { ReactElement, useEffect, useState } from 'react'
 import { useComboboxState } from 'ariakit/combobox'
 
 import { api } from '../../../../utils/apiUtils'
-import { Country } from '../../../../pages/api/country/index.api'
 import {
     ComboboxWrapper,
     DsCombobox,
@@ -10,6 +9,7 @@ import {
     DsComboboxNoResult,
     DsComboboxPopover,
 } from '../../CustomFormComponents/Combobox'
+import { Country } from '../../../../app/api/country/_types'
 
 interface Props {
     id?: string

@@ -1,10 +1,12 @@
+'use client'
+
 import { ReactElement } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
-import { Select, InternalHeader } from '@navikt/ds-react'
 import Link from 'next/link'
+import { Select, InternalHeader } from '@navikt/ds-react'
 
 import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/queries/graphql.generated'
-import { browserEnv } from '../../utils/env'
+import { bundledEnv } from '../../utils/env'
 
 import styles from './PageHeader.module.css'
 
@@ -47,13 +49,13 @@ function PageHeader(): ReactElement {
 }
 
 function HeaderText(): ReactElement {
-    if (browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === 'production') {
-        return <InternalHeader.Title as="div">Registrering av sykmelding</InternalHeader.Title>
+    if (bundledEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === 'production') {
+        return <InternalHeader.Title as="div">Digitalisering av sykmeldinger</InternalHeader.Title>
     }
 
     return (
         <InternalHeader.Title as={Link} href="/">
-            Registrering av sykmelding
+            Digitalisering av sykmeldinger
         </InternalHeader.Title>
     )
 }
