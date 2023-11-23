@@ -1,7 +1,7 @@
 import { z, ZodError } from 'zod'
 
-export type PublicEnv = z.infer<typeof publicEnvSchema>
-const publicEnvSchema = z.object({
+export type BundledEnv = z.infer<typeof bundledEnvSchema>
+const bundledEnvSchema = z.object({
     NEXT_PUBLIC_RUNTIME_ENVIRONMENT: z.union([
         z.literal('local'),
         z.literal('test'),
@@ -31,12 +31,12 @@ export const serverEnvSchema = z.object({
     UNLEASH_SERVER_API_TOKEN: z.string().optional(),
 })
 
-export const browserEnv = publicEnvSchema.parse({
+export const bundledEnv = bundledEnvSchema.parse({
     NEXT_PUBLIC_RUNTIME_ENVIRONMENT: process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT,
     NEXT_PUBLIC_GOSYS_URL: process.env.NEXT_PUBLIC_GOSYS_URL,
     NEXT_PUBLIC_ASSET_PREFIX: process.env.NEXT_PUBLIC_ASSET_PREFIX,
     NEXT_PUBLIC_API_MOCKING: process.env.NEXT_PUBLIC_API_MOCKING,
-} satisfies Record<keyof PublicEnv, string | undefined>)
+} satisfies Record<keyof BundledEnv, string | undefined>)
 
 const getRawServerConfig = (): Partial<unknown> =>
     ({
@@ -59,9 +59,9 @@ const getRawServerConfig = (): Partial<unknown> =>
 /**
  * Server envs are lazy loaded and verified using Zod.
  */
-export function getServerEnv(): ServerEnv & PublicEnv {
+export function getServerEnv(): ServerEnv & BundledEnv {
     try {
-        return { ...serverEnvSchema.parse(getRawServerConfig()), ...publicEnvSchema.parse(browserEnv) }
+        return { ...serverEnvSchema.parse(getRawServerConfig()), ...bundledEnvSchema.parse(bundledEnv) }
     } catch (e) {
         if (e instanceof ZodError) {
             throw new Error(
@@ -80,4 +80,4 @@ export function getServerEnv(): ServerEnv & PublicEnv {
 }
 
 export const isLocalOrDemo =
-    process.env.NODE_ENV !== 'production' || browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === 'demo'
+    process.env.NODE_ENV !== 'production' || bundledEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === 'demo'

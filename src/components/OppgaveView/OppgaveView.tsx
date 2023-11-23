@@ -4,7 +4,7 @@ import { ExpandIcon, SidebarLeftIcon, XMarkIcon, TasklistStartIcon, FilePdfIcon 
 import cn from 'clsx'
 
 import PageTitle from '../PageTitle/PageTitle'
-import { browserEnv } from '../../utils/env'
+import { bundledEnv } from '../../utils/env'
 import { DigitaliseringOppgaveResultFragment } from '../../graphql/queries/graphql.generated'
 
 import DocumentsViewer from './DocumentsViewer'
@@ -123,7 +123,7 @@ function OppgaveViewPageTitle({ showTabs, toggleTabs }: OppgaveViewPageTitleProp
                             size="small"
                             variant="tertiary"
                             as="a"
-                            href={browserEnv.NEXT_PUBLIC_GOSYS_URL}
+                            href={bundledEnv.NEXT_PUBLIC_GOSYS_URL}
                             icon={<XMarkIcon title="Lukk oppgaven og gå tilbake til gosys uten å lagre" />}
                         />
                     </Tooltip>

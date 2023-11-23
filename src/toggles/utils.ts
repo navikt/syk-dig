@@ -1,6 +1,6 @@
 import { IToggle } from '@unleash/nextjs'
 
-import { browserEnv } from '../utils/env'
+import { bundledEnv } from '../utils/env'
 
 import { EXPECTED_TOGGLES } from './toggles'
 
@@ -19,7 +19,7 @@ export function localDevelopmentToggles(): IToggle[] {
 }
 
 export function getUnleashEnvironment(): 'development' | 'production' {
-    switch (browserEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT) {
+    switch (bundledEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT) {
         case 'dev':
         case 'test':
         case 'local':

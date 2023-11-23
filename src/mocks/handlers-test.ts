@@ -1,8 +1,10 @@
 import { HttpResponse, RequestHandler, http } from 'msw'
 
 import { api } from '../utils/apiUtils'
-import { DiagnoseSearchResult, searchSystem } from '../pages/api/diagnose/[system].api'
-import { countriesResponse, Country } from '../pages/api/country/index.api'
+import { searchSystem } from '../app/api/diagnose/[system]/_search-system'
+import { DiagnoseSearchResult } from '../app/api/diagnose/[system]/_types'
+import { countriesResponse } from '../app/api/country/_countries'
+import { Country } from '../app/api/country/_types'
 
 /**
  * These are only used in MSW during tests, normally we use the real API routes in next

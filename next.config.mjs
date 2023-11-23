@@ -4,8 +4,14 @@ const ContentSecurityPolicy = `
     default-src 'self';
     script-src 'self' 'unsafe-eval' https://*.nav.no;
     style-src 'self' 'unsafe-inline' https://cdn.nav.no;
-    img-src 'self' data:;
+    img-src 'self' blob: data:;
     font-src 'self' https://cdn.nav.no;
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    block-all-mixed-content;
+    upgrade-insecure-requests;
     worker-src 'self';
     connect-src 'self' https://*.nav.no;
 `
@@ -13,6 +19,8 @@ const ContentSecurityPolicy = `
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     async headers() {
+        // if (process.env.NODE_ENV === 'development') return []
+
         return [
             {
                 source: '/:path*',
@@ -28,14 +36,13 @@ const nextConfig = {
     output: 'standalone',
     reactStrictMode: true,
     assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,
-    pageExtensions: ['page.tsx', 'page.ts', 'api.ts'],
+    experimental: {
+        serverComponentsExternalPackages: ['@navikt/next-logger', 'next-logger'],
+    },
     eslint: {
         ignoreDuringBuilds: true,
         dirs: ['src'],
     },
-    productionBrowserSourceMaps: true,
 }
 
-export default bundleAnalyzer({
-    enabled: process.env.ANALYZE === 'true',
-})(nextConfig)
+export default process.env.ANALYZE === 'true' ? bundleAnalyzer()(nextConfig) : nextConfig

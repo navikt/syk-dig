@@ -5,7 +5,7 @@ import { useFormContext } from 'react-hook-form'
 
 import { Avvisingsgrunn, AvvisOppgaveDocument } from '../../../graphql/queries/graphql.generated'
 import { MutationResultFeedback } from '../ActionSection/MutationFeedbackSection'
-import { browserEnv, isLocalOrDemo } from '../../../utils/env'
+import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
 import styles from '../ActionSection/MutationFeedbackSection.module.css'
 import FeedbackModal from '../ActionSection/FeedbackModal'
 import { redirectTilGosys } from '../ActionSection/ActionSection'
@@ -52,7 +52,7 @@ function AvvisSection(): ReactElement {
                     <Alert variant="success" className={styles.saveSuccess}>
                         Oppgaven ble avvist
                     </Alert>
-                    <Button variant="tertiary" as="a" href={browserEnv.NEXT_PUBLIC_GOSYS_URL}>
+                    <Button variant="tertiary" as="a" href={bundledEnv.NEXT_PUBLIC_GOSYS_URL}>
                         Klikk her dersom du ikke blir videresendt...
                     </Button>
                 </FeedbackModal>

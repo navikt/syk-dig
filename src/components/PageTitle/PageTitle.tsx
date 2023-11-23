@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import { Heading, Ingress } from '@navikt/ds-react'
+import { Heading, BodyLong } from '@navikt/ds-react'
 
 import styles from './PageTitle.module.css'
 
@@ -16,7 +16,7 @@ function PageTitle({ title, titleId, ingress, titleActions }: Props): ReactEleme
             <Heading id={titleId} size="xlarge">
                 {title}
             </Heading>
-            <Ingress>{ingress}</Ingress>
+            <BodyLong size="large">{ingress}</BodyLong>
             {titleActions && <div className={styles.titleActions}>{titleActions}</div>}
         </div>
     )

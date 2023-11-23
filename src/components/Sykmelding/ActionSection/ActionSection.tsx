@@ -3,7 +3,7 @@ import { Button } from '@navikt/ds-react'
 import { useFormContext } from 'react-hook-form'
 import { MutationResult } from '@apollo/client'
 
-import { browserEnv } from '../../../utils/env'
+import { bundledEnv } from '../../../utils/env'
 import { SykmeldingFormValues } from '../SykmeldingForm'
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated'
 import ConfirmButton from '../../ConfirmButton/ConfirmButton'
@@ -123,7 +123,7 @@ function isMutationSuccess(result: MutationResult): boolean {
 }
 
 export function redirectTilGosys(): void {
-    window.location.href = browserEnv.NEXT_PUBLIC_GOSYS_URL
+    window.location.href = bundledEnv.NEXT_PUBLIC_GOSYS_URL
 }
 
 export default ActionSection

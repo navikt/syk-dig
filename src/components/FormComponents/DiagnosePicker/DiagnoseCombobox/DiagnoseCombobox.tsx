@@ -3,10 +3,10 @@ import { useComboboxState } from 'ariakit/combobox'
 
 import { ComboboxWrapper, DsCombobox, DsComboboxItem, DsComboboxPopover } from '../../CustomFormComponents/Combobox'
 import { DiagnoseSystem } from '../../../Sykmelding/DiagnoseFormSection'
-import { DiagnoseSearchResult, DiagnoseSuggestion } from '../../../../pages/api/diagnose/[system].api'
 import { api } from '../../../../utils/apiUtils'
 import { DsComboboxNoResult } from '../../CustomFormComponents/Combobox'
 import { PossiblePickerFormNames } from '../DiagnosePicker'
+import { DiagnoseSearchResult, DiagnoseSuggestion } from '../../../../app/api/diagnose/[system]/_types'
 
 interface Props {
     id?: string
