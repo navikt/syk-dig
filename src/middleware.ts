@@ -12,8 +12,11 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
     const requestHeaders = new Headers(req.headers)
 
     const [cspHeader, nonce] = createCsp()
-    requestHeaders.set('x-nonce', nonce)
-    requestHeaders.set('Content-Security-Policy', cspHeader)
+    // Disable CSP in dev
+    if (process.env.NODE_ENV === 'production') {
+        requestHeaders.set('x-nonce', nonce)
+        requestHeaders.set('Content-Security-Policy', cspHeader)
+    }
 
     const res = NextResponse.next({
         request: {
@@ -22,8 +25,12 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
     })
 
     const url: URL = new URL(req.url)
+    // Disable CSP in dev
+    if (process.env.NODE_ENV === 'production') {
+        res.headers.set('Content-Security-Policy', cspHeader)
+    }
+
     res.headers.set('x-path', url.pathname + url.search)
-    res.headers.set('Content-Security-Policy', cspHeader)
 
     const existingCookie = req.cookies.get(UNLEASH_COOKIE_NAME)
     if (existingCookie != null) {
@@ -37,6 +44,7 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
 
 function createCsp(): [string, string] {
     const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
+
     const cspHeader = `
         default-src 'self';
         script-src 'self' 'nonce-${nonce}' 'strict-dynamic';

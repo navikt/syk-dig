@@ -6,6 +6,8 @@ import { validateAzureToken } from '@navikt/next-auth-wonderwall'
 import { isLocalOrDemo } from '../utils/env'
 
 export async function verifyAPIAuthenticated(): Promise<boolean> {
+    if (isLocalOrDemo) return true
+
     const requestHeaders = headers()
     const bearerToken: string | null | undefined = requestHeaders.get('authorization')
 
