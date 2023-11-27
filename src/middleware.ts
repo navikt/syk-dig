@@ -43,7 +43,7 @@ function createCsp(): [string, string] {
         style-src 'self' 'nonce-${nonce}' https://cdn.nav.no;
         img-src 'self' blob: data:;
         font-src 'self' https://cdn.nav.no;
-        object-src 'none';
+        object-src 'self';
         base-uri 'self';
         form-action 'self';
         frame-ancestors 'none';
