@@ -3,7 +3,7 @@ import 'vitest-dom/extend-expect'
 import * as matchers from 'vitest-dom/matchers'
 import * as vitestAxeMatchers from 'vitest-axe/matchers'
 import { vi, beforeAll, afterEach, afterAll, expect } from 'vitest'
-import mockRouter from 'next-router-mock'
+import * as mockRouter from 'next-router-mock'
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes'
 import { cleanup } from '@testing-library/react'
 
@@ -28,9 +28,28 @@ dirtyGlobal.ResizeObserver = vi.fn().mockImplementation(() => ({
 
 dirtyGlobal.HTMLCanvasElement.prototype.getContext = vi.fn()
 
-vi.mock('next/router', () => vi.importActual('next-router-mock'))
+const useRouter = mockRouter.useRouter
 
-mockRouter.useParser(createDynamicRouteParser(['/oppgave/[oppgaveId]']))
+export const MockNextNavigation = {
+    ...mockRouter,
+    notFound: vi.fn(),
+    redirect: vi.fn().mockImplementation((url: string) => {
+        mockRouter.memoryRouter.setCurrentUrl(url)
+    }),
+    usePathname: () => {
+        const router = useRouter()
+        return router.asPath
+    },
+    useSearchParams: () => {
+        const router = useRouter()
+        const path = router.query
+        return new URLSearchParams(path as never)
+    },
+}
+
+vi.mock('next/navigation', () => MockNextNavigation)
+
+mockRouter.memoryRouter.useParser(createDynamicRouteParser(['/oppgave/[oppgaveId]']))
 
 afterEach(() => {
     cleanup()

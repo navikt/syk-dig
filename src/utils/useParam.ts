@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 
 export enum Location {
     Utenlansk,
@@ -9,12 +9,16 @@ interface OppgaveRoute {
 }
 
 export function useParam(location: Location): OppgaveRoute {
-    const { query } = useRouter()
+    const params = useSearchParams()
+
+    if (params == null) {
+        throw new Error(`Missing params for route ${location}: ${JSON.stringify(params)}`)
+    }
 
     switch (location) {
         case Location.Utenlansk:
-            const oppgaveId = query.oppgaveId
-            if (oppgaveId == null || typeof oppgaveId !== 'string') {
+            const oppgaveId = params.get('oppgaveId')
+            if (oppgaveId == null) {
                 throw new Error(`Invalid param for route 'Utenlansk', was: ${typeof oppgaveId}`)
             }
             return { oppgaveId }
