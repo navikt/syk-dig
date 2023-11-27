@@ -7,14 +7,16 @@ import { range } from 'remeda'
 
 import SykmeldingForm from '../Sykmelding/SykmeldingForm'
 import { DigitaliseringOppgaveResultFragment, OppgaveByIdDocument } from '../../graphql/queries/graphql.generated'
-import { Location, useParam } from '../../utils/useParam'
 import OppgaveView from '../OppgaveView/OppgaveView'
 import OppgaveStatus from '../OppgaveStatus/OppgaveStatus'
 import { SykmeldingSectionSkeleton } from '../SykmeldingSection/SykmeldingSection'
 import { InfoWithHeaderSkeleton, InputWithTitleSkeleton } from '../skeleton/Skeletons'
 
-function UtenlandskOppgaveView(): ReactElement {
-    const { oppgaveId } = useParam(Location.Utenlansk)
+type Props = {
+    oppgaveId: string
+}
+
+function UtenlandskOppgaveView({ oppgaveId }: Props): ReactElement {
     const { data, error, loading } = useQuery(OppgaveByIdDocument, {
         variables: { oppgaveId },
     })

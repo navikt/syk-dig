@@ -45,6 +45,11 @@ export const MockNextNavigation = {
         const path = router.query
         return new URLSearchParams(path as never)
     },
+    useParams: () => {
+        const router = useRouter()
+        const path = router.query
+        return path as never
+    },
 }
 
 vi.mock('next/navigation', () => MockNextNavigation)

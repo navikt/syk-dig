@@ -1,4 +1,4 @@
-import { useSearchParams } from 'next/navigation'
+import { useParams as useNextParams } from 'next/navigation'
 
 export enum Location {
     Utenlansk,
@@ -9,7 +9,7 @@ interface OppgaveRoute {
 }
 
 export function useParam(location: Location): OppgaveRoute {
-    const params = useSearchParams()
+    const params = useNextParams()
 
     if (params == null) {
         throw new Error(`Missing params for route ${location}: ${JSON.stringify(params)}`)
@@ -17,7 +17,7 @@ export function useParam(location: Location): OppgaveRoute {
 
     switch (location) {
         case Location.Utenlansk:
-            const oppgaveId = params.get('oppgaveId')
+            const oppgaveId = params.oppgaveId as string | undefined
             if (oppgaveId == null) {
                 throw new Error(`Invalid param for route 'Utenlansk', was: ${typeof oppgaveId}`)
             }
