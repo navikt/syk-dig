@@ -337,6 +337,7 @@ export type JournalpostStatus = {
 export enum JournalpostStatusEnum {
     FeilKanal = 'FEIL_KANAL',
     FeilTema = 'FEIL_TEMA',
+    ManglendeJournalpost = 'MANGLENDE_JOURNALPOST',
     ManglerFnr = 'MANGLER_FNR',
     Opprettet = 'OPPRETTET',
 }
@@ -399,6 +400,7 @@ export type MutationOppgaveTilbakeTilGosysArgs = {
 
 export type MutationSykmeldingFraJournalpostArgs = {
     journalpostId: Scalars['String']['input']
+    norsk: Scalars['Boolean']['input']
 }
 
 export type MutationUpdateModiaEnhetArgs = {
@@ -590,6 +592,7 @@ export type JournalpostByIdQuery = {
 
 export type SykmeldingFraJournalpostMutationVariables = Exact<{
     id: Scalars['String']['input']
+    norsk: Scalars['Boolean']['input']
 }>
 
 export type SykmeldingFraJournalpostMutation = {
@@ -2441,6 +2444,14 @@ export const SykmeldingFraJournalpostDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'norsk' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
+                    },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -2453,6 +2464,11 @@ export const SykmeldingFraJournalpostDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'journalpostId' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'norsk' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'norsk' } },
                             },
                         ],
                         selectionSet: {

@@ -20,8 +20,8 @@ query JournalpostById($id: String!) {
     }
 }
 
-mutation SykmeldingFraJournalpost($id: String!) {
-    sykmeldingFraJournalpost(journalpostId: $id) {
+mutation SykmeldingFraJournalpost($id: String!, $norsk: Boolean!) {
+    sykmeldingFraJournalpost(journalpostId: $id, norsk: $norsk) {
         ...JournalpostStatus
     }
 }
