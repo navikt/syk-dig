@@ -2,8 +2,9 @@
 
 import React, { ReactElement, useState } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/client'
-import { BodyShort, Heading } from '@navikt/ds-react'
-import { Alert, Button, TextField } from '@navikt/ds-react'
+import Link from 'next/link'
+import { BodyShort, Detail, Heading } from '@navikt/ds-react'
+import { Alert, Button, TextField, RadioGroup, Radio } from '@navikt/ds-react'
 
 import {
     JournalpostByIdDocument,
@@ -71,17 +72,36 @@ function RegistrerSykmeldingView(): ReactElement {
 
 function Journalpost({ journalpost }: { journalpost: JournalpostFragment }): ReactElement {
     return (
-        <div className="p-4 mt-4">
-            <Heading size="medium">Fant journalpost</Heading>
-            <BodyShort>JournalpostId: {journalpost.journalpostId}</BodyShort>
-            <BodyShort>Journalstatus: {journalpost.journalstatus}</BodyShort>
-            <BodyShort>Fnr: {journalpost.fnr}</BodyShort>
-            {journalpost.dokumenter.map((value) => (
-                <div key={value.dokumentInfoId} className="bg-bg-subtle mb-2 p-2">
-                    <BodyShort>Tittel: {value.tittel}</BodyShort>
-                    <BodyShort>DokumentId: {value.dokumentInfoId}</BodyShort>
+        <div className="mt-8">
+            <Heading size="medium" spacing>
+                Journalpostdetaljer
+            </Heading>
+            <div className="flex gap-3 mb-8">
+                <div className="p-4 bg-bg-subtle">
+                    <Detail>ID</Detail>
+                    <BodyShort>{journalpost.journalpostId}</BodyShort>
                 </div>
-            ))}
+                <div className="p-4 bg-bg-subtle">
+                    <Detail>Status</Detail>
+                    <BodyShort>Journalstatus: {journalpost.journalstatus}</BodyShort>
+                </div>
+                <div className="p-4 bg-bg-subtle">
+                    <Detail>Fødselsnummer</Detail>
+                    <BodyShort>{journalpost.fnr}</BodyShort>
+                </div>
+            </div>
+            <Heading size="medium" spacing>
+                Dokumenter
+            </Heading>
+            <div className="flex gap-3">
+                {journalpost.dokumenter.map((value, index) => (
+                    <div key={value.dokumentInfoId} className="bg-bg-subtle p-4">
+                        <Detail>Dokument {index + 1}</Detail>
+                        <BodyShort>Tittel: {value.tittel}</BodyShort>
+                        <BodyShort>DokumentId: {value.dokumentInfoId}</BodyShort>
+                    </div>
+                ))}
+            </div>
             <CreateSykmeldingForm journalpostId={journalpost.journalpostId} />
         </div>
     )
@@ -107,22 +127,47 @@ function JournalpostStatus({ status }: { status: JournalpostStatusEnum }): React
 }
 
 function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): ReactElement {
-    const [create, createResult] = useMutation(SykmeldingFraJournalpostDocument, { variables: { id: journalpostId } })
+    const [sykmeldingType, setSykmeldingType] = useState<string | null>(null)
+    const [create, createResult] = useMutation(SykmeldingFraJournalpostDocument)
+    const utenlandskOppgaveId: string | null = createResult.data?.sykmeldingFraJournalpost.oppgaveId ?? null
+
     return (
-        <div>
-            Journalpost: {journalpostId}
+        <div className="mt-8">
+            <Heading size="medium" spacing>
+                Opprett sykmelding
+            </Heading>
+            <RadioGroup legend="Er det norsk eller utenlandsk sykmelding?" onChange={(val) => setSykmeldingType(val)}>
+                <Radio value="norsk" disabled={createResult.data != null}>
+                    Norsk sykmelding
+                </Radio>
+                <Radio value="utenlandsk" disabled={createResult.data != null}>
+                    Utenlandsk sykmelding
+                </Radio>
+            </RadioGroup>
             <div className="mt-4">
                 <Button
                     variant="secondary"
                     loading={createResult.loading}
-                    disabled={createResult.data != null}
-                    onClick={() => create({ variables: { id: journalpostId } })}
+                    disabled={createResult.data != null || sykmeldingType == null}
+                    onClick={() => create({ variables: { id: journalpostId, norsk: sykmeldingType === 'norsk' } })}
                 >
                     Opprett sykmelding
                 </Button>
             </div>
             <div className="mt-4">
-                {createResult.data && <Alert variant="success">Sykmelding ble opprettet</Alert>}
+                {createResult.data && (
+                    <Alert variant="success">
+                        <Heading level="3" size="medium">
+                            Sykmelding ble opprettet
+                        </Heading>
+                        {utenlandskOppgaveId && (
+                            <BodyShort>
+                                Du kan digitalisere denne utenlandske sykmeldingen ved å{' '}
+                                <Link href={`/oppgave/${utenlandskOppgaveId}`}>gå til oppgaven</Link>.
+                            </BodyShort>
+                        )}
+                    </Alert>
+                )}
                 {createResult.error && <Alert variant="error">Klarte ikke å opprette sykmelding</Alert>}
             </div>
         </div>

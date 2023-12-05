@@ -219,6 +219,20 @@ export const handlers = [
         async ({ variables }) => {
             await delay()
 
+            if (!variables.norsk) {
+                return HttpResponse.json({
+                    data: {
+                        __typename: 'Mutation',
+                        sykmeldingFraJournalpost: {
+                            __typename: 'JournalpostStatus',
+                            journalpostId: variables.id,
+                            status: JournalpostStatusEnum.Opprettet,
+                            oppgaveId: 'blank',
+                        },
+                    },
+                })
+            }
+
             return HttpResponse.json({
                 data: {
                     __typename: 'Mutation',
@@ -226,6 +240,7 @@ export const handlers = [
                         __typename: 'JournalpostStatus',
                         journalpostId: variables.id,
                         status: JournalpostStatusEnum.Opprettet,
+                        oppgaveId: null,
                     },
                 },
             })

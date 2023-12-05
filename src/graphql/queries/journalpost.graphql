@@ -11,6 +11,7 @@ fragment Journalpost on Journalpost {
 fragment JournalpostStatus on JournalpostStatus {
     journalpostId
     status
+    oppgaveId
 }
 
 query JournalpostById($id: String!) {
@@ -20,8 +21,8 @@ query JournalpostById($id: String!) {
     }
 }
 
-mutation SykmeldingFraJournalpost($id: String!) {
-    sykmeldingFraJournalpost(journalpostId: $id) {
+mutation SykmeldingFraJournalpost($id: String!, $norsk: Boolean!) {
+    sykmeldingFraJournalpost(journalpostId: $id, norsk: $norsk) {
         ...JournalpostStatus
     }
 }

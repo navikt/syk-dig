@@ -635,6 +635,14 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "oppgaveId",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -658,7 +666,13 @@
                         },
                         { "name": "FEIL_TEMA", "description": null, "isDeprecated": false, "deprecationReason": null },
                         { "name": "OPPRETTET", "description": null, "isDeprecated": false, "deprecationReason": null },
-                        { "name": "FEIL_KANAL", "description": null, "isDeprecated": false, "deprecationReason": null }
+                        { "name": "FEIL_KANAL", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "MANGLENDE_JOURNALPOST",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
                     ],
                     "possibleTypes": null
                 },
@@ -905,6 +919,18 @@
                                         "kind": "NON_NULL",
                                         "name": null,
                                         "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                },
+                                {
+                                    "name": "norsk",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "Boolean", "ofType": null }
                                     },
                                     "defaultValue": null,
                                     "isDeprecated": false,
