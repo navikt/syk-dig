@@ -331,6 +331,7 @@ export type JournalpostResult = Journalpost | JournalpostStatus
 export type JournalpostStatus = {
     __typename: 'JournalpostStatus'
     journalpostId: Scalars['String']['output']
+    oppgaveId?: Maybe<Scalars['String']['output']>
     status: JournalpostStatusEnum
 }
 
@@ -571,6 +572,7 @@ export type JournalpostStatusFragment = {
     __typename: 'JournalpostStatus'
     journalpostId: string
     status: JournalpostStatusEnum
+    oppgaveId?: string | null
 }
 
 export type JournalpostByIdQueryVariables = Exact<{
@@ -587,7 +589,12 @@ export type JournalpostByIdQuery = {
               fnr: string
               dokumenter: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
           }
-        | { __typename: 'JournalpostStatus'; journalpostId: string; status: JournalpostStatusEnum }
+        | {
+              __typename: 'JournalpostStatus'
+              journalpostId: string
+              status: JournalpostStatusEnum
+              oppgaveId?: string | null
+          }
 }
 
 export type SykmeldingFraJournalpostMutationVariables = Exact<{
@@ -597,7 +604,12 @@ export type SykmeldingFraJournalpostMutationVariables = Exact<{
 
 export type SykmeldingFraJournalpostMutation = {
     __typename: 'Mutation'
-    sykmeldingFraJournalpost: { __typename: 'JournalpostStatus'; journalpostId: string; status: JournalpostStatusEnum }
+    sykmeldingFraJournalpost: {
+        __typename: 'JournalpostStatus'
+        journalpostId: string
+        status: JournalpostStatusEnum
+        oppgaveId?: string | null
+    }
 }
 
 export type PeriodeFragment = {
@@ -1203,6 +1215,7 @@ export const JournalpostStatusFragmentDoc = {
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
                 ],
             },
         },
@@ -2426,6 +2439,7 @@ export const JournalpostByIdDocument = {
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
                 ],
             },
         },
@@ -2490,6 +2504,7 @@ export const SykmeldingFraJournalpostDocument = {
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
                 ],
             },
         },

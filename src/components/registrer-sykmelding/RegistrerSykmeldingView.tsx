@@ -2,6 +2,7 @@
 
 import React, { ReactElement, useState } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/client'
+import Link from 'next/link'
 import { BodyShort, Detail, Heading } from '@navikt/ds-react'
 import { Alert, Button, TextField, RadioGroup, Radio } from '@navikt/ds-react'
 
@@ -128,6 +129,7 @@ function JournalpostStatus({ status }: { status: JournalpostStatusEnum }): React
 function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): ReactElement {
     const [sykmeldingType, setSykmeldingType] = useState<string | null>(null)
     const [create, createResult] = useMutation(SykmeldingFraJournalpostDocument)
+    const utenlandskOppgaveId: string | null = createResult.data?.sykmeldingFraJournalpost.oppgaveId ?? null
 
     return (
         <div className="mt-8">
@@ -153,7 +155,19 @@ function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): Rea
                 </Button>
             </div>
             <div className="mt-4">
-                {createResult.data && <Alert variant="success">Sykmelding ble opprettet</Alert>}
+                {createResult.data && (
+                    <Alert variant="success">
+                        <Heading level="3" size="medium">
+                            Sykmelding ble opprettet
+                        </Heading>
+                        {utenlandskOppgaveId && (
+                            <BodyShort>
+                                Du kan digitalisere denne utenlandske sykmeldingen ved å{' '}
+                                <Link href={`/oppgave/${utenlandskOppgaveId}`}>gå til oppgaven</Link>.
+                            </BodyShort>
+                        )}
+                    </Alert>
+                )}
                 {createResult.error && <Alert variant="error">Klarte ikke å opprette sykmelding</Alert>}
             </div>
         </div>

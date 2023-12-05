@@ -15,7 +15,8 @@
         "test": "vitest --config ./vitest.config.ts",
         "gen": "graphql-codegen --config codegen.ts",
         "gen:watch": "graphql-codegen --watch --config codegen.ts",
-        "update-schema": "wget https://syk-dig-backend.intern.dev.nav.no/schema.json -O ./schema.json && prettier -w schema.json",
+        "pull-schema": "wget https://syk-dig-backend.intern.dev.nav.no/schema.json -O ./schema.json && prettier -w schema.json",
+        "update-schema": "yarn pull-schema && yarn gen",
         "postinstall": "node ./scripts/postinstall.js"
     },
     "msw": {
