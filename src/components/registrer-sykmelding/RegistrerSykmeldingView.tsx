@@ -3,8 +3,7 @@
 import React, { ReactElement, useState } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import Link from 'next/link'
-import { BodyShort, Detail, Heading } from '@navikt/ds-react'
-import { Alert, Button, TextField, RadioGroup, Radio } from '@navikt/ds-react'
+import { Alert, BodyShort, Button, Detail, Heading, Radio, RadioGroup, TextField } from '@navikt/ds-react'
 
 import {
     JournalpostByIdDocument,
@@ -107,20 +106,31 @@ function Journalpost({ journalpost }: { journalpost: JournalpostFragment }): Rea
     )
 }
 
+function createStatusMelding(status: JournalpostStatusEnum): string {
+    switch (status) {
+        case JournalpostStatusEnum.FeilKanal:
+            return 'Feil kanal'
+        case JournalpostStatusEnum.FeilTema:
+            return 'Har ikke tema "SYM"'
+        case JournalpostStatusEnum.ManglendeJournalpost:
+            return 'Mangler journalpost'
+        case JournalpostStatusEnum.ManglerFnr:
+            return 'Mangler fødselsnummer'
+        case JournalpostStatusEnum.Opprettet:
+            return 'Sykmelding er allerede opprettet'
+    }
+}
+
 function JournalpostStatus({ status }: { status: JournalpostStatusEnum }): ReactElement {
+    const feilmelding = createStatusMelding(status)
+
     return (
         <div className="mt-4">
             <Alert variant="info">
                 <Heading level="3" size="medium">
                     Journalpost er ikke tilgjengelig
                 </Heading>
-                <BodyShort>
-                    {status === JournalpostStatusEnum.ManglerFnr
-                        ? 'Mangler fødselsnummer'
-                        : status === JournalpostStatusEnum.FeilTema
-                          ? 'Har ikke tema "SYM"'
-                          : 'Sykmelding er allerede opprettet'}
-                </BodyShort>
+                <BodyShort>{feilmelding}</BodyShort>
             </Alert>
         </div>
     )
@@ -130,6 +140,8 @@ function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): Rea
     const [sykmeldingType, setSykmeldingType] = useState<string | null>(null)
     const [create, createResult] = useMutation(SykmeldingFraJournalpostDocument)
     const utenlandskOppgaveId: string | null = createResult.data?.sykmeldingFraJournalpost.oppgaveId ?? null
+    const opprettetSykmeldingStatus: JournalpostStatusEnum | null =
+        createResult.data?.sykmeldingFraJournalpost.status ?? null
 
     return (
         <div className="mt-8">
@@ -155,7 +167,7 @@ function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): Rea
                 </Button>
             </div>
             <div className="mt-4">
-                {createResult.data && (
+                {opprettetSykmeldingStatus === JournalpostStatusEnum.Opprettet && (
                     <Alert variant="success">
                         <Heading level="3" size="medium">
                             Sykmelding ble opprettet
@@ -167,6 +179,9 @@ function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): Rea
                             </BodyShort>
                         )}
                     </Alert>
+                )}
+                {opprettetSykmeldingStatus != null && opprettetSykmeldingStatus !== JournalpostStatusEnum.Opprettet && (
+                    <JournalpostStatus status={opprettetSykmeldingStatus} />
                 )}
                 {createResult.error && <Alert variant="error">Klarte ikke å opprette sykmelding</Alert>}
             </div>
