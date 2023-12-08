@@ -35,7 +35,7 @@ function RegistrerSykmeldingView(): ReactElement {
                         label="JournalpostId"
                         value={journalpostId}
                         disabled={registrerResult.loading}
-                        onChange={(event) => setJournalpostId(event.target.value)}
+                        onChange={(event) => setJournalpostId(event.target.value.trim())}
                         onKeyUp={(event) => {
                             if (event.key === 'Enter') {
                                 registrer({ variables: { id: journalpostId } })
