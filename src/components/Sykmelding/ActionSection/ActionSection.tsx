@@ -55,7 +55,9 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): React
                     }}
                     confirmation={{
                         title: 'Er du sikker på at du vil registrere og sende inn sykmeldingen?',
-                        body: ['Sykmeldingen vil bli sendt til den sykmeldte.'],
+                        body: [
+                            'Sykmeldingen vil da bli digitalisert, og blir tilgjengelig for den sykmeldte på nav.no under "Ditt sykefravær".',
+                        ],
                         confirmButton: {
                             text: 'Ja, jeg er sikker',
                             type: 'submit',
