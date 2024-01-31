@@ -1,5 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { ReactElement, useRef } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import Errors from '../Errors/Errors'
 import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
@@ -30,6 +31,9 @@ interface Props {
 }
 
 function SykmeldingForm({ oppgave }: Props): ReactElement {
+    const router = useRouter()
+    const params = useSearchParams()
+
     const errorSectionRef = useRef<HTMLDivElement>(null)
     const focusErrorSection = (): void => {
         requestAnimationFrame(() => {
@@ -43,7 +47,11 @@ function SykmeldingForm({ oppgave }: Props): ReactElement {
             // TODO: Better solution to this hacky implementation of a delay:
             // Necessary to let RHF re-render with isSubmitSuccessful before we redirect to GOSYS
             setTimeout(() => {
-                redirectTilGosys()
+                if (params?.get('source') === 'registrer-sykmelding') {
+                    router.push('/registrer-sykmelding')
+                } else {
+                    redirectTilGosys()
+                }
             }, 100)
         },
     })
