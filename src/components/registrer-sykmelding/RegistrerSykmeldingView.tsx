@@ -175,7 +175,10 @@ function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): Rea
                         {utenlandskOppgaveId && (
                             <BodyShort>
                                 Du kan digitalisere denne utenlandske sykmeldingen ved å{' '}
-                                <Link href={`/oppgave/${utenlandskOppgaveId}`}>gå til oppgaven</Link>.
+                                <Link href={`/oppgave/${utenlandskOppgaveId}?source=registrer-sykmelding`}>
+                                    gå til oppgaven
+                                </Link>
+                                .
                             </BodyShort>
                         )}
                     </Alert>
