@@ -1,5 +1,5 @@
 import { BodyShort, Label } from '@navikt/ds-react'
-import { HTMLAttributes, PropsWithChildren, ReactElement } from 'react'
+import { HTMLAttributes, InputHTMLAttributes, PropsWithChildren, ReactElement } from 'react'
 import cn from 'clsx'
 import {
     Combobox,
@@ -34,7 +34,7 @@ export function DsCombobox({
     className,
     'aria-labelledby': ariaLabelledby,
     ...props
-}: PropsWithChildren<HTMLAttributes<HTMLDivElement> & ComboboxOptions>): ReactElement {
+}: PropsWithChildren<InputHTMLAttributes<HTMLInputElement> & ComboboxOptions>): ReactElement {
     return (
         <div className="navds-select__container">
             <Combobox
