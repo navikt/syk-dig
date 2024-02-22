@@ -1,6 +1,6 @@
 import { proxyApiRouteRequest } from '@navikt/next-api-proxy'
 import { logger } from '@navikt/next-logger'
-import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall'
+import { requestOboToken } from '@navikt/oasis'
 
 import { withAuthenticatedApi } from '../../auth/pages'
 import { getServerEnv, isLocalOrDemo } from '../../utils/env'
@@ -19,13 +19,9 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
     }
 
     const serverEnv = getServerEnv()
-    const bearerToken = await grantAzureOboToken(accessToken, serverEnv.SYK_DIG_BACKEND_SCOPE)
-    if (isInvalidTokenSet(bearerToken)) {
-        if (bearerToken.error instanceof Error) {
-            logger.error(new Error(bearerToken.message, { cause: bearerToken.error }))
-        } else {
-            logger.error(`${bearerToken.errorType}: ${bearerToken.message}`)
-        }
+    const oboResult = await requestOboToken(accessToken, serverEnv.SYK_DIG_BACKEND_SCOPE)
+    if (!oboResult.ok) {
+        logger.error(new Error(`Unable to exchange OBO token: ${oboResult.error.message}`, { cause: oboResult.error }))
         res.status(401).json({ message: 'Authentication failed' })
         return
     }
@@ -37,7 +33,7 @@ const handler = withAuthenticatedApi(async (req, res, accessToken) => {
             https: false,
             req,
             res,
-            bearerToken,
+            bearerToken: oboResult.token,
         })
     } catch (error: unknown) {
         logger.error(error)
