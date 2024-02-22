@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { logger } from '@navikt/next-logger'
-import { grantAzureOboToken, isInvalidTokenSet } from '@navikt/next-auth-wonderwall'
+import { requestOboToken } from '@navikt/oasis'
 
 import { getServerEnv, isLocalOrDemo } from '../utils/env'
 
@@ -29,11 +29,11 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
         }
     }
 
-    const modiaOboToken = await grantAzureOboToken(userAccessToken, getServerEnv().MODIACONTEXTHOLDER_SCOPE)
-    if (isInvalidTokenSet(modiaOboToken)) {
+    const modiaOboResult = await requestOboToken(userAccessToken, getServerEnv().MODIACONTEXTHOLDER_SCOPE)
+    if (!modiaOboResult.ok) {
         logger.error(
-            new Error(`Unable to get modia obo token: ${modiaOboToken.errorType} ${modiaOboToken.message}`, {
-                cause: modiaOboToken.error instanceof Error ? modiaOboToken.error : undefined,
+            new Error(`Unable to get modia obo token: ${modiaOboResult.error.message}`, {
+                cause: modiaOboResult.error,
             }),
         )
         return {
@@ -43,8 +43,8 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
     }
 
     const [veileder, aktivEnhet] = await Promise.allSettled([
-        fetchModia({ path: 'decorator/v2', schema: VeilederSchema, what: 'veileder' }, modiaOboToken),
-        fetchModia({ path: 'context/aktivenhet', schema: AktivEnhetSchema, what: 'aktiv enhet' }, modiaOboToken),
+        fetchModia({ path: 'decorator/v2', schema: VeilederSchema, what: 'veileder' }, modiaOboResult.token),
+        fetchModia({ path: 'context/aktivenhet', schema: AktivEnhetSchema, what: 'aktiv enhet' }, modiaOboResult.token),
     ])
 
     if (veileder.status === 'rejected' || aktivEnhet.status === 'rejected') {

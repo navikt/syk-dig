@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { logger } from '@navikt/next-logger'
-import { validateAzureToken } from '@navikt/next-auth-wonderwall'
+import { getToken, validateToken } from '@navikt/oasis'
 
 import { isLocalOrDemo } from '../utils/env'
 
@@ -23,22 +23,24 @@ export function withAuthenticatedApi<Response>(
             return handler(req, res, 'fake-local-token')
         }
 
-        const bearerToken: string | null | undefined = req.headers['authorization']
-        if (!bearerToken) {
+        const token = getToken(req)
+        if (!token) {
             logger.error('Could not find any bearer token on the request. Denying request. This should not happen')
             res.status(401).json({ message: 'Access denied' })
             return
         }
 
-        const tokenValidationResult = await validateAzureToken(bearerToken)
-        if (tokenValidationResult !== 'valid') {
-            logger.info(
-                `Invalid JWT token on API request for path ${req.url} (${tokenValidationResult.errorType} ${tokenValidationResult.message})`,
-            )
+        const validationResult = await validateToken(token)
+        if (!validationResult.ok) {
+            if (validationResult.errorType !== 'token expired') {
+                logger.info(
+                    `Invalid JWT token on API request for path ${req.url} (${validationResult.errorType} ${validationResult.error.message})`,
+                )
+            }
             res.status(401).json({ message: 'Access denied' })
             return
         }
 
-        return handler(req, res, bearerToken.replace('Bearer ', ''))
+        return handler(req, res, token)
     }
 }

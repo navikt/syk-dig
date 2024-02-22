@@ -1,7 +1,7 @@
 import { logger } from '@navikt/next-logger'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { validateAzureToken } from '@navikt/next-auth-wonderwall'
+import { getToken, validateToken } from '@navikt/oasis'
 
 import { isLocalOrDemo } from '../utils/env'
 
@@ -15,9 +15,9 @@ export async function verifyAPIAuthenticated(): Promise<boolean> {
         return false
     }
 
-    const validationResult = await validateAzureToken(bearerToken)
+    const validationResult = await validateToken(bearerToken)
 
-    return validationResult === 'valid'
+    return validationResult.ok
 }
 
 export async function verifyUserLoggedIn(): Promise<{
@@ -38,18 +38,18 @@ export async function verifyUserLoggedIn(): Promise<{
     }
     logger.info(`Redirect path is ${redirectPath}`)
 
-    const bearerToken: string | null | undefined = requestHeaders.get('authorization')
-    if (!bearerToken) {
+    const token = getToken(requestHeaders)
+    if (!token) {
         logger.info('Found no token, redirecting to login')
         redirect(`/oauth2/login?redirect=${redirectPath}`)
     }
 
-    const validationResult = await validateAzureToken(bearerToken)
-    if (validationResult !== 'valid') {
-        if (validationResult.errorType !== 'EXPIRED') {
+    const validationResult = await validateToken(token)
+    if (!validationResult.ok) {
+        if (validationResult.errorType !== 'token expired') {
             logger.error(
                 new Error(
-                    `Invalid JWT token found (cause: ${validationResult.errorType} ${validationResult.message}, redirecting to login.`,
+                    `Invalid JWT token found (cause: ${validationResult.errorType} ${validationResult.error.message}, redirecting to login.`,
                     { cause: validationResult.error },
                 ),
             )
@@ -59,6 +59,6 @@ export async function verifyUserLoggedIn(): Promise<{
     }
 
     return {
-        accessToken: bearerToken.replace('Bearer ', ''),
+        accessToken: token,
     }
 }
