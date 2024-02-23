@@ -24,6 +24,8 @@ fragment OppgaveValues on OppgaveValues {
     biDiagnoser {
         ...Diagnose
     }
+    folkeRegistertAdresseErBrakkeEllerTilsvarende
+    erAdresseUtland
 }
 
 fragment Oppgave on Digitaliseringsoppgave {

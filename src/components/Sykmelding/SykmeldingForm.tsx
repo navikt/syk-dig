@@ -22,7 +22,8 @@ export interface SykmeldingFormValues {
     land: string | null
     periode: Array<PeriodeFormValue>
     mangelfullSykmelding: boolean
-    folkeRegistertAdresseErBrakkeEllerTilsvarende: boolean
+    folkeRegistertAdresseErBrakkeEllerTilsvarende: boolean | null
+    erAdresseUtland: boolean | null
     avvisningsgrunnAnnet?: string
 }
 

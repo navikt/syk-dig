@@ -45,6 +45,8 @@ export function createOppgave(overrides?: Partial<OppgaveFragment>): OppgaveFrag
             behandletTidspunkt: null,
             skrevetLand: null,
             perioder: null,
+            folkeRegistertAdresseErBrakkeEllerTilsvarende: null,
+            erAdresseUtland: null,
         },
         ...overrides,
     }
