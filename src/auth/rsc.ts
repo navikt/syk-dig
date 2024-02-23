@@ -9,14 +9,12 @@ export async function verifyAPIAuthenticated(): Promise<boolean> {
     if (isLocalOrDemo) return true
 
     const requestHeaders = headers()
-    const bearerToken: string | null | undefined = requestHeaders.get('authorization')
-
-    if (!bearerToken) {
+    const token = getToken(requestHeaders)
+    if (!token) {
         return false
     }
 
-    const validationResult = await validateToken(bearerToken)
-
+    const validationResult = await validateToken(token)
     return validationResult.ok
 }
 
