@@ -1074,6 +1074,14 @@
                             "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "erAdresseUtland",
+                            "description": "Adressen er oppholds-, post- eller kontaktadresse i utlandet",
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -1452,6 +1460,14 @@
                         {
                             "name": "folkeRegistertAdresseErBrakkeEllerTilsvarende",
                             "description": null,
+                            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
+                            "defaultValue": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "erAdresseUtland",
+                            "description": "Adressen er oppholds-, post- eller kontaktadresse i utlandet",
                             "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
                             "defaultValue": null,
                             "isDeprecated": false,

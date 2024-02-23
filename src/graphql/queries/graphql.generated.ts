@@ -419,6 +419,8 @@ export type OppgaveValues = {
     __typename: 'OppgaveValues'
     behandletTidspunkt?: Maybe<Scalars['DateTime']['output']>
     biDiagnoser?: Maybe<Array<DiagnoseValue>>
+    /** Adressen er oppholds-, post- eller kontaktadresse i utlandet */
+    erAdresseUtland?: Maybe<Scalars['Boolean']['output']>
     fnrPasient: Scalars['String']['output']
     folkeRegistertAdresseErBrakkeEllerTilsvarende?: Maybe<Scalars['Boolean']['output']>
     hoveddiagnose?: Maybe<DiagnoseValue>
@@ -484,6 +486,8 @@ export enum SykmeldingUnderArbeidStatus {
 export type SykmeldingUnderArbeidValues = {
     behandletTidspunkt?: InputMaybe<Scalars['Date']['input']>
     biDiagnoser?: InputMaybe<Array<DiagnoseInput>>
+    /** Adressen er oppholds-, post- eller kontaktadresse i utlandet */
+    erAdresseUtland?: InputMaybe<Scalars['Boolean']['input']>
     fnrPasient: Scalars['String']['input']
     folkeRegistertAdresseErBrakkeEllerTilsvarende?: InputMaybe<Scalars['Boolean']['input']>
     hovedDiagnose?: InputMaybe<DiagnoseInput>
@@ -627,6 +631,8 @@ export type OppgaveValuesFragment = {
     fnrPasient: string
     behandletTidspunkt?: string | null
     skrevetLand?: string | null
+    folkeRegistertAdresseErBrakkeEllerTilsvarende?: boolean | null
+    erAdresseUtland?: boolean | null
     perioder?: Array<{
         __typename: 'PeriodeValue'
         fom: string
@@ -703,6 +709,8 @@ export type OppgaveFragment = {
         fnrPasient: string
         behandletTidspunkt?: string | null
         skrevetLand?: string | null
+        folkeRegistertAdresseErBrakkeEllerTilsvarende?: boolean | null
+        erAdresseUtland?: boolean | null
         perioder?: Array<{
             __typename: 'PeriodeValue'
             fom: string
@@ -884,6 +892,8 @@ export type DigitaliseringOppgaveResult_Digitaliseringsoppgave_Fragment = {
         fnrPasient: string
         behandletTidspunkt?: string | null
         skrevetLand?: string | null
+        folkeRegistertAdresseErBrakkeEllerTilsvarende?: boolean | null
+        erAdresseUtland?: boolean | null
         perioder?: Array<{
             __typename: 'PeriodeValue'
             fom: string
@@ -980,6 +990,8 @@ export type OppgaveByIdQuery = {
                   fnrPasient: string
                   behandletTidspunkt?: string | null
                   skrevetLand?: string | null
+                  folkeRegistertAdresseErBrakkeEllerTilsvarende?: boolean | null
+                  erAdresseUtland?: boolean | null
                   perioder?: Array<{
                       __typename: 'PeriodeValue'
                       fom: string
@@ -1080,6 +1092,8 @@ export type SaveOppgaveMutation = {
                   fnrPasient: string
                   behandletTidspunkt?: string | null
                   skrevetLand?: string | null
+                  folkeRegistertAdresseErBrakkeEllerTilsvarende?: boolean | null
+                  erAdresseUtland?: boolean | null
                   perioder?: Array<{
                       __typename: 'PeriodeValue'
                       fom: string
@@ -1603,6 +1617,8 @@ export const OppgaveValuesFragmentDoc = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'folkeRegistertAdresseErBrakkeEllerTilsvarende' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erAdresseUtland' } },
                 ],
             },
         },
@@ -1921,6 +1937,8 @@ export const OppgaveFragmentDoc = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'folkeRegistertAdresseErBrakkeEllerTilsvarende' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erAdresseUtland' } },
                 ],
             },
         },
@@ -2181,6 +2199,8 @@ export const DigitaliseringOppgaveResultFragmentDoc = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'folkeRegistertAdresseErBrakkeEllerTilsvarende' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erAdresseUtland' } },
                 ],
             },
         },
@@ -2773,6 +2793,8 @@ export const OppgaveByIdDocument = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'folkeRegistertAdresseErBrakkeEllerTilsvarende' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erAdresseUtland' } },
                 ],
             },
         },
@@ -3161,6 +3183,8 @@ export const SaveOppgaveDocument = {
                             selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'folkeRegistertAdresseErBrakkeEllerTilsvarende' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erAdresseUtland' } },
                 ],
             },
         },

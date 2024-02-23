@@ -1,6 +1,6 @@
 import { DefaultValues } from 'react-hook-form/dist/types/form'
 
-import { DiagnoseFragment, OppgaveValues, PeriodeType } from '../../graphql/queries/graphql.generated'
+import { DiagnoseFragment, OppgaveValuesFragment, PeriodeType } from '../../graphql/queries/graphql.generated'
 import { toDate } from '../../utils/dateUtils'
 
 import { DiagnoseFormValue, DiagnoseSystem } from './DiagnoseFormSection'
@@ -16,7 +16,7 @@ function mapToDiagnoseValues(diagnose: DiagnoseFragment): DiagnoseFormValue {
     }
 }
 
-export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
+export function createDefaultValues(values: OppgaveValuesFragment): DefaultFormValues {
     return {
         land: values.skrevetLand ?? '',
         diagnoser: {
@@ -44,5 +44,6 @@ export function createDefaultValues(values: OppgaveValues): DefaultFormValues {
         ],
         behandletTidspunkt: values.behandletTidspunkt,
         folkeRegistertAdresseErBrakkeEllerTilsvarende: values.folkeRegistertAdresseErBrakkeEllerTilsvarende ?? false,
+        erAdresseUtland: values.erAdresseUtland ?? false,
     }
 }
