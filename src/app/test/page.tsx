@@ -55,6 +55,22 @@ function Page(): ReactElement {
                     </li>
                 </ul>
             </div>
+
+            <div className="m-4">
+                <h2 className="mt-8 text-xl font-bold">Eksempler på smregistrering-oppgaver</h2>
+                <ul className="list-disc pl-8">
+                    <li>
+                        <Link href="/nasjonal/123456789" prefetch={false}>
+                            Ny oppgave
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href="/nasjonal/ferdigstilt/3edded4c-2654-447d-a210-94ca8eb31801" prefetch={false}>
+                            Redigering av sykmelding
+                        </Link>
+                    </li>
+                </ul>
+            </div>
         </div>
     )
 }

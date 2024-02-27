@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: 'Ingress'
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($arg_oppgaveid) {
+        rewrite ^ https://syk-dig.intern.nav.no/nasjonal/$arg_oppgaveid?;
+      }
+      if ($arg_sykmeldingid) {
+        rewrite ^ https://syk-dig.intern.nav.no/nasjonal/ferdigstilt/$arg_sykmeldingid;
+      }
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  labels:
+    app: syk-dig
+    team: teamsykmelding
+  name: smregistrering-gosys-redirect
+  namespace: teamsykmelding
+spec:
+  ingressClassName: nais-ingress
+  rules:
+    - host: sykmelding-redirect.intern.nav.no
+      http:
+        paths:
+          - backend:
+              service:
+                name: smregistrering
+                port:
+                  number: 80
+            path: /smr(/|$)(.*)
+            pathType: ImplementationSpecific

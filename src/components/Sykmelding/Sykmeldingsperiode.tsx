@@ -3,13 +3,13 @@ import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
 import { XMarkIcon } from '@navikt/aksel-icons'
 import { ReactElement } from 'react'
 
-import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
+import FormSection from '../form-layout/FormSection'
 import PeriodeSelect from '../FormComponents/Sykmeldingsperiode/PeriodeSelect'
 import GradInput from '../FormComponents/Sykmeldingsperiode/GradInput'
 import PeriodePicker from '../FormComponents/Sykmeldingsperiode/PeriodePicker'
 import { PeriodeType } from '../../graphql/queries/graphql.generated'
 
-import { SykmeldingFormValues } from './SykmeldingForm'
+import { UtenlanskFormValues } from './SykmeldingForm'
 import styles from './Sykmeldingsperiode.module.css'
 
 export interface PeriodeFormValue {
@@ -22,7 +22,7 @@ export interface PeriodeFormValue {
 }
 
 function Sykmeldingsperiode(): ReactElement {
-    const { control, clearErrors } = useFormContext<SykmeldingFormValues>()
+    const { control, clearErrors } = useFormContext<UtenlanskFormValues>()
 
     const { fields, append, remove } = useFieldArray({
         control,
@@ -32,7 +32,7 @@ function Sykmeldingsperiode(): ReactElement {
     const watchFieldArray = useWatch({ name: 'periode' })
 
     return (
-        <SykmeldingSection id="sykmeldingsperiode-seksjon" title="Sykmeldingsperiode">
+        <FormSection id="sykmeldingsperiode-seksjon" title="Sykmeldingsperiode">
             {fields.map((field, index) => (
                 <div id={`periode${index}`} key={field.id} className={styles.periodeRow}>
                     <div className={styles.periode}>
@@ -75,7 +75,7 @@ function Sykmeldingsperiode(): ReactElement {
             >
                 Legg til periode
             </Button>
-        </SykmeldingSection>
+        </FormSection>
     )
 }
 

@@ -1,4 +1,4 @@
-import { BodyShort, Heading } from '@navikt/ds-react'
+import { BodyShort } from '@navikt/ds-react'
 import { ReactElement } from 'react'
 
 import { BostedsadresseFragment } from '../../../../graphql/queries/graphql.generated'
@@ -11,18 +11,7 @@ type BostedsadresseProps = {
     bostedsadresse: BostedsadresseFragment | null
 }
 
-function Bostedsadresse({ bostedsadresse }: BostedsadresseProps): ReactElement | null {
-    return (
-        <div>
-            <Heading level="3" size="xsmall">
-                Bostedsadresse
-            </Heading>
-            <BostedsadresseVariant bostedsadresse={bostedsadresse} />
-        </div>
-    )
-}
-
-function BostedsadresseVariant({ bostedsadresse }: BostedsadresseProps): ReactElement {
+function Bostedsadresse({ bostedsadresse }: BostedsadresseProps): ReactElement {
     if (!bostedsadresse) {
         return <BodyShort>Bostedsadresse mangler</BodyShort>
     }
