@@ -10,6 +10,7 @@ const bundledEnvSchema = z.object({
         z.literal('production'),
     ]),
     NEXT_PUBLIC_GOSYS_URL: z.string(),
+    NEXT_PUBLIC_MODIA_URL: z.string(),
     NEXT_PUBLIC_ASSET_PREFIX: z.string().optional(),
     NEXT_PUBLIC_API_MOCKING: z.literal('enabled').optional(),
 })
@@ -18,6 +19,8 @@ export type ServerEnv = z.infer<typeof serverEnvSchema>
 export const serverEnvSchema = z.object({
     SYK_DIG_BACKEND_SCOPE: z.string(),
     SYK_DIG_BACKEND_HOST: z.string(),
+    SMREGISTRERING_BACKEND_SCOPE: z.string(),
+    SMREGISTRERING_BACKEND_HOST: z.string(),
     MODIACONTEXTHOLDER_SCOPE: z.string(),
     MODIACONTEXTHOLDER_HOST: z.string(),
     // Provided my nais
@@ -33,6 +36,7 @@ export const serverEnvSchema = z.object({
 
 export const bundledEnv = bundledEnvSchema.parse({
     NEXT_PUBLIC_RUNTIME_ENVIRONMENT: process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT,
+    NEXT_PUBLIC_MODIA_URL: process.env.NEXT_PUBLIC_MODIA_URL,
     NEXT_PUBLIC_GOSYS_URL: process.env.NEXT_PUBLIC_GOSYS_URL,
     NEXT_PUBLIC_ASSET_PREFIX: process.env.NEXT_PUBLIC_ASSET_PREFIX,
     NEXT_PUBLIC_API_MOCKING: process.env.NEXT_PUBLIC_API_MOCKING,
@@ -43,6 +47,8 @@ const getRawServerConfig = (): Partial<unknown> =>
         // Provided by nais-*.yml
         SYK_DIG_BACKEND_SCOPE: process.env.SYK_DIG_BACKEND_SCOPE,
         SYK_DIG_BACKEND_HOST: process.env.SYK_DIG_BACKEND_HOST,
+        SMREGISTRERING_BACKEND_SCOPE: process.env.SMREGISTRERING_BACKEND_SCOPE,
+        SMREGISTRERING_BACKEND_HOST: process.env.SMREGISTRERING_BACKEND_HOST,
         MODIACONTEXTHOLDER_SCOPE: process.env.MODIACONTEXTHOLDER_SCOPE,
         MODIACONTEXTHOLDER_HOST: process.env.MODIACONTEXTHOLDER_HOST,
         // Provided by nais

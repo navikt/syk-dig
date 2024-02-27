@@ -6,7 +6,7 @@ interface Props extends Pick<ButtonProps, 'variant' | 'icon'> {
     preModalCheck?: () => Promise<boolean>
     confirmation: {
         title: string
-        body: string[]
+        body: (string | ReactNode)[]
         feedback: ReactNode | undefined
         hide: boolean
         confirmButton: {
@@ -50,11 +50,15 @@ function ConfirmButton({
                 className="max-w-lg"
             >
                 <Modal.Body>
-                    {confirmation.body.map((paragraph) => (
-                        <BodyShort key={paragraph} spacing>
-                            {paragraph}
-                        </BodyShort>
-                    ))}
+                    {confirmation.body.map((paragraph) =>
+                        typeof paragraph === 'string' ? (
+                            <BodyShort key={paragraph} spacing>
+                                {paragraph}
+                            </BodyShort>
+                        ) : (
+                            paragraph
+                        ),
+                    )}
                     {confirmation.feedback}
                 </Modal.Body>
                 <Modal.Footer>

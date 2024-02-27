@@ -1,4 +1,4 @@
-import { BodyShort, Heading } from '@navikt/ds-react'
+import { BodyShort } from '@navikt/ds-react'
 import { ReactElement } from 'react'
 
 import { OppholdsadresseFragment } from '../../../../graphql/queries/graphql.generated'
@@ -13,20 +13,10 @@ type OppholdsadresseProps = {
 }
 
 function Oppholdsadresse({ oppholdsadresse }: OppholdsadresseProps): ReactElement {
-    return (
-        <div>
-            <Heading level="3" size="xsmall">
-                Oppholdsadresse
-            </Heading>
-            <OppholdsadresseVariant oppholdsadresse={oppholdsadresse} />
-        </div>
-    )
-}
-
-function OppholdsadresseVariant({ oppholdsadresse }: OppholdsadresseProps): ReactElement {
     if (!oppholdsadresse) {
         return <BodyShort>Oppholdsadresse mangler</BodyShort>
     }
+
     switch (oppholdsadresse.__typename) {
         case 'Vegadresse':
             return <Vegadresse vegadresse={oppholdsadresse} />

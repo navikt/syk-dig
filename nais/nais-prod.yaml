@@ -47,6 +47,7 @@ spec:
     outbound:
       rules:
         - application: syk-dig-backend
+        - application: smregistrering-backend
       external:
         - host: modiacontextholder.prod-fss-pub.nais.io
         - host: teamsykmelding-unleash-api.nav.cloud.nais.io
@@ -55,6 +56,10 @@ spec:
       value: api://prod-gcp.teamsykmelding.syk-dig-backend/.default
     - name: SYK_DIG_BACKEND_HOST
       value: syk-dig-backend
+    - name: SMREGISTRERING_BACKEND_SCOPE
+      value: api://prod-gcp.teamsykmelding.smregistrering-backend/.default
+    - name: SMREGISTRERING_BACKEND_HOST
+      value: smregistrering-backend
     - name: MODIACONTEXTHOLDER_SCOPE
       value: api://prod-fss.personoversikt.modiacontextholder/.default
     - name: MODIACONTEXTHOLDER_HOST

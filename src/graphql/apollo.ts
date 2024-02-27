@@ -4,6 +4,7 @@ import { RetryLink } from '@apollo/client/link/retry'
 import { logger } from '@navikt/next-logger'
 
 import { ModiaContext, ModiaContextError } from '../modia/ModiaService'
+import smregRestLink from '../components/nasjonal-oppgave/smreg/rest-apollo-link'
 
 import possibleTypesGenerated from './queries/possible-types.generated'
 import { modiaLocalResolvers, setInitialModiaQueryState } from './localState/modia'
@@ -35,6 +36,7 @@ export function createApolloClient(
         ssrMode: typeof window === 'undefined',
         cache,
         link: from([
+            smregRestLink,
             errorLink,
             new RetryLink({
                 attempts: { max: 5 },

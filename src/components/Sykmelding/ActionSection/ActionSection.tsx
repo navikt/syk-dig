@@ -3,10 +3,10 @@ import { Button } from '@navikt/ds-react'
 import { useFormContext } from 'react-hook-form'
 import { MutationResult } from '@apollo/client'
 
-import { bundledEnv } from '../../../utils/env'
 import { UtenlanskFormValues } from '../SykmeldingForm'
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated'
 import ConfirmButton from '../../ConfirmButton/ConfirmButton'
+import { redirectTilGosys } from '../../../utils/gosys'
 
 import { useHandleSave } from './mutations/useHandleSave'
 import { useHandleTilbakeTilGosys } from './mutations/useTilbakeTilGosys'
@@ -127,10 +127,6 @@ function ActionSection({ fnr, registerResult, focusErrorSection, disableUnsavedW
 
 function isMutationSuccess(result: MutationResult): boolean {
     return result.called && !result.loading && !result.error
-}
-
-export function redirectTilGosys(): void {
-    window.location.href = bundledEnv.NEXT_PUBLIC_GOSYS_URL
 }
 
 export default ActionSection

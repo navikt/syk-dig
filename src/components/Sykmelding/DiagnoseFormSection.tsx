@@ -2,14 +2,12 @@ import { ReactElement } from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Button } from '@navikt/ds-react'
 
-import DiagnosePicker from '../FormComponents/DiagnosePicker/DiagnosePicker'
+import DiagnosePicker, { DiagnoseFormValue } from '../FormComponents/DiagnosePicker/DiagnosePicker'
 import FormSection from '../form-layout/FormSection'
 
 import { UtenlanskFormValues } from './SykmeldingForm'
 import styles from './DiagnoseFormSection.module.css'
 
-export type DiagnoseSystem = 'ICD10' | 'ICPC2'
-export type DiagnoseFormValue = { system: DiagnoseSystem; code: string | null; text: string | null }
 export type DiagnoseFormSectionValues = {
     hoveddiagnose: DiagnoseFormValue
     bidiagnoser: DiagnoseFormValue[]

@@ -14,9 +14,16 @@ type Props = {
     title: string
     ingress?: string
     documentView: ReactNode
+    closeReturnsTo?: 'modia' | 'gosys'
 }
 
-function SplitDocumentView({ title, ingress, children, documentView }: PropsWithChildren<Props>): ReactElement {
+function SplitDocumentView({
+    title,
+    ingress,
+    children,
+    documentView,
+    closeReturnsTo = 'modia',
+}: PropsWithChildren<Props>): ReactElement {
     const [tabState, setTabState] = useState<'form' | 'pdf'>('form')
     const [showTabs, setShowTabs] = useState(false)
     const toggleTabs = useCallback(() => setShowTabs((b) => !b), [])
@@ -53,6 +60,7 @@ function SplitDocumentView({ title, ingress, children, documentView }: PropsWith
                             analytics.splitViewToggled(showTabs)
                             toggleTabs()
                         }}
+                        closeReturnsTo={closeReturnsTo}
                     />
                     <div className={styles.content}>{children} </div>
                 </section>
@@ -67,9 +75,16 @@ type SplitDocumentViewTitleProps = {
     ingress?: string
     showTabs: boolean
     toggleTabs: () => void
+    closeReturnsTo: 'modia' | 'gosys'
 }
 
-function SplitDocumentViewTitle({ title, ingress, showTabs, toggleTabs }: SplitDocumentViewTitleProps): ReactElement {
+function SplitDocumentViewTitle({
+    title,
+    ingress,
+    showTabs,
+    toggleTabs,
+    closeReturnsTo,
+}: SplitDocumentViewTitleProps): ReactElement {
     return (
         <PageTitle
             titleId="oppgave-header"
@@ -102,8 +117,14 @@ function SplitDocumentViewTitle({ title, ingress, showTabs, toggleTabs }: SplitD
                             size="small"
                             variant="tertiary"
                             as="a"
-                            href={bundledEnv.NEXT_PUBLIC_GOSYS_URL}
-                            icon={<XMarkIcon title="Lukk oppgaven og gå tilbake til gosys uten å lagre" />}
+                            href={
+                                closeReturnsTo === 'gosys'
+                                    ? bundledEnv.NEXT_PUBLIC_GOSYS_URL
+                                    : bundledEnv.NEXT_PUBLIC_MODIA_URL
+                            }
+                            icon={
+                                <XMarkIcon title={`Lukk oppgaven og gå tilbake til ${closeReturnsTo} uten å lagre`} />
+                            }
                         />
                     </Tooltip>
                 </>

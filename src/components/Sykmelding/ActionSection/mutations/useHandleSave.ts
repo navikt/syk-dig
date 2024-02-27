@@ -13,10 +13,10 @@ import {
 import { Location, useParam } from '../../../../utils/useParam'
 import { UtenlanskFormValues } from '../../SykmeldingForm'
 import { safeDate, safeString } from '../../../../utils/formUtils'
-import { DiagnoseFormValue } from '../../DiagnoseFormSection'
 import { notNull } from '../../../../utils/tsUtils'
 import { PeriodeFormValue } from '../../Sykmeldingsperiode'
 import { useSelectedModiaEnhet } from '../../../../graphql/localState/modia'
+import { DiagnoseFormValue } from '../../../FormComponents/DiagnosePicker/DiagnosePicker'
 
 type UseSave = [save: SubmitHandler<UtenlanskFormValues>, result: MutationResult<SaveOppgaveMutation>]
 type UseSaveOptions = { fnr: string; onCompleted?: () => void }

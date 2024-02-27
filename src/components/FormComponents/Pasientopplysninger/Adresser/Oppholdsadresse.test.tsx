@@ -21,7 +21,6 @@ describe('Oppholdsadresse', () => {
 
         expect(await axe(container)).toHaveNoViolations()
 
-        expect(screen.getByRole('heading', { name: 'Oppholdsadresse' })).toBeInTheDocument()
         expect(screen.getByText('Trondheimsveien 8C')).toBeInTheDocument()
         expect(screen.getByText('1234 Trondheim')).toBeInTheDocument()
     })
@@ -39,7 +38,6 @@ describe('Oppholdsadresse', () => {
 
         expect(await axe(container)).toHaveNoViolations()
 
-        expect(screen.getByRole('heading', { name: 'Oppholdsadresse' })).toBeInTheDocument()
         expect(screen.getByText('Bergensergata')).toBeInTheDocument()
         expect(screen.getByText('H0101')).toBeInTheDocument()
         expect(screen.getByText('1111 Bodø')).toBeInTheDocument()
@@ -73,7 +71,6 @@ describe('Oppholdsadresse', () => {
 
             render(<Oppholdsadresse oppholdsadresse={utenlandsadresse} />)
 
-            expect(screen.getByRole('heading', { name: 'Oppholdsadresse' })).toBeInTheDocument()
             expect(screen.getByText('Einimel 80')).toBeInTheDocument()
             expect(screen.getByText('IS-107 Reykjavik')).toBeInTheDocument()
             expect(await screen.findByText('Island')).toBeInTheDocument()
@@ -88,7 +85,6 @@ describe('Oppholdsadresse', () => {
             }
             render(<Oppholdsadresse oppholdsadresse={oppholdAnnetSted} />)
 
-            expect(screen.getByRole('heading', { name: 'Oppholdsadresse' })).toBeInTheDocument()
             expect(screen.getByText('Annet opphold: På Svalbard')).toBeInTheDocument()
         })
 
@@ -99,7 +95,6 @@ describe('Oppholdsadresse', () => {
             }
             render(<Oppholdsadresse oppholdsadresse={oppholdAnnetSted} />)
 
-            expect(screen.getByRole('heading', { name: 'Oppholdsadresse' })).toBeInTheDocument()
             expect(screen.getByText('Annet opphold: UKJENT')).toBeInTheDocument()
         })
     })
@@ -107,7 +102,6 @@ describe('Oppholdsadresse', () => {
     it('should show message about missing address if address is unknown type', () => {
         render(<Oppholdsadresse oppholdsadresse={null} />)
 
-        expect(screen.getByRole('heading', { name: 'Oppholdsadresse' })).toBeInTheDocument()
         expect(screen.getByText('Oppholdsadresse mangler')).toBeInTheDocument()
     })
 })
