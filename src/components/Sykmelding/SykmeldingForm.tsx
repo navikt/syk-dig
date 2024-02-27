@@ -1,16 +1,17 @@
 import { FormProvider, useForm } from 'react-hook-form'
-import { ReactElement, useRef, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-import Errors from '../Errors/Errors'
+import Errors, { useErrorSection } from '../Errors/Errors'
 import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
 import useWarnUnsavedPopup from '../../hooks/useWarnUnsaved'
+import { redirectTilGosys } from '../../utils/gosys'
 
 import Pasientopplysninger from './Pasientopplysninger'
 import Sykmeldingsperiode, { PeriodeFormValue } from './Sykmeldingsperiode'
 import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSection'
 import { createDefaultValues } from './formDataUtils'
-import ActionSection, { redirectTilGosys } from './ActionSection/ActionSection'
+import ActionSection from './ActionSection/ActionSection'
 import { useHandleRegister } from './ActionSection/mutations/useHandleSave'
 import AndreOpplysninger from './AndreOpplysninger'
 import MangelfullSykmelding from './MangelfullSykmelding'
@@ -33,13 +34,7 @@ interface Props {
 function SykmeldingForm({ oppgave }: Props): ReactElement {
     const router = useRouter()
     const params = useSearchParams()
-
-    const errorSectionRef = useRef<HTMLDivElement>(null)
-    const focusErrorSection = (): void => {
-        requestAnimationFrame(() => {
-            errorSectionRef.current?.focus()
-        })
-    }
+    const [errorRef, focusErrorSection] = useErrorSection()
 
     const [onSave, result] = useHandleRegister({
         fnr: oppgave.values.fnrPasient,
@@ -75,7 +70,7 @@ function SykmeldingForm({ oppgave }: Props): ReactElement {
                 <DiagnoseFormSection />
                 <AndreOpplysninger />
                 <MangelfullSykmelding />
-                <Errors ref={errorSectionRef} />
+                <Errors ref={errorRef} />
                 <div className="sticky bottom-0 z-10 border-t-2 border-border-default bg-bg-default p-4">
                     {shouldShowAvvisActions ? (
                         <AvvisSection disableUnsavedWarning={() => setDisableWarnUnsaved(true)} />

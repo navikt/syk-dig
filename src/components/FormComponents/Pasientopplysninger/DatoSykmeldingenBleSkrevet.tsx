@@ -14,11 +14,11 @@ function DatoSykmeldingenBleSkrevet(): ReactElement {
         rules: {
             validate: (value) => {
                 if (validationError?.isAfter) {
-                    return 'Datoen sykmeldingen ble skrevet kan ikke være i fremtiden.'
+                    return 'Datoen sykmeldingen ble skrevet kan ikke være i fremtiden'
                 }
 
                 if (!value) {
-                    return 'Du må fylle inn dato for når sykmeldingen ble skrevet.'
+                    return 'Du må fylle inn dato for når sykmeldingen ble skrevet'
                 }
             },
         },

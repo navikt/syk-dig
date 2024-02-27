@@ -13,7 +13,10 @@ expect.extend(matchers)
 expect.extend(vitestAxeMatchers)
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
-afterEach(() => server.resetHandlers())
+afterEach(() => {
+    server.resetHandlers()
+    cleanup()
+})
 afterAll(() => server.close())
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,9 +58,5 @@ export const MockNextNavigation = {
 vi.mock('next/navigation', () => MockNextNavigation)
 
 mockRouter.memoryRouter.useParser(createDynamicRouteParser(['/oppgave/[oppgaveId]']))
-
-afterEach(() => {
-    cleanup()
-})
 
 process.env.DEBUG_PRINT_LIMIT = '50000'

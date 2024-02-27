@@ -28,9 +28,9 @@ function GradInput({ name }: Props): ReactElement {
                 type="number"
                 {...register(name, {
                     valueAsNumber: true,
-                    min: { value: 20, message: 'Grad kan ikke være lavere enn 20 prosent.' },
-                    max: { value: 100, message: 'Grad kan ikke være høyere enn 100 prosent.' },
-                    required: 'Du må fylle inn grad.',
+                    min: { value: 20, message: 'Grad kan ikke være lavere enn 20 prosent' },
+                    max: { value: 100, message: 'Grad kan ikke være høyere enn 100 prosent' },
+                    required: 'Du må fylle inn grad',
                 })}
             />
             <ErrorMessage name={name} errors={errors} render={(data) => <FieldError error={data.message} />} />

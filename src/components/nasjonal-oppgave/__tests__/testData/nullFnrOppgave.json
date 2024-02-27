@@ -1,0 +1,10 @@
+{
+    "oppgaveid": 123,
+    "papirSmRegistering": null,
+    "documents": [
+        {
+            "dokumentInfoId": "ex-doc-1",
+            "tittel": "Papirsykmelding"
+        }
+    ]
+}

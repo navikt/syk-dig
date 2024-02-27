@@ -19,7 +19,7 @@ function PeriodeSelect({ name, index }: Props): ReactElement {
     const { field, fieldState } = useController<UtenlanskFormValues, FormName>({
         name,
         rules: {
-            required: 'Du må fylle inn periode.',
+            required: 'Du må fylle inn periode',
         },
     })
     return (

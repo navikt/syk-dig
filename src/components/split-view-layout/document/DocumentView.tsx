@@ -7,10 +7,16 @@ import Pdf from '../../Pdf/Pdf'
 import DocumentTabs from './document-tabs/DocumentTabs'
 import styles from './DocumentView.module.css'
 
+type OppgaveOrJournalPost =
+    | { oppgaveId: string | null; source?: 'syk-dig' | 'smreg' }
+    | {
+          journalpostId: string | null
+      }
+
 type Props = {
     documents: { tittel: string; dokumentInfoId: string }[]
     className?: string
-} & ({ oppgaveId: string | null } | { journalpostId: string | null })
+} & OppgaveOrJournalPost
 
 function DocumentsViewer({ documents, className, ...props }: Props): ReactElement {
     const [tabState, setTabState] = useState(documents[0].dokumentInfoId)
@@ -30,7 +36,7 @@ function DocumentsViewer({ documents, className, ...props }: Props): ReactElemen
                     }
                     setTabState(value)
                 }}
-                oppgaveId={'oppgaveId' in props ? props.oppgaveId : null}
+                oppgaveId={'oppgaveId' in props && props.source !== 'smreg' ? props.oppgaveId : null}
             />
             {renderedDocuments.map((documentId) => (
                 <Pdf
@@ -45,9 +51,9 @@ function DocumentsViewer({ documents, className, ...props }: Props): ReactElemen
     )
 }
 
-function getPdfUrl(id: { oppgaveId: string | null } | { journalpostId: string | null }): string {
+function getPdfUrl(id: OppgaveOrJournalPost): string {
     if ('oppgaveId' in id) {
-        return `/api/document/${id.oppgaveId}`
+        return id.source !== 'smreg' ? `/api/document/${id.oppgaveId}` : `/api/smreg/api/v1/pdf/${id.oppgaveId}`
     }
     return `/api/document/journalpost/${id.journalpostId}`
 }

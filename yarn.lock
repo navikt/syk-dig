@@ -3152,6 +3152,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/qs@npm:^6.9.15":
+  version: 6.9.15
+  resolution: "@types/qs@npm:6.9.15"
+  checksum: 10/97d8208c2b82013b618e7a9fc14df6bd40a73e1385ac479b6896bafc7949a46201c15f42afd06e86a05e914f146f495f606b6fb65610cc60cf2e0ff743ec38a2
+  languageName: node
+  linkType: hard
+
 "@types/react-dom@npm:18.3.0":
   version: 18.3.0
   resolution: "@types/react-dom@npm:18.3.0"
@@ -3824,6 +3831,17 @@ __metadata:
     normalize-path: "npm:^3.0.0"
     picomatch: "npm:^2.0.4"
   checksum: 10/3e044fd6d1d26545f235a9fe4d7a534e2029d8e59fa7fd9f2a6eb21230f6b5380ea1eaf55136e60cbf8e613544b3b766e7a6fa2102e2a3a117505466e3025dc2
+  languageName: node
+  linkType: hard
+
+"apollo-link-rest@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "apollo-link-rest@npm:0.9.0"
+  peerDependencies:
+    "@apollo/client": ">=3"
+    graphql: ">=0.11"
+    qs: ">=6"
+  checksum: 10/fbd9faa491b04f63da08d389959b0cc873fa029dd0d6aac1b3ecfaa420ec580a1a74293a24bf27ddb27d546a9ea542e3f4c0b5889bbacc7e79fa9442bc9df932
   languageName: node
   linkType: hard
 
@@ -9351,6 +9369,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qs@npm:^6.12.1":
+  version: 6.12.1
+  resolution: "qs@npm:6.12.1"
+  dependencies:
+    side-channel: "npm:^1.0.6"
+  checksum: 10/035bcad2a1ab0175bac7a74c904c15913bdac252834149ccff988c93a51de02642fe7be10e43058ba4dc4094bb28ce9b59d12b9e91d40997f445cfde3ecc1c29
+  languageName: node
+  linkType: hard
+
 "querystringify@npm:^2.1.1":
   version: 2.2.0
   resolution: "querystringify@npm:2.2.0"
@@ -10572,10 +10599,12 @@ __metadata:
     "@testing-library/user-event": "npm:^14.5.2"
     "@types/node": "npm:20.14.2"
     "@types/pdfobject": "npm:^2.2.5"
+    "@types/qs": "npm:^6.9.15"
     "@types/react": "npm:18.3.3"
     "@types/react-dom": "npm:18.3.0"
     "@unleash/nextjs": "npm:^1.4.3"
     "@vitejs/plugin-react": "npm:^4.3.1"
+    apollo-link-rest: "npm:^0.9.0"
     ariakit: "npm:^2.0.0-next.44"
     autoprefixer: "npm:^10.4.19"
     clsx: "npm:^2.1.1"
@@ -10602,6 +10631,7 @@ __metadata:
     postcss-import: "npm:^16.1.0"
     prettier: "npm:^3.3.2"
     prettier-plugin-tailwindcss: "npm:^0.6.4"
+    qs: "npm:^6.12.1"
     react: "npm:18.3.1"
     react-dom: "npm:18.3.1"
     react-hook-form: "npm:^7.52.0"

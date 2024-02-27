@@ -8,10 +8,10 @@ import { MutationResultFeedback } from '../ActionSection/MutationFeedbackSection
 import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
 import styles from '../ActionSection/MutationFeedbackSection.module.css'
 import FeedbackModal from '../ActionSection/FeedbackModal'
-import { redirectTilGosys } from '../ActionSection/ActionSection'
 import { Location, useParam } from '../../../utils/useParam'
 import { UtenlanskFormValues } from '../SykmeldingForm'
 import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
+import { redirectTilGosys } from '../../../utils/gosys'
 
 type Props = {
     disableUnsavedWarning: () => void

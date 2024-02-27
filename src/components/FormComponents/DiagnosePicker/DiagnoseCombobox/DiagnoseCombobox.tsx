@@ -2,22 +2,32 @@ import { ReactElement, useEffect, useState } from 'react'
 import { useComboboxState } from 'ariakit/combobox'
 
 import { ComboboxWrapper, DsCombobox, DsComboboxItem, DsComboboxPopover } from '../../CustomFormComponents/Combobox'
-import { DiagnoseSystem } from '../../../Sykmelding/DiagnoseFormSection'
 import { api } from '../../../../utils/apiUtils'
 import { DsComboboxNoResult } from '../../CustomFormComponents/Combobox'
-import { PossiblePickerFormNames } from '../DiagnosePicker'
+import { DiagnoseSystem, PossiblePickerFormNames } from '../DiagnosePicker'
 import { DiagnoseSearchResult, DiagnoseSuggestion } from '../../../../app/api/diagnose/[system]/_types'
 
 interface Props {
     id?: string
+    className?: string
     name: PossiblePickerFormNames
     system: DiagnoseSystem
+    label: string
     onSelect: (value: DiagnoseSuggestion) => void
     onChange: () => void
     initialValue: string | null
 }
 
-function DiagnoseCombobox({ id, name, system, onSelect, onChange, initialValue }: Props): ReactElement {
+function DiagnoseCombobox({
+    id,
+    className,
+    name,
+    system,
+    label,
+    onSelect,
+    onChange,
+    initialValue,
+}: Props): ReactElement {
     const combobox = useComboboxState({
         gutter: 8,
         sameWidth: true,
@@ -38,7 +48,7 @@ function DiagnoseCombobox({ id, name, system, onSelect, onChange, initialValue }
     const suggestions = useDiagnoseSuggestions(system, combobox.value)
 
     return (
-        <ComboboxWrapper labelId={`${id}-label`} label="Diagnosekode">
+        <ComboboxWrapper labelId={`${id}-label`} label={label} className={className}>
             <DsCombobox id={name} aria-labelledby={`${id}-label`} state={combobox} placeholder="Velg" />
             <DsComboboxPopover state={combobox}>
                 {suggestions.length > 0 ? (

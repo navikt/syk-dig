@@ -6,25 +6,33 @@ import { XMarkIcon } from '@navikt/aksel-icons'
 
 import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
-import { DiagnoseSystem } from '../../Sykmelding/DiagnoseFormSection'
+import { NasjonalFormValues } from '../../nasjonal-oppgave/form/NasjonalSykmeldingFormTypes'
 
-import styles from './DiagnosePicker.module.css'
 import DiagnoseCombobox from './DiagnoseCombobox/DiagnoseCombobox'
+import styles from './DiagnosePicker.module.css'
 
-export type PossiblePickerFormNames = 'diagnoser.hoveddiagnose' | `diagnoser.bidiagnoser.${number}`
+export type DiagnoseSystem = 'ICD10' | 'ICPC2'
+export type DiagnoseFormValue = { system: DiagnoseSystem; code: string | null; text: string | null }
+
+export type PossiblePickerFormNames =
+    | 'diagnoser.hoveddiagnose'
+    | `diagnoser.bidiagnoser.${number}`
+    | 'medisinskVurdering.hoveddiagnose'
+    | `medisinskVurdering.bidiagnoser.${number}`
 
 interface Props {
     name: PossiblePickerFormNames
     diagnoseType: 'hoveddiagnose' | 'bidiagnose'
     onRemove?: () => void
+    specificLabels?: boolean
 }
 
-function DiagnosePicker({ name, diagnoseType, onRemove }: Props): ReactElement {
-    const { field, fieldState } = useController<UtenlanskFormValues, PossiblePickerFormNames>({
+function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props): ReactElement {
+    const { field, fieldState } = useController<NasjonalFormValues | UtenlanskFormValues, PossiblePickerFormNames>({
         name,
         rules: {
             validate: (value) => {
-                if (value.code == null) return `Du må velge en diagnosekode for ${diagnoseType}.`
+                if (value.code == null) return `Du må velge en diagnosekode for ${diagnoseType}`
             },
         },
     })
@@ -40,7 +48,14 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): ReactElement {
         <div>
             <div className={styles.diagnosePicker}>
                 <Select
-                    label="Kodesystem"
+                    className={styles.field}
+                    label={
+                        !specificLabels
+                            ? 'Kodesystem'
+                            : diagnoseType === 'hoveddiagnose'
+                              ? '3.1.1 Kodesystem'
+                              : '3.2.1 Kodesystem'
+                    }
                     value={field.value.system}
                     onChange={(event) => resetValues(event.target.value as DiagnoseSystem)}
                 >
@@ -48,8 +63,16 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): ReactElement {
                     <option>ICPC2</option>
                 </Select>
                 <DiagnoseCombobox
+                    className={styles.field}
                     id={`${name}-combobox`}
                     name={name}
+                    label={
+                        !specificLabels
+                            ? 'Diagnosekode'
+                            : diagnoseType === 'hoveddiagnose'
+                              ? '3.1.2 Kode'
+                              : '3.2.2 Kode'
+                    }
                     system={field.value.system}
                     onSelect={(suggestion) => field.onChange({ ...suggestion, system: field.value.system })}
                     onChange={() => {
@@ -59,7 +82,17 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): ReactElement {
                     }}
                     initialValue={field.value.code}
                 />
-                <DiagnoseDescription text={field.value.text} />
+                <DiagnoseDescription
+                    className={styles.field}
+                    text={field.value.text}
+                    label={
+                        !specificLabels
+                            ? 'Beskrivelse'
+                            : diagnoseType === 'hoveddiagnose'
+                              ? '3.1.3 Tekst'
+                              : '3.2.3 Tekst'
+                    }
+                />
                 {onRemove && (
                     <div className={styles.onRemoveButtonWrapper}>
                         <Button
@@ -77,10 +110,18 @@ function DiagnosePicker({ name, diagnoseType, onRemove }: Props): ReactElement {
     )
 }
 
-function DiagnoseDescription({ text }: { text: string | null | undefined }): ReactElement {
+function DiagnoseDescription({
+    className,
+    label,
+    text,
+}: {
+    className?: string
+    label: string
+    text: string | null | undefined
+}): ReactElement {
     return (
-        <div className={cn('navds-form-field navds-form-field--medium')}>
-            <Label>Beskrivelse</Label>
+        <div className={cn(className, 'navds-form-field navds-form-field--medium')}>
+            <Label>{label}</Label>
             <BodyLong className={styles.diagnoseDescriptionText}>{text ?? '-'}</BodyLong>
         </div>
     )

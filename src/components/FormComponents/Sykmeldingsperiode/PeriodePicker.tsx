@@ -31,10 +31,10 @@ function PeriodePicker({ index, name }: PeriodePickerProps): ReactElement {
         rules: {
             validate: (value) => {
                 if (!value) {
-                    return 'Du må fylle inn fra dato.'
+                    return 'Du må fylle inn fra dato'
                 }
                 if (previousTom && (isBefore(value, previousTom) || isSameDay(value, previousTom))) {
-                    return 'Fra kan ikke være tidligere eller samme dag som forrige periode.'
+                    return 'Fra kan ikke være tidligere eller samme dag som forrige periode'
                 }
                 if (
                     index === 0 &&
@@ -42,7 +42,7 @@ function PeriodePicker({ index, name }: PeriodePickerProps): ReactElement {
                     isAfter(value, toDate(behandletTidspunkt)) &&
                     differenceInDays(value, toDate(behandletTidspunkt)) > 30
                 ) {
-                    return 'Fra kan ikke være mer enn 30 dager etter datoen sykmeldingen ble skrevet.'
+                    return 'Fra kan ikke være mer enn 30 dager etter datoen sykmeldingen ble skrevet'
                 }
                 return undefined
             },
@@ -53,7 +53,7 @@ function PeriodePicker({ index, name }: PeriodePickerProps): ReactElement {
         rules: {
             validate: (value) => {
                 if (!value) {
-                    return 'Du må fylle inn til dato.'
+                    return 'Du må fylle inn til dato'
                 }
                 return undefined
             },
@@ -75,6 +75,7 @@ function PeriodePicker({ index, name }: PeriodePickerProps): ReactElement {
         <div className={styles.periodePicker}>
             <DatePicker {...datepickerProps} wrapperClassName={styles.dateRangePicker}>
                 <DatePicker.Input
+                    className={styles.dateRangeInput}
                     id={fromField.name}
                     {...fromInputProps}
                     label="Fra"
@@ -83,6 +84,7 @@ function PeriodePicker({ index, name }: PeriodePickerProps): ReactElement {
                 />
 
                 <DatePicker.Input
+                    className={styles.dateRangeInput}
                     id={toField.name}
                     {...toInputProps}
                     label="Til"

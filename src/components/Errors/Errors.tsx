@@ -1,5 +1,5 @@
 import { ErrorSummary } from '@navikt/ds-react'
-import { ForwardedRef, forwardRef, ReactElement } from 'react'
+import { ForwardedRef, forwardRef, ReactElement, RefObject, useRef } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { UtenlanskFormValues } from '../Sykmelding/SykmeldingForm'
@@ -18,7 +18,7 @@ function Errors(_: unknown, ref: ForwardedRef<HTMLDivElement>): ReactElement | n
     return (
         <ErrorSummary
             size="medium"
-            heading="Du må fylle ut disse feltene før du kan registrere sykmeldingen."
+            heading="Du må fylle ut disse feltene før du kan registrere sykmeldingen"
             ref={ref}
             className={styles.errorSummary}
         >
@@ -29,6 +29,17 @@ function Errors(_: unknown, ref: ForwardedRef<HTMLDivElement>): ReactElement | n
             ))}
         </ErrorSummary>
     )
+}
+
+export function useErrorSection(): [RefObject<HTMLDivElement>, () => void] {
+    const errorSectionRef = useRef<HTMLDivElement>(null)
+    const focusErrorSection = (): void => {
+        requestAnimationFrame(() => {
+            errorSectionRef.current?.focus()
+        })
+    }
+
+    return [errorSectionRef, focusErrorSection] as const
 }
 
 export default forwardRef(Errors)

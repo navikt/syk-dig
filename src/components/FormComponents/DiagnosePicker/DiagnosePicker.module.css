@@ -1,8 +1,15 @@
 .diagnosePicker {
     position: relative;
     display: grid;
-    grid-template-columns: 0.1fr 0.5fr 2fr;
+    grid-template-columns: 138px 138px 1fr;
     gap: var(--a-spacing-8);
+}
+
+.field {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    align-items: end;
 }
 
 .diagnoseDescriptionText {

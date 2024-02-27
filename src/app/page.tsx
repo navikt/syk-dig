@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { ReactElement } from 'react'
 import { GuidePanel } from '@navikt/ds-react'
 
+import { isLocalOrDemo } from '../utils/env'
+
 function Home(): ReactElement {
     return (
         <div className="container p-4 mx-auto p-8">
@@ -12,6 +14,11 @@ function Home(): ReactElement {
             <div className="mt-8">
                 <Link href="/registrer-sykmelding">Registrer Sykmelding fra JournalpostID</Link>
             </div>
+            {isLocalOrDemo && (
+                <div className="mt-8">
+                    <Link href="/test">Developer only page with test scenarios</Link>
+                </div>
+            )}
         </div>
     )
 }

@@ -14,8 +14,8 @@ import {
     SykmeldingUnderArbeidStatus,
 } from '../../graphql/queries/graphql.generated'
 import { createMock } from '../../utils/test/apolloTestUtils'
+import { DiagnoseSystem } from '../FormComponents/DiagnosePicker/DiagnosePicker'
 
-import { DiagnoseSystem } from './DiagnoseFormSection'
 import SykmeldingForm from './SykmeldingForm'
 
 describe('SykmeldingForm', () => {
@@ -240,13 +240,13 @@ describe('SykmeldingForm', () => {
 
             const errorSection = within(
                 screen.getByRole('region', {
-                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
+                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen',
                 }),
             )
 
-            expect(errorSection.getByRole('link', { name: 'Du må velge et land.' })).toBeInTheDocument()
+            expect(errorSection.getByRole('link', { name: 'Du må velge et land' })).toBeInTheDocument()
             expect(
-                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose.' }),
+                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose' }),
             ).toBeInTheDocument()
         })
 
@@ -259,21 +259,21 @@ describe('SykmeldingForm', () => {
 
             const errorSection = within(
                 screen.getByRole('region', {
-                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
+                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen',
                 }),
             )
 
-            expect(errorSection.getByRole('link', { name: 'Du må velge et land.' })).toBeInTheDocument()
-            expect(errorSection.getByRole('link', { name: 'Du må fylle inn fra dato.' })).toBeInTheDocument()
-            expect(errorSection.getByRole('link', { name: 'Du må fylle inn til dato.' })).toBeInTheDocument()
+            expect(errorSection.getByRole('link', { name: 'Du må velge et land' })).toBeInTheDocument()
+            expect(errorSection.getByRole('link', { name: 'Du må fylle inn fra dato' })).toBeInTheDocument()
+            expect(errorSection.getByRole('link', { name: 'Du må fylle inn til dato' })).toBeInTheDocument()
             expect(
-                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose.' }),
+                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for hoveddiagnose' }),
             ).toBeInTheDocument()
             expect(
-                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for bidiagnose.' }),
+                errorSection.getByRole('link', { name: 'Du må velge en diagnosekode for bidiagnose' }),
             ).toBeInTheDocument()
             expect(
-                errorSection.getByRole('link', { name: 'Du må fylle inn dato for når sykmeldingen ble skrevet.' }),
+                errorSection.getByRole('link', { name: 'Du må fylle inn dato for når sykmeldingen ble skrevet' }),
             ).toBeInTheDocument()
         })
 
@@ -290,13 +290,13 @@ describe('SykmeldingForm', () => {
 
             const errorSection = within(
                 screen.getByRole('region', {
-                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
+                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen',
                 }),
             )
 
             expect(
                 errorSection.getByRole('link', {
-                    name: 'Fra kan ikke være tidligere eller samme dag som forrige periode.',
+                    name: 'Fra kan ikke være tidligere eller samme dag som forrige periode',
                 }),
             ).toBeInTheDocument()
         })
@@ -314,13 +314,13 @@ describe('SykmeldingForm', () => {
 
             const errorSection = within(
                 screen.getByRole('region', {
-                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
+                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen',
                 }),
             )
 
             expect(
                 errorSection.getByRole('link', {
-                    name: 'Fra kan ikke være tidligere eller samme dag som forrige periode.',
+                    name: 'Fra kan ikke være tidligere eller samme dag som forrige periode',
                 }),
             ).toBeInTheDocument()
         })
@@ -341,13 +341,13 @@ describe('SykmeldingForm', () => {
 
             const errorSection = within(
                 screen.getByRole('region', {
-                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen.',
+                    name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen',
                 }),
             )
 
             expect(
                 errorSection.getByRole('link', {
-                    name: 'Fra kan ikke være mer enn 30 dager etter datoen sykmeldingen ble skrevet.',
+                    name: 'Fra kan ikke være mer enn 30 dager etter datoen sykmeldingen ble skrevet',
                 }),
             ).toBeInTheDocument()
         })

@@ -38,7 +38,7 @@ describe('DatoSykmeldingenBleSkrevet', () => {
 
             await userEvent.click(screen.getByRole('button', { name: 'submit test' }))
 
-            expect(screen.getByText('Du må fylle inn dato for når sykmeldingen ble skrevet.')).toBeInTheDocument()
+            expect(screen.getByText('Du må fylle inn dato for når sykmeldingen ble skrevet')).toBeInTheDocument()
         })
 
         it('should not allow dates after today', async () => {
@@ -50,7 +50,7 @@ describe('DatoSykmeldingenBleSkrevet', () => {
             )
             await userEvent.click(screen.getByRole('button', { name: 'submit test' }))
 
-            expect(screen.getByText('Datoen sykmeldingen ble skrevet kan ikke være i fremtiden.')).toBeInTheDocument()
+            expect(screen.getByText('Datoen sykmeldingen ble skrevet kan ikke være i fremtiden')).toBeInTheDocument()
         })
     })
 })
