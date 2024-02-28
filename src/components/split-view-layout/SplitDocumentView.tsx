@@ -4,6 +4,7 @@ import { Button, Tooltip } from '@navikt/ds-react'
 import { ExpandIcon, SidebarLeftIcon, XMarkIcon } from '@navikt/aksel-icons'
 
 import { bundledEnv } from '../../utils/env'
+import analytics from '../../utils/analytics'
 
 import SplitTabs from './split-tabs/Tabs'
 import PageTitle from './page-title/PageTitle'
@@ -27,7 +28,15 @@ function SplitDocumentView({ title, ingress, children, documentView }: PropsWith
 
     return (
         <>
-            {showTabs && <SplitTabs value={tabState} onTabChange={setTabState} />}
+            {showTabs && (
+                <SplitTabs
+                    value={tabState}
+                    onTabChange={(value) => {
+                        analytics.splitViewTabToggled(value)
+                        setTabState(value)
+                    }}
+                />
+            )}
             <div className={styles.contentWrapper}>
                 <section
                     aria-labelledby="oppgave-header"
@@ -40,7 +49,10 @@ function SplitDocumentView({ title, ingress, children, documentView }: PropsWith
                         title={title}
                         ingress={ingress}
                         showTabs={showTabs}
-                        toggleTabs={toggleTabs}
+                        toggleTabs={() => {
+                            analytics.splitViewToggled(showTabs)
+                            toggleTabs()
+                        }}
                     />
                     <div className={styles.content}>{children} </div>
                 </section>
