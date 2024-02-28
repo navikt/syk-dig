@@ -4,7 +4,7 @@ import mockRouter from 'next-router-mock'
 import { GraphQLError } from 'graphql'
 import userEvent from '@testing-library/user-event'
 
-import { render, screen } from '../../utils/testUtils'
+import { render, screen, within } from '../../utils/testUtils'
 import { createMock } from '../../utils/test/apolloTestUtils'
 import { NavngiDokumentDocument, OppgaveByIdDocument } from '../../graphql/queries/graphql.generated'
 import { createOppgave } from '../../mocks/data/dataCreators'
@@ -26,7 +26,11 @@ describe('Utenlandsk page', () => {
         })
 
         expect(await screen.findByRole('button', { name: 'Registrer og send' })).toBeInTheDocument()
-        expect(screen.getByTestId('pdf-embed').firstChild).toHaveAttribute('src', '/api/document/987654321/some-doc')
+        // JSDOM doesn't support embeds so we assert on the fallback link
+        expect(within(screen.getByTestId('pdf-embed')).getByRole('link')).toHaveAttribute(
+            'href',
+            '/api/document/987654321/some-doc',
+        )
     })
 
     it('should load the second document (without unmounting the first) when second tab is clicked', async () => {
@@ -40,8 +44,11 @@ describe('Utenlandsk page', () => {
 
         expect(await screen.findByRole('button', { name: 'Registrer og send' })).toBeInTheDocument()
 
-        // Assert first document loaded
-        expect(screen.getByTestId('pdf-embed').firstChild).toHaveAttribute('src', '/api/document/987654321/some-doc')
+        // Assert first document loaded, but JSDOM doesn't support embeds so we assert on the fallback link
+        expect(within(screen.getByTestId('pdf-embed')).getByRole('link')).toHaveAttribute(
+            'href',
+            '/api/document/987654321/some-doc',
+        )
         await userEvent.click(screen.getByRole('tab', { name: 'more-doc.pdf' }))
 
         const embeds = screen.getAllByTestId('pdf-embed')
@@ -51,7 +58,7 @@ describe('Utenlandsk page', () => {
         // Second should be visible
         expect(embeds.at(1)).not.toHaveClass('hidden')
         // The now visible one should have correct URL
-        expect(embeds.at(1)?.firstChild).toHaveAttribute('src', '/api/document/987654321/more-doc.pdf')
+        expect(within(embeds[1]).getByRole('link')).toHaveAttribute('href', '/api/document/987654321/more-doc.pdf')
     })
 
     it('should show error message when it fails to load', async () => {
