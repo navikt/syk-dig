@@ -1,0 +1,3 @@
+.tabsRoot :global(.navds-tabs__tablist) {
+    flex-wrap: wrap;
+}

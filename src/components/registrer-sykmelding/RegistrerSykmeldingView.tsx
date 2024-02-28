@@ -11,7 +11,9 @@ import {
     JournalpostStatusEnum,
     SykmeldingFraJournalpostDocument,
 } from '../../graphql/queries/graphql.generated'
-import JournalpostView from '../OppgaveView/JournalpostView'
+import SplitDocumentView from '../split-view-layout/SplitDocumentView'
+
+import RegistrerSykmeldingDocuments from './RegistrerSykmeldingDocuments'
 
 function RegistrerSykmeldingView(): ReactElement {
     const [journalpostId, setJournalpostId] = useState('')
@@ -22,13 +24,11 @@ function RegistrerSykmeldingView(): ReactElement {
     const journalpostResult = registrerResult.data?.journalpost ?? null
 
     return (
-        <JournalpostView
-            journalpost={journalpostResult?.__typename === 'Journalpost' ? journalpostResult : null}
-            loading={registrerResult.loading}
-            isError={registrerResult.error != null}
+        <SplitDocumentView
+            title="Registrer sykmelding"
+            documentView={<RegistrerSykmeldingDocuments query={registrerResult} />}
         >
             <div className="container p-4 mx-auto">
-                <Heading size="large">Registrer sykmelding</Heading>
                 <div className="flex items-end gap-3">
                     <TextField
                         className="grow"
@@ -65,7 +65,7 @@ function RegistrerSykmeldingView(): ReactElement {
                     <JournalpostStatus status={journalpostResult.status} />
                 )}
             </div>
-        </JournalpostView>
+        </SplitDocumentView>
     )
 }
 

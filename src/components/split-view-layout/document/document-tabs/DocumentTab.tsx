@@ -3,20 +3,19 @@ import { Alert, Button, Modal, TextField, Tabs } from '@navikt/ds-react'
 import { PencilIcon } from '@navikt/aksel-icons'
 import { useMutation } from '@apollo/client'
 
-import { NavngiDokumentDocument } from '../../graphql/queries/graphql.generated'
+import { NavngiDokumentDocument } from '../../../../graphql/queries/graphql.generated'
 
 interface Props {
     document: { tittel: string; dokumentInfoId: string }
-    oppdaveId?: string
+    oppdaveId: string | null
 }
 
-function DocumentTabLabel({ document, oppdaveId }: Props): ReactElement {
+function DocumentTab({ document, oppdaveId }: Props): ReactElement {
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     return (
         <>
             <Tabs.Tab value={document.dokumentInfoId} label={document.tittel} className="pr-12" />
-
             {oppdaveId != null && (
                 <>
                     <Button
@@ -107,4 +106,4 @@ function EditDocumentModal({
     )
 }
 
-export default DocumentTabLabel
+export default DocumentTab

@@ -4,7 +4,7 @@ import { Alert, BodyShort, Heading } from '@navikt/ds-react'
 import {
     DigitaliseringsoppgaveStatusEnum,
     DigitaliseringsoppgaveStatusFragment,
-} from '../../graphql/queries/graphql.generated'
+} from '../../../graphql/queries/graphql.generated'
 
 import styles from './OppgaveStatus.module.css'
 
