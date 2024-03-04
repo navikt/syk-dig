@@ -7,13 +7,12 @@ import Pdf from '../../Pdf/Pdf'
 import DocumentTabs from './document-tabs/DocumentTabs'
 import styles from './DocumentView.module.css'
 
-interface Props {
-    oppgaveId: string | null
+type Props = {
     documents: { tittel: string; dokumentInfoId: string }[]
     className?: string
-}
+} & ({ oppgaveId: string | null } | { journalpostId: string | null })
 
-function DocumentsViewer({ oppgaveId, documents, className }: Props): ReactElement {
+function DocumentsViewer({ documents, className, ...props }: Props): ReactElement {
     const [tabState, setTabState] = useState(documents[0].dokumentInfoId)
     const [renderedDocuments, setRenderedDocuments] = useState<string[]>([documents[0].dokumentInfoId])
 
@@ -31,7 +30,7 @@ function DocumentsViewer({ oppgaveId, documents, className }: Props): ReactEleme
                     }
                     setTabState(value)
                 }}
-                oppgaveId={oppgaveId}
+                oppgaveId={'oppgaveId' in props ? props.oppgaveId : null}
             />
             {renderedDocuments.map((documentId) => (
                 <Pdf
@@ -39,11 +38,18 @@ function DocumentsViewer({ oppgaveId, documents, className }: Props): ReactEleme
                     className={cn(styles.pdf, {
                         hidden: tabState !== documentId,
                     })}
-                    href={`/api/document/${oppgaveId}/${documentId}`}
+                    href={`${getPdfUrl(props)}/${documentId}`}
                 />
             ))}
         </section>
     )
+}
+
+function getPdfUrl(id: { oppgaveId: string | null } | { journalpostId: string | null }): string {
+    if ('oppgaveId' in id) {
+        return `/api/document/${id.oppgaveId}`
+    }
+    return `/api/document/journalpost/${id.journalpostId}`
 }
 
 export default DocumentsViewer
