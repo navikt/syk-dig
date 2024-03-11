@@ -1,8 +1,8 @@
 import { FieldError, FieldErrors } from 'react-hook-form'
 
-import { SykmeldingFormValues } from '../Sykmelding/SykmeldingForm'
+import { UtenlanskFormValues } from '../Sykmelding/SykmeldingForm'
 
-type TraversableTree = FieldError | FieldErrors<SykmeldingFormValues>
+type TraversableTree = FieldError | FieldErrors<UtenlanskFormValues>
 
 type FieldErrorWithName = FieldError & { name: string }
 
@@ -34,7 +34,7 @@ function traverseArrayErrors(fields: FieldError[], parentKey: string | null): Fi
 }
 
 // This is a best effort attempt to re-create the types we lose due to Object.entries casting to Record<string, any>
-type FieldErrorTuple = [key: string, value: FieldError | FieldErrors<SykmeldingFormValues> | undefined] | undefined
+type FieldErrorTuple = [key: string, value: FieldError | FieldErrors<UtenlanskFormValues> | undefined] | undefined
 
 function traverseObjectErrors(fields: TraversableTree, parentKey: string | null): FieldErrorWithName[] {
     // There is some loss in the typing here, what we care about is that this is an Record of field-names to FieldError or an even deeper tree.

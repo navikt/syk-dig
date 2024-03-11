@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 import { useController } from 'react-hook-form'
 
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
 
 import CountryCombobox from './CountryCombobox/CountryCombobox'
@@ -12,7 +12,7 @@ interface Props {
 }
 
 function CountryPicker({ name }: Props): ReactElement {
-    const { field, fieldState } = useController<SykmeldingFormValues, 'land'>({
+    const { field, fieldState } = useController<UtenlanskFormValues, 'land'>({
         name,
         rules: { required: 'Du må velge et land.' },
     })

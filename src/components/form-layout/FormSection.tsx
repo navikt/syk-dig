@@ -2,18 +2,20 @@ import { PropsWithChildren, ReactElement, ReactNode } from 'react'
 import { Heading } from '@navikt/ds-react'
 
 import { SmallHeadingSkeleton } from '../skeleton/Skeletons'
+import { cn } from '../../utils/tw-utils'
 
 export interface Props {
     id?: string
+    className?: string
     title: string
     variant?: 'blue' | 'light'
 }
 
-function SykmeldingSection({ id, title, children }: PropsWithChildren<Props>): ReactElement {
+function FormSection({ id, className, title, children }: PropsWithChildren<Props>): ReactElement {
     return (
         <section className="mt-4 last-of-type:mb-8" aria-labelledby={id}>
             <SectionHeader headingId={id} title={title} />
-            <div className="p-4">{children}</div>
+            <div className={cn('p-4', className)}>{children}</div>
         </section>
     )
 }
@@ -36,7 +38,7 @@ export function SectionHeader({ headingId, title }: SectionHeaderProps): ReactEl
     )
 }
 
-export function SykmeldingSectionSkeleton({ children }: PropsWithChildren<Omit<Props, 'id' | 'title'>>): ReactElement {
+export function FormSectionSkeleton({ children }: PropsWithChildren<Omit<Props, 'id' | 'title'>>): ReactElement {
     return (
         <div className="mt-4 last-of-type:mb-8">
             <SectionHeader title={<SmallHeadingSkeleton />} />
@@ -45,4 +47,4 @@ export function SykmeldingSectionSkeleton({ children }: PropsWithChildren<Omit<P
     )
 }
 
-export default SykmeldingSection
+export default FormSection

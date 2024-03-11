@@ -4,7 +4,7 @@ import { differenceInDays, isAfter, isBefore, isSameDay } from 'date-fns'
 import { ReactElement } from 'react'
 
 import { toDate } from '../../../utils/dateUtils'
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 
 import styles from './PeriodePicker.module.css'
 
@@ -22,11 +22,11 @@ interface PeriodePickerProps {
 }
 
 function PeriodePicker({ index, name }: PeriodePickerProps): ReactElement {
-    const { watch } = useFormContext<SykmeldingFormValues>()
+    const { watch } = useFormContext<UtenlanskFormValues>()
     const previousTom: Date | null = watch(`periode.${index - 1}.range.tom`) ?? null
     const behandletTidspunkt = watch('behandletTidspunkt')
 
-    const { field: fromField, fieldState: fromFieldState } = useController<SykmeldingFormValues, FormField>({
+    const { field: fromField, fieldState: fromFieldState } = useController<UtenlanskFormValues, FormField>({
         name: `${name}.fom`,
         rules: {
             validate: (value) => {
@@ -48,7 +48,7 @@ function PeriodePicker({ index, name }: PeriodePickerProps): ReactElement {
             },
         },
     })
-    const { field: toField, fieldState: toFieldState } = useController<SykmeldingFormValues, FormField>({
+    const { field: toField, fieldState: toFieldState } = useController<UtenlanskFormValues, FormField>({
         name: `${name}.tom`,
         rules: {
             validate: (value) => {

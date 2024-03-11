@@ -13,7 +13,7 @@ import {
 } from '../../graphql/queries/graphql.generated'
 import { raise } from '../../utils/tsUtils'
 import SykmeldingForm from '../Sykmelding/SykmeldingForm'
-import { SykmeldingSectionSkeleton } from '../SykmeldingSection/SykmeldingSection'
+import { FormSectionSkeleton } from '../form-layout/FormSection'
 import { InfoWithHeaderSkeleton, InputWithTitleSkeleton } from '../skeleton/Skeletons'
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
@@ -78,7 +78,7 @@ function OppgaveSkeleton(): ReactElement {
     return (
         <>
             {range(0, 4).map((it) => (
-                <SykmeldingSectionSkeleton key={it}>
+                <FormSectionSkeleton key={it}>
                     <div className="mb-16 flex gap-32">
                         <InfoWithHeaderSkeleton />
                         <InfoWithHeaderSkeleton />
@@ -88,7 +88,7 @@ function OppgaveSkeleton(): ReactElement {
                         <InfoWithHeaderSkeleton lines={3} />
                     </div>
                     <InputWithTitleSkeleton />
-                </SykmeldingSectionSkeleton>
+                </FormSectionSkeleton>
             ))}
         </>
     )

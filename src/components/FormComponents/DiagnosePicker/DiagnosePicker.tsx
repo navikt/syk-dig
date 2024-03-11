@@ -4,7 +4,7 @@ import { BodyLong, Button, Label, Select } from '@navikt/ds-react'
 import cn from 'clsx'
 import { XMarkIcon } from '@navikt/aksel-icons'
 
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
 import { DiagnoseSystem } from '../../Sykmelding/DiagnoseFormSection'
 
@@ -20,7 +20,7 @@ interface Props {
 }
 
 function DiagnosePicker({ name, diagnoseType, onRemove }: Props): ReactElement {
-    const { field, fieldState } = useController<SykmeldingFormValues, PossiblePickerFormNames>({
+    const { field, fieldState } = useController<UtenlanskFormValues, PossiblePickerFormNames>({
         name,
         rules: {
             validate: (value) => {

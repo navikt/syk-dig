@@ -16,7 +16,7 @@ import AndreOpplysninger from './AndreOpplysninger'
 import MangelfullSykmelding from './MangelfullSykmelding'
 import AvvisSection from './AvvisSection/AvvisSection'
 
-export interface SykmeldingFormValues {
+export interface UtenlanskFormValues {
     diagnoser: DiagnoseFormSectionValues
     behandletTidspunkt: Date | string | null
     land: string | null
@@ -57,7 +57,7 @@ function SykmeldingForm({ oppgave }: Props): ReactElement {
         },
     })
 
-    const form = useForm<SykmeldingFormValues>({
+    const form = useForm<UtenlanskFormValues>({
         defaultValues: createDefaultValues(oppgave.values),
         shouldFocusError: false,
     })

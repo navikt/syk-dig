@@ -2,7 +2,7 @@ import { Select } from '@navikt/ds-react'
 import { useController } from 'react-hook-form'
 import { ReactElement } from 'react'
 
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
 import { PeriodeType } from '../../../graphql/queries/graphql.generated'
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 function PeriodeSelect({ name, index }: Props): ReactElement {
-    const { field, fieldState } = useController<SykmeldingFormValues, FormName>({
+    const { field, fieldState } = useController<UtenlanskFormValues, FormName>({
         name,
         rules: {
             required: 'Du må fylle inn periode.',

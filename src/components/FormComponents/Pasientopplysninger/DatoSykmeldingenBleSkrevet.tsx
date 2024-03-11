@@ -3,13 +3,13 @@ import { DateValidationT, DatePicker, useDatepicker } from '@navikt/ds-react'
 import { ReactElement, useState } from 'react'
 
 import { toDate } from '../../../utils/dateUtils'
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 
 import styles from './DatoSykmeldingenBleSkrevet.module.css'
 
 function DatoSykmeldingenBleSkrevet(): ReactElement {
     const [validationError, setValidationError] = useState<DateValidationT | null>(null)
-    const { field, fieldState } = useController<SykmeldingFormValues, 'behandletTidspunkt'>({
+    const { field, fieldState } = useController<UtenlanskFormValues, 'behandletTidspunkt'>({
         name: 'behandletTidspunkt',
         rules: {
             validate: (value) => {

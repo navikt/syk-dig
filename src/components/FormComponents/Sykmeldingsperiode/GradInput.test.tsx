@@ -4,7 +4,7 @@ import { axe } from 'vitest-axe'
 import { ReactElement } from 'react'
 
 import { render, screen } from '../../../utils/testUtils'
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import { PeriodeType } from '../../../graphql/queries/graphql.generated'
 
 import GradInput from './GradInput'
@@ -15,7 +15,7 @@ describe('GradInput', () => {
     }: {
         sykmeldingstype?: PeriodeType
     }): ReactElement => {
-        const methods = useForm<SykmeldingFormValues>({
+        const methods = useForm<UtenlanskFormValues>({
             defaultValues: {
                 periode: [{ sykmeldingstype }],
             },

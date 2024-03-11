@@ -3,7 +3,7 @@ import { useFormContext } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
 import { ReactElement } from 'react'
 
-import { SykmeldingFormValues } from '../../Sykmelding/SykmeldingForm'
+import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
 
 import styles from './GradInput.module.css'
@@ -18,7 +18,7 @@ function GradInput({ name }: Props): ReactElement {
     const {
         register,
         formState: { errors },
-    } = useFormContext<SykmeldingFormValues>()
+    } = useFormContext<UtenlanskFormValues>()
 
     return (
         <div className={styles.grad}>
