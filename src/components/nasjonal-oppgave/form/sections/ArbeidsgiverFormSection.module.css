@@ -1,0 +1,12 @@
+.fieldWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--a-spacing-4);
+}
+
+.field {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    align-items: end;
+}

@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form'
 import { MutationResult } from '@apollo/client'
 
 import { bundledEnv } from '../../../utils/env'
-import { SykmeldingFormValues } from '../SykmeldingForm'
+import { UtenlanskFormValues } from '../SykmeldingForm'
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated'
 import ConfirmButton from '../../ConfirmButton/ConfirmButton'
 
@@ -20,7 +20,7 @@ interface Props {
 }
 
 function ActionSection({ fnr, registerResult, focusErrorSection }: Props): ReactElement {
-    const { getValues, reset, trigger } = useFormContext<SykmeldingFormValues>()
+    const { getValues, reset, trigger } = useFormContext<UtenlanskFormValues>()
     const [saveAndClose, saveResult] = useHandleSave({
         fnr,
         onCompleted: () => {

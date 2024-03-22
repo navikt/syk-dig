@@ -10,11 +10,11 @@ import styles from '../ActionSection/MutationFeedbackSection.module.css'
 import FeedbackModal from '../ActionSection/FeedbackModal'
 import { redirectTilGosys } from '../ActionSection/ActionSection'
 import { Location, useParam } from '../../../utils/useParam'
-import { SykmeldingFormValues } from '../SykmeldingForm'
+import { UtenlanskFormValues } from '../SykmeldingForm'
 import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
 
 function AvvisSection(): ReactElement {
-    const { reset } = useFormContext<SykmeldingFormValues>()
+    const { reset } = useFormContext<UtenlanskFormValues>()
     const params = useParam(Location.Utenlansk)
     const enhetId = useSelectedModiaEnhet()
     const [avvisningsgrunn, setAvvisningsgrunn] = useState<{ grunn: string | null; grunnAnnet?: string | null }>({

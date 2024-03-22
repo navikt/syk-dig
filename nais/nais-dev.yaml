@@ -47,6 +47,10 @@ spec:
       value: api://dev-gcp.teamsykmelding.syk-dig-backend/.default
     - name: SYK_DIG_BACKEND_HOST
       value: syk-dig-backend
+    - name: SMREGISTRERING_BACKEND_SCOPE
+      value: api://dev-gcp.teamsykmelding.smregistrering-backend/.default
+    - name: SMREGISTRERING_BACKEND_HOST
+      value: smregistrering-backend
     - name: MODIACONTEXTHOLDER_SCOPE
       value: api://dev-fss.personoversikt.modiacontextholder-q1/.default
     - name: MODIACONTEXTHOLDER_HOST

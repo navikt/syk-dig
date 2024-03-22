@@ -13,6 +13,7 @@ describe('DiagnosePicker', () => {
             <DiagnoseCombobox
                 name="diagnoser.hoveddiagnose"
                 system="ICD10"
+                label="Diagnosekode"
                 onSelect={onSelectMock}
                 onChange={() => void 0}
                 initialValue={null}
@@ -32,6 +33,7 @@ describe('DiagnosePicker', () => {
             <DiagnoseCombobox
                 name="diagnoser.hoveddiagnose"
                 system="ICD10"
+                label="Diagnosekode"
                 onSelect={onSelectMock}
                 onChange={() => void 0}
                 initialValue={null}
@@ -55,6 +57,7 @@ describe('DiagnosePicker', () => {
             <DiagnoseCombobox
                 name="diagnoser.hoveddiagnose"
                 system="ICD10"
+                label="Diagnosekode"
                 onSelect={onSelectMock}
                 onChange={() => void 0}
                 initialValue={null}

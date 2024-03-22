@@ -18,6 +18,8 @@ export type ServerEnv = z.infer<typeof serverEnvSchema>
 export const serverEnvSchema = z.object({
     SYK_DIG_BACKEND_SCOPE: z.string(),
     SYK_DIG_BACKEND_HOST: z.string(),
+    SMREGISTRERING_BACKEND_SCOPE: z.string(),
+    SMREGISTRERING_BACKEND_HOST: z.string(),
     MODIACONTEXTHOLDER_SCOPE: z.string(),
     MODIACONTEXTHOLDER_HOST: z.string(),
     // Provided my nais
@@ -43,6 +45,8 @@ const getRawServerConfig = (): Partial<unknown> =>
         // Provided by nais-*.yml
         SYK_DIG_BACKEND_SCOPE: process.env.SYK_DIG_BACKEND_SCOPE,
         SYK_DIG_BACKEND_HOST: process.env.SYK_DIG_BACKEND_HOST,
+        SMREGISTRERING_BACKEND_SCOPE: process.env.SMREGISTRERING_BACKEND_SCOPE,
+        SMREGISTRERING_BACKEND_HOST: process.env.SMREGISTRERING_BACKEND_HOST,
         MODIACONTEXTHOLDER_SCOPE: process.env.MODIACONTEXTHOLDER_SCOPE,
         MODIACONTEXTHOLDER_HOST: process.env.MODIACONTEXTHOLDER_HOST,
         // Provided by nais

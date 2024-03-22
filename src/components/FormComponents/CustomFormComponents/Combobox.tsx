@@ -15,14 +15,25 @@ import { ChevronDownIcon } from '@navikt/aksel-icons'
 import styles from './Combobox.module.css'
 
 interface Props {
+    className?: string
     labelId?: string
     label: string
     disabled?: boolean
 }
 
-export function ComboboxWrapper({ labelId, label, disabled, children }: PropsWithChildren<Props>): ReactElement {
+export function ComboboxWrapper({
+    className,
+    labelId,
+    label,
+    disabled,
+    children,
+}: PropsWithChildren<Props>): ReactElement {
     return (
-        <div className={cn('navds-form-field navds-form-field--medium', { 'navds-form-field--disabled': disabled })}>
+        <div
+            className={cn('navds-form-field navds-form-field--medium', className, {
+                'navds-form-field--disabled': disabled,
+            })}
+        >
             <Label id={labelId}>{label}</Label>
             {children}
         </div>

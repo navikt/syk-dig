@@ -11,21 +11,21 @@ import {
     SykmeldingUnderArbeidValues,
 } from '../../../../graphql/queries/graphql.generated'
 import { Location, useParam } from '../../../../utils/useParam'
-import { SykmeldingFormValues } from '../../SykmeldingForm'
+import { UtenlanskFormValues } from '../../SykmeldingForm'
 import { safeDate, safeString } from '../../../../utils/formUtils'
 import { DiagnoseFormValue } from '../../DiagnoseFormSection'
 import { notNull } from '../../../../utils/tsUtils'
 import { PeriodeFormValue } from '../../Sykmeldingsperiode'
 import { useSelectedModiaEnhet } from '../../../../graphql/localState/modia'
 
-type UseSave = [save: SubmitHandler<SykmeldingFormValues>, result: MutationResult<SaveOppgaveMutation>]
+type UseSave = [save: SubmitHandler<UtenlanskFormValues>, result: MutationResult<SaveOppgaveMutation>]
 type UseSaveOptions = { fnr: string; onCompleted?: () => void }
 
 export function useHandleSave({ fnr, onCompleted }: UseSaveOptions): UseSave {
     const params = useParam(Location.Utenlansk)
     const enhetId = useSelectedModiaEnhet()
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument)
-    const saveAndClose = async (data: SykmeldingFormValues): Promise<void> => {
+    const saveAndClose = async (data: UtenlanskFormValues): Promise<void> => {
         logger.info(`Saving incomplete oppgave for oppgaveId: ${params.oppgaveId}`)
 
         await saveOppgave({
@@ -46,7 +46,7 @@ export function useHandleRegister({ fnr, onCompleted }: UseSaveOptions): UseSave
     const params = useParam(Location.Utenlansk)
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument)
     const enhetId = useSelectedModiaEnhet()
-    const registerAndSubmit: SubmitHandler<SykmeldingFormValues> = async (data): Promise<void> => {
+    const registerAndSubmit: SubmitHandler<UtenlanskFormValues> = async (data): Promise<void> => {
         logger.info(`Submitting oppgave for oppgaveId: ${params.oppgaveId}`)
 
         await saveOppgave({
@@ -63,7 +63,7 @@ export function useHandleRegister({ fnr, onCompleted }: UseSaveOptions): UseSave
     return [registerAndSubmit, mutationResult]
 }
 
-function mapFormValues(fnr: string, formValues: SykmeldingFormValues): SykmeldingUnderArbeidValues {
+function mapFormValues(fnr: string, formValues: UtenlanskFormValues): SykmeldingUnderArbeidValues {
     return {
         fnrPasient: fnr,
         skrevetLand: safeString(formValues.land),

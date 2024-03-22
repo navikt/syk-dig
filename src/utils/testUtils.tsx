@@ -1,19 +1,26 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { PropsWithChildren, ReactElement } from 'react'
 import { RenderOptions, render, Screen } from '@testing-library/react'
-import { Cache, InMemoryCache, TypedDocumentNode } from '@apollo/client'
+import { Cache, from, InMemoryCache, TypedDocumentNode } from '@apollo/client'
 import open from 'open'
 
 import { cacheConfig } from '../graphql/apollo'
 import { modiaLocalResolvers, setInitialModiaQueryState } from '../graphql/localState/modia'
 import { createModiaContext } from '../mocks/data/dataCreators'
+import smregRestLink from '../components/nasjonal-oppgave/smreg/rest-apollo-link'
 
 type ProviderProps = {
     readonly initialState?: Cache.WriteQueryOptions<unknown, unknown>[]
     readonly mocks?: MockedResponse[]
+    readonly useRestLink?: boolean
 }
 
-function AllTheProviders({ children, initialState, mocks }: PropsWithChildren<ProviderProps>): ReactElement {
+function AllTheProviders({
+    children,
+    initialState,
+    mocks,
+    useRestLink,
+}: PropsWithChildren<ProviderProps>): ReactElement {
     const cache = new InMemoryCache(cacheConfig)
     setInitialModiaQueryState(cache, createModiaContext())
     initialState?.forEach((it) => cache.writeQuery(it))
@@ -23,6 +30,13 @@ function AllTheProviders({ children, initialState, mocks }: PropsWithChildren<Pr
         <MockedProvider
             mocks={mocks}
             cache={cache}
+            link={
+                useRestLink
+                    ? /* Using the restLink allows the actual HTTP-requests to go through, so the
+                         tests can use MSW for data while still piping the data through Apollo */
+                      from([smregRestLink])
+                    : undefined
+            }
             resolvers={{
                 Mutation: {
                     ...modiaLocalResolvers,
@@ -51,7 +65,14 @@ const customRender = (
     options?: Omit<RenderOptions, 'wrapper'> & ProviderProps,
 ): ReturnType<typeof render> =>
     render(ui, {
-        wrapper: (props) => <AllTheProviders {...props} initialState={options?.initialState} mocks={options?.mocks} />,
+        wrapper: (props) => (
+            <AllTheProviders
+                {...props}
+                initialState={options?.initialState}
+                mocks={options?.mocks}
+                useRestLink={options?.useRestLink}
+            />
+        ),
         ...options,
     })
 

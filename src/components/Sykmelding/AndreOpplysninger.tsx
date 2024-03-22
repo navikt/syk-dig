@@ -1,26 +1,26 @@
 import { useController } from 'react-hook-form'
 import { ReactElement } from 'react'
 
-import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
+import FormSection from '../form-layout/FormSection'
 import DatoSykmeldingenBleSkrevet from '../FormComponents/Pasientopplysninger/DatoSykmeldingenBleSkrevet'
 import SimpleConfirmationPanel from '../FormComponents/SimpleConfirmationPanel'
 import { useFlag } from '../../toggles/context'
 
-import { SykmeldingFormValues } from './SykmeldingForm'
+import { UtenlanskFormValues } from './SykmeldingForm'
 
 type FolkeRegistertAdresseErBrakkeEllerTilsvarendeName = 'folkeRegistertAdresseErBrakkeEllerTilsvarende'
 
 function AndreOpplysninger(): ReactElement {
     const flag = useFlag('SYK_DIG_ADRESSE_UTLAND')
-    const { field } = useController<SykmeldingFormValues, FolkeRegistertAdresseErBrakkeEllerTilsvarendeName>({
+    const { field } = useController<UtenlanskFormValues, FolkeRegistertAdresseErBrakkeEllerTilsvarendeName>({
         name: 'folkeRegistertAdresseErBrakkeEllerTilsvarende',
     })
 
-    const { field: adresseUtlandField } = useController<SykmeldingFormValues, 'erAdresseUtland'>({
+    const { field: adresseUtlandField } = useController<UtenlanskFormValues, 'erAdresseUtland'>({
         name: 'erAdresseUtland',
     })
     return (
-        <SykmeldingSection id="andre-opplysninger-seksjon" title="Andre opplysninger">
+        <FormSection id="andre-opplysninger-seksjon" title="Andre opplysninger">
             <DatoSykmeldingenBleSkrevet />
             {flag.enabled ? (
                 // New Field
@@ -41,7 +41,7 @@ function AndreOpplysninger(): ReactElement {
                     onBlur={field.onBlur}
                 />
             )}
-        </SykmeldingSection>
+        </FormSection>
     )
 }
 

@@ -2,11 +2,11 @@ import { DefaultValues } from 'react-hook-form/dist/types/form'
 
 import { DiagnoseFragment, OppgaveValuesFragment, PeriodeType } from '../../graphql/queries/graphql.generated'
 import { toDate } from '../../utils/dateUtils'
+import { DiagnoseFormValue, DiagnoseSystem } from '../FormComponents/DiagnosePicker/DiagnosePicker'
 
-import { DiagnoseFormValue, DiagnoseSystem } from './DiagnoseFormSection'
-import { SykmeldingFormValues } from './SykmeldingForm'
+import { UtenlanskFormValues } from './SykmeldingForm'
 
-type DefaultFormValues = DefaultValues<SykmeldingFormValues>
+type DefaultFormValues = DefaultValues<UtenlanskFormValues>
 
 function mapToDiagnoseValues(diagnose: DiagnoseFragment): DiagnoseFormValue {
     return {

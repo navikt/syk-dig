@@ -75,6 +75,7 @@ function PeriodePicker({ index, name }: PeriodePickerProps): ReactElement {
         <div className={styles.periodePicker}>
             <DatePicker {...datepickerProps} wrapperClassName={styles.dateRangePicker}>
                 <DatePicker.Input
+                    className={styles.dateRangeInput}
                     id={fromField.name}
                     {...fromInputProps}
                     label="Fra"
@@ -83,6 +84,7 @@ function PeriodePicker({ index, name }: PeriodePickerProps): ReactElement {
                 />
 
                 <DatePicker.Input
+                    className={styles.dateRangeInput}
                     id={toField.name}
                     {...toInputProps}
                     label="Til"
