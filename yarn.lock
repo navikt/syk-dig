@@ -773,12 +773,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commander-js/extra-typings@npm:11.1.0":
-  version: 11.1.0
-  resolution: "@commander-js/extra-typings@npm:11.1.0"
+"@commander-js/extra-typings@npm:12.0.1":
+  version: 12.0.1
+  resolution: "@commander-js/extra-typings@npm:12.0.1"
   peerDependencies:
-    commander: 11.1.x
-  checksum: f0d596c1aa68e0f6a896120cd58d29b7088a38a04194fef3eafc7f0b64a5093f5096388292c3295f803aea64d17326082d5bf09acdaa1b3163492410df9f414b
+    commander: ~12.0.0
+  checksum: cd094ec7fa789dd91e20942727f18811b05bdd0006dfeefddbd3054e4ef89592bb20b7a1e93edfa86a77603045c714231a8ae7804ad153775258e74f9f378208
   languageName: node
   linkType: hard
 
@@ -1940,17 +1940,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:14.0.0":
-  version: 14.0.0
-  resolution: "@next/env@npm:14.0.0"
-  checksum: 50d906fa92f32755dba45ac3b330fdacd9bfba31e836586c15f75e34dc01ef414da871554de94f7e2f1e056fd426a010df4a0b948a8547242fd031f3fbd4571f
-  languageName: node
-  linkType: hard
-
 "@next/env@npm:14.1.0":
   version: 14.1.0
   resolution: "@next/env@npm:14.1.0"
   checksum: 8651faab7827026fe9df32f32f3dc743ca93707fabe6ec8e75ee60bd94781afee8093514e2108d2b2f03198d0a74fc6152d9e73ea01125e89402f068a8516915
+  languageName: node
+  linkType: hard
+
+"@next/env@npm:14.1.2":
+  version: 14.1.2
+  resolution: "@next/env@npm:14.1.2"
+  checksum: e81c94784c04b92b006ccd3da9f7f8c730571a721824bb09b8116d7f9caad3ac0fae1cc45bdd3b0e0119c6d42cbf52d664f39e8a5c80ed5d63e91f994e1d2813
   languageName: node
   linkType: hard
 
@@ -3053,16 +3053,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unleash/nextjs@npm:^1.4.0":
-  version: 1.4.0
-  resolution: "@unleash/nextjs@npm:1.4.0"
+"@unleash/nextjs@npm:^1.4.2":
+  version: 1.4.2
+  resolution: "@unleash/nextjs@npm:1.4.2"
   dependencies:
-    "@commander-js/extra-typings": "npm:11.1.0"
-    "@next/env": "npm:14.0.0"
-    "@unleash/proxy-client-react": "npm:4.1.2"
-    commander: "npm:11.1.0"
+    "@commander-js/extra-typings": "npm:12.0.1"
+    "@next/env": "npm:14.1.2"
+    "@unleash/proxy-client-react": "npm:4.2.2"
+    commander: "npm:12.0.0"
     murmurhash3js: "npm:3.0.1"
-    semver: "npm:7.5.4"
+    semver: "npm:7.6.0"
     unleash-client: "npm:5.5.1"
     unleash-proxy-client: "npm:3.3.1"
   peerDependencies:
@@ -3071,16 +3071,16 @@ __metadata:
     react-dom: ">=17"
   bin:
     unleash: dist/cli/index.js
-  checksum: ef7b6f80fe47b4084516a984565e0332d8f1bfb98aac6f7d04542718095bb5e57af20e40b3ecb06b896d34023e0a79f5ba4e9c15deef73e07fa38b7207637ce0
+  checksum: ff3509fafc244752ffc20ba3e96a9281b05c3849852e60e2d7b7aca2ed227a4de20d154c6b83420e3adc18c8b3b8a25767d8c338e2defff476d610036c508465
   languageName: node
   linkType: hard
 
-"@unleash/proxy-client-react@npm:4.1.2":
-  version: 4.1.2
-  resolution: "@unleash/proxy-client-react@npm:4.1.2"
+"@unleash/proxy-client-react@npm:4.2.2":
+  version: 4.2.2
+  resolution: "@unleash/proxy-client-react@npm:4.2.2"
   peerDependencies:
     unleash-proxy-client: ^3.2.0
-  checksum: 9f6184524134af2819eed665d3ef5acf1a824bcc74ab7b21fafe75cf9177a78c7cff4fa73ad568bb8c1e312e9d1308ba72aba3b589a71b832b7cb34670a9f1dc
+  checksum: 257dbe7a8ce0549bbca969125fc47a68079a3de87621c833a9a2354519aed523e3ca65e334a299078f8c995a3685758be49f392ad80b0f7ef8116326d417a9f6
   languageName: node
   linkType: hard
 
@@ -4279,6 +4279,13 @@ __metadata:
   version: 11.1.0
   resolution: "commander@npm:11.1.0"
   checksum: 66bd2d8a0547f6cb1d34022efb25f348e433b0e04ad76a65279b1b09da108f59a4d3001ca539c60a7a46ea38bcf399fc17d91adad76a8cf43845d8dcbaf5cda1
+  languageName: node
+  linkType: hard
+
+"commander@npm:12.0.0":
+  version: 12.0.0
+  resolution: "commander@npm:12.0.0"
+  checksum: 62062e2ffe6abd5aa42a551e62fd5eb9b2620f6ac4299382b2aa9fb02f95cda0242d7e84acb890479bd6491edb805f7f91aecb5b4f5c70dc57df49ed7f02ef14
   languageName: node
   linkType: hard
 
@@ -9273,14 +9280,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:7.5.4":
-  version: 7.5.4
-  resolution: "semver@npm:7.5.4"
+"semver@npm:7.6.0, semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.5.3, semver@npm:^7.5.4":
+  version: 7.6.0
+  resolution: "semver@npm:7.6.0"
   dependencies:
     lru-cache: "npm:^6.0.0"
   bin:
     semver: bin/semver.js
-  checksum: 985dec0d372370229a262c737063860fabd4a1c730662c1ea3200a2f649117761a42184c96df62a0e885e76fbd5dace41087d6c1ac0351b13c0df5d6bcb1b5ac
+  checksum: 1b41018df2d8aca5a1db4729985e8e20428c650daea60fcd16e926e9383217d00f574fab92d79612771884a98d2ee2a1973f49d630829a8d54d6570defe62535
   languageName: node
   linkType: hard
 
@@ -9290,17 +9297,6 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 1ef3a85bd02a760c6ef76a45b8c1ce18226de40831e02a00bad78485390b98b6ccaa31046245fc63bba4a47a6a592b6c7eedc65cc47126e60489f9cc1ce3ed7e
-  languageName: node
-  linkType: hard
-
-"semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.5.3, semver@npm:^7.5.4":
-  version: 7.6.0
-  resolution: "semver@npm:7.6.0"
-  dependencies:
-    lru-cache: "npm:^6.0.0"
-  bin:
-    semver: bin/semver.js
-  checksum: 1b41018df2d8aca5a1db4729985e8e20428c650daea60fcd16e926e9383217d00f574fab92d79612771884a98d2ee2a1973f49d630829a8d54d6570defe62535
   languageName: node
   linkType: hard
 
@@ -9883,7 +9879,7 @@ __metadata:
     "@types/pdfobject": "npm:^2.2.5"
     "@types/react": "npm:18.2.60"
     "@types/react-dom": "npm:18.2.19"
-    "@unleash/nextjs": "npm:^1.4.0"
+    "@unleash/nextjs": "npm:^1.4.2"
     "@vitejs/plugin-react": "npm:^4.2.1"
     ariakit: "npm:^2.0.0-next.44"
     autoprefixer: "npm:^10.4.17"
