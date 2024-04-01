@@ -39,7 +39,7 @@
         "fuse.js": "^7.0.0",
         "graphql": "^16.8.1",
         "next": "14.1.0",
-        "next-logger": "^3.0.2",
+        "next-logger": "^4.0.0",
         "nextleton": "^0.6.1",
         "pdfobject": "^2.3.0",
         "pino": "^8.19.0",
