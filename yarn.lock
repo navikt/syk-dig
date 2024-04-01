@@ -1813,9 +1813,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mswjs/interceptors@npm:^0.25.16":
-  version: 0.25.16
-  resolution: "@mswjs/interceptors@npm:0.25.16"
+"@mswjs/interceptors@npm:^0.26.14":
+  version: 0.26.15
+  resolution: "@mswjs/interceptors@npm:0.26.15"
   dependencies:
     "@open-draft/deferred-promise": "npm:^2.2.0"
     "@open-draft/logger": "npm:^0.3.0"
@@ -1823,7 +1823,7 @@ __metadata:
     is-node-process: "npm:^1.2.0"
     outvariant: "npm:^1.2.1"
     strict-event-emitter: "npm:^0.5.1"
-  checksum: d8fb74db45a63971e9da7367c8d120343c8f49fec7bcc3f0c77c04c3f628d307b70875f52e4a99df561547b92d0d53edacc421e42d69940d44999254b5d028b5
+  checksum: 826ca27bab97d4dd126b9d53806281801bd878c2e66be895db536aead5d9d62acebac7ab2b8e2e2fe8de7023bb1dc59579da78e6de1030da917deb5b11919fdc
   languageName: node
   linkType: hard
 
@@ -7513,15 +7513,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msw@npm:2.2.2":
-  version: 2.2.2
-  resolution: "msw@npm:2.2.2"
+"msw@npm:2.2.13":
+  version: 2.2.13
+  resolution: "msw@npm:2.2.13"
   dependencies:
     "@bundled-es-modules/cookie": "npm:^2.0.0"
     "@bundled-es-modules/statuses": "npm:^1.0.1"
     "@inquirer/confirm": "npm:^3.0.0"
     "@mswjs/cookies": "npm:^1.1.0"
-    "@mswjs/interceptors": "npm:^0.25.16"
+    "@mswjs/interceptors": "npm:^0.26.14"
     "@open-draft/until": "npm:^2.1.0"
     "@types/cookie": "npm:^0.6.0"
     "@types/statuses": "npm:^2.0.4"
@@ -7535,13 +7535,13 @@ __metadata:
     type-fest: "npm:^4.9.0"
     yargs: "npm:^17.7.2"
   peerDependencies:
-    typescript: ">= 4.7.x <= 5.3.x"
+    typescript: ">= 4.7.x"
   peerDependenciesMeta:
     typescript:
       optional: true
   bin:
     msw: cli/index.js
-  checksum: 3ae2182c9b194773962cf88129c3e8ea20886e64ce472981109ec5171229dfcf9d158ffeedbf50fbd14c7f35eeb5248c5ec182d485747950ab7a9e96f1af7a18
+  checksum: 3cd7f361294d7b9218a83f3a50b07d942924fb4da41ec1f30fcaa83896d30102f63bd8769212d985e0d9d20071550b54f22136710da43f3000f3d8fca18a3578
   languageName: node
   linkType: hard
 
@@ -9897,7 +9897,7 @@ __metadata:
     husky: "npm:^9.0.11"
     jsdom: "npm:^24.0.0"
     lint-staged: "npm:^15.2.2"
-    msw: "npm:2.2.2"
+    msw: "npm:2.2.13"
     next: "npm:14.1.0"
     next-logger: "npm:^3.0.2"
     next-router-mock: "npm:^0.9.12"
