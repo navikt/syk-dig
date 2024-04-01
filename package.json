@@ -23,7 +23,7 @@
         "workerDirectory": "public"
     },
     "dependencies": {
-        "@apollo/client": "^3.9.5",
+        "@apollo/client": "^3.9.9",
         "@hookform/error-message": "^2.0.1",
         "@navikt/aksel-icons": "^5.18.3",
         "@navikt/diagnosekoder": "1.2024.0",
