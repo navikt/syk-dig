@@ -1,7 +1,7 @@
 import { BodyShort } from '@navikt/ds-react'
 import { ReactElement } from 'react'
 
-import { Matrikkeladresse } from '../../../../graphql/queries/graphql.generated'
+import type { Matrikkeladresse } from '../../../../graphql/queries/graphql.generated'
 
 type MatrikkeladresseProps = {
     matrikkeladresse: Matrikkeladresse

@@ -1,7 +1,7 @@
 import { BodyShort } from '@navikt/ds-react'
 import { ReactElement } from 'react'
 
-import { UtenlandskAdresse } from '../../../../graphql/queries/graphql.generated'
+import type { UtenlandskAdresse } from '../../../../graphql/queries/graphql.generated'
 import { useCountrySuggestions } from '../../CountryPicker/CountryCombobox/CountryCombobox'
 import { SmallTextSkeleton } from '../../../skeleton/Skeletons'
 

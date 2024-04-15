@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 import { ErrorMessage } from '@navikt/ds-react'
-import { FieldError } from 'react-hook-form'
+import type { FieldError } from 'react-hook-form'
 
 import styles from './FieldError.module.css'
 
