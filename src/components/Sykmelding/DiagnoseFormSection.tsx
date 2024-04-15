@@ -3,9 +3,9 @@ import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Button } from '@navikt/ds-react'
 
 import DiagnosePicker from '../FormComponents/DiagnosePicker/DiagnosePicker'
-import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
+import FormSection from '../form-layout/FormSection'
 
-import { SykmeldingFormValues } from './SykmeldingForm'
+import { UtenlanskFormValues } from './SykmeldingForm'
 import styles from './DiagnoseFormSection.module.css'
 
 export type DiagnoseSystem = 'ICD10' | 'ICPC2'
@@ -16,14 +16,14 @@ export type DiagnoseFormSectionValues = {
 }
 
 function DiagnoseFormSection(): ReactElement {
-    const { control } = useFormContext<SykmeldingFormValues>()
+    const { control } = useFormContext<UtenlanskFormValues>()
     const { append, remove, fields } = useFieldArray({
         name: 'diagnoser.bidiagnoser',
         control,
     })
 
     return (
-        <SykmeldingSection id="diagnose-seksjon" title="Diagnose">
+        <FormSection id="diagnose-seksjon" title="Diagnose">
             <div className={styles.diagnoseFormSection}>
                 <DiagnosePicker name="diagnoser.hoveddiagnose" diagnoseType="hoveddiagnose" />
                 {fields.map((field, index) => (
@@ -45,7 +45,7 @@ function DiagnoseFormSection(): ReactElement {
                     </Button>
                 </div>
             </div>
-        </SykmeldingSection>
+        </FormSection>
     )
 }
 

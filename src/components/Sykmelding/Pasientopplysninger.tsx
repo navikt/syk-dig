@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 
-import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
+import FormSection from '../form-layout/FormSection'
 import PersonInfo from '../FormComponents/Pasientopplysninger/PersonInfo'
 import CountryPicker from '../FormComponents/CountryPicker/CountryPicker'
 import { Person } from '../../graphql/queries/graphql.generated'
@@ -12,10 +12,10 @@ interface PasientopplysningerProps {
 
 function Pasientopplysninger({ fnr, person }: PasientopplysningerProps): ReactElement {
     return (
-        <SykmeldingSection id="pasientopplysninger-seksjon" title="Pasientopplysninger">
+        <FormSection id="pasientopplysninger-seksjon" title="Pasientopplysninger">
             <PersonInfo fnr={fnr} person={person} />
             <CountryPicker name="land" />
-        </SykmeldingSection>
+        </FormSection>
     )
 }
 

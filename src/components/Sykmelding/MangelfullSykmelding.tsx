@@ -2,20 +2,20 @@ import { Alert } from '@navikt/ds-react'
 import { useController } from 'react-hook-form'
 import { ReactElement } from 'react'
 
-import SykmeldingSection from '../SykmeldingSection/SykmeldingSection'
+import FormSection from '../form-layout/FormSection'
 import SimpleConfirmationPanel from '../FormComponents/SimpleConfirmationPanel'
 
-import { SykmeldingFormValues } from './SykmeldingForm'
+import { UtenlanskFormValues } from './SykmeldingForm'
 
 type AndreOpplysningerName = 'mangelfullSykmelding'
 
 function MangelfullSykmelding(): ReactElement {
-    const { field } = useController<SykmeldingFormValues, AndreOpplysningerName>({
+    const { field } = useController<UtenlanskFormValues, AndreOpplysningerName>({
         name: 'mangelfullSykmelding',
     })
 
     return (
-        <SykmeldingSection id="mangelfull-sykmelding-seksjon" title="Mangelfull sykmelding">
+        <FormSection id="mangelfull-sykmelding-seksjon" title="Mangelfull sykmelding">
             <SimpleConfirmationPanel
                 id={field.name}
                 label="Sykmeldingen mangler viktige opplysninger som må innhentes før den kan registreres"
@@ -29,7 +29,7 @@ function MangelfullSykmelding(): ReactElement {
                     opplysningene som mangler.
                 </Alert>
             )}
-        </SykmeldingSection>
+        </FormSection>
     )
 }
 

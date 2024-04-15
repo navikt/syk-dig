@@ -4,9 +4,9 @@ import { DiagnoseFragment, OppgaveValuesFragment, PeriodeType } from '../../grap
 import { toDate } from '../../utils/dateUtils'
 
 import { DiagnoseFormValue, DiagnoseSystem } from './DiagnoseFormSection'
-import { SykmeldingFormValues } from './SykmeldingForm'
+import { UtenlanskFormValues } from './SykmeldingForm'
 
-type DefaultFormValues = DefaultValues<SykmeldingFormValues>
+type DefaultFormValues = DefaultValues<UtenlanskFormValues>
 
 function mapToDiagnoseValues(diagnose: DiagnoseFragment): DiagnoseFormValue {
     return {
