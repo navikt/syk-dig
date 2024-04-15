@@ -1,5 +1,5 @@
 import { FormProvider, useForm } from 'react-hook-form'
-import { ReactElement, useRef } from 'react'
+import { ReactElement, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import Errors from '../Errors/Errors'
@@ -63,7 +63,10 @@ function SykmeldingForm({ oppgave }: Props): ReactElement {
     })
     const shouldShowAvvisActions = form.watch('mangelfullSykmelding') === true
 
-    useWarnUnsavedPopup(form.formState.isDirty && !form.formState.isSubmitSuccessful)
+    // RHF has a weird interaction with "reset" where the form is set to dirty, but is then immediately
+    // re-rendered as dirty. I can't figure out why, so let's explicitly disable the warn manually when required to save.
+    const [disableWarnUnsaved, setDisableWarnUnsaved] = useState(false)
+    useWarnUnsavedPopup(!disableWarnUnsaved && form.formState.isDirty && !form.formState.isSubmitSuccessful)
 
     return (
         <FormProvider {...form}>
@@ -76,12 +79,13 @@ function SykmeldingForm({ oppgave }: Props): ReactElement {
                 <Errors ref={errorSectionRef} />
                 <div className="sticky bottom-0 z-10 border-t-2 border-border-default bg-bg-default p-4">
                     {shouldShowAvvisActions ? (
-                        <AvvisSection />
+                        <AvvisSection disableUnsavedWarning={() => setDisableWarnUnsaved(true)} />
                     ) : (
                         <ActionSection
                             fnr={oppgave.values.fnrPasient}
                             registerResult={result}
                             focusErrorSection={focusErrorSection}
+                            disableUnsavedWarning={() => setDisableWarnUnsaved(true)}
                         />
                     )}
                 </div>

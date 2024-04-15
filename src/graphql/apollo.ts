@@ -37,7 +37,11 @@ export function createApolloClient(
         link: from([
             errorLink,
             new RetryLink({
-                attempts: { max: 3 },
+                attempts: { max: 5 },
+                delay: {
+                    initial: 250,
+                    jitter: true,
+                },
             }),
             httpLink,
         ]),

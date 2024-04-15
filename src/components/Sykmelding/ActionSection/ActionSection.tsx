@@ -17,9 +17,10 @@ interface Props {
     fnr: string
     registerResult: MutationResult<SaveOppgaveMutation>
     focusErrorSection: () => void
+    disableUnsavedWarning: () => void
 }
 
-function ActionSection({ fnr, registerResult, focusErrorSection }: Props): ReactElement {
+function ActionSection({ fnr, registerResult, focusErrorSection, disableUnsavedWarning }: Props): ReactElement {
     const { getValues, reset, trigger } = useFormContext<UtenlanskFormValues>()
     const [saveAndClose, saveResult] = useHandleSave({
         fnr,
@@ -82,7 +83,9 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): React
                         /** Reset the form state, any invalid submits etc.,
                          * because we want to save the draft and leave */
                         reset(undefined, { keepValues: true })
-                        return saveAndClose(getValues())
+                        disableUnsavedWarning()
+
+                        saveAndClose(getValues())
                     }}
                     loading={saveResult.loading}
                 >
@@ -100,7 +103,9 @@ function ActionSection({ fnr, registerResult, focusErrorSection }: Props): React
                             type: 'button',
                             onClick: async () => {
                                 reset(undefined, { keepValues: true })
-                                await tilbakeTilGosys()
+                                disableUnsavedWarning()
+
+                                tilbakeTilGosys()
                             },
                             loading: tilbakeTilGosysResult.loading,
                         },
