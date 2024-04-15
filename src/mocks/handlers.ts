@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
 import { delay, graphql, HttpResponse, RequestHandler } from 'msw'
 
 import {
@@ -236,7 +234,7 @@ function mapInputDiagnoseToOppgaveDiagnose(
         __typename: 'DiagnoseValue',
         kode: hovedDiagnose.kode,
         system: hovedDiagnose.system,
-        tekst: undefined,
+        tekst: 'Mock tekst (er ikke tilgjengelig i mock)',
     }
 }
 

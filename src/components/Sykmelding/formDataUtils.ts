@@ -45,5 +45,7 @@ export function createDefaultValues(values: OppgaveValuesFragment): DefaultFormV
         behandletTidspunkt: values.behandletTidspunkt,
         folkeRegistertAdresseErBrakkeEllerTilsvarende: values.folkeRegistertAdresseErBrakkeEllerTilsvarende ?? false,
         erAdresseUtland: values.erAdresseUtland ?? false,
+        avvisningsgrunnAnnet: '',
+        mangelfullSykmelding: false,
     }
 }

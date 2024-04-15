@@ -13,7 +13,11 @@ import { Location, useParam } from '../../../utils/useParam'
 import { UtenlanskFormValues } from '../SykmeldingForm'
 import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
 
-function AvvisSection(): ReactElement {
+type Props = {
+    disableUnsavedWarning: () => void
+}
+
+function AvvisSection({ disableUnsavedWarning }: Props): ReactElement {
     const { reset } = useFormContext<UtenlanskFormValues>()
     const params = useParam(Location.Utenlansk)
     const enhetId = useSelectedModiaEnhet()
@@ -156,6 +160,8 @@ function AvvisSection(): ReactElement {
                                 setSelectError(null)
                                 setTextareaError(null)
                                 reset(undefined, { keepValues: true })
+                                disableUnsavedWarning()
+
                                 avvis({
                                     variables: {
                                         oppgaveId: params.oppgaveId,
