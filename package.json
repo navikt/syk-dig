@@ -32,7 +32,7 @@
         "@navikt/ds-react": "^6.5.0",
         "@navikt/next-api-proxy": "^3.4.0",
         "@navikt/next-logger": "^1.23.0",
-        "@navikt/oasis": "^3.2.3",
+        "@navikt/oasis": "^3.2.4",
         "@next/bundle-analyzer": "14.2.1",
         "@unleash/nextjs": "^1.4.2",
         "ariakit": "^2.0.0-next.44",
