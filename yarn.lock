@@ -4090,6 +4090,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: 10/cdfb57fa6c7649bbff98d9028c2f0de2f91c86f551179541cf784b1cfdc1562dcb951955f46d54d930a3879931a980e32a46b598acaea274728dbe068deca919
+  languageName: node
+  linkType: hard
+
 "color-convert@npm:^1.9.0":
   version: 1.9.3
   resolution: "color-convert@npm:1.9.3"
@@ -9849,7 +9856,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^4.2.1"
     ariakit: "npm:^2.0.0-next.44"
     autoprefixer: "npm:^10.4.19"
-    clsx: "npm:^2.1.0"
+    clsx: "npm:^2.1.1"
     concurrently: "npm:^8.2.2"
     date-fns: "npm:^3.6.0"
     dotenv: "npm:^16.4.5"

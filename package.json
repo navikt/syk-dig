@@ -36,7 +36,7 @@
         "@next/bundle-analyzer": "14.2.1",
         "@unleash/nextjs": "^1.4.2",
         "ariakit": "^2.0.0-next.44",
-        "clsx": "^2.1.0",
+        "clsx": "^2.1.1",
         "date-fns": "^3.6.0",
         "fuse.js": "^7.0.0",
         "graphql": "^16.8.1",
