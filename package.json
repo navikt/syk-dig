@@ -30,7 +30,7 @@
         "@navikt/diagnosekoder": "1.2024.0",
         "@navikt/ds-css": "^6.5.0",
         "@navikt/ds-react": "^6.5.0",
-        "@navikt/next-api-proxy": "^3.4.0",
+        "@navikt/next-api-proxy": "^3.4.1",
         "@navikt/next-logger": "^1.23.0",
         "@navikt/oasis": "^3.2.3",
         "@next/bundle-analyzer": "14.2.1",
