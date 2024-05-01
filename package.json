@@ -60,7 +60,7 @@
         "@graphql-codegen/typed-document-node": "^5.0.6",
         "@graphql-codegen/typescript-operations": "^4.2.0",
         "@navikt/ds-tailwind": "^6.5.0",
-        "@navikt/eslint-config-teamsykmelding": "^6.0.0",
+        "@navikt/eslint-config-teamsykmelding": "^6.2.0",
         "@parcel/watcher": "^2.4.1",
         "@testing-library/dom": "^10.0.0",
         "@testing-library/react": "^15.0.2",
