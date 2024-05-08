@@ -9,6 +9,11 @@ import { getUnleashEnvironment, localDevelopmentToggles } from './utils'
 import { EXPECTED_TOGGLES } from './toggles'
 
 export async function getToggles(): Promise<{ toggles: IToggle[] }> {
+    if (EXPECTED_TOGGLES.length === 0) {
+        logger.info('Currently no expected toggles defined, not fetching toggles from unleash')
+        return { toggles: [] }
+    }
+
     if (isLocalOrDemo) {
         logger.warn('Running in local or demo mode, falling back to development toggles.')
         return { toggles: localDevelopmentToggles() }
@@ -60,9 +65,7 @@ async function getAndValidateDefinitions(): Promise<ReturnType<typeof getDefinit
     }
 
     logger.info(
-        `Fetched ${definitions.features.length} flags from unleash: ${definitions.features
-            .map((it) => it.name)
-            .join('\n')}\n`,
+        `Fetched ${definitions.features.length} flags from unleash, found all ${EXPECTED_TOGGLES.length} expected flags`,
     )
 
     return definitions

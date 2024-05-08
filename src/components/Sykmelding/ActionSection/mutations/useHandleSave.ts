@@ -71,8 +71,7 @@ function mapFormValues(fnr: string, formValues: UtenlanskFormValues): Sykmelding
         hovedDiagnose: mapDiagnose(formValues.diagnoser.hoveddiagnose),
         biDiagnoser: formValues.diagnoser.bidiagnoser.map(mapDiagnose).filter(notNull),
         perioder: formValues.periode.map(mapPeriode).filter(notNull),
-        folkeRegistertAdresseErBrakkeEllerTilsvarende:
-            formValues.folkeRegistertAdresseErBrakkeEllerTilsvarende ?? false,
+        folkeRegistertAdresseErBrakkeEllerTilsvarende: false,
         erAdresseUtland: formValues.erAdresseUtland ?? false,
     }
 }
