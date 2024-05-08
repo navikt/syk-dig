@@ -22,7 +22,6 @@ export interface UtenlanskFormValues {
     land: string | null
     periode: Array<PeriodeFormValue>
     mangelfullSykmelding: boolean
-    folkeRegistertAdresseErBrakkeEllerTilsvarende: boolean | null
     erAdresseUtland: boolean | null
     avvisningsgrunnAnnet?: string
 }
