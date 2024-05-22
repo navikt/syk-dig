@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from 'react'
 import { Alert, BodyShort, Button, ConfirmationPanel, Heading, List } from '@navikt/ds-react'
 import { MutationResult } from '@apollo/client'
+import { ArrowLeftIcon } from '@navikt/aksel-icons'
 
 import { MutationResultFeedback } from '../../Sykmelding/ActionSection/MutationFeedbackSection'
 import FeedbackModal from '../../Sykmelding/ActionSection/FeedbackModal'
@@ -82,6 +83,17 @@ function ActionSection({ oppgaveId, ferdigstilt, submitResult }: Props): ReactEl
                     </div>
                 </div>
             )}
+            <div>
+                <Button
+                    size="small"
+                    variant="tertiary"
+                    as="a"
+                    href={ferdigstilt ? bundledEnv.NEXT_PUBLIC_MODIA_URL : bundledEnv.NEXT_PUBLIC_GOSYS_URL}
+                    icon={<ArrowLeftIcon />}
+                >
+                    Tilbake til {ferdigstilt ? 'Modia' : 'GOSYS'}
+                </Button>
+            </div>
         </div>
     )
 }

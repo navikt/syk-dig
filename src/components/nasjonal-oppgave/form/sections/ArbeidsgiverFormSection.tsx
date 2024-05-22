@@ -13,7 +13,7 @@ import styles from './ArbeidsgiverFormSection.module.css'
 function ArbeidsgiverFormSection(): ReactElement {
     const harArbeidsgiver = useController<NasjonalFormValues, 'arbeidsgiver.harArbeidsgiver'>({
         name: 'arbeidsgiver.harArbeidsgiver',
-        rules: { required: 'Arbeidssiduasjon må være definert' },
+        rules: { required: 'Arbeidssituasjon må være definert' },
     })
     const arbeidsgiverNavn = useController<NasjonalFormValues, 'arbeidsgiver.arbeidsgiverNavn'>({
         name: 'arbeidsgiver.arbeidsgiverNavn',
@@ -21,11 +21,16 @@ function ArbeidsgiverFormSection(): ReactElement {
     const yrkesbetegnelse = useController<NasjonalFormValues, 'arbeidsgiver.yrkesbetegnelse'>({
         name: 'arbeidsgiver.yrkesbetegnelse',
     })
+
+    const ingenArbeidsgiver: boolean = harArbeidsgiver.field.value === 'INGEN_ARBEIDSGIVER'
     const stillingsprosent = useController<NasjonalFormValues, 'arbeidsgiver.stillingsprosent'>({
         name: 'arbeidsgiver.stillingsprosent',
         rules: {
-            min: { value: 0, message: 'Stillingsprosenten må være mellom 0 og 100' },
-            max: { value: 100, message: 'Stillingsprosenten må være mellom 0 og 100' },
+            validate: (value) => {
+                if (ingenArbeidsgiver) return undefined
+                if (!value) return 'Stillingsprosenten må være mellom 0 og 100'
+                if (value <= 0 || value > 100) return 'Stillingsprosenten må være mellom 0 og 100'
+            },
         },
     })
 
@@ -54,14 +59,12 @@ function ArbeidsgiverFormSection(): ReactElement {
                     label="2.2 Arbeidsgiver for denne sykmeldingen"
                     {...arbeidsgiverNavn.field}
                     value={arbeidsgiverNavn.field.value ?? ''}
-                    error={arbeidsgiverNavn.fieldState.error?.message}
                 />
                 <TextField
                     className={styles.field}
                     label="2.3 Yrke/stilling for dette arbeidsforholdet"
                     {...yrkesbetegnelse.field}
                     value={yrkesbetegnelse.field.value ?? ''}
-                    error={yrkesbetegnelse.fieldState.error?.message}
                 />
                 <TextField
                     className={styles.field}
@@ -71,6 +74,7 @@ function ArbeidsgiverFormSection(): ReactElement {
                     onChange={numberOnChange(stillingsprosent.field.onChange)}
                     value={stillingsprosent.field.value ?? ''}
                     error={stillingsprosent.fieldState.error?.message}
+                    id="arbeidsgiver.stillingsprosent"
                 />
             </div>
         </FormSection>

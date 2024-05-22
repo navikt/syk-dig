@@ -112,7 +112,7 @@ function SplitDocumentViewTitle({
                             />
                         </Tooltip>
                     )}
-                    <Tooltip content="Lukk oppgaven og gå tilbake til gosys uten å lagre">
+                    <Tooltip content={`Lukk oppgaven og gå tilbake til ${closeReturnsTo} uten å lagre`}>
                         <Button
                             size="small"
                             variant="tertiary"
