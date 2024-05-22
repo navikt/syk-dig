@@ -27,7 +27,7 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
             },
         },
     })
-    const { field: telefonField, fieldState: telefonState } = useController<NasjonalFormValues, 'behandler.tlf'>({
+    const { field: telefonField } = useController<NasjonalFormValues, 'behandler.tlf'>({
         name: 'behandler.tlf',
     })
 
@@ -53,7 +53,6 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
                     className={styles.behandlerInput}
                     {...telefonField}
                     value={telefonField.value ?? ''}
-                    error={telefonState.error?.message}
                     label="12.5 Telefon"
                 />
             </div>

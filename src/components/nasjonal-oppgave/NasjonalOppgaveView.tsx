@@ -20,6 +20,7 @@ function NasjonalOppgaveView({ oppgaveId }: Props): ReactElement {
             title="Nasjonal papirsykmelding"
             ingress="Vennligst legg inn opplysningene fra papirsykmeldingen"
             documentView={<NasjonalOppgaveDocuments query={query} />}
+            closeReturnsTo="gosys"
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
             {query.data && <NasjonalSykmeldingForm oppgave={query.data.oppgave} ferdigstilt={false} />}

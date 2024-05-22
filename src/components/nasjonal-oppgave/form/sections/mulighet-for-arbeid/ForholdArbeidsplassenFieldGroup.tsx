@@ -20,10 +20,7 @@ function ForholdArbeidsplassenFieldGroup({ parent }: Props): ReactElement {
     const { field } = useController<NasjonalFormValues, `${typeof parent}.arbeidsrelatertArsak`>({
         name: `${parent}.arbeidsrelatertArsak`,
     })
-    const { field: typeField, fieldState: typeState } = useController<
-        NasjonalFormValues,
-        `${typeof parent}.arbeidsrelatertArsakType`
-    >({
+    const { field: typeField } = useController<NasjonalFormValues, `${typeof parent}.arbeidsrelatertArsakType`>({
         name: `${parent}.arbeidsrelatertArsakType`,
     })
 
@@ -37,8 +34,7 @@ function ForholdArbeidsplassenFieldGroup({ parent }: Props): ReactElement {
                     <CheckboxGroup
                         {...typeField}
                         value={typeField.value ? typeField.value : []}
-                        legend="Medisinske årsaker"
-                        error={typeState.error?.message}
+                        legend="Arbeidsrelaterte årsaker"
                     >
                         {R.values(ArbeidsrelatertArsakTypeSchema.Enum).map((it) => (
                             <Checkbox key={it} value={it}>

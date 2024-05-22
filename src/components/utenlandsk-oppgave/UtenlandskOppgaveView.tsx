@@ -36,6 +36,7 @@ function UtenlandskOppgaveView({ oppgaveId }: Props): ReactElement {
             title="Utenlandsk sykmelding"
             ingress="Vennligst skriv inn opplysningene fra sykmeldingen under"
             documentView={<OppgaveDocuments query={oppgaveQuery} />}
+            closeReturnsTo="gosys"
         >
             {oppgaveQuery.loading && <OppgaveSkeleton />}
             {oppgaveQuery.data?.oppgave && <DigitaliseringsOppgave oppgave={oppgaveQuery.data.oppgave} />}

@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react'
 import { useController } from 'react-hook-form'
-import { Button, DatePicker, useDatepicker } from '@navikt/ds-react'
-import { XMarkIcon } from '@navikt/aksel-icons'
+import { DatePicker, useDatepicker } from '@navikt/ds-react'
 
 import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 import { SMREG_SHORTHAND_FORMAT } from '../../../smregDateUtils'
@@ -15,7 +14,7 @@ function BehandletDatoField(): ReactElement {
         },
     })
 
-    const { datepickerProps, inputProps, selectedDay, setSelected } = useDatepicker({
+    const { datepickerProps, inputProps, selectedDay } = useDatepicker({
         defaultSelected: field.value ? field.value : undefined,
         onDateChange: (date) => {
             field.onChange(date ?? null)
@@ -35,19 +34,6 @@ function BehandletDatoField(): ReactElement {
                         id="behandler.behandletDato"
                     />
                 </DatePicker>
-                <div>
-                    <Button
-                        variant="tertiary"
-                        icon={<XMarkIcon />}
-                        iconPosition="left"
-                        type="button"
-                        onClick={() => {
-                            setSelected(undefined)
-                        }}
-                    >
-                        Fjern dato
-                    </Button>
-                </div>
             </div>
             <SelectedDate date={selectedDay} />
         </div>

@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react'
 import { useController } from 'react-hook-form'
-import { Button, DatePicker, ErrorMessage, useDatepicker } from '@navikt/ds-react'
-import { XMarkIcon } from '@navikt/aksel-icons'
+import { DatePicker, ErrorMessage, useDatepicker } from '@navikt/ds-react'
 import { formatISO } from 'date-fns'
 
 import { SMREG_SHORTHAND_FORMAT } from '../../../smregDateUtils'
@@ -22,7 +21,7 @@ function AndreDiagnoseOpplysningerFieldGroup(): ReactElement {
 
     return (
         <div className="flex flex-col gap-8">
-            <SoloCheckbox {...svangerskapField} legend="3.5">
+            <SoloCheckbox {...svangerskapField} legend="3.4">
                 Sykdommen er svangerskapsrelatert
             </SoloCheckbox>
 
@@ -47,7 +46,7 @@ function YrkesskadeDateField(): ReactElement {
             required: 'Yrkesskadedato må være definer når yrkesskade er krysset av',
         },
     })
-    const { datepickerProps, inputProps, setSelected, selectedDay } = useDatepicker({
+    const { datepickerProps, inputProps, selectedDay } = useDatepicker({
         defaultSelected: field.value ?? undefined,
         onDateChange: field.onChange,
         inputFormat: SMREG_SHORTHAND_FORMAT,
@@ -66,19 +65,6 @@ function YrkesskadeDateField(): ReactElement {
                         id="medisinskVurdering.yrkesskadeDato"
                     />
                 </DatePicker>
-                <div>
-                    <Button
-                        variant="tertiary"
-                        icon={<XMarkIcon />}
-                        iconPosition="left"
-                        type="button"
-                        onClick={() => {
-                            setSelected(undefined)
-                        }}
-                    >
-                        Fjern dato
-                    </Button>
-                </div>
             </div>
             <SelectedDate date={selectedDay} />
             {fieldState.error?.message && <ErrorMessage>{fieldState.error?.message}</ErrorMessage>}

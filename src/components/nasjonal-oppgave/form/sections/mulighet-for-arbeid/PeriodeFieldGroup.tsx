@@ -57,6 +57,7 @@ function BehandlingsdagerFieldGroup({ parent }: { parent: `mulighetForArbeid.${n
             <div>
                 <TextField
                     {...field}
+                    id={`${parent}.antall`}
                     value={field.value ?? ''}
                     error={fieldState.error?.message}
                     onChange={numberOnChange(field.onChange)}
@@ -70,14 +71,26 @@ function BehandlingsdagerFieldGroup({ parent }: { parent: `mulighetForArbeid.${n
 }
 
 function AvventendeFieldGroup({ parent }: { parent: `mulighetForArbeid.${number}` }): ReactElement {
-    const { register } = useFormContext<NasjonalFormValues>()
+    const { field, fieldState } = useController<
+        NasjonalFormValues,
+        `${typeof parent}.avventendeInnspillTilArbeidsgiver`
+    >({
+        name: `${parent}.avventendeInnspillTilArbeidsgiver`,
+        rules: {
+            required:
+                'Innspill til arbeidsgiver om tilrettelegging må være utfylt når avventende sykmelding er krysset av',
+        },
+    })
 
     return (
         <div className="flex flex-col gap-4">
             <FomTomPicker parent={parent} />
             <Textarea
-                {...register(`${parent}.avventendeInnspillTilArbeidsgiver`)}
+                {...field}
+                id={`${parent}.avventendeInnspillTilArbeidsgiver`}
                 label="Andre innspill til arbeidsgiver"
+                value={field.value ?? ''}
+                error={fieldState.error?.message}
             />
         </div>
     )
@@ -87,7 +100,7 @@ function GradertFieldGroup({ parent }: { parent: `mulighetForArbeid.${number}` }
     const { field, fieldState } = useController<NasjonalFormValues, `${typeof parent}.grad`>({
         name: `${parent}.grad`,
         rules: {
-            required: 'Periode må være definert når gradert sykmelding er valgt',
+            required: 'Grad for gradert periode må være definert',
             min: { value: 0, message: 'Grad må være større enn 0' },
             max: { value: 100, message: 'Grad må være mindre enn 100' },
         },

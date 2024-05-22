@@ -20,10 +20,7 @@ function MedisinskArsakFieldGroup({ parent }: Props): ReactElement {
     const { field } = useController<NasjonalFormValues, `${typeof parent}.medisinskArsak`>({
         name: `${parent}.medisinskArsak`,
     })
-    const { field: typeField, fieldState: typeState } = useController<
-        NasjonalFormValues,
-        `${typeof parent}.medisinskArsakType`
-    >({
+    const { field: typeField } = useController<NasjonalFormValues, `${typeof parent}.medisinskArsakType`>({
         name: `${parent}.medisinskArsakType`,
     })
 
@@ -38,7 +35,6 @@ function MedisinskArsakFieldGroup({ parent }: Props): ReactElement {
                         {...typeField}
                         value={typeField.value ? typeField.value : []}
                         legend="Medisinske årsaker"
-                        error={typeState.error?.message}
                     >
                         {R.values(MedisinskArsakTypeSchema.Enum).map((it) => (
                             <Checkbox key={it} value={it}>

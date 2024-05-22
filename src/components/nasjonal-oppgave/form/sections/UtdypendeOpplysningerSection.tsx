@@ -7,13 +7,13 @@ import SoloCheckbox from '../../../FormComponents/SingleCheckbox/SoloCheckbox'
 import { NasjonalFormValues } from '../NasjonalSykmeldingFormTypes'
 
 function UtdypendeOpplysningerSection(): ReactElement {
-    const { field, fieldState } = useController<NasjonalFormValues, 'harUtdypendeOpplysninger'>({
+    const { field } = useController<NasjonalFormValues, 'harUtdypendeOpplysninger'>({
         name: 'harUtdypendeOpplysninger',
     })
 
     return (
         <FormSection id="utdypendeopplysninger-section" title={getSectionTitle(sections.UTDYPENDE_OPPLYSNINGER)}>
-            <SoloCheckbox {...field} legend="" hideLegend error={fieldState.error?.message}>
+            <SoloCheckbox {...field} legend="" hideLegend>
                 Sykmeldingen har utdypende opplysninger
             </SoloCheckbox>
         </FormSection>

@@ -21,7 +21,7 @@ function FomTomPicker({ parent }: Props): ReactElement {
             validate: (value) => {
                 const dateError = getDateErrorMessage('f.o.m.', rangeError?.from)
                 if (dateError) return dateError
-                if (value == null) return 'Du må fylle inn f.o.m. dato for periode'
+                if (value == null) return 'Du må fylle inn f.o.m. dato'
             },
         },
     })
@@ -31,7 +31,7 @@ function FomTomPicker({ parent }: Props): ReactElement {
             validate: (value) => {
                 const dateError = getDateErrorMessage('t.o.m.', rangeError?.to)
                 if (dateError) return dateError
-                if (value == null) return 'Du må fylle inn t.o.m. dato for periode'
+                if (value == null) return 'Du må fylle inn t.o.m. dato'
             },
         },
     })
@@ -94,15 +94,15 @@ function getDateErrorMessage(
     if (validation == null) return null
 
     if ('isBeforeFrom' in validation && validation.isBeforeFrom) {
-        return `${name} dato kan ikke være før f.o.m. dato.`
+        return `${name} dato kan ikke være før f.o.m. dato`
     }
 
     if (validation.isEmpty) {
-        return `Du må fylle inn ${name} dato.`
+        return `Du må fylle inn ${name} dato`
     }
 
     if (validation.isInvalid) {
-        return `Dato er ugyldig.`
+        return `Dato er ugyldig`
     }
 
     return null
