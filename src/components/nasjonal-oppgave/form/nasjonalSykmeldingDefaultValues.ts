@@ -1,12 +1,12 @@
 import { DefaultValues } from 'react-hook-form'
 import { logger } from '@navikt/next-logger'
 
-import { Oppgave } from '../schema/oppgave/Oppgave'
 import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
 import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/DiagnosePicker'
 import { notNull, raise } from '../../../utils/tsUtils'
 import { Periode } from '../schema/sykmelding/Periode'
 import { safeToDate, toDate } from '../../../utils/dateUtils'
+import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
 
 import {
     AktivitetIkkeMuligPeriode,
@@ -18,62 +18,58 @@ import {
     ReisetilskuddPeriode,
 } from './NasjonalSykmeldingFormTypes'
 
-export function createDefaultValues(oppgave: Oppgave): DefaultValues<NasjonalFormValues> {
+export function createDefaultValues(sykmelding: Papirsykmelding | null): DefaultValues<NasjonalFormValues> {
     return {
         pasientopplysninger: {
-            fnr: oppgave.papirSmRegistering?.fnr ?? null,
+            fnr: sykmelding?.fnr ?? null,
         },
         arbeidsgiver: {
-            harArbeidsgiver: oppgave.papirSmRegistering?.arbeidsgiver?.harArbeidsgiver ?? null,
-            arbeidsgiverNavn: oppgave.papirSmRegistering?.arbeidsgiver?.navn ?? null,
-            yrkesbetegnelse: oppgave.papirSmRegistering?.arbeidsgiver?.yrkesbetegnelse ?? null,
-            stillingsprosent: oppgave.papirSmRegistering?.arbeidsgiver?.stillingsprosent ?? null,
+            harArbeidsgiver: sykmelding?.arbeidsgiver?.harArbeidsgiver ?? null,
+            arbeidsgiverNavn: sykmelding?.arbeidsgiver?.navn ?? null,
+            yrkesbetegnelse: sykmelding?.arbeidsgiver?.yrkesbetegnelse ?? null,
+            stillingsprosent: sykmelding?.arbeidsgiver?.stillingsprosent ?? null,
         },
         medisinskVurdering: {
             hoveddiagnose: {
                 system:
-                    diagnoseCodeWeirdStringToSystem(
-                        oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose?.system,
-                    ) ?? 'ICD10',
-                code: oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose?.kode ?? null,
-                text: oppgave.papirSmRegistering?.medisinskVurdering?.hovedDiagnose?.tekst ?? null,
+                    diagnoseCodeWeirdStringToSystem(sykmelding?.medisinskVurdering?.hovedDiagnose?.system) ?? 'ICD10',
+                code: sykmelding?.medisinskVurdering?.hovedDiagnose?.kode ?? null,
+                text: sykmelding?.medisinskVurdering?.hovedDiagnose?.tekst ?? null,
             },
             bidiagnoser:
-                oppgave.papirSmRegistering?.medisinskVurdering?.biDiagnoser.filter(notNull).map((it) => ({
+                sykmelding?.medisinskVurdering?.biDiagnoser.filter(notNull).map((it) => ({
                     system: diagnoseCodeWeirdStringToSystem(it?.system) ?? 'ICD10',
                     code: it?.kode ?? null,
                     text: it?.tekst ?? null,
                 })) ?? [],
-            annenFraversArsak: oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak != null,
-            annenFraversArsakGrunn: oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak?.grunn ?? null,
-            annenFraversArsakBeskrivelse:
-                oppgave.papirSmRegistering?.medisinskVurdering?.annenFraversArsak?.beskrivelse ?? null,
-            svangerskap: oppgave.papirSmRegistering?.medisinskVurdering?.svangerskap ?? false,
-            yrkesskade: oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskade ?? false,
-            yrkesskadeDato: safeToDate(oppgave.papirSmRegistering?.medisinskVurdering?.yrkesskadeDato),
+            annenFraversArsak: sykmelding?.medisinskVurdering?.annenFraversArsak != null,
+            annenFraversArsakGrunn: sykmelding?.medisinskVurdering?.annenFraversArsak?.grunn ?? null,
+            annenFraversArsakBeskrivelse: sykmelding?.medisinskVurdering?.annenFraversArsak?.beskrivelse ?? null,
+            svangerskap: sykmelding?.medisinskVurdering?.svangerskap ?? false,
+            yrkesskade: sykmelding?.medisinskVurdering?.yrkesskade ?? false,
+            yrkesskadeDato: safeToDate(sykmelding?.medisinskVurdering?.yrkesskadeDato),
         },
         harUtdypendeOpplysninger: false,
-        skjermesForPasient: oppgave.papirSmRegistering?.skjermesForPasient ?? false,
+        skjermesForPasient: sykmelding?.skjermesForPasient ?? false,
         mulighetForArbeid:
-            (oppgave.papirSmRegistering?.perioder?.length ?? 0) === 0
+            (sykmelding?.perioder?.length ?? 0) === 0
                 ? [createEmptyAktivitetMuligPeriode()]
-                : oppgave.papirSmRegistering?.perioder?.map(periodeToMulighetForArbeid) ?? [],
+                : sykmelding?.perioder?.map(periodeToMulighetForArbeid) ?? [],
         bistandFraNAV: {
-            bistandFraNAV: oppgave.papirSmRegistering?.meldingTilNAV?.bistandUmiddelbart ?? false,
-            beskrivelse: oppgave.papirSmRegistering?.meldingTilNAV?.beskrivBistand ?? null,
+            bistandFraNAV: sykmelding?.meldingTilNAV?.bistandUmiddelbart ?? false,
+            beskrivelse: sykmelding?.meldingTilNAV?.beskrivBistand ?? null,
         },
-        andreInnspillTilArbeidsgiver: oppgave.papirSmRegistering?.meldingTilArbeidsgiver ?? null,
+        andreInnspillTilArbeidsgiver: sykmelding?.meldingTilArbeidsgiver ?? null,
         tilbakedatering: {
-            tilbakedatert: oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato != null ?? false,
-            tilbakedatertDato: safeToDate(oppgave.papirSmRegistering?.kontaktMedPasient?.kontaktDato),
-            kunneIkkeIvaretaEgneInteresser: !!oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt,
-            kunneIkkeIvaretaEgneInteresserBegrunnelse:
-                oppgave.papirSmRegistering?.kontaktMedPasient?.begrunnelseIkkeKontakt ?? null,
+            tilbakedatert: sykmelding?.kontaktMedPasient?.kontaktDato != null ?? false,
+            tilbakedatertDato: safeToDate(sykmelding?.kontaktMedPasient?.kontaktDato),
+            kunneIkkeIvaretaEgneInteresser: !!sykmelding?.kontaktMedPasient?.begrunnelseIkkeKontakt,
+            kunneIkkeIvaretaEgneInteresserBegrunnelse: sykmelding?.kontaktMedPasient?.begrunnelseIkkeKontakt ?? null,
         },
         behandler: {
-            behandletDato: safeToDate(oppgave.papirSmRegistering?.behandletTidspunkt),
-            hpr: oppgave.papirSmRegistering?.behandler?.hpr ?? null,
-            tlf: oppgave.papirSmRegistering?.behandler?.tlf ?? null,
+            behandletDato: safeToDate(sykmelding?.behandletTidspunkt),
+            hpr: sykmelding?.behandler?.hpr ?? null,
+            tlf: sykmelding?.behandler?.tlf ?? null,
         },
     }
 }

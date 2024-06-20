@@ -4,7 +4,11 @@ import { PapirsykmeldingSchema } from '../sykmelding/Papirsykmelding'
 
 export type Oppgave = z.infer<typeof OppgaveSchema>
 export const OppgaveSchema = z.object({
-    oppgaveid: z.number().transform((it) => `${it}`),
+    // Ferdigstilt oppgave does not have oppgaveId
+    oppgaveid: z.preprocess((value) => {
+        if (value === 0) return null
+        return `${value}`
+    }, z.string().nullable()),
     papirSmRegistering: PapirsykmeldingSchema.nullable(),
     documents: z.array(
         z.object({

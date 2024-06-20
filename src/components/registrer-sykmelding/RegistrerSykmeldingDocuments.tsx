@@ -25,7 +25,13 @@ function RegistrerSykmeldingDocuments({ query }: Props): ReactElement {
     } else if (journalpost != null && journalpost.dokumenter.length === 0 && !loading && !error) {
         return <DocumentsViewerNoDocuments text="Journalpost har ingen dokumenter" />
     } else if (journalpost != null && !loading && journalpost.dokumenter.length > 0) {
-        return <DocumentsViewer journalpostId={journalpost.journalpostId} documents={journalpost.dokumenter} />
+        return (
+            <DocumentsViewer
+                journalpostId={journalpost.journalpostId}
+                documents={journalpost.dokumenter}
+                edit={false}
+            />
+        )
     } else {
         throw new Error('Illegal state: Non loading, non error journalpost that is null')
     }

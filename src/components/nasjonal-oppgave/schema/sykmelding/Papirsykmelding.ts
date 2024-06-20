@@ -8,6 +8,7 @@ import { MeldingTilNAVSchema } from './MeldingTilNav'
 import { PeriodeSchema } from './Periode'
 
 export const PapirsykmeldingSchema = z.object({
+    journalpostId: z.string(),
     fnr: z.string().nullable(),
     datoOpprettet: z.string().nullable(),
     syketilfelleStartDato: z.string().nullable(),

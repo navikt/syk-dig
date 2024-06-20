@@ -49,9 +49,11 @@ export function NasjonalOppgaveError({ children }: PropsWithChildren): ReactElem
 }
 
 export function NasjonalOppgaveDocuments({
+    oppgaveId,
     query,
 }: {
-    query: QueryResult<OppgaveResult, OppgaveVariables> | QueryResult<OppgaveResult, FerdigstiltOppgaveVariables>
+    oppgaveId: string
+    query: QueryResult<OppgaveResult, OppgaveVariables>
 }): ReactElement {
     const { loading, data, error } = query
 
@@ -60,7 +62,34 @@ export function NasjonalOppgaveDocuments({
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
     } else if (data?.oppgave != null) {
-        return <DocumentsViewer oppgaveId={data.oppgave.oppgaveid} documents={data.oppgave.documents} source="smreg" />
+        return <DocumentsViewer oppgaveId={oppgaveId} documents={data.oppgave.documents} edit={false} />
+    } else {
+        raise(new Error('Illegal state: Non loading, non error oppgave that is null'))
+    }
+}
+
+export function NasjonalOppgaveFerdigstiltDocuments({
+    query,
+}: {
+    query: QueryResult<OppgaveResult, FerdigstiltOppgaveVariables>
+}): ReactElement {
+    const { loading, data, error } = query
+
+    if (loading) {
+        return <DocumentsViewerSkeleton />
+    } else if (error) {
+        return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
+    } else if (data?.oppgave != null) {
+        return (
+            <DocumentsViewer
+                journalpostId={
+                    data.oppgave.papirSmRegistering?.journalpostId ??
+                    raise(new Error('Ferdig stilt oppgave uten sykmelding, det gåkke an vel?'))
+                }
+                documents={data.oppgave.documents}
+                edit={false}
+            />
+        )
     } else {
         raise(new Error('Illegal state: Non loading, non error oppgave that is null'))
     }
