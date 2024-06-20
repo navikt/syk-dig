@@ -6,6 +6,7 @@ import { ArrowLeftIcon } from '@navikt/aksel-icons'
 import { MutationResultFeedback } from '../../Sykmelding/ActionSection/MutationFeedbackSection'
 import FeedbackModal from '../../Sykmelding/ActionSection/FeedbackModal'
 import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
+// TODO: fjern, tailwind it?
 import styles from '../../Sykmelding/ActionSection/MutationFeedbackSection.module.css'
 import { redirectTilGosys } from '../../../utils/gosys'
 import { RuleHitErrors } from '../schema/RuleHitErrors'
@@ -14,13 +15,17 @@ import { useAvvisSykmeldingSmreg, useTilbakeTilGosysSmreg } from './useOtherSykm
 import SendToGosysButton from './SendToGosysButton'
 import AvvisButton from './AvvisButton'
 
-type Props = {
-    oppgaveId: string
-    ferdigstilt: boolean
-    submitResult: MutationResult
-}
+type Props = { submitResult: MutationResult } & (
+    | {
+          ferdigstilt: false
+          oppgaveId: string
+      }
+    | {
+          ferdigstilt: true
+      }
+)
 
-function ActionSection({ oppgaveId, ferdigstilt, submitResult }: Props): ReactElement {
+function ActionSection({ submitResult, ...props }: Props): ReactElement {
     const [everythingGood, setEverythingGood] = useState(false)
     const [tilbakeTilGosys, tilbakeTilGosysResult] = useTilbakeTilGosysSmreg({
         onCompleted: () => {
@@ -54,11 +59,11 @@ function ActionSection({ oppgaveId, ferdigstilt, submitResult }: Props): ReactEl
                         disabled={!everythingGood || submitResult.loading}
                         loading={submitResult.loading}
                     >
-                        {ferdigstilt ? 'Korriger' : 'Registrer'} sykmeldingen
+                        {props.ferdigstilt ? 'Korriger' : 'Registrer'} sykmeldingen
                     </Button>
                 </div>
             </div>
-            {!ferdigstilt && (
+            {!props.ferdigstilt && (
                 <div className="flex flex-col gap-3">
                     <Heading level="2" size="small">
                         Er det noe galt med sykmeldingen?
@@ -67,7 +72,7 @@ function ActionSection({ oppgaveId, ferdigstilt, submitResult }: Props): ReactEl
                         <SendToGosysButton
                             tilbakeTilGosys={async () => {
                                 await tilbakeTilGosys({
-                                    variables: { oppgaveId },
+                                    variables: { oppgaveId: props.oppgaveId },
                                 })
                             }}
                             tilbakeTilGosysResult={tilbakeTilGosysResult}
@@ -75,7 +80,7 @@ function ActionSection({ oppgaveId, ferdigstilt, submitResult }: Props): ReactEl
                         <AvvisButton
                             avvis={async (reason) => {
                                 await avvisSykmelding({
-                                    variables: { oppgaveId, input: { reason } },
+                                    variables: { oppgaveId: props.oppgaveId, input: { reason } },
                                 })
                             }}
                             avvisResult={avvisSykmeldingResult}
@@ -88,10 +93,10 @@ function ActionSection({ oppgaveId, ferdigstilt, submitResult }: Props): ReactEl
                     size="small"
                     variant="tertiary"
                     as="a"
-                    href={ferdigstilt ? bundledEnv.NEXT_PUBLIC_MODIA_URL : bundledEnv.NEXT_PUBLIC_GOSYS_URL}
+                    href={props.ferdigstilt ? bundledEnv.NEXT_PUBLIC_MODIA_URL : bundledEnv.NEXT_PUBLIC_GOSYS_URL}
                     icon={<ArrowLeftIcon />}
                 >
-                    Tilbake til {ferdigstilt ? 'Modia' : 'GOSYS'}
+                    Tilbake til {props.ferdigstilt ? 'Modia' : 'GOSYS'}
                 </Button>
             </div>
         </div>

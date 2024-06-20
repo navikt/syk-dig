@@ -7,18 +7,22 @@ import Pdf from '../../Pdf/Pdf'
 import DocumentTabs from './document-tabs/DocumentTabs'
 import styles from './DocumentView.module.css'
 
-type OppgaveOrJournalPost =
-    | { oppgaveId: string | null; source?: 'syk-dig' | 'smreg' }
+type DocumentOppgaveVariant =
     | {
-          journalpostId: string | null
+          edit: boolean
+          oppgaveId: string
+      }
+    | {
+          edit: false
+          journalpostId: string
       }
 
 type Props = {
     documents: { tittel: string; dokumentInfoId: string }[]
     className?: string
-} & OppgaveOrJournalPost
+} & DocumentOppgaveVariant
 
-function DocumentsViewer({ documents, className, ...props }: Props): ReactElement {
+function DocumentsViewer({ documents, className, edit, ...props }: Props): ReactElement {
     const [tabState, setTabState] = useState(documents[0].dokumentInfoId)
     const [renderedDocuments, setRenderedDocuments] = useState<string[]>([documents[0].dokumentInfoId])
 
@@ -36,7 +40,7 @@ function DocumentsViewer({ documents, className, ...props }: Props): ReactElemen
                     }
                     setTabState(value)
                 }}
-                oppgaveId={'oppgaveId' in props && props.source !== 'smreg' ? props.oppgaveId : null}
+                oppgaveId={'oppgaveId' in props && edit ? props.oppgaveId : null}
             />
             {renderedDocuments.map((documentId) => (
                 <Pdf
@@ -44,18 +48,19 @@ function DocumentsViewer({ documents, className, ...props }: Props): ReactElemen
                     className={cn(styles.pdf, {
                         hidden: tabState !== documentId,
                     })}
-                    href={`${getPdfUrl(props)}/${documentId}`}
+                    href={`${getPdfUrl(props, documentId)}`}
                 />
             ))}
         </section>
     )
 }
 
-function getPdfUrl(id: OppgaveOrJournalPost): string {
+function getPdfUrl(id: { oppgaveId: string } | { journalpostId: string }, documentId: string): string {
     if ('oppgaveId' in id) {
-        return id.source !== 'smreg' ? `/api/document/${id.oppgaveId}` : `/api/smreg/api/v1/pdf/${id.oppgaveId}`
+        return `/api/document/${id.oppgaveId}/${documentId}`
     }
-    return `/api/document/journalpost/${id.journalpostId}`
+
+    return `/api/document/journalpost/${id.journalpostId}/${documentId}`
 }
 
 export default DocumentsViewer

@@ -69,7 +69,7 @@ function OppgaveDocuments({
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
     } else if (oppgave != null && oppgave?.__typename === 'Digitaliseringsoppgave') {
-        return <DocumentsViewer oppgaveId={oppgave.oppgaveId} documents={oppgave.documents} />
+        return <DocumentsViewer oppgaveId={oppgave.oppgaveId} documents={oppgave.documents} edit />
     } else {
         raise(new Error('Illegal state: Non loading, non error oppgave that is null'))
     }

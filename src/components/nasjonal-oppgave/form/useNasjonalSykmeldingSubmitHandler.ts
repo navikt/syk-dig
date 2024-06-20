@@ -2,16 +2,16 @@ import { gql, MutationResult, useMutation } from '@apollo/client'
 import { logger } from '@navikt/next-logger'
 
 import { RuleHitErrors } from '../schema/RuleHitErrors'
-import { Oppgave } from '../schema/oppgave/Oppgave'
 import { mapFormValueToSmregRegistrertSykmelding } from '../smreg/smreg-mapping'
 import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
 import { redirectTilGosys } from '../../../utils/gosys'
+import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
 
 import { NasjonalFormValues } from './NasjonalSykmeldingFormTypes'
 
 export function useNasjonalSykmeldingSubmitHandler(
     oppgaveMeta: { oppgaveId: string } | { ferdigstilt: true; sykmeldingId: string },
-    oppgave: Oppgave,
+    sykmelding: Papirsykmelding | null,
 ): [(values: NasjonalFormValues) => void, MutationResult<{ ruleHits: RuleHitErrors | null }>] {
     const enhetId = useSelectedModiaEnhet()
 
@@ -51,7 +51,7 @@ export function useNasjonalSykmeldingSubmitHandler(
 
     return [
         async (values) => {
-            const mappedValues = mapFormValueToSmregRegistrertSykmelding(values, oppgave)
+            const mappedValues = mapFormValueToSmregRegistrertSykmelding(values, sykmelding)
 
             await mutate({
                 variables: { input: mappedValues, path: url },

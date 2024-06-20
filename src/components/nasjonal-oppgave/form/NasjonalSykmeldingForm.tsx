@@ -2,9 +2,9 @@ import * as R from 'remeda'
 import React, { ReactElement } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 
-import { Oppgave } from '../schema/oppgave/Oppgave'
 import { sections } from '../sections'
 import Errors, { useErrorSection } from '../../Errors/Errors'
+import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
 
 import BehandlerSection from './sections/behandler/BehandlerSection'
 import DiagnoseFormSection from './sections/diagnose/DiagnoseFormSection'
@@ -20,30 +20,30 @@ import { createDefaultValues } from './nasjonalSykmeldingDefaultValues'
 import { useNasjonalSykmeldingSubmitHandler } from './useNasjonalSykmeldingSubmitHandler'
 import ActionSection from './ActionSection'
 
-type Props =
+type Props = { sykmelding: Papirsykmelding | null } & (
     | {
-          oppgave: Oppgave
           ferdigstilt: false
+          oppgaveId: string
       }
     | {
-          oppgave: Oppgave
           ferdigstilt: true
           sykmeldingId: string
       }
+)
 
-function NasjonalSykmeldingForm({ oppgave, ferdigstilt, ...rest }: Props): ReactElement {
+function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
     const [errorRef, focusErrorSection] = useErrorSection()
-    const defaultValues = createDefaultValues(oppgave)
+    const defaultValues = createDefaultValues(sykmelding)
     const form = useForm<NasjonalFormValues>({
         defaultValues,
         shouldFocusError: false,
     })
 
     const [submitHandler, submitResult] = useNasjonalSykmeldingSubmitHandler(
-        'sykmeldingId' in rest
-            ? { sykmeldingId: rest.sykmeldingId, ferdigstilt: true }
-            : { oppgaveId: `${oppgave.oppgaveid}` },
-        oppgave,
+        props.ferdigstilt
+            ? { sykmeldingId: props.sykmeldingId, ferdigstilt: true }
+            : { oppgaveId: `${props.oppgaveId}` },
+        sykmelding,
     )
 
     return (
@@ -64,7 +64,7 @@ function NasjonalSykmeldingForm({ oppgave, ferdigstilt, ...rest }: Props): React
                 {R.keys(sections).map((it) => {
                     switch (it) {
                         case 'PASIENTOPPLYSNINGER':
-                            return <PasientOpplysningerFormSection key={it} ferdigstilt={ferdigstilt} />
+                            return <PasientOpplysningerFormSection key={it} ferdigstilt={props.ferdigstilt} />
                         case 'ARBEIDSGIVER':
                             return <ArbeidsgiverFormSection key={it} />
                         case 'DIAGNOSE':
@@ -80,18 +80,13 @@ function NasjonalSykmeldingForm({ oppgave, ferdigstilt, ...rest }: Props): React
                         case 'TILBAKEDATERING':
                             return <TilbakedateringSection key={it} />
                         case 'BEHANDLER':
-                            return (
-                                <BehandlerSection
-                                    key={it}
-                                    behandlerInfo={oppgave.papirSmRegistering?.behandler ?? null}
-                                />
-                            )
+                            return <BehandlerSection key={it} behandlerInfo={sykmelding?.behandler ?? null} />
                     }
                 })}
                 <div className="px-2">
                     <Errors ref={errorRef} />
                 </div>
-                <ActionSection submitResult={submitResult} oppgaveId={oppgave.oppgaveid} ferdigstilt={ferdigstilt} />
+                <ActionSection submitResult={submitResult} {...props} />
             </form>
         </FormProvider>
     )

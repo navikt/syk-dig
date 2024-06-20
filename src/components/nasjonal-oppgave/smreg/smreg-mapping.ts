@@ -4,12 +4,12 @@ import { Periode } from '../schema/sykmelding/Periode'
 import { toDateString } from '../../../utils/dateUtils'
 import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/DiagnosePicker'
 import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
-import { Oppgave } from '../schema/oppgave/Oppgave'
 import { RegistrertSykmelding, RegistrertSykmeldingSchema } from '../schema/sykmelding/RegistrertSykmelding'
+import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
 
 export function mapFormValueToSmregRegistrertSykmelding(
     values: NasjonalFormValues,
-    oppgave: Oppgave,
+    sykmelding: Papirsykmelding | null,
 ): RegistrertSykmelding {
     return RegistrertSykmeldingSchema.parse({
         pasientFnr: values.pasientopplysninger.fnr,
@@ -49,14 +49,14 @@ export function mapFormValueToSmregRegistrertSykmelding(
         behandler: {
             hpr: values.behandler.hpr,
             // TODO: Lol why are all these values here?
-            adresse: oppgave.papirSmRegistering?.behandler?.adresse ?? {
+            adresse: sykmelding?.behandler?.adresse ?? {
                 gate: null,
                 postnummer: null,
                 kommune: null,
                 postboks: null,
                 land: null,
             },
-            tlf: values.behandler.tlf ?? oppgave.papirSmRegistering?.behandler?.tlf ?? null,
+            tlf: values.behandler.tlf ?? sykmelding?.behandler?.tlf ?? null,
             her: null,
             aktoerId: '',
             fnr: '',

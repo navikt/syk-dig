@@ -443,7 +443,29 @@ describe('smreg-mapping', () => {
                 navnFastlege: null,
             }
 
-            expect(mapFormValueToSmregRegistrertSykmelding(schema, OppgaveSchema.parse(emptyOppgave))).toEqual(expected)
+            expect(
+                mapFormValueToSmregRegistrertSykmelding(schema, OppgaveSchema.parse(emptyOppgave).papirSmRegistering),
+            ).toEqual(expected)
         })
+    })
+})
+
+describe('OppgaveSchema', () => {
+    it('should coerce 0 into null ', () => {
+        const result = OppgaveSchema.parse({
+            ...emptyOppgave,
+            oppgaveid: 0,
+        })
+
+        expect(result.oppgaveid).toBeNull()
+    })
+
+    it('should coerce any number into string ', () => {
+        const result = OppgaveSchema.parse({
+            ...emptyOppgave,
+            oppgaveid: 6969,
+        })
+
+        expect(result.oppgaveid).toBe('6969')
     })
 })

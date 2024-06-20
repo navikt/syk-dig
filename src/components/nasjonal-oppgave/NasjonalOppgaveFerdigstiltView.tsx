@@ -6,7 +6,11 @@ import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import { useFerdigstiltNasjonalOppgave } from './useNasjonalOppgave'
-import { NasjonalOppgaveDocuments, NasjonalOppgaveError, NasjonalOppgaveSkeleton } from './NasjonalOppgaveStates'
+import {
+    NasjonalOppgaveFerdigstiltDocuments,
+    NasjonalOppgaveError,
+    NasjonalOppgaveSkeleton,
+} from './NasjonalOppgaveStates'
 
 type Props = {
     sykmeldingId: string
@@ -19,12 +23,16 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId }: Props): ReactElement {
         <SplitDocumentView
             title="Korrigering av registrert papirsykmelding"
             ingress="Under kan du korrigere opplysningene i en allerede registrert papirsykmelding"
-            documentView={<NasjonalOppgaveDocuments query={query} />}
+            documentView={<NasjonalOppgaveFerdigstiltDocuments query={query} />}
             closeReturnsTo="modia"
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
             {query.data && (
-                <NasjonalSykmeldingForm oppgave={query.data.oppgave} sykmeldingId={sykmeldingId} ferdigstilt />
+                <NasjonalSykmeldingForm
+                    sykmelding={query.data.oppgave.papirSmRegistering}
+                    sykmeldingId={sykmeldingId}
+                    ferdigstilt
+                />
             )}
             {query.error && (
                 <NasjonalOppgaveError>

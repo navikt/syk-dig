@@ -19,11 +19,17 @@ function NasjonalOppgaveView({ oppgaveId }: Props): ReactElement {
         <SplitDocumentView
             title="Nasjonal papirsykmelding"
             ingress="Vennligst legg inn opplysningene fra papirsykmeldingen"
-            documentView={<NasjonalOppgaveDocuments query={query} />}
+            documentView={<NasjonalOppgaveDocuments oppgaveId={oppgaveId} query={query} />}
             closeReturnsTo="gosys"
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
-            {query.data && <NasjonalSykmeldingForm oppgave={query.data.oppgave} ferdigstilt={false} />}
+            {query.data && (
+                <NasjonalSykmeldingForm
+                    oppgaveId={oppgaveId}
+                    sykmelding={query.data.oppgave.papirSmRegistering}
+                    ferdigstilt={false}
+                />
+            )}
             {query.error && (
                 <NasjonalOppgaveError>
                     {`Klarte ikke å laste oppgave med oppgave-id "${oppgaveId}".`}
