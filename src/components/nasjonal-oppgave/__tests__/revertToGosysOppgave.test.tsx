@@ -35,7 +35,7 @@ describe('Send til GOSYS', async () => {
         expect(await screen.findByText('Send til GOSYS?')).toBeInTheDocument()
         await userEvent.click(await screen.findByRole('button', { name: 'Send til GOSYS' }))
 
-        const dialog = within(await screen.findByRole('dialog', { name: 'Oppgaven ble sendt tilbake til GOSYS.' }))
+        const dialog = within(await screen.findByRole('dialog', { name: 'Oppgaven ble sendt tilbake til Gosys.' }))
         expect(dialog.getByRole('button', { name: 'Klikk her dersom du ikke blir videresendt...' })).toBeInTheDocument()
     })
 })
