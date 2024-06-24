@@ -29,7 +29,11 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
     const [everythingGood, setEverythingGood] = useState(false)
     const [tilbakeTilGosys, tilbakeTilGosysResult] = useTilbakeTilGosysSmreg({
         onCompleted: () => {
-            redirectTilGosys()
+            if (!props.ferdigstilt) {
+                redirectTilGosys()
+            } else {
+                window.location.href = bundledEnv.NEXT_PUBLIC_MODIA_URL
+            }
         },
     })
     const [avvisSykmelding, avvisSykmeldingResult] = useAvvisSykmeldingSmreg({
@@ -43,6 +47,7 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
             <OtherMutationsResult
                 tilbakeTilGosysResult={tilbakeTilGosysResult}
                 avvisSykmeldingResult={avvisSykmeldingResult}
+                tilbakeTil={props.ferdigstilt ? 'Modia' : 'Gosys'}
             />
             <SubmitResult submitResult={submitResult} />
             <div className="flex flex-col gap-4">
@@ -158,23 +163,26 @@ function SubmitResult({
 function OtherMutationsResult({
     tilbakeTilGosysResult,
     avvisSykmeldingResult,
+    tilbakeTil,
 }: {
     tilbakeTilGosysResult: MutationResult
     avvisSykmeldingResult: MutationResult
+    tilbakeTil: 'Modia' | 'Gosys'
 }): ReactElement | null {
+    const tilbakeUrl = tilbakeTil === 'Modia' ? bundledEnv.NEXT_PUBLIC_MODIA_URL : bundledEnv.NEXT_PUBLIC_GOSYS_URL
     return (
         <>
             <MutationResultFeedback what="registrere" result={tilbakeTilGosysResult}>
-                <FeedbackModal title="Oppgaven ble sendt tilbake til GOSYS.">
+                <FeedbackModal title={`Oppgaven ble sendt tilbake til ${tilbakeTil}.`}>
                     {isLocalOrDemo && (
                         <Alert className={styles.demoWarning} variant="warning">
-                            Dette er bare en demo, du kan ikke gå til gosys. Last siden på nytt for å fortsette demoen.
+                            {`Dette er bare en demo, du kan ikke gå til ${tilbakeTil}. Last siden på nytt for å fortsette demoen.`}
                         </Alert>
                     )}
                     <Alert variant="success" className={styles.saveSuccess}>
-                        Oppgaven ble sendt tilbake til GOSYS, du blir automatisk videresendt...
+                        {`Oppgaven ble sendt tilbake til ${tilbakeTil}, du blir automatisk videresendt...`}
                     </Alert>
-                    <Button variant="tertiary" as="a" href={bundledEnv.NEXT_PUBLIC_GOSYS_URL}>
+                    <Button variant="tertiary" as="a" href={tilbakeUrl}>
                         Klikk her dersom du ikke blir videresendt...
                     </Button>
                 </FeedbackModal>
@@ -183,13 +191,13 @@ function OtherMutationsResult({
                 <FeedbackModal title="Oppgaven ble ferdigstilt.">
                     {isLocalOrDemo && (
                         <Alert className={styles.demoWarning} variant="warning">
-                            Dette er bare en demo, du kan ikke gå til gosys. Last siden på nytt for å fortsette demoen.
+                            {`Dette er bare en demo, du kan ikke gå til ${tilbakeTil}. Last siden på nytt for å fortsette demoen.`}
                         </Alert>
                     )}
                     <Alert variant="success" className={styles.saveSuccess}>
-                        Du blir automatisk videresendt tilbake til GOSYS...
+                        {`Du blir automatisk videresendt tilbake til ${tilbakeTil}...`}
                     </Alert>
-                    <Button variant="tertiary" as="a" href={bundledEnv.NEXT_PUBLIC_GOSYS_URL}>
+                    <Button variant="tertiary" as="a" href={tilbakeUrl}>
                         Klikk her dersom du ikke blir videresendt...
                     </Button>
                 </FeedbackModal>
