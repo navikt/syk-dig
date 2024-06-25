@@ -40,7 +40,7 @@ function SykmeldingForm({ oppgave }: Props): ReactElement {
         fnr: oppgave.values.fnrPasient,
         onCompleted: () => {
             // TODO: Better solution to this hacky implementation of a delay:
-            // Necessary to let RHF re-render with isSubmitSuccessful before we redirect to GOSYS
+            // Necessary to let RHF re-render with isSubmitSuccessful before we redirect to Gosys
             setTimeout(() => {
                 if (params?.get('source') === 'registrer-sykmelding') {
                     router.push('/registrer-sykmelding')

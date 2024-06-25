@@ -36,11 +36,11 @@ function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysRe
                 <FeedbackModal title="Sykmeldingen ble lagret">
                     {isLocalOrDemo && (
                         <Alert className={styles.demoWarning} variant="warning">
-                            Dette er bare en demo, du blir ikke sendt tilbake til GOSYS
+                            Dette er bare en demo, du blir ikke sendt tilbake til Gosys
                         </Alert>
                     )}
                     <Alert variant="success" className={styles.saveSuccess}>
-                        Oppgaven ble lagret, sender deg tilbake til GOSYS...
+                        Oppgaven ble lagret, sender deg tilbake til Gosys...
                     </Alert>
                     <Button variant="tertiary" as="a" href={bundledEnv.NEXT_PUBLIC_GOSYS_URL}>
                         Klikk her dersom du ikke blir videresendt...
@@ -51,11 +51,11 @@ function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysRe
                 <FeedbackModal title="Sykmeldingen ble sendt tilbake til Gosys">
                     {isLocalOrDemo && (
                         <Alert className={styles.demoWarning} variant="warning">
-                            Dette er bare en demo, du blir ikke sendt tilbake til GOSYS
+                            Dette er bare en demo, du blir ikke sendt tilbake til Gosys
                         </Alert>
                     )}
                     <Alert variant="success" className={styles.saveSuccess}>
-                        Sykmeldingen ble sendt tilbake til Gosys, sender deg tilbake til GOSYS...
+                        Sykmeldingen ble sendt tilbake til Gosys, sender deg tilbake til Gosys...
                     </Alert>
                     <Button variant="tertiary" as="a" href={bundledEnv.NEXT_PUBLIC_GOSYS_URL}>
                         Klikk her dersom du ikke blir videresendt...

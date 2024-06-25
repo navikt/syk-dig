@@ -10,12 +10,12 @@ import NasjonalOppgaveView from '../NasjonalOppgaveView'
 import emptyOppgave from './testData/emptyOppgave.json'
 import { mockPasientinfo } from './smregTestUtils'
 
-describe('Send til GOSYS', async () => {
+describe('Send til Gosys', async () => {
     beforeEach(() => {
         mockPasientinfo()
     })
 
-    it('Should display modal when clicking "Send til GOSYS"', async () => {
+    it('Should display modal when clicking "Send til Gosys"', async () => {
         server.use(
             http.get(apiUrl(`/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)),
             http.post(
@@ -32,8 +32,8 @@ describe('Send til GOSYS', async () => {
         expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
 
         await userEvent.click(await screen.findByRole('button', { name: 'Dette er ikke en sykmelding' }))
-        expect(await screen.findByText('Send til GOSYS?')).toBeInTheDocument()
-        await userEvent.click(await screen.findByRole('button', { name: 'Send til GOSYS' }))
+        expect(await screen.findByText('Send til Gosys?')).toBeInTheDocument()
+        await userEvent.click(await screen.findByRole('button', { name: 'Send til Gosys' }))
 
         const dialog = within(await screen.findByRole('dialog', { name: 'Oppgaven ble sendt tilbake til Gosys.' }))
         expect(dialog.getByRole('button', { name: 'Klikk her dersom du ikke blir videresendt...' })).toBeInTheDocument()

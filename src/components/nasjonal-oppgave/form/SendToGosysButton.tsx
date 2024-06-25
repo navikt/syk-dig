@@ -15,21 +15,21 @@ function SendToGosysButton({ tilbakeTilGosys, tilbakeTilGosysResult }: Props): R
         <ConfirmButton
             variant="secondary"
             confirmation={{
-                title: 'Send til GOSYS?',
+                title: 'Send til Gosys?',
                 body: [
-                    'Dette vil ikke ferdigstille oppgaven, men gjør det mulig å journalføre dokumentet i GOSYS.',
+                    'Dette vil ikke ferdigstille oppgaven, men gjør det mulig å journalføre dokumentet i Gosys.',
                     <Alert key="gosys-info" className="mb-4" variant="info">
-                        Send til GOSYS bruker du hvis pdf-en er noe annet enn en norsk sykmelding. Av og til sniker det
+                        Send til Gosys bruker du hvis pdf-en er noe annet enn en norsk sykmelding. Av og til sniker det
                         seg inn et annet dokument i bunken av sykmeldinger hos skannerleverandøren. Det kan være en
                         utenlandsk sykmelding, en søknad om yrkesskadeerstatning eller noe annet.
                     </Alert>,
                     <Alert key="gosys-warning" variant="warning">
-                        <span className="font-bold">Obs!</span> Hvis en sykmelding feilaktig sendes til GOSYS kan den
+                        <span className="font-bold">Obs!</span> Hvis en sykmelding feilaktig sendes til Gosys kan den
                         aldri bli tilgjengelig for brukeren digitalt.
                     </Alert>,
                 ],
                 confirmButton: {
-                    text: 'Send til GOSYS',
+                    text: 'Send til Gosys',
                     type: 'button',
                     onClick: async () => {
                         // TODO: handle form submit warning?
@@ -46,7 +46,7 @@ function SendToGosysButton({ tilbakeTilGosys, tilbakeTilGosysResult }: Props): R
                 },
                 feedback: (
                     <MutationResultFeedback result={tilbakeTilGosysResult} what="sende tilbake">
-                        <Alert variant="success">Oppgaven ble sendt tilbake til GOSYS</Alert>
+                        <Alert variant="success">Oppgaven ble sendt tilbake til Gosys</Alert>
                     </MutationResultFeedback>
                 ),
                 hide: isMutationSuccess(tilbakeTilGosysResult),
