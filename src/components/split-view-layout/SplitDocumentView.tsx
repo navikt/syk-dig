@@ -14,7 +14,7 @@ type Props = {
     title: string
     ingress?: string
     documentView: ReactNode
-    closeReturnsTo?: 'modia' | 'gosys'
+    closeReturnsTo: 'modia' | 'gosys'
 }
 
 function SplitDocumentView({
@@ -22,7 +22,7 @@ function SplitDocumentView({
     ingress,
     children,
     documentView,
-    closeReturnsTo = 'modia',
+    closeReturnsTo,
 }: PropsWithChildren<Props>): ReactElement {
     const [tabState, setTabState] = useState<'form' | 'pdf'>('form')
     const [showTabs, setShowTabs] = useState(false)
