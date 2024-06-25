@@ -27,6 +27,7 @@ function RegistrerSykmeldingView(): ReactElement {
         <SplitDocumentView
             title="Registrer sykmelding"
             documentView={<RegistrerSykmeldingDocuments query={registrerResult} />}
+            closeReturnsTo="gosys"
         >
             <div className="container p-4 mx-auto">
                 <div className="flex items-end gap-3">
