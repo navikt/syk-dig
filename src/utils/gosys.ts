@@ -4,7 +4,7 @@ import { bundledEnv, isLocalOrDemo } from './env'
 
 export function redirectTilGosys(): void {
     if (isLocalOrDemo) {
-        logger.info('Running local or demo, not redirecting to GOSYS')
+        logger.info('Running local or demo, not redirecting to Gosys')
         return
     }
 

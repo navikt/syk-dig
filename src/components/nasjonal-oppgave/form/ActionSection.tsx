@@ -101,7 +101,7 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
                     href={props.ferdigstilt ? bundledEnv.NEXT_PUBLIC_MODIA_URL : bundledEnv.NEXT_PUBLIC_GOSYS_URL}
                     icon={<ArrowLeftIcon />}
                 >
-                    Tilbake til {props.ferdigstilt ? 'Modia' : 'GOSYS'}
+                    Tilbake til {props.ferdigstilt ? 'Modia' : 'Gosys'}
                 </Button>
             </div>
         </div>

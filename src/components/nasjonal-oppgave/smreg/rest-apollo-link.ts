@@ -76,7 +76,7 @@ async function handleNotOkResponse(res: Response): Promise<never> {
                 `Fant ingen uløste oppgaver. Oppgaven finnes ikke eller er allerede løst.`,
             )
         case 410:
-            throw new OppgaveGoneError(`Fant ingen skannede dokumenter. Oppgaven er sendt tilbake til GOSYS.`)
+            throw new OppgaveGoneError(`Fant ingen skannede dokumenter. Oppgaven er sendt tilbake til Gosys.`)
         default:
             throw new Error(`Ukjent feil med statuskode: ${res.status} ${res.statusText}, body: ${await res.text()}`)
     }
