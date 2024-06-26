@@ -2,8 +2,7 @@ FROM gcr.io/distroless/nodejs20-debian11@sha256:4a1503975e918095da0f588095741c5b
 
 WORKDIR /app
 
-COPY package.json /app/
-COPY next-logger.config.js /app/
+COPY next-logger.config.mjs /app/
 COPY .next/standalone /app/
 COPY public /app/public/
 
