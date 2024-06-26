@@ -8,6 +8,7 @@ on:
       - 'main'
 jobs:
   deploy:
+    if: false # Disabled until we wanna go live in production
     name: deploy redirect ingress to prod
     runs-on: ubuntu-latest
     steps:
