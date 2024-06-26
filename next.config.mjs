@@ -7,7 +7,7 @@ const nextConfig = {
     assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,
     experimental: {
         optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
-        serverComponentsExternalPackages: ['@navikt/next-logger', 'next-logger'],
+        instrumentationHook: true,
     },
     eslint: {
         ignoreDuringBuilds: true,
