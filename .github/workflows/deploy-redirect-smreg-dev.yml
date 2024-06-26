@@ -1,4 +1,4 @@
-name: Deploy redirect ingress to dev
+name: Deploy smreg redirect ingress to dev
 on:
   push:
     paths:

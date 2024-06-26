@@ -1,4 +1,4 @@
-name: Deploy redirect ingress to prod
+name: Deploy smreg redirect ingress to prod
 on:
   push:
     paths:
