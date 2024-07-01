@@ -34,7 +34,7 @@
         "@navikt/next-logger": "^1.24.0",
         "@navikt/oasis": "^3.3.0",
         "@next/bundle-analyzer": "14.2.4",
-        "@unleash/nextjs": "^1.4.3",
+        "@unleash/nextjs": "^1.4.4",
         "apollo-link-rest": "^0.9.0",
         "ariakit": "^2.0.0-next.44",
         "clsx": "^2.1.1",
