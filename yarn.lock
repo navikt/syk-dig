@@ -22,9 +22,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:^3.10.5":
-  version: 3.10.5
-  resolution: "@apollo/client@npm:3.10.5"
+"@apollo/client@npm:^3.10.8":
+  version: 3.10.8
+  resolution: "@apollo/client@npm:3.10.8"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.1.1"
     "@wry/caches": "npm:^1.0.0"
@@ -55,7 +55,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: 10/586d06bd7cda6e9d5623039008438eede80c2e4674c5659931b11dbd3cd3ac5d72a09d320aea5e5f0621742e185473fa62003b4e9e6c450c723a4b898215f8a9
+  checksum: 10/c5e16747f4b11e3e7994cf5b44e68b51fd2ab5ac4a3721344d421c0f58dd8d6c65854ff1178a2bf7c8f42e59b7d053e73ef64ea365c3f6f2b0d1a10fcbf9124c
   languageName: node
   linkType: hard
 
@@ -6613,10 +6613,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:^16.8.2":
-  version: 16.8.2
-  resolution: "graphql@npm:16.8.2"
-  checksum: 10/d74aa1f28a0bbc1c7e60aeb7e4e199e0818ed7169b97bd4d4e86cf345d5645615a9ccb33a11f1ab5e145fdd91d432b3aa475836d3bc5f9647e6103c8854e7e99
+"graphql@npm:^16.9.0":
+  version: 16.9.0
+  resolution: "graphql@npm:16.9.0"
+  checksum: 10/5833f82bb6c31bec120bbf9cd400eda873e1bb7ef5c17974fa262cd82dc68728fda5d4cb859dc8aaa4c4fe4f6fe1103a9c47efc01a12c02ae5cb581d8e4029e2
   languageName: node
   linkType: hard
 
@@ -10603,7 +10603,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "syk-dig@workspace:."
   dependencies:
-    "@apollo/client": "npm:^3.10.5"
+    "@apollo/client": "npm:^3.10.8"
     "@graphql-codegen/add": "npm:^5.0.3"
     "@graphql-codegen/cli": "npm:^5.0.2"
     "@graphql-codegen/fragment-matcher": "npm:^5.0.2"
@@ -10642,7 +10642,7 @@ __metadata:
     eslint: "npm:8.57.0"
     eslint-config-next: "npm:14.2.4"
     fuse.js: "npm:^7.0.0"
-    graphql: "npm:^16.8.2"
+    graphql: "npm:^16.9.0"
     husky: "npm:^9.0.11"
     jsdom: "npm:^24.1.0"
     lint-staged: "npm:^15.2.7"
