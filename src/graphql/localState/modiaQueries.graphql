@@ -1,5 +1,6 @@
 fragment Modia on ModiaContext {
-    navn
+    fornavn
+    etternavn
     aktivEnhet
     ident
     enheter {

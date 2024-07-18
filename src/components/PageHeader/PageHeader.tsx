@@ -39,7 +39,7 @@ function PageHeader(): ReactElement {
             )}
             {data?.modia && (
                 <InternalHeader.User
-                    name={data.modia.navn}
+                    name={`${data.modia.fornavn} ${data.modia.etternavn}`}
                     description={`Enhet: ${data.modia.aktivEnhet ?? 'Ingen enhet valgt'}`}
                 />
             )}
