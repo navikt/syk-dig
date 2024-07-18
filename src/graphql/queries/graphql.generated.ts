@@ -355,8 +355,9 @@ export type ModiaContext = {
     __typename: 'ModiaContext'
     aktivEnhet?: Maybe<Scalars['String']['output']>
     enheter: Array<ModiaEnhet>
+    etternavn: Scalars['String']['output']
+    fornavn: Scalars['String']['output']
     ident: Scalars['String']['output']
-    navn: Scalars['String']['output']
 }
 
 export type ModiaEnhet = {
@@ -530,7 +531,8 @@ export type _Service = {
 
 export type ModiaFragment = {
     __typename: 'ModiaContext'
-    navn: string
+    fornavn: string
+    etternavn: string
     aktivEnhet?: string | null
     ident: string
     enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>
@@ -542,7 +544,8 @@ export type ModiaContextQuery = {
     __typename: 'Query'
     modia?: {
         __typename: 'ModiaContext'
-        navn: string
+        fornavn: string
+        etternavn: string
         aktivEnhet?: string | null
         ident: string
         enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>
@@ -557,7 +560,8 @@ export type UpdateAktivEnhetMutation = {
     __typename: 'Mutation'
     updateModiaEnhet?: {
         __typename: 'ModiaContext'
-        navn: string
+        fornavn: string
+        etternavn: string
         aktivEnhet?: string | null
         ident: string
         enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>
@@ -1169,7 +1173,8 @@ export const ModiaFragmentDoc = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'aktivEnhet' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
                     {
@@ -2307,7 +2312,8 @@ export const ModiaContextDocument = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'aktivEnhet' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
                     {
@@ -2369,7 +2375,8 @@ export const UpdateAktivEnhetDocument = {
             selectionSet: {
                 kind: 'SelectionSet',
                 selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'aktivEnhet' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
                     {

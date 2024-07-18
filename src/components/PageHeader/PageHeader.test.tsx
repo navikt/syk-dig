@@ -33,7 +33,8 @@ const initialModiaQuery = createInitialQuery(ModiaContextDocument, {
     modia: {
         __typename: 'ModiaContext',
         ident: 'Z999999',
-        navn: 'Kari Testson',
+        fornavn: 'Kari',
+        etternavn: 'Testson',
         enheter: [
             { __typename: 'ModiaEnhet', navn: 'NAV Test', enhetId: '1234' },
             { __typename: 'ModiaEnhet', navn: 'NAV Fest', enhetId: '2345' },

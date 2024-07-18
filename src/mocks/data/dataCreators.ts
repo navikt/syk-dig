@@ -54,7 +54,8 @@ export function createOppgave(overrides?: Partial<OppgaveFragment>): OppgaveFrag
 
 export function createModiaContext(overrides?: Partial<ModiaContext>): ModiaContext {
     return {
-        navn: 'Testsaksbehandler',
+        fornavn: 'Test',
+        etternavn: 'saksbehandler',
         ident: 'A1337',
         aktivEnhet: 'B17',
         enheter: [

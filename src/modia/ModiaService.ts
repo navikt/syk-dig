@@ -19,7 +19,8 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
     if (isLocalOrDemo) {
         logger.warn('Using mocked modia context for local development (or demo)')
         return {
-            navn: 'Johan J. Johansson',
+            fornavn: 'Johan J.',
+            etternavn: 'Johansson',
             ident: '0129381203',
             enheter: [
                 { enhetId: '0312', navn: 'NAV Sagene' },
@@ -69,7 +70,8 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
 
     return {
         aktivEnhet: aktivEnhet.value.aktivEnhet,
-        navn: veileder.value.navn,
+        fornavn: veileder.value.fornavn,
+        etternavn: veileder.value.etternavn,
         ident: veileder.value.ident,
         enheter: veileder.value.enheter,
     }

@@ -3,7 +3,8 @@ import { z } from 'zod'
 export type Veileder = z.infer<typeof VeilederSchema>
 export const VeilederSchema = z.object({
     ident: z.string(),
-    navn: z.string(),
+    fornavn: z.string(),
+    etternavn: z.string(),
     enheter: z.array(
         z.object({
             enhetId: z.string(),
