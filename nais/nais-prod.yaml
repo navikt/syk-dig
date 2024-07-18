@@ -48,8 +48,9 @@ spec:
       rules:
         - application: syk-dig-backend
         - application: smregistrering-backend
+        - application: modiacontextholder
+          namespace: personoversikt
       external:
-        - host: modiacontextholder.prod-fss-pub.nais.io
         - host: teamsykmelding-unleash-api.nav.cloud.nais.io
   env:
     - name: SYK_DIG_BACKEND_SCOPE
@@ -61,9 +62,9 @@ spec:
     - name: SMREGISTRERING_BACKEND_HOST
       value: smregistrering-backend
     - name: MODIACONTEXTHOLDER_SCOPE
-      value: api://prod-fss.personoversikt.modiacontextholder/.default
+      value: api://prod-gcp.personoversikt.modiacontextholder/.default
     - name: MODIACONTEXTHOLDER_HOST
-      value: modiacontextholder.prod-fss-pub.nais.io
+      value: http://modiacontextholder.personoversikt
     - name: UNLEASH_SERVER_API_URL
       value: 'https://teamsykmelding-unleash-api.nav.cloud.nais.io/api'
   envFrom:
