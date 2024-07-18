@@ -81,7 +81,7 @@ async function fetchModia<SchemaType extends z.ZodTypeAny>(
     { path, schema, what }: { path: string; schema: SchemaType; what: 'veileder' | 'aktiv enhet' },
     accessToken: string,
 ): Promise<z.infer<SchemaType> | ModiaContextError> {
-    const url = `http://${getServerEnv().MODIACONTEXTHOLDER_HOST}/api/${path}`
+    const url = `${getServerEnv().MODIACONTEXTHOLDER_HOST}/api/${path}`
 
     try {
         const response = await fetch(url, {
