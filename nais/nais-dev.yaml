@@ -36,11 +36,10 @@ spec:
       enabled: true
       tenant: trygdeetaten.no
       allowAllUsers: true
-      claims:
-        extra:
-          - 'NAVident'
     sidecar:
       enabled: true
+  ingresses:
+    - 'https://syk-dig.intern.dev.nav.no'
   accessPolicy:
     outbound:
       rules:
@@ -50,8 +49,6 @@ spec:
           namespace: personoversikt
       external:
         - host: teamsykmelding-unleash-api.nav.cloud.nais.io
-  ingresses:
-    - 'https://syk-dig.intern.dev.nav.no'
   env:
     - name: SYK_DIG_BACKEND_SCOPE
       value: api://dev-gcp.teamsykmelding.syk-dig-backend/.default
