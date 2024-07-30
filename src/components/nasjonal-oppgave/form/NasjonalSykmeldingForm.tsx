@@ -1,7 +1,8 @@
 import * as R from 'remeda'
-import React, { ReactElement } from 'react'
+import React, { CSSProperties, ReactElement } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Alert, BodyShort, Heading, Link, List } from '@navikt/ds-react'
+import { BodyShort, ExpansionCard, HStack, Link, List } from '@navikt/ds-react'
+import { InformationIcon } from '@navikt/aksel-icons'
 
 import { sections } from '../sections'
 import Errors, { useErrorSection } from '../../Errors/Errors'
@@ -100,26 +101,56 @@ function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
  */
 function InfoAboutSmregMigrationAlert(props: OppgaveOrFerdigstilt): ReactElement {
     return (
-        <Alert className="mx-4" variant="info">
-            <Heading level="2" size="small" spacing>
-                Dette er en ny versjon av digitalisering av papirsykmeldinger
-            </Heading>
-            <BodyShort spacing>
-                Utfyllingen skal oppføre seg helt likt som den gamle løsningen, med noen små endringer:
-            </BodyShort>
-            <List>
-                <List.Item>F.o.m. og T.o.m. er nå to felter</List.Item>
-                <List.Item>Små endringer i hvordan ting ser ut</List.Item>
-            </List>
-            <BodyShort>
-                Opplever du noe trøbbel kan du fullføre{' '}
-                <Link href={getOldSmregUrl(props)} className="inline">
-                    denne sykmeldingen i den gamle løsningen
-                </Link>
-                . Dersom du gjør det er det fint om du tar kontakt med Team Sykmelding og forteller oss hva som gikk
-                galt.
-            </BodyShort>
-        </Alert>
+        <ExpansionCard
+            defaultOpen={localStorage.getItem('minimized-smreg-info-card') == null}
+            onToggle={(isOpen) => {
+                if (!isOpen) {
+                    localStorage.setItem('minimized-smreg-info-card', 'true')
+                } else {
+                    localStorage.removeItem('minimized-smreg-info-card')
+                }
+            }}
+            className="mx-4"
+            aria-label="Demo med ikon"
+            size="small"
+            style={
+                {
+                    '--ac-expansioncard-bg': 'var(--a-surface-info-subtle)',
+                    '--ac-expansioncard-border-open-color': 'var(--a-border-alt-3)',
+                    '--ac-expansioncard-border-hover-color': 'var(--a-border-alt-3)',
+                } as CSSProperties
+            }
+        >
+            <ExpansionCard.Header>
+                <HStack wrap={false} gap="4" align="center">
+                    <div>
+                        <InformationIcon aria-hidden fontSize="3rem" />
+                    </div>
+                    <div>
+                        <ExpansionCard.Title size="small">
+                            Dette er en ny versjon av digitalisering av papirsykmeldinger
+                        </ExpansionCard.Title>
+                    </div>
+                </HStack>
+            </ExpansionCard.Header>
+            <ExpansionCard.Content>
+                <BodyShort spacing>
+                    Utfyllingen skal oppføre seg helt likt som den gamle løsningen, med noen små endringer:
+                </BodyShort>
+                <List>
+                    <List.Item>F.o.m. og T.o.m. er nå to felter</List.Item>
+                    <List.Item>Små endringer i hvordan ting ser ut</List.Item>
+                </List>
+                <BodyShort>
+                    Opplever du noe trøbbel kan du fullføre{' '}
+                    <Link href={getOldSmregUrl(props)} className="inline">
+                        denne sykmeldingen i den gamle løsningen
+                    </Link>
+                    . Dersom du gjør det er det fint om du tar kontakt med Team Sykmelding og forteller oss hva som gikk
+                    galt.
+                </BodyShort>
+            </ExpansionCard.Content>
+        </ExpansionCard>
     )
 }
 
