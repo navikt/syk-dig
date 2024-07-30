@@ -33,6 +33,10 @@ export function useNasjonalSykmeldingSubmitHandler(
         {
             context: { headers: { 'X-Nav-Enhet': enhetId } },
             onCompleted: (data) => {
+                logger.info(
+                    `Submitted nasjonal sykmelding (${JSON.stringify(oppgaveMeta, null, 2)}) OK (rule hits: ${data.ruleHits != null})`,
+                )
+
                 if (data.ruleHits == null) {
                     redirectTilGosys()
                 }
@@ -52,6 +56,8 @@ export function useNasjonalSykmeldingSubmitHandler(
     return [
         async (values) => {
             const mappedValues = mapFormValueToSmregRegistrertSykmelding(values, sykmelding)
+
+            logger.info(`Submitting nasjonal sykmelding with values ${JSON.stringify(oppgaveMeta, null, 2)}`)
 
             await mutate({
                 variables: { input: mappedValues, path: url },

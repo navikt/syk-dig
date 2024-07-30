@@ -24,7 +24,11 @@ const smregRestLink = new RestLink({
         Sykmelder: (data) => SykmelderSchema.parse(data),
     },
     customFetch: async (input, init) => {
+        logger.info(`Fetching smreg (${input})`)
+
         const res = await fetch(input, init)
+
+        logger.info(`Fetched smreg (${input}) OK`)
 
         if (res.url.endsWith('/send') && res.status === 400) {
             logger.info('smreg responded with 400, response probably has rulehits')

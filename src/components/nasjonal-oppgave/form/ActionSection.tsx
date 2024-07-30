@@ -2,12 +2,11 @@ import React, { ReactElement, useState } from 'react'
 import { Alert, BodyShort, Button, ConfirmationPanel, Heading, List } from '@navikt/ds-react'
 import { MutationResult } from '@apollo/client'
 import { ArrowLeftIcon } from '@navikt/aksel-icons'
+import { logger } from '@navikt/next-logger'
 
 import { MutationResultFeedback } from '../../Sykmelding/ActionSection/MutationFeedbackSection'
 import FeedbackModal from '../../Sykmelding/ActionSection/FeedbackModal'
 import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
-// TODO: fjern, tailwind it?
-import styles from '../../Sykmelding/ActionSection/MutationFeedbackSection.module.css'
 import { redirectTilGosys } from '../../../utils/gosys'
 import { RuleHitErrors } from '../schema/RuleHitErrors'
 
@@ -27,17 +26,21 @@ type Props = { submitResult: MutationResult } & (
 
 function ActionSection({ submitResult, ...props }: Props): ReactElement {
     const [everythingGood, setEverythingGood] = useState(false)
+
+    const isActualOppgave = !props.ferdigstilt
+    // These two mutations can only be used when the task is an actual oppgave (not ferdigstilt), so they don't
+    // need to handle redirect to Modia
     const [tilbakeTilGosys, tilbakeTilGosysResult] = useTilbakeTilGosysSmreg({
         onCompleted: () => {
-            if (!props.ferdigstilt) {
-                redirectTilGosys()
-            } else {
-                window.location.href = bundledEnv.NEXT_PUBLIC_MODIA_URL
-            }
+            logger.info(`Tilbake til gosys OK (${JSON.stringify(props)})`)
+
+            redirectTilGosys()
         },
     })
     const [avvisSykmelding, avvisSykmeldingResult] = useAvvisSykmeldingSmreg({
         onCompleted: () => {
+            logger.info(`Avvis sykmleding OK (${JSON.stringify(props)})`)
+
             redirectTilGosys()
         },
     })
@@ -68,7 +71,7 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
                     </Button>
                 </div>
             </div>
-            {!props.ferdigstilt && (
+            {isActualOppgave && (
                 <div className="flex flex-col gap-3">
                     <Heading level="2" size="small">
                         Er det noe galt med sykmeldingen?
@@ -76,6 +79,8 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
                     <div className="grid grid-cols-2 gap-3">
                         <SendToGosysButton
                             tilbakeTilGosys={async () => {
+                                logger.info(`Tilbake til gosys (${JSON.stringify(props)})`)
+
                                 await tilbakeTilGosys({
                                     variables: { oppgaveId: props.oppgaveId },
                                 })
@@ -84,6 +89,8 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
                         />
                         <AvvisButton
                             avvis={async (reason) => {
+                                logger.info(`Avvis sykmelding (${JSON.stringify(props)})`)
+
                                 await avvisSykmelding({
                                     variables: { oppgaveId: props.oppgaveId, input: { reason } },
                                 })
@@ -143,11 +150,11 @@ function SubmitResult({
         return (
             <FeedbackModal title="Oppgaven ble ferdigstilt">
                 {isLocalOrDemo && (
-                    <Alert className={styles.demoWarning} variant="warning">
+                    <Alert variant="warning">
                         Dette er bare en demo, du kan ikke gå til gosys. Last siden på nytt for å fortsette demoen.
                     </Alert>
                 )}
-                <Alert variant="success" className={styles.saveSuccess}>
+                <Alert variant="success" className="my-4">
                     Oppgaven ble registrert
                 </Alert>
                 <Button variant="tertiary" as="a" href={bundledEnv.NEXT_PUBLIC_GOSYS_URL}>
@@ -175,11 +182,11 @@ function OtherMutationsResult({
             <MutationResultFeedback what="registrere" result={tilbakeTilGosysResult}>
                 <FeedbackModal title={`Oppgaven ble sendt tilbake til ${tilbakeTil}.`}>
                     {isLocalOrDemo && (
-                        <Alert className={styles.demoWarning} variant="warning">
+                        <Alert variant="warning">
                             {`Dette er bare en demo, du kan ikke gå til ${tilbakeTil}. Last siden på nytt for å fortsette demoen.`}
                         </Alert>
                     )}
-                    <Alert variant="success" className={styles.saveSuccess}>
+                    <Alert variant="success" className="my-4">
                         {`Oppgaven ble sendt tilbake til ${tilbakeTil}, du blir automatisk videresendt...`}
                     </Alert>
                     <Button variant="tertiary" as="a" href={tilbakeUrl}>
@@ -190,11 +197,11 @@ function OtherMutationsResult({
             <MutationResultFeedback what="registrere" result={avvisSykmeldingResult}>
                 <FeedbackModal title="Oppgaven ble ferdigstilt.">
                     {isLocalOrDemo && (
-                        <Alert className={styles.demoWarning} variant="warning">
+                        <Alert variant="warning">
                             {`Dette er bare en demo, du kan ikke gå til ${tilbakeTil}. Last siden på nytt for å fortsette demoen.`}
                         </Alert>
                     )}
-                    <Alert variant="success" className={styles.saveSuccess}>
+                    <Alert variant="success" className="my-4">
                         {`Du blir automatisk videresendt tilbake til ${tilbakeTil}...`}
                     </Alert>
                     <Button variant="tertiary" as="a" href={tilbakeUrl}>
