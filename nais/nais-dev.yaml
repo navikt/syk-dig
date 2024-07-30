@@ -38,6 +38,10 @@ spec:
       allowAllUsers: true
     sidecar:
       enabled: true
+      autoLogin: true
+      autoLoginIgnorePaths:
+        - /api/*
+        - /favicon.ico
   ingresses:
     - 'https://syk-dig.intern.dev.nav.no'
   accessPolicy:
