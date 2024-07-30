@@ -11,7 +11,7 @@ jobs:
     name: deploy redirect ingress to dev
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Deploy redirect ingress to dev-gcp
         uses: nais/deploy/actions/deploy@master
         env:
