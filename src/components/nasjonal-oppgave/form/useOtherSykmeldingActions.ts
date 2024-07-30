@@ -20,10 +20,12 @@ export function useTilbakeTilGosysSmreg({
             onCompleted: () => {
                 onCompleted?.()
             },
-            onError: (error) => {
+            onError: (error, opts) => {
                 if (error.networkError) {
                     if ('response' in error.networkError) {
-                        logger.info(`Server responded with ${error.networkError.statusCode}, squelching error log`)
+                        logger.info(
+                            `Server responded with ${error.networkError.statusCode} (tilbake til gosys, ${opts?.variables?.oppgaveId}), squelching error log`,
+                        )
                         return
                     }
                     throw error
@@ -52,10 +54,12 @@ export function useAvvisSykmeldingSmreg({
             onCompleted: () => {
                 onCompleted?.()
             },
-            onError: (error) => {
+            onError: (error, opts) => {
                 if (error.networkError) {
                     if ('response' in error.networkError) {
-                        logger.info(`Server responded with ${error.networkError.statusCode}, squelching error log`)
+                        logger.info(
+                            `Server responded with ${error.networkError.statusCode} (avvis sykmelding, ${opts?.variables?.oppgaveId}), squelching error log`,
+                        )
                         return
                     }
                     throw error

@@ -44,7 +44,9 @@ export function useNasjonalSykmeldingSubmitHandler(
             onError: (error) => {
                 if (error.networkError) {
                     if ('response' in error.networkError) {
-                        logger.info(`Server responded with ${error.networkError.statusCode}, squelching error log`)
+                        logger.info(
+                            `Server responded with ${error.networkError.statusCode} (save nasjonal sykmelding, ${JSON.stringify(oppgaveMeta)}), squelching error log`,
+                        )
                         return
                     }
                     throw error
