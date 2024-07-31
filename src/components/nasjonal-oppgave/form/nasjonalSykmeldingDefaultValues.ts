@@ -54,7 +54,7 @@ export function createDefaultValues(sykmelding: Papirsykmelding | null): Default
         mulighetForArbeid:
             (sykmelding?.perioder?.length ?? 0) === 0
                 ? [createEmptyAktivitetMuligPeriode()]
-                : sykmelding?.perioder?.map(periodeToMulighetForArbeid) ?? [],
+                : (sykmelding?.perioder?.map(periodeToMulighetForArbeid) ?? []),
         bistandFraNAV: {
             bistandFraNAV: sykmelding?.meldingTilNAV?.bistandUmiddelbart ?? false,
             beskrivelse: sykmelding?.meldingTilNAV?.beskrivBistand ?? null,
@@ -139,8 +139,10 @@ function diagnoseCodeWeirdStringToSystem(diagnosekodeString: string | undefined 
 
     switch (diagnosekodeString) {
         case DiagnosekodeSystem.ICD10:
+        case 'ICD-10':
             return 'ICD10'
         case DiagnosekodeSystem.ICPC2:
+        case 'ICPC-2':
             return 'ICPC2'
         default:
             logger.warn(`Unknown diagnosekode-string: ${diagnosekodeString}, defaulting to ICD10`)
