@@ -28,20 +28,23 @@ export function createDefaultValues(values: OppgaveValuesFragment): DefaultFormV
                     diagnose ? mapToDiagnoseValues(diagnose) : { system: 'ICD10', code: undefined, text: undefined },
                 ) ?? [],
         },
-        periode: values.perioder?.map((periode) => ({
-            sykmeldingstype: periode.type,
-            grad: periode.grad ?? undefined,
-            range: {
-                fom: toDate(periode.fom),
-                tom: toDate(periode.tom),
-            },
-        })) ?? [
-            {
-                sykmeldingstype: PeriodeType.AktivitetIkkeMulig,
-                range: { fom: undefined, tom: undefined },
-                grad: undefined,
-            },
-        ],
+        periode:
+            values.perioder && values.perioder.length > 0
+                ? values.perioder?.map((periode) => ({
+                      sykmeldingstype: periode.type,
+                      grad: periode.grad ?? undefined,
+                      range: {
+                          fom: toDate(periode.fom),
+                          tom: toDate(periode.tom),
+                      },
+                  }))
+                : [
+                      {
+                          sykmeldingstype: PeriodeType.AktivitetIkkeMulig,
+                          range: { fom: undefined, tom: undefined },
+                          grad: undefined,
+                      },
+                  ],
         behandletTidspunkt: values.behandletTidspunkt,
         erAdresseUtland: values.erAdresseUtland ?? false,
         avvisningsgrunnAnnet: '',
