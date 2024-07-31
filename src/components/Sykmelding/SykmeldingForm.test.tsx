@@ -134,6 +134,29 @@ describe('SykmeldingForm', () => {
 
             expect(await screen.findByRole('dialog', { name: /Sykmeldingen er registrert/ })).toBeInTheDocument()
         }, 20000) // This tests fills out a very large form, so we can expect it to be long running,
+
+        it('should fill one empty default periode even when perioder is an empty list instead of null', () => {
+            const oppgave = createOppgave({
+                values: {
+                    __typename: 'OppgaveValues',
+                    fnrPasient: 'fnr-pasient',
+                    hoveddiagnose: null,
+                    biDiagnoser: null,
+                    behandletTidspunkt: null,
+                    skrevetLand: null,
+                    perioder: [],
+                    folkeRegistertAdresseErBrakkeEllerTilsvarende: null,
+                    erAdresseUtland: null,
+                },
+            })
+
+            render(<SykmeldingForm oppgave={oppgave} />)
+
+            const section = within(screen.getByRole('region', { name: 'Sykmeldingsperiode' }))
+
+            expect(section.getAllByRole('combobox', { name: /Periode/ })).toHaveLength(1)
+            expect(screen.getByRole('button', { name: 'Legg til periode' })).toBeInTheDocument()
+        })
     })
 
     describe('when avvising', () => {
