@@ -1,22 +1,16 @@
 import React, { ReactElement } from 'react'
 import Link from 'next/link'
-import { Metadata } from 'next'
-import { Heading, Label, Alert } from '@navikt/ds-react'
+import { Heading, Alert } from '@navikt/ds-react'
 
-export const metadata: Metadata = {
-    title: 'Testside for syk-dig',
-}
-
-function Page(): ReactElement {
+function DevScenarios(): ReactElement {
     return (
-        <div>
-            <Alert variant="warning" className="m-4 max-w-prose">
-                <Heading size="medium">Digitalisering av Sykmeldinger</Heading>
-                <Label>Denne siden skal ikke vises i produksjon</Label>
+        <div className="border rounded max-w-prose mt-16 mb-8">
+            <Alert variant="info" className="m-4 max-w-prose">
+                <Heading size="medium">Demo-scenarioer (vises ikke i prod)</Heading>
             </Alert>
 
             <div className="m-4">
-                <h2 className="mt-8 text-xl font-bold">Eksempler på oppgaver</h2>
+                <h2 className="mt-8 text-xl font-bold">Eksempler på utenlandske oppgaver</h2>
                 <ul className="list-disc pl-8">
                     <li>
                         <Link href="/oppgave/eksisterende" prefetch={false}>
@@ -57,7 +51,7 @@ function Page(): ReactElement {
             </div>
 
             <div className="m-4">
-                <h2 className="mt-8 text-xl font-bold">Eksempler på smregistrering-oppgaver</h2>
+                <h2 className="mt-8 text-xl font-bold">Eksempler på nasjonale oppgaver (smregistrering)</h2>
                 <ul className="list-disc pl-8">
                     <li>
                         <Link href="/nasjonal/123456789" prefetch={false}>
@@ -75,4 +69,4 @@ function Page(): ReactElement {
     )
 }
 
-export default Page
+export default DevScenarios
