@@ -43,6 +43,7 @@ export const config = {
     api: {
         bodyParser: false,
         externalResolver: true,
+        responseLimit: false,
     },
 }
 
