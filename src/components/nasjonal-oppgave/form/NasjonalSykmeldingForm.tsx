@@ -146,8 +146,8 @@ function InfoAboutSmregMigrationAlert(props: OppgaveOrFerdigstilt): ReactElement
                     <Link href={getOldSmregUrl(props)} className="inline">
                         denne sykmeldingen i den gamle løsningen
                     </Link>
-                    . Dersom du gjør det er det fint om du tar kontakt med Team Sykmelding og forteller oss hva som gikk
-                    galt.
+                    . Dersom du gjør det er det fint om du tar kontakt med brukerstøtte eller Team Sykmelding på{' '}
+                    <a href="mailto:nav.sykmelding@nav.no">mail</a> og forteller oss hva som gikk galt.
                 </BodyShort>
             </ExpansionCard.Content>
         </ExpansionCard>
