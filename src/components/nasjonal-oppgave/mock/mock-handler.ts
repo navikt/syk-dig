@@ -46,6 +46,8 @@ export async function mockedSmregData(req: NextApiRequest, res: NextApiResponse,
             res.status(204).end()
             return
         case 'POST /api/v1/oppgave/[id|hpr]/avvis':
+            verifyHasEnhet(req)
+
             res.status(204).end()
             return
         case 'POST /api/v1/oppgave/[id|hpr]/tilgosys':
