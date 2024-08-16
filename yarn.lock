@@ -1884,22 +1884,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/next-api-proxy@npm:^3.4.2":
-  version: 3.4.2
-  resolution: "@navikt/next-api-proxy@npm:3.4.2::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-api-proxy%2F3.4.2%2F84b1e7b75f3f05f1e082738c1b4e8d3fe14909e5"
+"@navikt/next-api-proxy@npm:^3.4.6":
+  version: 3.4.6
+  resolution: "@navikt/next-api-proxy@npm:3.4.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-api-proxy%2F3.4.6%2Fe528ee5b31f8a6b22ea0f795174072b910faadf2"
   peerDependencies:
     next: 13 || 14
-  checksum: 10/22b1760d03b2909481876b8635f1b8241eb7c9b9dc18d85e65d4cc2c1da0fd76f1776fdaeda3d819eeb0024c93084a5d1d27b284a050eeb470c707282a3c9ec4
+  checksum: 10/e8a4705febd7aeaadd08a7ceda273af607ad9aefa824b55837cc2425c7a7f88b80aec39a520d65361f7e023da003b3b425bd5878efd08c5519b50231ad302ac5
   languageName: node
   linkType: hard
 
-"@navikt/next-logger@npm:^1.25.0":
-  version: 1.25.0
-  resolution: "@navikt/next-logger@npm:1.25.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-logger%2F1.25.0%2F889c2bb99e1efb587552ffcf3869980ab23033db"
+"@navikt/next-logger@npm:^1.31.0":
+  version: 1.31.0
+  resolution: "@navikt/next-logger@npm:1.31.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-logger%2F1.31.0%2Ff4c3bcb6e09c97d4f9d5f3a07cb2db6209312eff"
   peerDependencies:
     next: 12 || 13 || 14
     pino: 8 || 9
-  checksum: 10/88dea22380d57c57560eec2970d63172834bd84eeea0aa71da62eef62d5b141894a0c511f0b154ea63f02f0c6534112478422e0d8d489d1118a4db362afdd4d9
+  checksum: 10/f9a322d89e96df1d38c7938acc8edc17ea2c4cc859d91095d31c0c4e7d317f1b658d9b862ff4b8a51b7e489be4f75bf0d72751525e179bc570673ac8f9dda298
   languageName: node
   linkType: hard
 
@@ -4569,9 +4569,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.4":
-  version: 1.5.7
-  resolution: "electron-to-chromium@npm:1.5.7"
-  checksum: 10/987d3e56c3edcfa0b85e0b38590c777cce4f69436845f4eec88c6d58640143b43a0a0a27dd3923122c56ab9e527b9c3a0a9337312c6365522106353c3ac98fa7
+  version: 1.5.9
+  resolution: "electron-to-chromium@npm:1.5.9"
+  checksum: 10/0e51ffc430ff4462102137ec8353d4b4dd3e928b40dec7126896520b3efa32323b0e5c9bf99be076f038cf6e3138951946d892fec9c95179ad4479a5893fe245
   languageName: node
   linkType: hard
 
@@ -8313,7 +8313,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.23, postcss@npm:^8.4.40, postcss@npm:^8.4.41":
+"postcss@npm:^8.4.23, postcss@npm:^8.4.41":
   version: 8.4.41
   resolution: "postcss@npm:8.4.41"
   dependencies:
@@ -9730,8 +9730,8 @@ __metadata:
     "@navikt/ds-react": "npm:^6.16.0"
     "@navikt/ds-tailwind": "npm:^6.16.0"
     "@navikt/eslint-config-teamsykmelding": "npm:^6.5.0"
-    "@navikt/next-api-proxy": "npm:^3.4.2"
-    "@navikt/next-logger": "npm:^1.25.0"
+    "@navikt/next-api-proxy": "npm:^3.4.6"
+    "@navikt/next-logger": "npm:^1.31.0"
     "@navikt/oasis": "npm:^3.4.0"
     "@parcel/watcher": "npm:^2.4.1"
     "@testing-library/dom": "npm:^10.4.0"
@@ -9779,7 +9779,7 @@ __metadata:
     tailwind-merge: "npm:^2.5.2"
     tailwindcss: "npm:^3.4.10"
     typescript: "npm:5.5.4"
-    vite: "npm:^5.4.0"
+    vite: "npm:^5.4.1"
     vite-tsconfig-paths: "npm:^5.0.1"
     vitest: "npm:^2.0.5"
     vitest-axe: "npm:^0.1.0"
@@ -10431,13 +10431,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.0, vite@npm:^5.4.0":
-  version: 5.4.0
-  resolution: "vite@npm:5.4.0"
+"vite@npm:^5.0.0, vite@npm:^5.4.1":
+  version: 5.4.1
+  resolution: "vite@npm:5.4.1"
   dependencies:
     esbuild: "npm:^0.21.3"
     fsevents: "npm:~2.3.3"
-    postcss: "npm:^8.4.40"
+    postcss: "npm:^8.4.41"
     rollup: "npm:^4.13.0"
   peerDependencies:
     "@types/node": ^18.0.0 || >=20.0.0
@@ -10470,7 +10470,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10/5a98b1d30cc8c0263551f417a360102d40b78b9170e9e58a99c1a394ab700c7e604d3c52dafda323c11356a76eba865800d3d8588b33a8febdeaddd5a8981410
+  checksum: 10/1cf22e5a8ec782ea9417a77ad4b16e518f69cf23c99a5af5bb92dc4acbfce70109a35a35faea8fc0789f4637b6304618f6b84e4c5dfe3c9c2875dff7d749b02d
   languageName: node
   linkType: hard
 
