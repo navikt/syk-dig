@@ -97,6 +97,39 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ariakit/core@npm:0.4.9":
+  version: 0.4.9
+  resolution: "@ariakit/core@npm:0.4.9"
+  checksum: 10/0cc3c0e4b7bbc8c64edfa51bd737a8689083919426cd4427c35c720e87f95683c6a8c41606b85386aaeccbcfbb29dd951a7162fe5bc863551f544b07ecd03b9b
+  languageName: node
+  linkType: hard
+
+"@ariakit/react-core@npm:0.4.10":
+  version: 0.4.10
+  resolution: "@ariakit/react-core@npm:0.4.10"
+  dependencies:
+    "@ariakit/core": "npm:0.4.9"
+    "@floating-ui/dom": "npm:^1.0.0"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10/6577050ba62c11a8596de832ddd052ac56745561868fcc804a6e8d36477ceb10ad8662558f8b91b488e68f61d483c10474c1b2e6cc90747851dea44505a34dad
+  languageName: node
+  linkType: hard
+
+"@ariakit/react@npm:^0.4.10":
+  version: 0.4.10
+  resolution: "@ariakit/react@npm:0.4.10"
+  dependencies:
+    "@ariakit/react-core": "npm:0.4.10"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10/10343ad043048ee592a170aa558065bb453070a3a6163c4f37e3050a4aa86a2794357adb0e1e6a8e885806c1de333fda1cf9df00b2727c4ab750f83331e3072a
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.10.4, @babel/code-frame@npm:^7.24.7":
   version: 7.24.7
   resolution: "@babel/code-frame@npm:7.24.7"
@@ -3995,7 +4028,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"client-only@npm:0.0.1":
+"client-only@npm:0.0.1, client-only@npm:^0.0.1":
   version: 0.0.1
   resolution: "client-only@npm:0.0.1"
   checksum: 10/0c16bf660dadb90610553c1d8946a7fdfb81d624adea073b8440b7d795d5b5b08beb3c950c6a2cf16279365a3265158a236876d92bce16423c485c322d7dfaf8
@@ -9720,11 +9753,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"swr@npm:^2.2.5":
+  version: 2.2.5
+  resolution: "swr@npm:2.2.5"
+  dependencies:
+    client-only: "npm:^0.0.1"
+    use-sync-external-store: "npm:^1.2.0"
+  peerDependencies:
+    react: ^16.11.0 || ^17.0.0 || ^18.0.0
+  checksum: 10/f02b3bd5a198a0f62f9a53d7c0528c4a58aa61a43310bea169614b6e873dadb52599e856ef0775405b6aa7409835343da0cf328948aa892aa309bf4b7e7d6902
+  languageName: node
+  linkType: hard
+
 "syk-dig@workspace:.":
   version: 0.0.0-use.local
   resolution: "syk-dig@workspace:."
   dependencies:
     "@apollo/client": "npm:^3.11.4"
+    "@ariakit/react": "npm:^0.4.10"
     "@graphql-codegen/add": "npm:^5.0.3"
     "@graphql-codegen/cli": "npm:^5.0.2"
     "@graphql-codegen/fragment-matcher": "npm:^5.0.2"
@@ -9784,6 +9830,7 @@ __metadata:
     react-dom: "npm:18.3.1"
     react-hook-form: "npm:^7.52.2"
     remeda: "npm:^2.11.0"
+    swr: "npm:^2.2.5"
     tailwind-merge: "npm:^2.5.2"
     tailwindcss: "npm:^3.4.10"
     typescript: "npm:5.5.4"
@@ -10382,6 +10429,15 @@ __metadata:
   version: 9.0.0
   resolution: "urlpattern-polyfill@npm:9.0.0"
   checksum: 10/63d59e08d58189d340e3acb0fb69c11d8f06da5e38c091cdac66cac07e4ca81378ad19cd1a923d5593a899603a0e607fe3ef793ef368fefbc1b2b840b24839b8
+  languageName: node
+  linkType: hard
+
+"use-sync-external-store@npm:^1.2.0":
+  version: 1.2.2
+  resolution: "use-sync-external-store@npm:1.2.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10/671e9c190aab9a8374a5d468c6ba17f52c38b6fae970110bc196fc1e2b57204149aea9619be49a1bb5207fb6e51d8afd19c3bcb94afe61813fed039821461dc0
   languageName: node
   linkType: hard
 

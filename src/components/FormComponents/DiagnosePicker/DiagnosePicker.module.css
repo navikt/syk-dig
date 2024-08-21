@@ -1,8 +1,12 @@
 .diagnosePicker {
     position: relative;
     display: grid;
-    grid-template-columns: 138px 138px 1fr;
+    grid-template-columns: 102px 138px 1fr;
     gap: var(--a-spacing-8);
+}
+
+.newCombobox {
+    grid-template-columns: 102px 1fr 1fr;
 }
 
 .field {

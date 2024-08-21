@@ -1,14 +1,16 @@
 import { ReactElement, useCallback } from 'react'
 import { useController } from 'react-hook-form'
-import { BodyLong, Button, Label, Select } from '@navikt/ds-react'
+import { BodyShort, Button, Label, Select } from '@navikt/ds-react'
 import cn from 'clsx'
 import { XMarkIcon } from '@navikt/aksel-icons'
 
 import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
 import { NasjonalFormValues } from '../../nasjonal-oppgave/form/NasjonalSykmeldingFormTypes'
+import { useFlag } from '../../../toggles/context'
 
 import DiagnoseCombobox from './DiagnoseCombobox/DiagnoseCombobox'
+import DiagnoseComboboxNew from './diagnose-combobox/DiagnoseCombobox'
 import styles from './DiagnosePicker.module.css'
 
 export type DiagnoseSystem = 'ICD10' | 'ICPC2'
@@ -28,6 +30,7 @@ interface Props {
 }
 
 function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props): ReactElement {
+    const useNewCombobox = useFlag('SYK_DIG_NEW_DIAGNOSE_COMBOBOX')
     const { field, fieldState } = useController<NasjonalFormValues | UtenlanskFormValues, PossiblePickerFormNames>({
         name,
         rules: {
@@ -46,7 +49,11 @@ function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props)
 
     return (
         <div>
-            <div className={styles.diagnosePicker}>
+            <div
+                className={cn(styles.diagnosePicker, {
+                    [styles.newCombobox]: useNewCombobox.enabled,
+                })}
+            >
                 <Select
                     className={styles.field}
                     label={
@@ -62,26 +69,49 @@ function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props)
                     <option>ICD10</option>
                     <option>ICPC2</option>
                 </Select>
-                <DiagnoseCombobox
-                    className={styles.field}
-                    id={`${name}-combobox`}
-                    name={name}
-                    label={
-                        !specificLabels
-                            ? 'Diagnosekode'
-                            : diagnoseType === 'hoveddiagnose'
-                              ? '3.1.2 Kode'
-                              : '3.2.2 Kode'
-                    }
-                    system={field.value.system}
-                    onSelect={(suggestion) => field.onChange({ ...suggestion, system: field.value.system })}
-                    onChange={() => {
-                        if (field.value.code) {
-                            resetValues(field.value.system)
+                {useNewCombobox.enabled ? (
+                    <DiagnoseComboboxNew
+                        className={styles.field}
+                        id={`${name}-combobox`}
+                        name={name}
+                        label={
+                            !specificLabels
+                                ? 'Diagnosekode'
+                                : diagnoseType === 'hoveddiagnose'
+                                  ? '3.1.2 Kode'
+                                  : '3.2.2 Kode'
                         }
-                    }}
-                    initialValue={field.value.code}
-                />
+                        system={field.value.system}
+                        onSelect={(suggestion) => field.onChange({ ...suggestion, system: field.value.system })}
+                        onChange={() => {
+                            if (field.value.code) {
+                                resetValues(field.value.system)
+                            }
+                        }}
+                        initialValue={field.value.code}
+                    />
+                ) : (
+                    <DiagnoseCombobox
+                        className={styles.field}
+                        id={`${name}-combobox`}
+                        name={name}
+                        label={
+                            !specificLabels
+                                ? 'Diagnosekode'
+                                : diagnoseType === 'hoveddiagnose'
+                                  ? '3.1.2 Kode'
+                                  : '3.2.2 Kode'
+                        }
+                        system={field.value.system}
+                        onSelect={(suggestion) => field.onChange({ ...suggestion, system: field.value.system })}
+                        onChange={() => {
+                            if (field.value.code) {
+                                resetValues(field.value.system)
+                            }
+                        }}
+                        initialValue={field.value.code}
+                    />
+                )}
                 <DiagnoseDescription
                     className={styles.field}
                     text={field.value.text}
@@ -122,7 +152,7 @@ function DiagnoseDescription({
     return (
         <div className={cn(className, 'navds-form-field navds-form-field--medium')}>
             <Label>{label}</Label>
-            <BodyLong className={styles.diagnoseDescriptionText}>{text ?? '-'}</BodyLong>
+            <BodyShort className={cn('h-12 flex items-start')}>{text ?? '-'}</BodyShort>
         </div>
     )
 }

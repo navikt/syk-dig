@@ -5,7 +5,7 @@ import { getToken, validateToken } from '@navikt/oasis'
 
 import { isLocalOrDemo } from '../utils/env'
 
-export async function verifyAPIAuthenticated(): Promise<boolean> {
+export async function isUserLoggedIn(): Promise<boolean> {
     if (isLocalOrDemo) return true
 
     const requestHeaders = headers()
