@@ -17,6 +17,16 @@ const onUnhandledRequest: StartOptions['onUnhandledRequest'] = (req, print): voi
         return
     }
 
+    // RSC preloading
+    if (url.search.includes('_rsc')) {
+        return
+    }
+
+    // Server actions POST to the route they are currently on, and we need to let them all through
+    if (req.headers.get('Next-Action') != null) {
+        return
+    }
+
     print.warning()
 }
 

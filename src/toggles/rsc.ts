@@ -9,7 +9,7 @@ import { getUnleashEnvironment, localDevelopmentToggles } from './utils'
 import { EXPECTED_TOGGLES } from './toggles'
 
 export async function getToggles(): Promise<{ toggles: IToggle[] }> {
-    if (EXPECTED_TOGGLES.length === 0) {
+    if ((EXPECTED_TOGGLES as readonly string[]).length === 0) {
         logger.info('Currently no expected toggles defined, not fetching toggles from unleash')
         return { toggles: [] }
     }
