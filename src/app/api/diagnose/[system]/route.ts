@@ -1,7 +1,7 @@
 import { logger } from '@navikt/next-logger'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { verifyAPIAuthenticated } from '../../../../auth/rsc'
+import { isUserLoggedIn } from '../../../../auth/rsc'
 
 import { searchSystem } from './_search-system'
 import { DiagnoseSearchResult } from './_types'
@@ -11,7 +11,7 @@ type RouteHandlerParams = {
 }
 
 export async function GET(request: NextRequest, { params: { system } }: RouteHandlerParams): Promise<NextResponse> {
-    const authed = await verifyAPIAuthenticated()
+    const authed = await isUserLoggedIn()
     if (!authed) {
         return NextResponse.json({ message: 'Not logged in' }, { status: 401 })
     }

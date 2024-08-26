@@ -8,6 +8,7 @@ import { verifyUserLoggedIn } from '../auth/rsc'
 import PageHeader from '../components/PageHeader/PageHeader'
 
 import Providers from './_providers'
+import Preload from './_preload'
 
 export const metadata: Metadata = {
     title: 'Digitalisering av Sykmeldinger',
@@ -20,15 +21,7 @@ export default async function RootLayout({ children }: PropsWithChildren): Promi
 
     return (
         <html lang="nb">
-            <head>
-                <link
-                    rel="preload"
-                    href="https://cdn.nav.no/aksel/fonts/SourceSans3-normal.woff2"
-                    as="font"
-                    type="font/woff2"
-                    crossOrigin="anonymous"
-                />
-            </head>
+            <Preload />
             <body>
                 <Providers modiaContext={modiaContext} toggles={toggles.toggles}>
                     <PageHeader />

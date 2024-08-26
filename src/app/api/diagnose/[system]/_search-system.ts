@@ -18,12 +18,16 @@ export function searchSystem(system: 'icd10' | 'icpc2', value: string): Diagnose
             .slice(0, 100)
     } else {
         if ((value ?? '').trim() === '') {
-            return ICD10.slice(0, 100)
+            return ICPC2.slice(0, 100)
         }
 
-        return fuseIcpc2
-            .search(value)
-            .map((it) => it.item)
-            .slice(0, 100)
+        return (
+            fuseIcpc2
+                .search(value)
+                .map((it) => it.item)
+                // There's a weird quirk in @navikt/diagnosekoder where the items have some non-serializable attributes
+                .map((it) => ({ text: it.text, code: it.code }))
+                .slice(0, 100)
+        )
     }
 }

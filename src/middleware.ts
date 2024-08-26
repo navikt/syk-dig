@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { randomSessionId } from '@unleash/nextjs'
 
 import { UNLEASH_COOKIE_NAME } from './toggles/rsc'
+import { isLocalOrDemo } from './utils/env'
 
 /**
  * Middleware is run on every document request, it handles CSP,
@@ -12,8 +13,8 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
     const requestHeaders = new Headers(req.headers)
 
     const [cspHeader, nonce] = createCsp()
-    // Disable CSP in dev
-    if (process.env.NODE_ENV === 'production') {
+    // Disable CSP in dev and demo
+    if (!isLocalOrDemo) {
         requestHeaders.set('x-nonce', nonce)
         requestHeaders.set('Content-Security-Policy', cspHeader)
     }
@@ -25,11 +26,6 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
     })
 
     const url: URL = new URL(req.url)
-    // Disable CSP in dev
-    if (process.env.NODE_ENV === 'production') {
-        res.headers.set('Content-Security-Policy', cspHeader)
-    }
-
     res.headers.set('x-path', url.pathname + url.search)
 
     const existingCookie = req.cookies.get(UNLEASH_COOKIE_NAME)

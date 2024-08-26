@@ -4,12 +4,12 @@
  */
 import { NextResponse } from 'next/server'
 
-import { verifyAPIAuthenticated } from '../../../auth/rsc'
+import { isUserLoggedIn } from '../../../auth/rsc'
 
 import { countriesResponse } from './_countries'
 
 export async function GET(): Promise<NextResponse> {
-    const authed = await verifyAPIAuthenticated()
+    const authed = await isUserLoggedIn()
     if (!authed) {
         return NextResponse.json({ message: 'Not logged in' }, { status: 401 })
     }
