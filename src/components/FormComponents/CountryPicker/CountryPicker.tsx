@@ -4,7 +4,7 @@ import { useController } from 'react-hook-form'
 import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
 
-import CountryCombobox from './CountryCombobox/CountryCombobox'
+import CountryCombobox from './country-combobox/CountryCombobox'
 import styles from './CountryPicker.module.css'
 
 interface Props {

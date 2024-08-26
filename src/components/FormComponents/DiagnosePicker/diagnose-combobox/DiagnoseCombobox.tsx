@@ -9,6 +9,7 @@ import {
     AkselifiedComboboxItem,
     AkselifiedComboboxLoading,
     AkselifiedComboboxNonInteractiveFeedbackItem,
+    AkselifiedComboboxNonSelectables,
     AkselifiedComboboxPopover,
     AkselifiedComboboxWrapper,
 } from '../../combobox/AkselifiedCombobox'
@@ -79,7 +80,7 @@ function DiagnoseCombobox({
                 <AkselifiedComboboxDisclosure loading={data != null && isLoading} />
             </AkselifiedCombobox>
             <AkselifiedComboboxPopover>
-                <div className="navds-combobox__list_non-selectables" role="status">
+                <AkselifiedComboboxNonSelectables>
                     {data == null && isLoading && <AkselifiedComboboxLoading />}
                     {(searchValue.trim() === '' || (data == null && !isLoading)) && (
                         <AkselifiedComboboxNonInteractiveFeedbackItem>
@@ -96,7 +97,7 @@ function DiagnoseCombobox({
                             {`Feil ved henting av ${system}-kode. Prøv igjen senere.`}
                         </AkselifiedComboboxNonInteractiveFeedbackItem>
                     )}
-                </div>
+                </AkselifiedComboboxNonSelectables>
                 {searchValue &&
                     suggestions.length > 0 &&
                     suggestions.map((value) => (
