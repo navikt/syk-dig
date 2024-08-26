@@ -29,12 +29,9 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
     res.headers.set('x-path', url.pathname + url.search)
 
     const existingCookie = req.cookies.get(UNLEASH_COOKIE_NAME)
-    if (existingCookie != null) {
-        return res
+    if (existingCookie == null) {
+        res.cookies.set(UNLEASH_COOKIE_NAME, randomSessionId())
     }
-
-    res.cookies.set(UNLEASH_COOKIE_NAME, randomSessionId())
-
     return res
 }
 
