@@ -5,14 +5,16 @@
 import { NextResponse } from 'next/server'
 
 import { isUserLoggedIn } from '../../../auth/rsc'
+import { countries } from '../../../utils/countries'
 
-import { countriesResponse } from './_countries'
-
+/**
+ * @Deprecated Will be removed in a different deploy for zero downtime
+ */
 export async function GET(): Promise<NextResponse> {
     const authed = await isUserLoggedIn()
     if (!authed) {
         return NextResponse.json({ message: 'Not logged in' }, { status: 401 })
     }
 
-    return NextResponse.json(countriesResponse)
+    return NextResponse.json(countries)
 }

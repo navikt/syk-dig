@@ -13,7 +13,6 @@ describe('CountryTypeahead', () => {
             <CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />,
         )
 
-        await waitForPickerToBeLoaded()
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'Zim')
         await userEvent.click(screen.getByRole('option', { name: 'Zimbabwe' }))
 
@@ -24,7 +23,6 @@ describe('CountryTypeahead', () => {
         const mockSelect = vi.fn()
         render(<CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />)
 
-        await waitForPickerToBeLoaded()
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'Zim')
         await userEvent.click(screen.getByRole('option', { name: 'Zimbabwe' }))
 
@@ -35,17 +33,16 @@ describe('CountryTypeahead', () => {
         const mockSelect = vi.fn()
         render(<CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />)
 
-        await waitForPickerToBeLoaded()
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'No')
         const results = screen.getAllByRole('option')
 
         expect(results).toHaveLength(4)
-        expect(results[0]).toHaveTextContent('Nord-Korea')
-        expect(results[1]).toHaveTextContent('Norge')
-        expect(results[2]).toHaveTextContent('Libanon')
+        expect(results[0]).toHaveTextContent('Libanon')
+        expect(results[1]).toHaveTextContent('Nord-Korea')
+        expect(results[2]).toHaveTextContent('Norge')
         expect(results[3]).toHaveTextContent('San Marino')
 
-        await userEvent.click(results[1])
+        await userEvent.click(results[2])
 
         expect(mockSelect).toHaveBeenCalledWith('NOR')
     })
@@ -54,7 +51,6 @@ describe('CountryTypeahead', () => {
         const mockSelect = vi.fn()
         render(<CountryCombobox onSelect={mockSelect} initialValue="NOR" onChange={() => void 0} />)
 
-        await waitForPickerToBeLoaded()
         await waitFor(() =>
             expect(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' })).toHaveValue('Norge'),
         )
@@ -65,16 +61,9 @@ describe('CountryTypeahead', () => {
         const mockSelect = vi.fn()
         render(<CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />)
 
-        await waitForPickerToBeLoaded()
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'IkkeEtLand')
 
-        expect(screen.getByText('Ingen treff')).toBeInTheDocument()
+        expect(screen.getByText('Fant ingen land med navn eller kode "IkkeEtLand"')).toBeInTheDocument()
         expect(mockSelect).not.toHaveBeenCalled()
     })
 })
-
-async function waitForPickerToBeLoaded(): Promise<void> {
-    await waitFor(() =>
-        expect(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' })).not.toBeDisabled(),
-    )
-}

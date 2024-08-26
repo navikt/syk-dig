@@ -32,7 +32,7 @@ export function AkselifiedComboboxWrapper({
     )
 }
 
-export function AkselifiedComboboxDisclosure({ loading }: { loading: boolean }): ReactElement {
+export function AkselifiedComboboxDisclosure({ loading }: { loading?: boolean }): ReactElement {
     return (
         <Combobox.ComboboxDisclosure
             className={styles.disclosure}
@@ -106,6 +106,14 @@ export function AkselifiedComboboxLoading(): ReactElement {
     return (
         <div className="navds-combobox__list-item--loading">
             <Loader size="xsmall" title="Søker..." />
+        </div>
+    )
+}
+
+export function AkselifiedComboboxNonSelectables({ children }: PropsWithChildren): ReactElement {
+    return (
+        <div className="navds-combobox__list_non-selectables" role="status">
+            {children}
         </div>
     )
 }
