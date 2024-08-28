@@ -3,16 +3,17 @@
 import React, { ReactElement } from 'react'
 
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
+import { PaneView } from '../split-view-layout/persistent-layout'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import { useNasjonalOppgave } from './useNasjonalOppgave'
 import { NasjonalOppgaveDocuments, NasjonalOppgaveError, NasjonalOppgaveSkeleton } from './NasjonalOppgaveStates'
 
-type Props = {
+type Props = PaneView & {
     oppgaveId: string
 }
 
-function NasjonalOppgaveView({ oppgaveId }: Props): ReactElement {
+function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
     const query = useNasjonalOppgave(oppgaveId)
 
     return (
@@ -21,6 +22,7 @@ function NasjonalOppgaveView({ oppgaveId }: Props): ReactElement {
             ingress="Vennligst legg inn opplysningene fra papirsykmeldingen"
             documentView={<NasjonalOppgaveDocuments oppgaveId={oppgaveId} query={query} />}
             closeReturnsTo="gosys"
+            defaultLayout={layout}
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
             {query.data && (

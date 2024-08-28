@@ -19,14 +19,15 @@ import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
 import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
+import { PaneView } from '../split-view-layout/persistent-layout'
 
 import OppgaveStatus from './status/OppgaveStatus'
 
-type Props = {
+type Props = PaneView & {
     oppgaveId: string
 }
 
-function UtenlandskOppgaveView({ oppgaveId }: Props): ReactElement {
+function UtenlandskOppgaveView({ oppgaveId, layout }: Props): ReactElement {
     const oppgaveQuery = useQuery(OppgaveByIdDocument, {
         variables: { oppgaveId },
     })
@@ -37,6 +38,7 @@ function UtenlandskOppgaveView({ oppgaveId }: Props): ReactElement {
             ingress="Vennligst skriv inn opplysningene fra sykmeldingen under"
             documentView={<OppgaveDocuments query={oppgaveQuery} />}
             closeReturnsTo="gosys"
+            defaultLayout={layout}
         >
             {oppgaveQuery.loading && <OppgaveSkeleton />}
             {oppgaveQuery.data?.oppgave && <DigitaliseringsOppgave oppgave={oppgaveQuery.data.oppgave} />}

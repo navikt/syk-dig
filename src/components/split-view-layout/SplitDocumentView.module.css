@@ -1,44 +1,24 @@
-.contentWrapper {
-    display: flex;
+.root {
     --content-height: calc(100vh - 48px);
 }
 
-.scrollArea {
+.withBar {
+    --content-height: calc(100vh - 48px - 48px);
+}
+
+.section {
+    /* Needed because of some weird funky overflow issues with sr-only stuff in the form */
     position: relative;
-    flex: 1 1 55%;
-    max-width: var(--content-width);
+    height: 100%;
     max-height: var(--content-height);
-    overflow-y: scroll;
-}
+    overflow: auto;
 
-.scrollArea.inactiveTab {
-    display: none;
-}
-
-.scrollArea.activeTab {
-    min-width: unset;
-    max-width: unset;
-    max-height: calc(var(--content-height) - 48px);
-}
-
-.scrollArea.activeTab > .content {
-    max-width: 60rem;
-    margin: 0 auto;
+    @apply transition-all duration-300;
 }
 
 .pdf {
-    height: var(--content-height);
-    flex: 1 1 45%;
-}
+    height: 100%;
+    max-height: var(--content-height);
 
-.pdf.activeTab {
-    max-height: calc(var(--content-height) - 48px);
-}
-
-.pdf.inactiveTab {
-    display: none;
-}
-
-.pdf embed {
-    margin-bottom: -7px;
+    @apply transition-all duration-300;
 }

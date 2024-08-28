@@ -3,6 +3,7 @@
 import React, { ReactElement } from 'react'
 
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
+import { PaneView } from '../split-view-layout/persistent-layout'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import { useFerdigstiltNasjonalOppgave } from './useNasjonalOppgave'
@@ -12,11 +13,11 @@ import {
     NasjonalOppgaveSkeleton,
 } from './NasjonalOppgaveStates'
 
-type Props = {
+type Props = PaneView & {
     sykmeldingId: string
 }
 
-function NasjonalOppgaveFerdigstiltView({ sykmeldingId }: Props): ReactElement {
+function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactElement {
     const query = useFerdigstiltNasjonalOppgave(sykmeldingId)
 
     return (
@@ -25,6 +26,7 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId }: Props): ReactElement {
             ingress="Under kan du korrigere opplysningene i en allerede registrert papirsykmelding"
             documentView={<NasjonalOppgaveFerdigstiltDocuments query={query} />}
             closeReturnsTo="modia"
+            defaultLayout={layout}
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
             {query.data && (

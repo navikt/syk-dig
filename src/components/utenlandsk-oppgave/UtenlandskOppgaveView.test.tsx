@@ -21,7 +21,7 @@ describe('Utenlandsk page', () => {
             request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
             result: { data: { __typename: 'Query', oppgave: createOppgave({ oppgaveId: '987654321' }) } },
         })
-        render(<UtenlandskOppgaveView oppgaveId="987654321" />, {
+        render(<UtenlandskOppgaveView oppgaveId="987654321" layout={undefined} />, {
             mocks: [mock],
         })
 
@@ -38,7 +38,7 @@ describe('Utenlandsk page', () => {
             request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
             result: { data: { __typename: 'Query', oppgave: createOppgave({ oppgaveId: '987654321' }) } },
         })
-        render(<UtenlandskOppgaveView oppgaveId="987654321" />, {
+        render(<UtenlandskOppgaveView oppgaveId="987654321" layout={undefined} />, {
             mocks: [mock],
         })
 
@@ -66,7 +66,7 @@ describe('Utenlandsk page', () => {
             request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
             result: { data: null, errors: [new GraphQLError('Fake test error')] },
         })
-        render(<UtenlandskOppgaveView oppgaveId="987654321" />, {
+        render(<UtenlandskOppgaveView oppgaveId="987654321" layout={undefined} />, {
             mocks: [mock],
         })
 
@@ -110,7 +110,7 @@ describe('Utenlandsk page', () => {
                 },
             }),
         ]
-        render(<UtenlandskOppgaveView oppgaveId="987654321" />, {
+        render(<UtenlandskOppgaveView oppgaveId="987654321" layout={undefined} />, {
             mocks: mock,
         })
 
@@ -148,7 +148,7 @@ describe('Utenlandsk page', () => {
                 },
             },
         })
-        render(<UtenlandskOppgaveView oppgaveId="987654321" />, {
+        render(<UtenlandskOppgaveView oppgaveId="987654321" layout={undefined} />, {
             mocks: [mock],
         })
 
