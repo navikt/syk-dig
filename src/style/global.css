@@ -2,7 +2,3 @@
 @import '@navikt/ds-css';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-
-:root {
-    --content-width: 44rem;
-}

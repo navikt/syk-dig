@@ -26,7 +26,7 @@ describe('Avvis oppgave', async () => {
             ),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${fullOppgave.oppgaveid}`} />, {
+        render(<NasjonalOppgaveView oppgaveId={`${fullOppgave.oppgaveid}`} layout={undefined} />, {
             useRestLink: true,
         })
 

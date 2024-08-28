@@ -99,7 +99,7 @@ function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
 /**
  * @Deprecated Once smreg is shut down we can remove this info and redirect
  */
-function InfoAboutSmregMigrationAlert(props: OppgaveOrFerdigstilt): ReactElement {
+export function InfoAboutSmregMigrationAlert(props: OppgaveOrFerdigstilt): ReactElement {
     return (
         <ExpansionCard
             defaultOpen={localStorage.getItem('minimized-smreg-info-card') == null}

@@ -1,11 +1,14 @@
-import React, { PropsWithChildren, ReactElement, ReactNode, useCallback, useState } from 'react'
-import cn from 'clsx'
+import React, { PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react'
 import { Button, Tooltip } from '@navikt/ds-react'
 import { ExpandIcon, SidebarLeftIcon, XMarkIcon } from '@navikt/aksel-icons'
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
 
 import { bundledEnv } from '../../utils/env'
 import analytics from '../../utils/analytics'
+import { cn } from '../../utils/tw-utils'
 
+import { basisLayout, useSplitDocumentState } from './useSplitDocumentState'
+import { PersistentPaneLayout } from './persistent-layout'
 import SplitTabs from './split-tabs/Tabs'
 import PageTitle from './page-title/PageTitle'
 import styles from './SplitDocumentView.module.css'
@@ -15,6 +18,7 @@ type Props = {
     ingress?: string
     documentView: ReactNode
     closeReturnsTo: 'modia' | 'gosys'
+    defaultLayout: PersistentPaneLayout
 }
 
 function SplitDocumentView({
@@ -23,50 +27,72 @@ function SplitDocumentView({
     children,
     documentView,
     closeReturnsTo,
+    defaultLayout,
 }: PropsWithChildren<Props>): ReactElement {
-    const [tabState, setTabState] = useState<'form' | 'pdf'>('form')
-    const [showTabs, setShowTabs] = useState(false)
-    const toggleTabs = useCallback(() => setShowTabs((b) => !b), [])
-
-    const documentsSectionClassNames = cn(styles.pdf, {
-        [styles.activeTab]: showTabs && tabState === 'pdf',
-        [styles.inactiveTab]: showTabs && tabState === 'form',
-    })
+    const { setView, viewState, refs, onLayout } = useSplitDocumentState(defaultLayout)
+    const initialMountComplete = useInitialMountComplete()
 
     return (
-        <>
-            {showTabs && (
-                <SplitTabs
-                    value={tabState}
-                    onTabChange={(value) => {
-                        analytics.splitViewTabToggled(value)
-                        setTabState(value)
+        <div
+            className={cn(styles.root, {
+                [styles.withBar]: viewState !== 'both',
+            })}
+        >
+            <SplitTabs
+                open={viewState !== 'both'}
+                value={viewState}
+                onTabChange={(value) => {
+                    analytics.splitViewTabToggled(value)
+                    setView(value)
+                }}
+            />
+            <PanelGroup direction="horizontal" onLayout={onLayout}>
+                <Panel
+                    ref={refs.formPane}
+                    defaultSize={defaultLayout?.[0] ?? basisLayout[0]}
+                    minSize={30}
+                    order={1}
+                    collapsible
+                    onExpand={() => {
+                        if (initialMountComplete) analytics.splitViewToggled('pdf expand', true)
                     }}
-                />
-            )}
-            <div className={styles.contentWrapper}>
-                <section
-                    aria-labelledby="oppgave-header"
-                    className={cn(styles.scrollArea, {
-                        [styles.activeTab]: showTabs && tabState === 'form',
-                        [styles.inactiveTab]: showTabs && tabState === 'pdf',
-                    })}
+                    onCollapse={() => {
+                        if (initialMountComplete) analytics.splitViewToggled('pdf collapse', true)
+                    }}
                 >
-                    <SplitDocumentViewTitle
-                        title={title}
-                        ingress={ingress}
-                        showTabs={showTabs}
-                        toggleTabs={() => {
-                            analytics.splitViewToggled(showTabs)
-                            toggleTabs()
-                        }}
-                        closeReturnsTo={closeReturnsTo}
-                    />
-                    <div className={styles.content}>{children} </div>
-                </section>
-                <div className={documentsSectionClassNames}>{documentView}</div>
-            </div>
-        </>
+                    <section aria-labelledby="oppgave-header" className={styles.section}>
+                        <SplitDocumentViewTitle
+                            title={title}
+                            ingress={ingress}
+                            showTabs={viewState !== 'both'}
+                            toggleTabs={(enabled) => {
+                                if (initialMountComplete) analytics.splitViewToggled(`toggled by button: ${enabled}`)
+
+                                setView(enabled ? 'form' : 'both')
+                            }}
+                            closeReturnsTo={closeReturnsTo}
+                        />
+                        <div>{children}</div>4
+                    </section>
+                </Panel>
+                <PanelResizeHandle className="w-2 hover:bg-border-subtle-hover data-[resize-handle-state=drag]:bg-border-action" />
+                <Panel
+                    ref={refs.pdfPane}
+                    order={2}
+                    defaultSize={defaultLayout?.[1] ?? basisLayout[1]}
+                    minSize={20}
+                    collapsible
+                    onExpand={() => {
+                        if (initialMountComplete) analytics.splitViewToggled('pdf expand', true)
+                    }}
+                    onCollapse={() => {
+                        if (initialMountComplete) analytics.splitViewToggled('pdf collapse', true)
+                    }}
+                >
+                    <div className={styles.pdf}>{documentView}</div>
+                </Panel>
+            </PanelGroup>
+        </div>
     )
 }
 
@@ -74,7 +100,7 @@ type SplitDocumentViewTitleProps = {
     title: string
     ingress?: string
     showTabs: boolean
-    toggleTabs: () => void
+    toggleTabs: (enabled: boolean) => void
     closeReturnsTo: 'modia' | 'gosys'
 }
 
@@ -98,7 +124,7 @@ function SplitDocumentViewTitle({
                                 size="small"
                                 variant="tertiary"
                                 icon={<ExpandIcon aria-label="Vis PDF i egen fane" />}
-                                onClick={toggleTabs}
+                                onClick={() => toggleTabs(true)}
                             />
                         </Tooltip>
                     ) : (
@@ -108,7 +134,7 @@ function SplitDocumentViewTitle({
                                 variant="tertiary"
                                 aria-label="Vis PDF ved siden av skjema"
                                 icon={<SidebarLeftIcon aria-hidden />}
-                                onClick={toggleTabs}
+                                onClick={() => toggleTabs(false)}
                             />
                         </Tooltip>
                     )}
@@ -131,6 +157,17 @@ function SplitDocumentViewTitle({
             }
         />
     )
+}
+
+function useInitialMountComplete(): boolean {
+    const initialMount = useRef(false)
+    useEffect(() => {
+        if (!initialMount.current) {
+            initialMount.current = true
+            return
+        }
+    }, [])
+    return initialMount.current
 }
 
 export default SplitDocumentView

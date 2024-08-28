@@ -19,7 +19,7 @@ describe('Informing about new app', async () => {
     it('Should link to smreg oppgave', async () => {
         server.use(http.get(apiUrl(`/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)))
 
-        render(<NasjonalOppgaveView oppgaveId={`${fullOppgave.oppgaveid}`} />, {
+        render(<NasjonalOppgaveView oppgaveId={`${fullOppgave.oppgaveid}`} layout={undefined} />, {
             useRestLink: true,
         })
 
@@ -39,9 +39,15 @@ describe('Informing about new app', async () => {
             ),
         )
 
-        render(<NasjonalOppgaveFerdigstiltView sykmeldingId={`${fullOppgave.papirSmRegistering.sykmeldingId}`} />, {
-            useRestLink: true,
-        })
+        render(
+            <NasjonalOppgaveFerdigstiltView
+                sykmeldingId={`${fullOppgave.papirSmRegistering.sykmeldingId}`}
+                layout={undefined}
+            />,
+            {
+                useRestLink: true,
+            },
+        )
 
         expect(
             await screen.findByRole('heading', { name: 'Korrigering av registrert papirsykmelding' }),

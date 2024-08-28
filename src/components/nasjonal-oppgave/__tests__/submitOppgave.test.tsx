@@ -28,7 +28,7 @@ describe('Submit oppgave', async () => {
             }),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${emptyOppgave.oppgaveid}`} />, {
+        render(<NasjonalOppgaveView oppgaveId={`${emptyOppgave.oppgaveid}`} layout={undefined} />, {
             useRestLink: true,
         })
 

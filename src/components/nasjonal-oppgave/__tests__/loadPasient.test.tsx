@@ -27,7 +27,7 @@ describe('Load pasientinfo', async () => {
             ),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${nullFnrOppgave.oppgaveid}`} />, {
+        render(<NasjonalOppgaveView oppgaveId={`${nullFnrOppgave.oppgaveid}`} layout={undefined} />, {
             useRestLink: true,
         })
 
@@ -44,7 +44,7 @@ describe('Load pasientinfo', async () => {
             http.get(apiUrl('/pasient'), () => HttpResponse.text('Internal server error', { status: 500 })),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${nullFnrOppgave.oppgaveid}`} />, {
+        render(<NasjonalOppgaveView oppgaveId={`${nullFnrOppgave.oppgaveid}`} layout={undefined} />, {
             useRestLink: true,
         })
 

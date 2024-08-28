@@ -12,10 +12,11 @@ import {
     SykmeldingFraJournalpostDocument,
 } from '../../graphql/queries/graphql.generated'
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
+import { PaneView } from '../split-view-layout/persistent-layout'
 
 import RegistrerSykmeldingDocuments from './RegistrerSykmeldingDocuments'
 
-function RegistrerSykmeldingView(): ReactElement {
+function RegistrerSykmeldingView({ layout }: PaneView): ReactElement {
     const [journalpostId, setJournalpostId] = useState('')
     const [registrer, registrerResult] = useLazyQuery(JournalpostByIdDocument, {
         fetchPolicy: 'network-only',
@@ -28,6 +29,7 @@ function RegistrerSykmeldingView(): ReactElement {
             title="Registrer sykmelding"
             documentView={<RegistrerSykmeldingDocuments query={registrerResult} />}
             closeReturnsTo="gosys"
+            defaultLayout={layout}
         >
             <div className="container p-4 mx-auto">
                 <div className="flex items-end gap-3">

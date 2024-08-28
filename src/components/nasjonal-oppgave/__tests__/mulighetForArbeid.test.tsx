@@ -29,7 +29,7 @@ describe('Mulighet for arbeid section', async () => {
             }),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${fullOppgaveWithoutPeriods.oppgaveid}`} />, {
+        render(<NasjonalOppgaveView oppgaveId={`${fullOppgaveWithoutPeriods.oppgaveid}`} layout={undefined} />, {
             useRestLink: true,
         })
 
