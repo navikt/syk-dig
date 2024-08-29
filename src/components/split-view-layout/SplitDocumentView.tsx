@@ -72,7 +72,7 @@ function SplitDocumentView({
                             }}
                             closeReturnsTo={closeReturnsTo}
                         />
-                        <div>{children}</div>4
+                        <div>{children}</div>
                     </section>
                 </Panel>
                 <PanelResizeHandle className="w-2 hover:bg-border-subtle-hover data-[resize-handle-state=drag]:bg-border-action" />

@@ -59,4 +59,4 @@ vi.mock('next/navigation', () => MockNextNavigation)
 
 mockRouter.memoryRouter.useParser(createDynamicRouteParser(['/oppgave/[oppgaveId]']))
 
-process.env.DEBUG_PRINT_LIMIT = '50000'
+process.env.DEBUG_PRINT_LIMIT = '500000'

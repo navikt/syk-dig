@@ -55,7 +55,7 @@ function DigitaliseringsOppgave({ oppgave }: { oppgave: DigitaliseringOppgaveRes
     }
 }
 
-function OppgaveDocuments({
+export function OppgaveDocuments({
     query,
 }: {
     query: QueryResult<OppgaveByIdQuery, OppgaveByIdQueryVariables>
