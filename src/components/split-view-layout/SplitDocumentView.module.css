@@ -9,7 +9,7 @@
 .section {
     /* Needed because of some weird funky overflow issues with sr-only stuff in the form */
     position: relative;
-    height: 100%;
+    min-height: var(--content-height);
     max-height: var(--content-height);
     overflow: auto;
 
@@ -18,6 +18,7 @@
 
 .pdf {
     height: 100%;
+    min-height: var(--content-height);
     max-height: var(--content-height);
 
     @apply transition-all duration-300;
