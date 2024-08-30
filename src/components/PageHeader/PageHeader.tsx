@@ -1,49 +1,46 @@
 'use client'
 
 import { ReactElement } from 'react'
-import { useMutation, useQuery } from '@apollo/client'
 import Link from 'next/link'
 import { Select, InternalHeader } from '@navikt/ds-react'
 
-import { ModiaContextDocument, UpdateAktivEnhetDocument } from '../../graphql/queries/graphql.generated'
 import { bundledEnv } from '../../utils/env'
+import { useModiaContext } from '../../modia/modia-context'
 
 import styles from './PageHeader.module.css'
 
 function PageHeader(): ReactElement {
-    const { data } = useQuery(ModiaContextDocument)
-    const [updateAktivEnhet] = useMutation(UpdateAktivEnhetDocument)
+    const modiaContext = useModiaContext()
 
     return (
-        <InternalHeader className={styles.header}>
+        <InternalHeader className="justify-between">
             <HeaderText />
-            {data?.modia && (
-                <div className={styles.enhetMenu} data-theme="dark">
-                    <Select
-                        label=""
-                        size="small"
-                        value={data.modia.aktivEnhet ?? ''}
-                        onChange={(event) => {
-                            updateAktivEnhet({
-                                variables: { enhetId: event.target.value },
-                            })
-                        }}
-                    >
-                        {data.modia.enheter.map((enhet) => (
-                            <option key={enhet.enhetId} value={enhet.enhetId}>
-                                {enhet.enhetId} {enhet.navn}
-                            </option>
-                        ))}
-                    </Select>
-                </div>
+            {'errorType' in modiaContext.modia ? (
+                <InternalHeader.User name="Feil under lasting" description="Klarte ikke å laste enhet" />
+            ) : (
+                <>
+                    <div className={styles.enhetMenu} data-theme="dark">
+                        <Select
+                            label=""
+                            size="small"
+                            value={modiaContext.selectedEnhetId ?? ''}
+                            onChange={(event) => {
+                                modiaContext.setSelectedEnhetId(event.target.value)
+                            }}
+                        >
+                            {modiaContext.modia.enheter.map((enhet) => (
+                                <option key={enhet.enhetId} value={enhet.enhetId}>
+                                    {enhet.enhetId} {enhet.navn}
+                                </option>
+                            ))}
+                        </Select>
+                    </div>
+                    <InternalHeader.User
+                        name={`${modiaContext.modia.fornavn} ${modiaContext.modia.etternavn}`}
+                        description={`Enhet: ${modiaContext.selectedEnhetId ?? 'Ingen enhet valgt'}`}
+                    />
+                </>
             )}
-            {data?.modia && (
-                <InternalHeader.User
-                    name={`${data.modia.fornavn} ${data.modia.etternavn}`}
-                    description={`Enhet: ${data.modia.aktivEnhet ?? 'Ingen enhet valgt'}`}
-                />
-            )}
-            {!data?.modia && <InternalHeader.User name="Feil under lasting" description="Klarte ikke å laste enhet" />}
         </InternalHeader>
     )
 }

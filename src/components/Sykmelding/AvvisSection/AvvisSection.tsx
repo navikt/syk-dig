@@ -10,8 +10,9 @@ import styles from '../ActionSection/MutationFeedbackSection.module.css'
 import FeedbackModal from '../ActionSection/FeedbackModal'
 import { Location, useParam } from '../../../utils/useParam'
 import { UtenlanskFormValues } from '../SykmeldingForm'
-import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
 import { redirectTilGosys } from '../../../utils/gosys'
+import { useModiaContext } from '../../../modia/modia-context'
+import { raise } from '../../../utils/tsUtils'
 
 type Props = {
     disableUnsavedWarning: () => void
@@ -20,7 +21,7 @@ type Props = {
 function AvvisSection({ disableUnsavedWarning }: Props): ReactElement {
     const { reset } = useFormContext<UtenlanskFormValues>()
     const params = useParam(Location.Utenlansk)
-    const enhetId = useSelectedModiaEnhet()
+    const { selectedEnhetId } = useModiaContext()
     const [avvisningsgrunn, setAvvisningsgrunn] = useState<{ grunn: string | null; grunnAnnet?: string | null }>({
         grunn: null,
         grunnAnnet: null,
@@ -165,7 +166,7 @@ function AvvisSection({ disableUnsavedWarning }: Props): ReactElement {
                                 avvis({
                                     variables: {
                                         oppgaveId: params.oppgaveId,
-                                        enhetId: enhetId,
+                                        enhetId: selectedEnhetId ?? raise('Oppgave kan ikke lagres uten valgt enhet'),
                                         avvisningsgrunn: selectValueToAvvisingsgrunn(avvisningsgrunn.grunn),
                                         avvisningsgrunnAnnet: avvisningsgrunn.grunnAnnet,
                                     },

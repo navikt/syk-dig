@@ -5,9 +5,8 @@ import { Cache, from, InMemoryCache, TypedDocumentNode } from '@apollo/client'
 import open from 'open'
 
 import { cacheConfig } from '../graphql/apollo'
-import { modiaLocalResolvers, setInitialModiaQueryState } from '../graphql/localState/modia'
-import { createModiaContext } from '../mocks/data/dataCreators'
 import smregRestLink from '../components/nasjonal-oppgave/smreg/rest-apollo-link'
+import { ModiaProvider } from '../modia/modia-context'
 
 type ProviderProps = {
     readonly initialState?: Cache.WriteQueryOptions<unknown, unknown>[]
@@ -22,29 +21,36 @@ function AllTheProviders({
     useRestLink,
 }: PropsWithChildren<ProviderProps>): ReactElement {
     const cache = new InMemoryCache(cacheConfig)
-    setInitialModiaQueryState(cache, createModiaContext())
+
     initialState?.forEach((it) => cache.writeQuery(it))
 
     return (
-        // TODO maybe use MSW?
-        <MockedProvider
-            mocks={mocks}
-            cache={cache}
-            link={
-                useRestLink
-                    ? /* Using the restLink allows the actual HTTP-requests to go through, so the
-                         tests can use MSW for data while still piping the data through Apollo */
-                      from([smregRestLink])
-                    : undefined
-            }
-            resolvers={{
-                Mutation: {
-                    ...modiaLocalResolvers,
-                },
+        <ModiaProvider
+            modiaContext={{
+                fornavn: 'Test',
+                etternavn: 'saksbehandler',
+                ident: 'A1337',
+                aktivEnhet: 'B17',
+                enheter: [
+                    { navn: 'Tromsø Kontaktsenter', enhetId: 'B17' },
+                    { navn: 'NAV Tøyen', enhetId: 'L99' },
+                ],
             }}
         >
-            {children}
-        </MockedProvider>
+            <MockedProvider
+                mocks={mocks}
+                cache={cache}
+                link={
+                    useRestLink
+                        ? /* Using the restLink allows the actual HTTP-requests to go through, so the
+                         tests can use MSW for data while still piping the data through Apollo */
+                          from([smregRestLink])
+                        : undefined
+                }
+            >
+                {children}
+            </MockedProvider>
+        </ModiaProvider>
     )
 }
 

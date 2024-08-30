@@ -3,7 +3,7 @@ import { PropsWithChildren, ReactElement } from 'react'
 import { Metadata } from 'next'
 
 import { getToggles } from '../toggles/rsc'
-import { getModiaContext } from '../modia/ModiaService'
+import { getModiaData } from '../modia/ModiaService'
 import { verifyUserLoggedIn } from '../auth/rsc'
 import PageHeader from '../components/PageHeader/PageHeader'
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: PropsWithChildren): Promise<ReactElement> {
     const userToken = await verifyUserLoggedIn()
-    const [toggles, modiaContext] = await Promise.all([getToggles(), getModiaContext(userToken.accessToken)])
+    const [toggles, modiaContext] = await Promise.all([getToggles(), getModiaData(userToken.accessToken)])
 
     return (
         <html lang="nb">

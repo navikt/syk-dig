@@ -14,11 +14,8 @@ export type Scalars = {
     Boolean: { input: boolean; output: boolean }
     Int: { input: number; output: number }
     Float: { input: number; output: number }
-    /** An RFC-3339 compliant Full Date Scalar */
     Date: { input: string; output: string }
-    /** A slightly refined version of RFC-3339 compliant DateTime Scalar */
     DateTime: { input: string; output: string }
-    /** A universally unique identifier compliant UUID Scalar */
     UUID: { input: any; output: any }
     _FieldSet: { input: any; output: any }
 }
@@ -351,21 +348,6 @@ export type Matrikkeladresse = {
     tilleggsnavn?: Maybe<Scalars['String']['output']>
 }
 
-export type ModiaContext = {
-    __typename: 'ModiaContext'
-    aktivEnhet?: Maybe<Scalars['String']['output']>
-    enheter: Array<ModiaEnhet>
-    etternavn: Scalars['String']['output']
-    fornavn: Scalars['String']['output']
-    ident: Scalars['String']['output']
-}
-
-export type ModiaEnhet = {
-    __typename: 'ModiaEnhet'
-    enhetId: Scalars['String']['output']
-    navn: Scalars['String']['output']
-}
-
 export type Mutation = {
     __typename: 'Mutation'
     avvis?: Maybe<DigitaliseringsoppgaveStatus>
@@ -373,7 +355,6 @@ export type Mutation = {
     lagre?: Maybe<DigitaliseringsoppgaveResult>
     oppgaveTilbakeTilGosys?: Maybe<DigitaliseringsoppgaveStatus>
     sykmeldingFraJournalpost: JournalpostStatus
-    updateModiaEnhet?: Maybe<ModiaContext>
 }
 
 export type MutationAvvisArgs = {
@@ -403,10 +384,6 @@ export type MutationOppgaveTilbakeTilGosysArgs = {
 export type MutationSykmeldingFraJournalpostArgs = {
     journalpostId: Scalars['String']['input']
     norsk: Scalars['Boolean']['input']
-}
-
-export type MutationUpdateModiaEnhetArgs = {
-    enhetId: Scalars['String']['input']
 }
 
 export type Navn = {
@@ -467,7 +444,6 @@ export type Query = {
     __typename: 'Query'
     _service: _Service
     journalpost: JournalpostResult
-    modia?: Maybe<ModiaContext>
     oppgave?: Maybe<DigitaliseringsoppgaveResult>
 }
 
@@ -527,45 +503,6 @@ export type Vegadresse = {
 export type _Service = {
     __typename: '_Service'
     sdl: Scalars['String']['output']
-}
-
-export type ModiaFragment = {
-    __typename: 'ModiaContext'
-    fornavn: string
-    etternavn: string
-    aktivEnhet?: string | null
-    ident: string
-    enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>
-}
-
-export type ModiaContextQueryVariables = Exact<{ [key: string]: never }>
-
-export type ModiaContextQuery = {
-    __typename: 'Query'
-    modia?: {
-        __typename: 'ModiaContext'
-        fornavn: string
-        etternavn: string
-        aktivEnhet?: string | null
-        ident: string
-        enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>
-    } | null
-}
-
-export type UpdateAktivEnhetMutationVariables = Exact<{
-    enhetId: Scalars['String']['input']
-}>
-
-export type UpdateAktivEnhetMutation = {
-    __typename: 'Mutation'
-    updateModiaEnhet?: {
-        __typename: 'ModiaContext'
-        fornavn: string
-        etternavn: string
-        aktivEnhet?: string | null
-        ident: string
-        enheter: Array<{ __typename: 'ModiaEnhet'; navn: string; enhetId: string }>
-    } | null
 }
 
 export type JournalpostFragment = {
@@ -1163,36 +1100,6 @@ export type NavngiDokumentMutation = {
     dokument?: { __typename: 'Document'; tittel: string; dokumentInfoId: string } | null
 }
 
-export const ModiaFragmentDoc = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'Modia' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ModiaContext' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'aktivEnhet' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'enheter' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'enhetId' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<ModiaFragment, unknown>
 export const JournalpostFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -2283,118 +2190,6 @@ export const DigitaliseringOppgaveResultFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<DigitaliseringOppgaveResultFragment, unknown>
-export const ModiaContextDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'ModiaContext' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'modia' },
-                        directives: [{ kind: 'Directive', name: { kind: 'Name', value: 'client' } }],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Modia' } }],
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'Modia' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ModiaContext' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'aktivEnhet' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'enheter' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'enhetId' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<ModiaContextQuery, ModiaContextQueryVariables>
-export const UpdateAktivEnhetDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'UpdateAktivEnhet' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'enhetId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'updateModiaEnhet' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'enhetId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'enhetId' } },
-                            },
-                        ],
-                        directives: [{ kind: 'Directive', name: { kind: 'Name', value: 'client' } }],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Modia' } }],
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'Modia' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ModiaContext' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'aktivEnhet' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'enheter' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'enhetId' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<UpdateAktivEnhetMutation, UpdateAktivEnhetMutationVariables>
 export const JournalpostByIdDocument = {
     kind: 'Document',
     definitions: [

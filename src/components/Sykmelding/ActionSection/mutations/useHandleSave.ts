@@ -13,17 +13,17 @@ import {
 import { Location, useParam } from '../../../../utils/useParam'
 import { UtenlanskFormValues } from '../../SykmeldingForm'
 import { safeDate, safeString } from '../../../../utils/formUtils'
-import { notNull } from '../../../../utils/tsUtils'
+import { notNull, raise } from '../../../../utils/tsUtils'
 import { PeriodeFormValue } from '../../Sykmeldingsperiode'
-import { useSelectedModiaEnhet } from '../../../../graphql/localState/modia'
 import { DiagnoseFormValue } from '../../../FormComponents/DiagnosePicker/DiagnosePicker'
+import { useModiaContext } from '../../../../modia/modia-context'
 
 type UseSave = [save: SubmitHandler<UtenlanskFormValues>, result: MutationResult<SaveOppgaveMutation>]
 type UseSaveOptions = { fnr: string; onCompleted?: () => void }
 
 export function useHandleSave({ fnr, onCompleted }: UseSaveOptions): UseSave {
     const params = useParam(Location.Utenlansk)
-    const enhetId = useSelectedModiaEnhet()
+    const { selectedEnhetId } = useModiaContext()
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument)
     const saveAndClose = async (data: UtenlanskFormValues): Promise<void> => {
         logger.info(`Saving incomplete oppgave for oppgaveId: ${params.oppgaveId}`)
@@ -33,7 +33,7 @@ export function useHandleSave({ fnr, onCompleted }: UseSaveOptions): UseSave {
                 id: params.oppgaveId,
                 values: mapFormValues(fnr, data),
                 status: SykmeldingUnderArbeidStatus.UnderArbeid,
-                enhetId,
+                enhetId: selectedEnhetId ?? raise('Oppgave kan ikke lagres uten valgt enhet'),
             },
             onCompleted,
         })
@@ -45,7 +45,7 @@ export function useHandleSave({ fnr, onCompleted }: UseSaveOptions): UseSave {
 export function useHandleRegister({ fnr, onCompleted }: UseSaveOptions): UseSave {
     const params = useParam(Location.Utenlansk)
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument)
-    const enhetId = useSelectedModiaEnhet()
+    const { selectedEnhetId } = useModiaContext()
     const registerAndSubmit: SubmitHandler<UtenlanskFormValues> = async (data): Promise<void> => {
         logger.info(`Submitting oppgave for oppgaveId: ${params.oppgaveId}`)
 
@@ -54,7 +54,7 @@ export function useHandleRegister({ fnr, onCompleted }: UseSaveOptions): UseSave
                 id: params.oppgaveId,
                 values: mapFormValues(fnr, data),
                 status: SykmeldingUnderArbeidStatus.Ferdigstilt,
-                enhetId,
+                enhetId: selectedEnhetId ?? raise('Oppgave kan ikke lagres uten valgt enhet'),
             },
             onCompleted,
         })
