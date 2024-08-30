@@ -28,7 +28,7 @@ export function useSplitDocumentState(defaultLayout: PersistentPaneLayout): UseS
 
     const onLayout = (sizes: number[]): void => {
         setPanelSizes(sizes)
-        document.cookie = `syk-dig-split-view:layout=${JSON.stringify(sizes)};path=/`
+        document.cookie = `syk-dig-split-view:layout=${JSON.stringify(sizes)};path=/;SameSite=Strict`
     }
 
     const setView = (state: ViewState): void => {
