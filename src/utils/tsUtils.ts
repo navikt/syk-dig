@@ -1,5 +1,9 @@
-export function raise(error: Error): never {
-    throw error
+export function raise(error: Error | string): never {
+    if (typeof error === 'string') {
+        throw new Error(error)
+    } else {
+        throw error
+    }
 }
 
 export function notNull<T>(value: T): value is NonNullable<T> {

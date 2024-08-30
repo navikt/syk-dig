@@ -3,7 +3,7 @@ import { logger } from '@navikt/next-logger'
 
 import { RuleHitErrors } from '../schema/RuleHitErrors'
 import { mapFormValueToSmregRegistrertSykmelding } from '../smreg/smreg-mapping'
-import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
+import { useModiaContext } from '../../../modia/modia-context'
 import { redirectTilGosys } from '../../../utils/gosys'
 import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
 
@@ -13,7 +13,7 @@ export function useNasjonalSykmeldingSubmitHandler(
     oppgaveMeta: { oppgaveId: string } | { ferdigstilt: true; sykmeldingId: string },
     sykmelding: Papirsykmelding | null,
 ): [(values: NasjonalFormValues) => void, MutationResult<{ ruleHits: RuleHitErrors | null }>] {
-    const enhetId = useSelectedModiaEnhet()
+    const enhetId = useModiaContext()
 
     const url =
         'sykmeldingId' in oppgaveMeta

@@ -5,10 +5,10 @@ import { IToggle } from '@unleash/nextjs'
 import { ApolloProvider } from '@apollo/client'
 import { logger } from '@navikt/next-logger'
 
-import { ModiaContext, ModiaContextError } from '../modia/ModiaService'
+import { ModiaData, ModiaDataError } from '../modia/ModiaService'
 import { createApolloClient } from '../graphql/apollo'
 import { FlagProvider } from '../toggles/context'
-import { useModiaContextUpdated } from '../graphql/localState/modia'
+import { ModiaProvider } from '../modia/modia-context'
 import { bundledEnv } from '../utils/env'
 
 if (bundledEnv.NEXT_PUBLIC_API_MOCKING === 'enabled') {
@@ -17,19 +17,19 @@ if (bundledEnv.NEXT_PUBLIC_API_MOCKING === 'enabled') {
 }
 
 type Props = {
-    modiaContext?: ModiaContext | ModiaContextError
+    modiaContext: ModiaData | ModiaDataError
     toggles: IToggle[]
 }
 
 function Providers({ children, modiaContext, toggles }: PropsWithChildren<Props>): ReactElement {
-    const [apolloClient] = useState(() => createApolloClient(modiaContext))
-
-    useModiaContextUpdated(apolloClient, modiaContext)
+    const [apolloClient] = useState(() => createApolloClient())
 
     return (
-        <ApolloProvider client={apolloClient}>
-            <FlagProvider toggles={toggles}>{children}</FlagProvider>
-        </ApolloProvider>
+        <ModiaProvider modiaContext={modiaContext}>
+            <ApolloProvider client={apolloClient}>
+                <FlagProvider toggles={toggles}>{children}</FlagProvider>
+            </ApolloProvider>
+        </ModiaProvider>
     )
 }
 

@@ -1,7 +1,7 @@
 import { gql, MutationTuple, useMutation } from '@apollo/client'
 import { logger } from '@navikt/next-logger'
 
-import { useSelectedModiaEnhet } from '../../../graphql/localState/modia'
+import { useModiaContext } from '../../../modia/modia-context'
 
 /**
  * Is this functionally the same as tilbake to gosys in syk-dig? Can we re-use that mutation?
@@ -45,7 +45,7 @@ export function useAvvisSykmeldingSmreg({
 }: {
     onCompleted?: () => void
 }): MutationTuple<unknown, { oppgaveId: string; input: { reason: string | null } }> {
-    const enhetId = useSelectedModiaEnhet()
+    const enhetId = useModiaContext()
 
     return useMutation<unknown, { oppgaveId: string; input: { reason: string | null } }>(
         gql`

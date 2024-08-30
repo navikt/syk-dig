@@ -11,11 +11,11 @@ export interface ClientError<T> {
     message: string
 }
 
-export type ModiaContext = Veileder & AktivEnhet
+export type ModiaData = Veileder & AktivEnhet
 
-export type ModiaContextError = ClientError<'MODIA_ERROR' | 'PARSE_ERROR' | 'FETCH_ERROR'>
+export type ModiaDataError = ClientError<'MODIA_ERROR' | 'PARSE_ERROR' | 'FETCH_ERROR' | 'UNKNOWN_ERROR'>
 
-export async function getModiaContext(userAccessToken: string): Promise<ModiaContext | ModiaContextError> {
+export async function getModiaData(userAccessToken: string): Promise<ModiaData | ModiaDataError> {
     if (isLocalOrDemo) {
         logger.warn('Using mocked modia context for local development (or demo)')
         return {
@@ -80,7 +80,7 @@ export async function getModiaContext(userAccessToken: string): Promise<ModiaCon
 async function fetchModia<SchemaType extends z.ZodTypeAny>(
     { path, schema, what }: { path: string; schema: SchemaType; what: 'veileder' | 'aktiv enhet' },
     accessToken: string,
-): Promise<z.infer<SchemaType> | ModiaContextError> {
+): Promise<z.infer<SchemaType> | ModiaDataError> {
     const url = `http://${getServerEnv().MODIACONTEXTHOLDER_HOST}/api/${path}`
 
     try {
