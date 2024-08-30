@@ -5,10 +5,13 @@ import { http, HttpResponse } from 'msw'
 import { render, screen } from '../../../utils/testUtils'
 import { server } from '../../../mocks/server'
 import { apiUrl } from '../smreg/api'
-import NasjonalOppgaveView from '../NasjonalOppgaveView'
 
 import fullOppgave from './testData/fullOppgave.json'
-import { mockBehandlerinfo, mockPasientinfo } from './smregTestUtils'
+import {
+    mockBehandlerinfo,
+    mockPasientinfo,
+    TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
+} from './smregTestUtils'
 
 describe('Registration api errors', async () => {
     beforeEach(() => {
@@ -24,12 +27,14 @@ describe('Registration api errors', async () => {
             ),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${fullOppgave.oppgaveid}`} layout={undefined} />, {
-            useRestLink: true,
-        })
-
-        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
-        expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
+        render(
+            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                oppgaveId={`${fullOppgave.oppgaveid}`}
+            />,
+            {
+                useRestLink: true,
+            },
+        )
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 
@@ -50,12 +55,14 @@ describe('Registration api errors', async () => {
             ),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${fullOppgave.oppgaveid}`} layout={undefined} />, {
-            useRestLink: true,
-        })
-
-        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
-        expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
+        render(
+            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                oppgaveId={`${fullOppgave.oppgaveid}`}
+            />,
+            {
+                useRestLink: true,
+            },
+        )
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 
@@ -89,12 +96,14 @@ describe('Registration api errors', async () => {
             ),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${fullOppgave.oppgaveid}`} layout={undefined} />, {
-            useRestLink: true,
-        })
-
-        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
-        expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
+        render(
+            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                oppgaveId={`${fullOppgave.oppgaveid}`}
+            />,
+            {
+                useRestLink: true,
+            },
+        )
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 

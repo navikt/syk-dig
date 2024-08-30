@@ -5,10 +5,9 @@ import { http, HttpResponse } from 'msw'
 import { render, screen, within } from '../../../utils/testUtils'
 import { server } from '../../../mocks/server'
 import { apiUrl } from '../smreg/api'
-import NasjonalOppgaveView from '../NasjonalOppgaveView'
 
 import emptyOppgave from './testData/emptyOppgave.json'
-import { mockPasientinfo } from './smregTestUtils'
+import { mockPasientinfo, TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway } from './smregTestUtils'
 
 describe('Send til Gosys', async () => {
     beforeEach(() => {
@@ -24,12 +23,14 @@ describe('Send til Gosys', async () => {
             ),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${emptyOppgave.oppgaveid}`} layout={undefined} />, {
-            useRestLink: true,
-        })
-
-        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
-        expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
+        render(
+            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                oppgaveId={`${emptyOppgave.oppgaveid}`}
+            />,
+            {
+                useRestLink: true,
+            },
+        )
 
         await userEvent.click(await screen.findByRole('button', { name: 'Dette er ikke en sykmelding' }))
         expect(await screen.findByText('Send til Gosys?')).toBeInTheDocument()
