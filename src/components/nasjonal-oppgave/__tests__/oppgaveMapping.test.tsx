@@ -15,7 +15,11 @@ import {
 
 import fullOppgave from './testData/fullOppgave.json'
 import emptyOppgave from './testData/emptyOppgave.json'
-import { mockBehandlerinfo, mockPasientinfo } from './smregTestUtils'
+import {
+    mockBehandlerinfo,
+    mockPasientinfo,
+    TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
+} from './smregTestUtils'
 
 describe('Mapping opppgave fetched from API', async () => {
     beforeEach(() => {
@@ -26,15 +30,17 @@ describe('Mapping opppgave fetched from API', async () => {
     it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', async () => {
         server.use(http.get(apiUrl(`/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)))
 
-        render(<NasjonalOppgaveView oppgaveId={`${fullOppgave.oppgaveid}`} layout={undefined} />, {
-            useRestLink: true,
-        })
-
-        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
-        expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
+        render(
+            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                oppgaveId={`${fullOppgave.oppgaveid}`}
+            />,
+            {
+                useRestLink: true,
+            },
+        )
 
         // 1 Pasientopplysninger
-        expect(screen.getByLabelText('1.2 Fødselsnummer (11 siffer)')).toHaveDisplayValue(
+        expect(await screen.findByLabelText('1.2 Fødselsnummer (11 siffer)')).toHaveDisplayValue(
             fullOppgave.papirSmRegistering.fnr,
         )
 

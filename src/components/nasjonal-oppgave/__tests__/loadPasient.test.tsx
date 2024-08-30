@@ -8,7 +8,10 @@ import { render, screen } from '../../../utils/testUtils'
 import NasjonalOppgaveView from '../NasjonalOppgaveView'
 
 import nullFnrOppgave from './testData/nullFnrOppgave.json'
-import { mockBehandlerinfo } from './smregTestUtils'
+import {
+    mockBehandlerinfo,
+    TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
+} from './smregTestUtils'
 
 describe('Load pasientinfo', async () => {
     beforeEach(() => {
@@ -27,12 +30,14 @@ describe('Load pasientinfo', async () => {
             ),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${nullFnrOppgave.oppgaveid}`} layout={undefined} />, {
-            useRestLink: true,
-        })
-
-        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
-        expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
+        render(
+            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                oppgaveId={`${nullFnrOppgave.oppgaveid}`}
+            />,
+            {
+                useRestLink: true,
+            },
+        )
 
         await userEvent.type(await screen.findByText('1.2 Fødselsnummer (11 siffer)'), '12345678910')
         expect(await screen.findByText('Per Anders Persson')).toBeInTheDocument()

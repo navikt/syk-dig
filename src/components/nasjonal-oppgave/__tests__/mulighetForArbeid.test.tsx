@@ -5,10 +5,13 @@ import { http, HttpResponse } from 'msw'
 import { render, screen, within } from '../../../utils/testUtils'
 import { server } from '../../../mocks/server'
 import { apiUrl } from '../smreg/api'
-import NasjonalOppgaveView from '../NasjonalOppgaveView'
 
 import fullOppgaveWithoutPeriods from './testData/fullOppgaveWithoutPeriods.json'
-import { mockBehandlerinfo, mockPasientinfo } from './smregTestUtils'
+import {
+    mockBehandlerinfo,
+    mockPasientinfo,
+    TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
+} from './smregTestUtils'
 
 describe('Mulighet for arbeid section', async () => {
     beforeEach(() => {
@@ -29,15 +32,17 @@ describe('Mulighet for arbeid section', async () => {
             }),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${fullOppgaveWithoutPeriods.oppgaveid}`} layout={undefined} />, {
-            useRestLink: true,
-        })
-
-        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
-        expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
+        render(
+            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                oppgaveId={`${fullOppgaveWithoutPeriods.oppgaveid}`}
+            />,
+            {
+                useRestLink: true,
+            },
+        )
 
         // Add avventende periode
-        const arbeidsSection = within(screen.getByRole('region', { name: '4 Mulighet for arbeid' }))
+        const arbeidsSection = within(await screen.findByRole('region', { name: '4 Mulighet for arbeid' }))
         await userEvent.selectOptions(
             await arbeidsSection.findByRole('combobox', { name: 'Periodetype' }),
             'avventende',
@@ -75,6 +80,12 @@ describe('Mulighet for arbeid section', async () => {
 
         await userEvent.click(screen.getByText(/Feltene stemmer overens/))
         await userEvent.click(screen.getByRole('button', { name: 'Registrer sykmeldingen' }))
+
+        expect(
+            screen.queryByRole('heading', {
+                name: /du må fylle ut disse feltene før du kan registrere sykmeldingen/i,
+            }),
+        ).not.toBeInTheDocument()
 
         expect(invokedBody.perioder).toEqual([
             {

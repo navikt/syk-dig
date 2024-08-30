@@ -5,11 +5,14 @@ import { http, HttpResponse } from 'msw'
 import { render, screen, within } from '../../../utils/testUtils'
 import { server } from '../../../mocks/server'
 import { apiUrl } from '../smreg/api'
-import NasjonalOppgaveView from '../NasjonalOppgaveView'
 import { RegistrertSykmelding } from '../schema/sykmelding/RegistrertSykmelding'
 
 import emptyOppgave from './testData/emptyOppgave.json'
-import { mockBehandlerinfo, mockPasientinfo } from './smregTestUtils'
+import {
+    mockBehandlerinfo,
+    mockPasientinfo,
+    TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
+} from './smregTestUtils'
 
 describe('Submit oppgave', async () => {
     beforeEach(() => {
@@ -28,14 +31,16 @@ describe('Submit oppgave', async () => {
             }),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${emptyOppgave.oppgaveid}`} layout={undefined} />, {
-            useRestLink: true,
-        })
+        render(
+            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                oppgaveId={`${emptyOppgave.oppgaveid}`}
+            />,
+            {
+                useRestLink: true,
+            },
+        )
 
-        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
-        expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
-
-        await userEvent.type(screen.getByLabelText('1.2 Fødselsnummer (11 siffer)'), '12345678910')
+        await userEvent.type(await screen.findByLabelText('1.2 Fødselsnummer (11 siffer)'), '12345678910')
 
         const arbeidsgiverSection = within(screen.getByRole('region', { name: '2 Arbeidsgiver' }))
         await userEvent.selectOptions(arbeidsgiverSection.getByLabelText('2.1 Pasienten har'), 'Én arbeidsgiver')
@@ -50,7 +55,7 @@ describe('Submit oppgave', async () => {
 
         await userEvent.type(diagnoseSection.getByLabelText('3.1.2 Kode'), 'A000')
         await userEvent.click(diagnoseSection.getByRole('button', { name: 'Legg til bidiagnose' }))
-        await userEvent.type(diagnoseSection.getByLabelText('3.2.2 Kode'), 'A000')
+        await userEvent.type(await diagnoseSection.findByLabelText('3.2.2 Kode'), 'A000')
         await userEvent.click(diagnoseSection.getByRole('checkbox', { name: /Annen lovfestet fraværsgrunn/ }))
         await userEvent.click(
             diagnoseSection.getByRole('checkbox', {

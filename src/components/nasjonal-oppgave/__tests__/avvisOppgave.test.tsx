@@ -6,10 +6,13 @@ import { within } from '@testing-library/react'
 import { render, screen } from '../../../utils/testUtils'
 import { apiUrl } from '../smreg/api'
 import { server } from '../../../mocks/server'
-import NasjonalOppgaveView from '../NasjonalOppgaveView'
 
 import fullOppgave from './testData/fullOppgave.json'
-import { mockBehandlerinfo, mockPasientinfo } from './smregTestUtils'
+import {
+    mockBehandlerinfo,
+    mockPasientinfo,
+    TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
+} from './smregTestUtils'
 
 describe('Avvis oppgave', async () => {
     beforeEach(() => {
@@ -26,12 +29,14 @@ describe('Avvis oppgave', async () => {
             ),
         )
 
-        render(<NasjonalOppgaveView oppgaveId={`${fullOppgave.oppgaveid}`} layout={undefined} />, {
-            useRestLink: true,
-        })
-
-        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
-        expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
+        render(
+            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                oppgaveId={`${fullOppgave.oppgaveid}`}
+            />,
+            {
+                useRestLink: true,
+            },
+        )
 
         await userEvent.click(await screen.findByRole('button', { name: 'Avvis sykmeldingen' }))
         expect(await screen.findByText('Er du sikker på at du vil avvise sykmeldingen?')).toBeInTheDocument()
