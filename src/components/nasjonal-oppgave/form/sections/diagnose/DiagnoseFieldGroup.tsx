@@ -14,14 +14,14 @@ function DiagnoseFieldGroup(): ReactElement {
 
     return (
         <div className="flex flex-col gap-8">
-            <div>
-                <Heading size="xsmall" level="3" spacing>
+            <section aria-labelledby="hoveddiagnose-heading">
+                <Heading size="xsmall" level="3" spacing id="hoveddiagnose-heading">
                     3.1 Hoveddiagnose
                 </Heading>
                 <DiagnosePicker name="medisinskVurdering.hoveddiagnose" diagnoseType="hoveddiagnose" specificLabels />
-            </div>
-            <div>
-                <Heading size="xsmall" level="3" spacing>
+            </section>
+            <section aria-labelledby="bidiagnose-heading">
+                <Heading size="xsmall" level="3" spacing id="bidiagnose-heading">
                     3.2 Bidiagnose
                 </Heading>
                 <div className="flex flex-col gap-8 divide-y-2 divide-border-divider [&>div]:pt-8 [&>div:first-child]:p-0">
@@ -35,7 +35,7 @@ function DiagnoseFieldGroup(): ReactElement {
                         />
                     ))}
                 </div>
-            </div>
+            </section>
             <div>
                 <Button
                     variant="secondary"

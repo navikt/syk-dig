@@ -107,8 +107,8 @@ describe('SykmeldingForm', () => {
             ])
 
             await fillDiagnoseSection([
-                { system: 'ICD10', search: 'L81', click: 'L815' },
-                { system: 'ICPC2', search: 'Y0', click: 'Y04' },
+                { system: 'ICD10', search: 'L81', click: /L815/ },
+                { system: 'ICPC2', search: 'Y0', click: /Y04/ },
             ])
 
             await fillAndreOpplysningerSection({
@@ -414,7 +414,7 @@ async function fillPeriodeSection(
 }
 
 async function fillDiagnoseSection(
-    diagnoser: { system: DiagnoseSystem; search: string; click: string }[],
+    diagnoser: { system: DiagnoseSystem; search: string; click: RegExp }[],
 ): Promise<void> {
     const section = within(screen.getByRole('region', { name: 'Diagnose' }))
 
