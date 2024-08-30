@@ -3325,39 +3325,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ariakit-react-utils@npm:0.17.0-next.27":
-  version: 0.17.0-next.27
-  resolution: "ariakit-react-utils@npm:0.17.0-next.27"
-  dependencies:
-    ariakit-utils: "npm:0.17.0-next.27"
-  peerDependencies:
-    "@types/react": ^17.0.0 || ^18.0.0
-    react: ^17.0.0 || ^18.0.0
-  checksum: 10/d12ab9ddad33b75d8a5fe5e9b06a304bba86c6c2c026e47fdd22f8b6dd475f6d3aa2f959bf07e8afc8b74ed59b52fc35d9cd6bdd6f375cdf8781896be30125e7
-  languageName: node
-  linkType: hard
-
-"ariakit-utils@npm:0.17.0-next.27":
-  version: 0.17.0-next.27
-  resolution: "ariakit-utils@npm:0.17.0-next.27"
-  checksum: 10/df644da163403e5befd376842f7d437e11a952a88c1e85bb897a2032522e01405e96aa2e83e2559b424f1e740e75c2f86d9be0e61a87cccf9cb08efed4b2d6cb
-  languageName: node
-  linkType: hard
-
-"ariakit@npm:^2.0.0-next.44":
-  version: 2.0.0-next.44
-  resolution: "ariakit@npm:2.0.0-next.44"
-  dependencies:
-    "@floating-ui/dom": "npm:^1.0.0"
-    ariakit-react-utils: "npm:0.17.0-next.27"
-    ariakit-utils: "npm:0.17.0-next.27"
-  peerDependencies:
-    react: ^17.0.0 || ^18.0.0
-    react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10/a0a4bf6af55b7dd6cc99ac832b94dfcb2d8d7f496677e47d5fa7007550ed6b6e8ce6f038a3b72ed7516618e7b398b78a82794f79572f43462f3fe8fbc9049241
-  languageName: node
-  linkType: hard
-
 "array-buffer-byte-length@npm:^1.0.0, array-buffer-byte-length@npm:^1.0.1":
   version: 1.0.1
   resolution: "array-buffer-byte-length@npm:1.0.1"
@@ -9809,7 +9776,6 @@ __metadata:
     "@unleash/nextjs": "npm:^1.4.4"
     "@vitejs/plugin-react": "npm:^4.3.1"
     apollo-link-rest: "npm:^0.9.0"
-    ariakit: "npm:^2.0.0-next.44"
     autoprefixer: "npm:^10.4.20"
     clsx: "npm:^2.1.1"
     concurrently: "npm:^8.2.2"

@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { http, HttpResponse } from 'msw'
+import { within } from '@testing-library/react'
 
 import { render, screen } from '../../../utils/testUtils'
 import NasjonalOppgaveView from '../NasjonalOppgaveView'
@@ -61,22 +62,29 @@ describe('Mapping opppgave fetched from API', async () => {
         expect(screen.getAllByDisplayValue('ICPC2')).toHaveLength(1)
         expect(
             screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.hovedDiagnose.kode),
-        ).toBeInTheDocument() // react-select exposes the value within a div
+        ).toBeInTheDocument()
         expect(
             screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[0].kode),
-        ).toBeInTheDocument() // react-select exposes the value within a div
+        ).toBeInTheDocument()
         expect(
             screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[1].kode),
-        ).toBeInTheDocument() // react-select exposes the value within a div
-        expect(
-            screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.hovedDiagnose.tekst),
         ).toBeInTheDocument()
         expect(
-            screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[0].tekst),
-        ).toBeInTheDocument()
+            within(screen.getByRole('region', { name: '3.1 Hoveddiagnose' })).getAllByText(
+                fullOppgave.papirSmRegistering.medisinskVurdering.hovedDiagnose.tekst,
+            ),
+            // Two occurences means it has been picked, since JSDOM still sees hidden elements
+        ).toHaveLength(2)
+
+        const bidiagnoseSection = within(screen.getByRole('region', { name: '3.2 Bidiagnose' }))
         expect(
-            screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[1].tekst),
-        ).toBeInTheDocument()
+            bidiagnoseSection.getAllByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[0].tekst),
+            // Two occurences means it has been picked, since JSDOM still sees hidden elements
+        ).toHaveLength(2)
+        expect(
+            bidiagnoseSection.getAllByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[1].tekst),
+            // Two occurences means it has been picked, since JSDOM still sees hidden elements
+        ).toHaveLength(2)
         expect(screen.getByRole('checkbox', { name: /Annen lovfestet fraværsgrunn/ })).toBeChecked()
         expect(screen.getByRole('checkbox', { name: /Når vedkommende er under behandling/ })).toBeChecked()
         expect(
