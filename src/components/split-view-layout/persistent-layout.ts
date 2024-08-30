@@ -9,9 +9,9 @@ export type PaneView = {
 
 export function getPersistentPaneLayout(): PersistentPaneLayout {
     const layout = cookies().get('syk-dig-split-view:layout')
+    if (!layout) return undefined
 
     const sizes = layout ? JSON.parse(layout.value) : undefined
-
     if (Array.isArray(sizes) && sizes.length === 2) {
         return sizes as [number, number]
     }
