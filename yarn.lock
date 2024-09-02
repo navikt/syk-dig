@@ -2588,12 +2588,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:20.16.2, @types/node@npm:^20.11.16":
+"@types/node@npm:*, @types/node@npm:^20.11.16":
   version: 20.16.2
   resolution: "@types/node@npm:20.16.2"
   dependencies:
     undici-types: "npm:~6.19.2"
   checksum: 10/fcae2ffaa681c2947cd3dae67a6dcf83ef666fc0994281ad881b9e3bb542fec3a9206d9ce899c20e5cdddace2b96b42e32f247864de9baf95756c07b9eff15d7
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:20.16.3":
+  version: 20.16.3
+  resolution: "@types/node@npm:20.16.3"
+  dependencies:
+    undici-types: "npm:~6.19.2"
+  checksum: 10/3b14b8b3cb92adc7db69f8cf351e7b6b5001e5c7cdb07470943215afeafc2952ae588c918543784e8f8e975d43d609ce0c7bced91f1b8745f1669d6137adaabc
   languageName: node
   linkType: hard
 
@@ -6916,9 +6925,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^15.2.9":
-  version: 15.2.9
-  resolution: "lint-staged@npm:15.2.9"
+"lint-staged@npm:^15.2.10":
+  version: 15.2.10
+  resolution: "lint-staged@npm:15.2.10"
   dependencies:
     chalk: "npm:~5.3.0"
     commander: "npm:~12.1.0"
@@ -6926,13 +6935,13 @@ __metadata:
     execa: "npm:~8.0.1"
     lilconfig: "npm:~3.1.2"
     listr2: "npm:~8.2.4"
-    micromatch: "npm:~4.0.7"
+    micromatch: "npm:~4.0.8"
     pidtree: "npm:~0.6.0"
     string-argv: "npm:~0.3.2"
     yaml: "npm:~2.5.0"
   bin:
     lint-staged: bin/lint-staged.js
-  checksum: 10/2f7342ca3fc7e2a8a0cc3db79ca8d2ad0269b98b13220f3a6745a514aacf1f83487a23a550569081ea962f9a576af7df8d687a8330a9c3c2c27348d5a4d5440e
+  checksum: 10/ab6930cd633dbb5b6ec7c81fc06c65df41e9f80d93dd22e0d79c6e272cdfd8110a0fbdec60303d46a06b30bcd92261153630e2c937531b77ec5ae41e7e9d90d3
   languageName: node
   linkType: hard
 
@@ -7186,7 +7195,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"micromatch@npm:^4.0.4, micromatch@npm:^4.0.5, micromatch@npm:~4.0.7":
+"micromatch@npm:^4.0.4, micromatch@npm:^4.0.5, micromatch@npm:~4.0.8":
   version: 4.0.8
   resolution: "micromatch@npm:4.0.8"
   dependencies:
@@ -8354,6 +8363,17 @@ __metadata:
     picocolors: "npm:^1.0.1"
     source-map-js: "npm:^1.2.0"
   checksum: 10/6e6176c2407eff60493ca60a706c6b7def20a722c3adda94ea1ece38345eb99964191336fd62b62652279cec6938e79e0b1e1d477142c8d3516e7a725a74ee37
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.4.43":
+  version: 8.4.43
+  resolution: "postcss@npm:8.4.43"
+  dependencies:
+    nanoid: "npm:^3.3.7"
+    picocolors: "npm:^1.0.1"
+    source-map-js: "npm:^1.2.0"
+  checksum: 10/612075f7ab27129486292fcf0b2e7aa770b90c33045cc9500620ad6a483ff5f33c288340f9527494c8aa124b1a0818259687b340ed7eb8aa18bdfc96cd0dfeed
   languageName: node
   linkType: hard
 
@@ -9793,7 +9813,7 @@ __metadata:
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/react": "npm:^16.0.1"
     "@testing-library/user-event": "npm:^14.5.2"
-    "@types/node": "npm:20.16.2"
+    "@types/node": "npm:20.16.3"
     "@types/pdfobject": "npm:^2.2.5"
     "@types/qs": "npm:^6.9.15"
     "@types/react": "npm:18.3.5"
@@ -9812,7 +9832,7 @@ __metadata:
     graphql: "npm:^16.9.0"
     husky: "npm:^9.1.5"
     jsdom: "npm:^25.0.0"
-    lint-staged: "npm:^15.2.9"
+    lint-staged: "npm:^15.2.10"
     msw: "npm:2.4.1"
     next: "npm:14.2.7"
     next-logger: "npm:^5.0.0"
@@ -9822,7 +9842,7 @@ __metadata:
     pdfobject: "npm:^2.3.0"
     pino: "npm:^9.3.2"
     pino-pretty: "npm:^11.2.2"
-    postcss: "npm:^8.4.41"
+    postcss: "npm:^8.4.43"
     postcss-import: "npm:^16.1.0"
     prettier: "npm:^3.3.3"
     prettier-plugin-tailwindcss: "npm:^0.6.6"
