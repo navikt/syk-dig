@@ -51,6 +51,8 @@ spec:
         - application: smregistrering-backend
         - application: modiacontextholder
           namespace: personoversikt
+        - application: flexjar-backend
+          namespace: flex
       external:
         - host: teamsykmelding-unleash-api.nav.cloud.nais.io
   env:

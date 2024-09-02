@@ -1,12 +1,14 @@
-import { IToggle, getDefinitions, evaluateFlags } from '@unleash/nextjs'
+import { evaluateFlags, getDefinitions, IToggle } from '@unleash/nextjs'
+import { getToken, parseAzureUserToken } from '@navikt/oasis'
 import { logger } from '@navikt/next-logger'
 import * as R from 'remeda'
-import { cookies } from 'next/headers'
+import { cookies, headers } from 'next/headers'
 
 import { isLocalOrDemo } from '../utils/env'
 
 import { getUnleashEnvironment, localDevelopmentToggles } from './utils'
 import { EXPECTED_TOGGLES } from './toggles'
+import { UNLEASH_COOKIE_NAME } from './cookie'
 
 export async function getToggles(): Promise<{ toggles: IToggle[] }> {
     if ((EXPECTED_TOGGLES as readonly string[]).length === 0) {
@@ -25,7 +27,7 @@ export async function getToggles(): Promise<{ toggles: IToggle[] }> {
         return evaluateFlags(definitions, {
             sessionId,
             environment: getUnleashEnvironment(),
-            // TODO: userid from azure token?
+            userId: getAzureUser(),
         })
     } catch (e) {
         logger.error(new Error('Failed to get flags from Unleash. Falling back to default flags.', { cause: e }))
@@ -62,23 +64,38 @@ async function getAndValidateDefinitions(): Promise<ReturnType<typeof getDefinit
         logger.error(
             `Difference in expected flags and flags in unleash, expected but not in unleash: ${diff.join(', ')}`,
         )
+    } else {
+        logger.info(
+            `Fetched ${definitions.features.length} flags from unleash, found all ${EXPECTED_TOGGLES.length} expected flags`,
+        )
     }
-
-    logger.info(
-        `Fetched ${definitions.features.length} flags from unleash, found all ${EXPECTED_TOGGLES.length} expected flags`,
-    )
 
     return definitions
 }
 
-export const UNLEASH_COOKIE_NAME = 'syk-dig-unleash-session-id'
-
-export function getUnleashSessionId(): string {
+function getUnleashSessionId(): string {
     const existingUnleashId = cookies().get(UNLEASH_COOKIE_NAME)
     if (existingUnleashId != null) {
         return existingUnleashId.value
     } else {
         logger.warn('No existing unleash session id found, is middleware not configured?')
         return '0'
+    }
+}
+
+function getAzureUser(): string | undefined {
+    const token = getToken(headers())
+    if (token == null) {
+        logger.warn('No token found in headers, cannot get NAVident')
+        return undefined
+    }
+
+    const parseResult = parseAzureUserToken(token)
+
+    if (parseResult.ok) {
+        return parseResult.NAVident
+    } else {
+        logger.warn("Tried to get NAVident from Azure token, but it wasn't valid", { error: parseResult.error.message })
+        return undefined
     }
 }

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomSessionId } from '@unleash/nextjs'
 
-import { UNLEASH_COOKIE_NAME } from './toggles/rsc'
 import { isLocalOrDemo } from './utils/env'
+import { UNLEASH_COOKIE_NAME } from './toggles/cookie'
 
 /**
  * Middleware is run on every document request, it handles CSP,

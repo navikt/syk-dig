@@ -13,6 +13,7 @@ export function getPersistentPaneLayout(): PersistentPaneLayout {
 
     const sizes = layout ? JSON.parse(layout.value) : undefined
     if (Array.isArray(sizes) && sizes.length === 2) {
+        logger.info(`Users persisted layout is ${JSON.stringify(sizes)}`)
         return sizes as [number, number]
     }
 
