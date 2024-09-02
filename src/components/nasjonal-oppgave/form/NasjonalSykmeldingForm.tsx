@@ -1,7 +1,7 @@
 import * as R from 'remeda'
 import React, { CSSProperties, ReactElement } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { BodyShort, ExpansionCard, HStack, Link, List } from '@navikt/ds-react'
+import { BodyShort, ExpansionCard, HStack, List } from '@navikt/ds-react'
 import { InformationIcon } from '@navikt/aksel-icons'
 
 import { sections } from '../sections'
@@ -51,7 +51,7 @@ function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
 
     return (
         <FormProvider {...form}>
-            <InfoAboutSmregMigrationAlert {...props} />
+            <InfoAboutSmregMigrationAlert />
             <form
                 onSubmit={form.handleSubmit(submitHandler, focusErrorSection)}
                 onKeyDown={(e) => {
@@ -99,7 +99,7 @@ function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
 /**
  * @Deprecated Once smreg is shut down we can remove this info and redirect
  */
-export function InfoAboutSmregMigrationAlert(props: OppgaveOrFerdigstilt): ReactElement {
+export function InfoAboutSmregMigrationAlert(): ReactElement {
     return (
         <ExpansionCard
             defaultOpen={localStorage.getItem('minimized-smreg-info-card') == null}
@@ -142,29 +142,12 @@ export function InfoAboutSmregMigrationAlert(props: OppgaveOrFerdigstilt): React
                     <List.Item>Små endringer i hvordan ting ser ut</List.Item>
                 </List>
                 <BodyShort>
-                    Opplever du noe trøbbel kan du fullføre{' '}
-                    <Link href={getOldSmregUrl(props)} className="inline">
-                        denne sykmeldingen i den gamle løsningen
-                    </Link>
-                    . Dersom du gjør det er det fint om du tar kontakt med brukerstøtte eller Team Sykmelding på{' '}
+                    Opplever du noe trøbbel er det fint om du tar kontakt med brukerstøtte eller Team Sykmelding på{' '}
                     <a href="mailto:nav.sykmelding@nav.no">mail</a> og forteller oss hva som gikk galt.
                 </BodyShort>
             </ExpansionCard.Content>
         </ExpansionCard>
     )
-}
-
-/**
- * @Deprecated Once smreg is shut down we can remove this info and redirect
- */
-function getOldSmregUrl(props: OppgaveOrFerdigstilt): string {
-    const base = `https://smregistrering.intern.nav.no`
-
-    if (props.ferdigstilt) {
-        return `${base}?sykmeldingid=${props.sykmeldingId}`
-    }
-
-    return `${base}?oppgaveid=${props.oppgaveId}`
 }
 
 export default NasjonalSykmeldingForm
