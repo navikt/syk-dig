@@ -6,6 +6,7 @@ import { mapFormValueToSmregRegistrertSykmelding } from '../smreg/smreg-mapping'
 import { useModiaContext } from '../../../modia/modia-context'
 import { redirectTilGosys } from '../../../utils/gosys'
 import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
+import { raise } from '../../../utils/tsUtils'
 
 import { NasjonalFormValues } from './NasjonalSykmeldingFormTypes'
 
@@ -13,7 +14,7 @@ export function useNasjonalSykmeldingSubmitHandler(
     oppgaveMeta: { oppgaveId: string } | { ferdigstilt: true; sykmeldingId: string },
     sykmelding: Papirsykmelding | null,
 ): [(values: NasjonalFormValues) => void, MutationResult<{ ruleHits: RuleHitErrors | null }>] {
-    const enhetId = useModiaContext()
+    const context = useModiaContext()
 
     const url =
         'sykmeldingId' in oppgaveMeta
@@ -31,7 +32,7 @@ export function useNasjonalSykmeldingSubmitHandler(
             }
         `,
         {
-            context: { headers: { 'X-Nav-Enhet': enhetId } },
+            context: { headers: { 'X-Nav-Enhet': context.selectedEnhetId ?? raise('Mangler valgt enhet') } },
             onCompleted: (data) => {
                 logger.info(
                     `Submitted nasjonal sykmelding (${JSON.stringify(oppgaveMeta, null, 2)}) OK (rule hits: ${data.ruleHits != null})`,
