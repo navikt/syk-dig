@@ -51,13 +51,11 @@ export async function updateFeedback(
             Authorization: `Bearer ${await getBearerToken(token)}`,
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(
-            JSON.stringify({
-                ...feedback,
-                app: 'syk-dig',
-                feedbackId: 'syk-dig-header',
-            } satisfies FlexjarFeedbackPaylad),
-        ),
+        body: JSON.stringify({
+            ...feedback,
+            app: 'syk-dig',
+            feedbackId: 'syk-dig-header',
+        } satisfies FlexjarFeedbackPaylad),
     })
 
     if (response.ok) {
