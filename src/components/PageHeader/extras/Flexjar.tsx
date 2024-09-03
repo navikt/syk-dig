@@ -116,15 +116,12 @@ function Flexjar(): ReactElement {
                         variant="secondary"
                         disabled={feedbackState.completed}
                         onClick={async () => {
-                            if (selected != null) {
-                                setHasClickedSend(true)
-                            }
-
                             if (selected == null || !text || !text.trim()) {
                                 ref.current?.close()
                                 return
                             }
 
+                            setHasClickedSend(true)
                             sendFeedbackAction({
                                 level: selected,
                                 text,

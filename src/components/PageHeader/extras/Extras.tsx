@@ -1,19 +1,14 @@
-'use client'
-
 import React, { ReactElement } from 'react'
+import { cookies } from 'next/headers'
 
-import { useFlag } from '../../../toggles/context'
-
+import FlexjarToggler from './FlexjarToggler'
 import Changelog from './changelog/Changelog'
-import Flexjar from './Flexjar'
 
 function Extras(): ReactElement {
-    const flexjarToggle = useFlag('SYK_DIG_FLEXJAR_HEADER')
-
     return (
         <div className="flex gap-3 items-center">
-            {flexjarToggle.enabled && <Flexjar />}
-            <Changelog />
+            <FlexjarToggler />
+            <Changelog defaultChangelogKey={cookies().get('syk-dig-changelog-key')?.value ?? '0'} />
         </div>
     )
 }
