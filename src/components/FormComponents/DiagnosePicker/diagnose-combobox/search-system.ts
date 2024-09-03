@@ -1,7 +1,7 @@
 import Fuse from 'fuse.js'
 import { ICD10, ICPC2 } from '@navikt/diagnosekoder'
 
-import { DiagnoseSuggestion } from './_types'
+import { DiagnoseSuggestion } from './types'
 
 const fuseIcd10 = new Fuse(ICD10, { keys: ['code', 'text'], threshold: 0.2 })
 const fuseIcpc2 = new Fuse(ICPC2, { keys: ['code', 'text'], threshold: 0.2 })

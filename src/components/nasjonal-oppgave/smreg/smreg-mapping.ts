@@ -2,10 +2,10 @@ import { MulighetForArbeid, NasjonalFormValues } from '../form/NasjonalSykmeldin
 import { Nullable } from '../../../utils/tsUtils'
 import { Periode } from '../schema/sykmelding/Periode'
 import { toDateString } from '../../../utils/dateUtils'
-import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/DiagnosePicker'
 import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
 import { RegistrertSykmelding, RegistrertSykmeldingSchema } from '../schema/sykmelding/RegistrertSykmelding'
 import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
+import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
 
 export function mapFormValueToSmregRegistrertSykmelding(
     values: NasjonalFormValues,
