@@ -46,7 +46,7 @@ export async function updateFeedback(
     logger.info(`Submitting feedback to flexjar-backend`)
 
     const response = await fetch(`http://flexjar-backend.flex/api/azure/v2/feedback/${id}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             Authorization: `Bearer ${await getBearerToken(token)}`,
             'Content-Type': 'application/json',
