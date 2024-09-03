@@ -31,6 +31,7 @@ export function ChangelogContent(): ReactElement {
                     alt="Animasjon som viser endring av størrelse"
                     fetchPriority="low"
                     className="mt-2 w-full"
+                    unoptimized
                 />
             </ChangelogItem>
         </div>
