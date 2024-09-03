@@ -24,10 +24,12 @@ export async function getToggles(): Promise<{ toggles: IToggle[] }> {
     try {
         const sessionId = getUnleashSessionId()
         const definitions = await getAndValidateDefinitions()
+        const userId = getAzureUser()?.toLowerCase()
+        logger.info(`Found user ID: ${userId}`)
         return evaluateFlags(definitions, {
             sessionId,
             environment: getUnleashEnvironment(),
-            userId: getAzureUser(),
+            userId,
         })
     } catch (e) {
         logger.error(new Error('Failed to get flags from Unleash. Falling back to default flags.', { cause: e }))
