@@ -13,7 +13,7 @@ export interface FlexjarFeedbackPaylad {
 export async function createFeedback(feedback: { svar: string }, token: string): Promise<{ id: string }> {
     logger.info(`Submitting feedback to flexjar-backend`)
 
-    const response = await fetch(`http://flexjar-backend.flex/api/flexjar-backend/api/v2/feedback`, {
+    const response = await fetch(`http://flexjar-backend.flex/api/v2/feedback`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${await getBearerToken(token)}`,
@@ -45,7 +45,7 @@ export async function updateFeedback(
 ): Promise<{ id: string }> {
     logger.info(`Submitting feedback to flexjar-backend`)
 
-    const response = await fetch(`http://flexjar-backend.flex/api/flexjar-backend/api/v2/feedback/${id}`, {
+    const response = await fetch(`http://flexjar-backend.flex/api/v2/feedback/${id}`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${await getBearerToken(token)}`,
