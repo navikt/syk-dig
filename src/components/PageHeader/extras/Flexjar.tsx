@@ -101,7 +101,7 @@ function Flexjar(): ReactElement {
                             }
                         />
                     )}
-                    {hasClickedSend && (
+                    {hasClickedSend && feedbackState.error == null && (
                         <Alert variant="success" className="mt-4">
                             <BodyShort spacing={!feedbackState.completed}>Takk for din tilbakemelding!</BodyShort>
                             {!feedbackState.completed && (
@@ -129,8 +129,6 @@ function Flexjar(): ReactElement {
                                 level: selected,
                                 text,
                             })
-
-                            return ref.current?.close()
                         }}
                     >
                         Send tilbakemelding

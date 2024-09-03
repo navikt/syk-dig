@@ -42,7 +42,7 @@ export async function updateFeedback(
         feedback: string | undefined
     },
     token: string,
-): Promise<{ id: string }> {
+): Promise<void> {
     logger.info(`Submitting feedback to flexjar-backend`)
 
     const response = await fetch(`http://flexjar-backend.flex/api/azure/v2/feedback/${id}`, {
@@ -60,7 +60,7 @@ export async function updateFeedback(
 
     if (response.ok) {
         logger.info('Submitted feedback OK')
-        return response.json()
+        return
     }
 
     throw new Error(`Unable to submit feedback to flexjar-backend, status: ${response.status} ${response.statusText}`)
