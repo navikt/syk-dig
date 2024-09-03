@@ -15,8 +15,8 @@ import { UtenlanskFormValues } from '../../SykmeldingForm'
 import { safeDate, safeString } from '../../../../utils/formUtils'
 import { notNull, raise } from '../../../../utils/tsUtils'
 import { PeriodeFormValue } from '../../Sykmeldingsperiode'
-import { DiagnoseFormValue } from '../../../FormComponents/DiagnosePicker/DiagnosePicker'
 import { useModiaContext } from '../../../../modia/modia-context'
+import { DiagnoseFormValue } from '../../../FormComponents/DiagnosePicker/diagnose-combobox/types'
 
 type UseSave = [save: SubmitHandler<UtenlanskFormValues>, result: MutationResult<SaveOppgaveMutation>]
 type UseSaveOptions = { fnr: string; onCompleted?: () => void }

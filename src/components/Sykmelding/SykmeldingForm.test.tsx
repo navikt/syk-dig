@@ -14,7 +14,7 @@ import {
     SykmeldingUnderArbeidStatus,
 } from '../../graphql/queries/graphql.generated'
 import { createMock } from '../../utils/test/apolloTestUtils'
-import { DiagnoseSystem } from '../FormComponents/DiagnosePicker/DiagnosePicker'
+import { DiagnoseSystem } from '../FormComponents/DiagnosePicker/diagnose-combobox/types'
 
 import SykmeldingForm from './SykmeldingForm'
 

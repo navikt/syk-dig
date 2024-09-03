@@ -13,10 +13,10 @@ import {
     AkselifiedComboboxPopover,
     AkselifiedComboboxWrapper,
 } from '../../combobox/AkselifiedCombobox'
-import { DiagnoseSystem, PossiblePickerFormNames } from '../DiagnosePicker'
-import { DiagnoseSuggestion } from '../../../../app/api/diagnose/[system]/_types'
+import { PossiblePickerFormNames } from '../DiagnosePicker'
 
-import { getDiagnoseSuggestionsAction } from './DiagnoseComboboxAction'
+import { DiagnoseSuggestion, DiagnoseSystem } from './types'
+import { getDiagnoseSuggestionsAction } from './actions'
 
 interface Props {
     id?: string

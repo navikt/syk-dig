@@ -3,14 +3,14 @@
 import { logger } from '@navikt/next-logger'
 
 import { isUserLoggedIn } from '../../../../auth/rsc'
-import { DiagnoseSystem } from '../DiagnosePicker'
-import { DiagnoseSearchResult } from '../../../../app/api/diagnose/[system]/_types'
-import { searchSystem } from '../../../../app/api/diagnose/[system]/_search-system'
+
+import { DiagnoseSuggestion, DiagnoseSystem } from './types'
+import { searchSystem } from './search-system'
 
 export async function getDiagnoseSuggestionsAction(
     system: DiagnoseSystem,
     value: unknown,
-): Promise<DiagnoseSearchResult | { reason: string }> {
+): Promise<{ suggestions: DiagnoseSuggestion[] } | { reason: string }> {
     const userLoggedIn = await isUserLoggedIn()
     if (!userLoggedIn) {
         return { reason: 'Not logged in' }
@@ -28,5 +28,5 @@ export async function getDiagnoseSuggestionsAction(
 
     return {
         suggestions: searchSystem(system.toLowerCase() as Lowercase<DiagnoseSystem>, value),
-    } satisfies DiagnoseSearchResult
+    }
 }

@@ -2,11 +2,11 @@ import { DefaultValues } from 'react-hook-form'
 import { logger } from '@navikt/next-logger'
 
 import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
-import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/DiagnosePicker'
 import { notNull, raise } from '../../../utils/tsUtils'
 import { Periode } from '../schema/sykmelding/Periode'
 import { safeToDate, toDate } from '../../../utils/dateUtils'
 import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
+import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
 
 import {
     AktivitetIkkeMuligPeriode,

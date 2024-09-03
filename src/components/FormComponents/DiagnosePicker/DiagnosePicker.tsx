@@ -8,11 +8,9 @@ import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
 import { NasjonalFormValues } from '../../nasjonal-oppgave/form/NasjonalSykmeldingFormTypes'
 
+import { DiagnoseSystem } from './diagnose-combobox/types'
 import DiagnoseCombobox from './diagnose-combobox/DiagnoseCombobox'
 import styles from './DiagnosePicker.module.css'
-
-export type DiagnoseSystem = 'ICD10' | 'ICPC2'
-export type DiagnoseFormValue = { system: DiagnoseSystem; code: string | null; text: string | null }
 
 export type PossiblePickerFormNames =
     | 'diagnoser.hoveddiagnose'

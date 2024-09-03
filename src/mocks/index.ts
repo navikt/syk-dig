@@ -3,8 +3,6 @@ import { StartOptions } from 'msw/browser'
 const whitelistRequests = [
     '/_next/',
     '/__nextjs',
-    '/api/country',
-    '/api/diagnose',
     '/api/logger',
     '/api/smreg',
     '/teamsykmelding/syk-dig/_next',
