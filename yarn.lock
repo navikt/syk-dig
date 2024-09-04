@@ -1917,12 +1917,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@navikt/next-api-proxy@npm:^3.4.6":
-  version: 3.4.6
-  resolution: "@navikt/next-api-proxy@npm:3.4.6::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-api-proxy%2F3.4.6%2Fe528ee5b31f8a6b22ea0f795174072b910faadf2"
+"@navikt/next-api-proxy@npm:^3.4.10":
+  version: 3.4.10
+  resolution: "@navikt/next-api-proxy@npm:3.4.10::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40navikt%2Fnext-api-proxy%2F3.4.10%2F96802315c3032ede89d010e8746e884e3f74f873"
   peerDependencies:
     next: 13 || 14
-  checksum: 10/e8a4705febd7aeaadd08a7ceda273af607ad9aefa824b55837cc2425c7a7f88b80aec39a520d65361f7e023da003b3b425bd5878efd08c5519b50231ad302ac5
+  checksum: 10/76505c2837cfb8f6d6e5cc032f80cc7bac44ba96d92497bd07061e7653e490ea210a72a75741b754b1656e9628832a54076fa8c69505c9c57e3ade5e7fc2fbdb
   languageName: node
   linkType: hard
 
@@ -9822,7 +9822,7 @@ __metadata:
     "@navikt/ds-react": "npm:^6.16.2"
     "@navikt/ds-tailwind": "npm:^6.16.2"
     "@navikt/eslint-config-teamsykmelding": "npm:^6.5.0"
-    "@navikt/next-api-proxy": "npm:^3.4.6"
+    "@navikt/next-api-proxy": "npm:^3.4.10"
     "@navikt/next-logger": "npm:^1.31.0"
     "@navikt/oasis": "npm:^3.4.0"
     "@parcel/watcher": "npm:^2.4.1"

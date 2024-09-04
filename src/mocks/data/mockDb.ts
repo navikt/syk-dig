@@ -19,7 +19,7 @@ export class FakeMockDB {
             documents: [
                 {
                     __typename: 'Document',
-                    dokumentInfoId: '1234',
+                    dokumentInfoId: 'primary',
                     tittel: 'Sykmelding',
                 },
                 {
