@@ -12,7 +12,6 @@ const bundledEnvSchema = z.object({
     NEXT_PUBLIC_GOSYS_URL: z.string(),
     NEXT_PUBLIC_MODIA_URL: z.string(),
     NEXT_PUBLIC_ASSET_PREFIX: z.string().optional(),
-    NEXT_PUBLIC_API_MOCKING: z.literal('enabled').optional(),
 })
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>
@@ -39,7 +38,6 @@ export const bundledEnv = bundledEnvSchema.parse({
     NEXT_PUBLIC_MODIA_URL: process.env.NEXT_PUBLIC_MODIA_URL,
     NEXT_PUBLIC_GOSYS_URL: process.env.NEXT_PUBLIC_GOSYS_URL,
     NEXT_PUBLIC_ASSET_PREFIX: process.env.NEXT_PUBLIC_ASSET_PREFIX,
-    NEXT_PUBLIC_API_MOCKING: process.env.NEXT_PUBLIC_API_MOCKING,
 } satisfies Record<keyof BundledEnv, string | undefined>)
 
 const getRawServerConfig = (): Partial<unknown> =>

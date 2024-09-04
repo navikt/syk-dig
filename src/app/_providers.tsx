@@ -9,9 +9,9 @@ import { ModiaData, ModiaDataError } from '../modia/ModiaService'
 import { createApolloClient } from '../graphql/apollo'
 import { FlagProvider } from '../toggles/context'
 import { ModiaProvider } from '../modia/modia-context'
-import { bundledEnv } from '../utils/env'
+import { isLocalOrDemo } from '../utils/env'
 
-if (bundledEnv.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+if (isLocalOrDemo) {
     logger.info('Setting up MSW for local or demo')
     require('../mocks')
 }
