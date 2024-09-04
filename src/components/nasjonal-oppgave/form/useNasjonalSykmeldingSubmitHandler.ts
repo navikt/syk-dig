@@ -1,5 +1,6 @@
 import { gql, MutationResult, useMutation } from '@apollo/client'
 import { logger } from '@navikt/next-logger'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import { RuleHitErrors } from '../schema/RuleHitErrors'
 import { mapFormValueToSmregRegistrertSykmelding } from '../smreg/smreg-mapping'
@@ -14,6 +15,8 @@ export function useNasjonalSykmeldingSubmitHandler(
     oppgaveMeta: { oppgaveId: string } | { ferdigstilt: true; sykmeldingId: string },
     sykmelding: Papirsykmelding | null,
 ): [(values: NasjonalFormValues) => void, MutationResult<{ ruleHits: RuleHitErrors | null }>] {
+    const router = useRouter()
+    const params = useSearchParams()
     const context = useModiaContext()
 
     const url =
@@ -39,7 +42,11 @@ export function useNasjonalSykmeldingSubmitHandler(
                 )
 
                 if (data.ruleHits == null) {
-                    redirectTilGosys()
+                    if (params?.get('source') === 'registrer-sykmelding') {
+                        router.push('/registrer-sykmelding')
+                    } else {
+                        redirectTilGosys()
+                    }
                 }
             },
             onError: (error) => {

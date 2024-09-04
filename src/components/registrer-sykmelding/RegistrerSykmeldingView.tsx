@@ -142,7 +142,7 @@ function JournalpostStatus({ status }: { status: JournalpostStatusEnum }): React
 function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): ReactElement {
     const [sykmeldingType, setSykmeldingType] = useState<string | null>(null)
     const [create, createResult] = useMutation(SykmeldingFraJournalpostDocument)
-    const utenlandskOppgaveId: string | null = createResult.data?.sykmeldingFraJournalpost.oppgaveId ?? null
+    const createdOppgaveId: string | null = createResult.data?.sykmeldingFraJournalpost.oppgaveId ?? null
     const opprettetSykmeldingStatus: JournalpostStatusEnum | null =
         createResult.data?.sykmeldingFraJournalpost.status ?? null
 
@@ -175,10 +175,19 @@ function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): Rea
                         <Heading level="3" size="medium">
                             Sykmelding ble opprettet
                         </Heading>
-                        {utenlandskOppgaveId && (
+                        {createdOppgaveId && sykmeldingType === 'utenlandsk' && (
                             <BodyShort>
                                 Du kan digitalisere denne utenlandske sykmeldingen ved å{' '}
-                                <Link href={`/oppgave/${utenlandskOppgaveId}?source=registrer-sykmelding`}>
+                                <Link href={`/oppgave/${createdOppgaveId}?source=registrer-sykmelding`}>
+                                    gå til oppgaven
+                                </Link>
+                                .
+                            </BodyShort>
+                        )}
+                        {createdOppgaveId && sykmeldingType === 'norsk' && (
+                            <BodyShort>
+                                Du kan digitalisere denne nasjonale sykmeldingen ved å{' '}
+                                <Link href={`/nasjonal/${createdOppgaveId}?source=registrer-sykmelding`}>
                                     gå til oppgaven
                                 </Link>
                                 .

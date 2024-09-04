@@ -217,7 +217,7 @@ export const handlers = [
                     __typename: 'JournalpostStatus',
                     journalpostId: variables.id,
                     status: JournalpostStatusEnum.Opprettet,
-                    oppgaveId: null,
+                    oppgaveId: '123456789',
                 },
             },
         })
