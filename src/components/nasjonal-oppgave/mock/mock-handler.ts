@@ -1,4 +1,3 @@
-import { NextApiRequest, NextApiResponse } from 'next'
 import { logger } from '@navikt/next-logger'
 
 import { raise } from '../../../utils/tsUtils'
@@ -9,22 +8,20 @@ import mockOppgave from './oppgave.json'
 import mockSykmelder from './sykmelder.json'
 import mockPasientNavn from './pasientNavn.json'
 
-export async function mockedSmregData(req: NextApiRequest, res: NextApiResponse, path: string): Promise<void> {
+export async function mockedSmregData(request: Request, path: string): Promise<Response> {
     logger.info(`Mocking path: ${path}`)
 
     switch (path) {
         case 'GET /api/v1/oppgave/[id|hpr]':
-            res.status(200).json(mockOppgave)
-            return
+            return Response.json(mockOppgave, { status: 200 })
         case 'GET /api/v1/sykmelding/[uuid]/ferdigstilt':
-            res.status(200).json(mockOppgave)
-            return
+            return Response.json(mockOppgave, { status: 200 })
         case 'POST /api/v1/oppgave/[id|hpr]/send':
-            verifyHasEnhet(req)
+            verifyHasEnhet(request)
 
             const shouldRuleHit = false
             if (shouldRuleHit) {
-                res.status(400).json({
+                return Response.json({
                     status: 'INVALID',
                     ruleHits: [
                         {
@@ -35,42 +32,35 @@ export async function mockedSmregData(req: NextApiRequest, res: NextApiResponse,
                         },
                     ],
                 })
-                return
             }
 
-            res.status(204).end()
-            return
+            return new Response(null, { status: 204 })
         case 'POST /api/v1/sykmelding/[uuid]':
-            verifyHasEnhet(req)
+            verifyHasEnhet(request)
 
-            res.status(204).end()
-            return
+            return new Response(null, { status: 204 })
         case 'POST /api/v1/oppgave/[id|hpr]/avvis':
-            verifyHasEnhet(req)
+            verifyHasEnhet(request)
 
-            res.status(204).end()
-            return
+            return new Response(null, { status: 204 })
         case 'POST /api/v1/oppgave/[id|hpr]/tilgosys':
-            res.status(204).end()
-            return
+            return new Response(null, { status: 204 })
         case 'GET /api/v1/sykmelder/[id|hpr]':
-            res.status(200).json(mockSykmelder)
-            return
+            return Response.json(mockSykmelder, { status: 200 })
         case 'GET /api/v1/pasient':
-            res.status(200).json(mockPasientNavn)
-            return
+            return Response.json(mockPasientNavn, { status: 200 })
         case 'GET /api/v1/pdf/[id|hpr]/[id|hpr]':
-            res.status(200)
-            res.setHeader('Content-Type', 'application/pdf')
-            res.send(Buffer.from(pdf, 'base64'))
-            return
+            return new Response(Buffer.from(pdf, 'base64'), {
+                headers: { 'Content-Type': 'application/pdf' },
+                status: 200,
+            })
         default:
             raise(new Error(`Unknown path: ${path}`))
     }
 }
 
-function verifyHasEnhet(req: NextApiRequest): void | never {
-    if (!req.headers['x-nav-enhet']) {
+function verifyHasEnhet(req: Request): void | never {
+    if (!req.headers.get('x-nav-enhet')) {
         throw new Error('Missing X-Nav-Enhet header')
     }
 }
