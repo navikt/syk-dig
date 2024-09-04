@@ -4040,6 +4040,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clone@npm:2.x":
+  version: 2.1.2
+  resolution: "clone@npm:2.1.2"
+  checksum: 10/d9c79efba655f0bf601ab299c57eb54cbaa9860fb011aee9d89ed5ac0d12df1660ab7642fddaabb9a26b7eff0e117d4520512cb70798319ff5d30a111b5310c2
+  languageName: node
+  linkType: hard
+
 "clone@npm:^1.0.2":
   version: 1.0.4
   resolution: "clone@npm:1.0.4"
@@ -7591,6 +7598,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-cache@npm:^5.1.2":
+  version: 5.1.2
+  resolution: "node-cache@npm:5.1.2"
+  dependencies:
+    clone: "npm:2.x"
+  checksum: 10/6ac71a9e65fdd8940883c3c188de4888ff592f5bf52e4d42436c49e2a575d635e7327acea490c49fa7c01d5fa81f7b6e060fd35cf6f6ec401fbd5f77a3ebeecf
+  languageName: node
+  linkType: hard
+
 "node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.12":
   version: 2.7.0
   resolution: "node-fetch@npm:2.7.0"
@@ -9838,6 +9854,7 @@ __metadata:
     next-logger: "npm:^5.0.0"
     next-router-mock: "npm:^0.9.13"
     nextleton: "npm:^0.6.1"
+    node-cache: "npm:^5.1.2"
     open: "npm:^10.1.0"
     pdfobject: "npm:^2.3.0"
     pino: "npm:^9.3.2"

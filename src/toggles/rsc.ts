@@ -3,6 +3,7 @@ import { getToken, parseAzureUserToken } from '@navikt/oasis'
 import { logger } from '@navikt/next-logger'
 import * as R from 'remeda'
 import { cookies, headers } from 'next/headers'
+import NodeCache from 'node-cache'
 
 import { isLocalOrDemo } from '../utils/env'
 
@@ -39,7 +40,8 @@ export async function getToggles(): Promise<{ toggles: IToggle[] }> {
                     name: it,
                     variant: {
                         name: 'default',
-                        enabled: false,
+                        // Default to on if failed
+                        enabled: true,
                     },
                     impressionData: false,
                     enabled: false,
@@ -49,13 +51,21 @@ export async function getToggles(): Promise<{ toggles: IToggle[] }> {
     }
 }
 
-/**
- * If there are any toggles defined in EXPECTED_TOGGLES that are not returned by Unleash, something is out of sync.
- */
-async function getAndValidateDefinitions(): Promise<ReturnType<typeof getDefinitions>> {
+const unleashCache = new NodeCache({ stdTTL: 15 })
+
+async function getAndValidateDefinitions(): Promise<Awaited<ReturnType<typeof getDefinitions>>> {
+    if (unleashCache.has('toggles')) {
+        const cachedToggles = unleashCache.get<Awaited<ReturnType<typeof getDefinitions>>>('toggles')
+        if (cachedToggles != null) {
+            logger.info('Using cached unleash definitions')
+            return cachedToggles
+        }
+    }
+
     const definitions = await getDefinitions({
         appName: 'sykmeldinger',
     })
+    unleashCache.set('toggles', definitions)
 
     const diff = R.difference(
         EXPECTED_TOGGLES,
