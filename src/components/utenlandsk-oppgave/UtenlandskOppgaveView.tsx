@@ -20,6 +20,8 @@ import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewS
 import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
+import ModiaAlert from '../../modia/ModiaAlert'
+import { useModiaContext } from '../../modia/modia-context'
 
 import OppgaveStatus from './status/OppgaveStatus'
 
@@ -28,6 +30,7 @@ type Props = PaneView & {
 }
 
 function UtenlandskOppgaveView({ oppgaveId, layout }: Props): ReactElement {
+    const modiaContext = useModiaContext()
     const oppgaveQuery = useQuery(OppgaveByIdDocument, {
         variables: { oppgaveId },
     })
@@ -40,6 +43,7 @@ function UtenlandskOppgaveView({ oppgaveId, layout }: Props): ReactElement {
             closeReturnsTo="gosys"
             defaultLayout={layout}
         >
+            {'errorType' in modiaContext.modia && <ModiaAlert error={modiaContext.modia} />}
             {oppgaveQuery.loading && <OppgaveSkeleton />}
             {oppgaveQuery.data?.oppgave && <DigitaliseringsOppgave oppgave={oppgaveQuery.data.oppgave} />}
             {oppgaveQuery.error && <OppgaveError oppgaveId={oppgaveId} />}
@@ -100,7 +104,7 @@ function OppgaveSkeleton(): ReactElement {
 function OppgaveError({ oppgaveId }: { oppgaveId: string }): ReactElement {
     return (
         <Alert variant="error" className="m-4">
-            <Heading size="small" spacing>
+            <Heading size="medium" spacing>
                 En uventet feil oppsto
             </Heading>
             <BodyShort spacing>{`Klarte ikke å laste oppgave med oppgave-id "${oppgaveId}".`}</BodyShort>
