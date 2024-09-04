@@ -3,7 +3,7 @@ import { proxyApiRouteRequest } from '@navikt/next-api-proxy'
 import { requestOboToken } from '@navikt/oasis'
 
 import { withAuthenticatedApi } from '../../../auth/pages'
-import { getServerEnv } from '../../../utils/env'
+import { getServerEnv, isLocalOrDemo } from '../../../utils/env'
 import { pdf, alternativeDocumentPdf } from '../../../mocks/data/examplePdfbase64'
 
 const handler = withAuthenticatedApi<Buffer>(async (req, res, accessToken) => {
@@ -14,14 +14,14 @@ const handler = withAuthenticatedApi<Buffer>(async (req, res, accessToken) => {
         return
     }
 
-    const serverEnv = getServerEnv()
-    if (serverEnv.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+    if (isLocalOrDemo) {
         logger.warn(`Running with mock, mocking PDF for local and demo for ${req.url}`)
         res.setHeader('Content-Type', 'application/pdf')
         res.status(200).send(Buffer.from(req.url?.endsWith('primary') ? pdf : alternativeDocumentPdf, 'base64'))
         return
     }
 
+    const serverEnv = getServerEnv()
     const oboResult = await requestOboToken(accessToken, serverEnv.SYK_DIG_BACKEND_SCOPE)
     if (!oboResult.ok) {
         logger.error(new Error(`Unable to exchange OBO token: ${oboResult.error.message}`, { cause: oboResult.error }))
