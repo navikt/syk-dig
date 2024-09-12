@@ -61,6 +61,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props)
                     <option>ICPC2</option>
                 </Select>
                 <DiagnoseCombobox
+                    key={field.value.system}
                     className={styles.field}
                     id={`${name}-combobox`}
                     name={name}
@@ -72,13 +73,13 @@ function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props)
                               : '3.2.2 Kode'
                     }
                     system={field.value.system}
+                    value={field.value.code}
                     onSelect={(suggestion) => field.onChange({ ...suggestion, system: field.value.system })}
                     onChange={() => {
                         if (field.value.code) {
                             resetValues(field.value.system)
                         }
                     }}
-                    initialValue={field.value.code}
                 />
                 <DiagnoseDescription
                     className={styles.field}

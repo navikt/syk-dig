@@ -16,7 +16,7 @@ describe('DiagnosePicker', () => {
                 label="Diagnosekode"
                 onSelect={onSelectMock}
                 onChange={() => void 0}
-                initialValue={null}
+                value={null}
             />,
         )
 
@@ -36,7 +36,7 @@ describe('DiagnosePicker', () => {
                 label="Diagnosekode"
                 onSelect={onSelectMock}
                 onChange={() => void 0}
-                initialValue={null}
+                value={null}
             />,
         )
 
@@ -60,7 +60,7 @@ describe('DiagnosePicker', () => {
                 label="Diagnosekode"
                 onSelect={onSelectMock}
                 onChange={() => void 0}
-                initialValue={null}
+                value={null}
             />,
         )
 

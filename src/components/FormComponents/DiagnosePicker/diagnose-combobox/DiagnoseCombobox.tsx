@@ -1,4 +1,4 @@
-import { useState, ReactElement, startTransition } from 'react'
+import { ReactElement, startTransition } from 'react'
 import useSWR from 'swr'
 import { Detail, Label } from '@navikt/ds-react'
 import { logger } from '@navikt/next-logger'
@@ -12,6 +12,8 @@ import {
     AkselifiedComboboxNonSelectables,
     AkselifiedComboboxPopover,
     AkselifiedComboboxWrapper,
+    useComboboxStore,
+    useStoreState,
 } from '../../combobox/AkselifiedCombobox'
 import { PossiblePickerFormNames } from '../DiagnosePicker'
 
@@ -23,27 +25,24 @@ interface Props {
     className?: string
     name: PossiblePickerFormNames
     system: DiagnoseSystem
+    value: string | null
     label: string
     onSelect: (value: DiagnoseSuggestion) => void
     onChange: () => void
-    initialValue: string | null
 }
 
-function DiagnoseCombobox({
-    id,
-    className,
-    name,
-    system,
-    label,
-    onSelect,
-    onChange,
-    initialValue,
-}: Props): ReactElement {
-    const [searchValue, setSearchValue] = useState(initialValue ?? '')
+function useSuggestions(
+    value: string,
+    system: 'ICD10' | 'ICPC2',
+): {
+    isLoading: boolean
+    hasError: boolean
+    suggestions: DiagnoseSuggestion[]
+} {
     const { data, isLoading, error } = useSWR(
         () => {
-            if (searchValue.trim() === '') return null
-            return [system, searchValue]
+            if (value.trim() === '') return null
+            return [system, value]
         },
         ([system, value]) => getDiagnoseSuggestionsAction(system, value),
         {
@@ -56,49 +55,51 @@ function DiagnoseCombobox({
 
     const suggestions = data == null ? [] : 'reason' in data ? [] : data.suggestions
 
+    return { isLoading, hasError: error != null, suggestions }
+}
+
+function DiagnoseCombobox({ id, className, name, system, value, label, onSelect, onChange }: Props): ReactElement {
+    const combobox = useComboboxStore({
+        defaultValue: value ?? '',
+        selectedValue: value ?? '',
+        setSelectedValue: (value) => {
+            const selectedSuggestion = suggestions.find((it) => it.code.toLowerCase() === value.toLowerCase())
+            onSelect(selectedSuggestion as DiagnoseSuggestion)
+        },
+        setValue: () => {
+            startTransition(() => {
+                onChange()
+            })
+        },
+    })
+    const state = useStoreState(combobox)
+    const { isLoading, hasError, suggestions } = useSuggestions(state.value, system)
+
     return (
-        <AkselifiedComboboxWrapper
-            labelId={`${id}-label`}
-            label={label}
-            className={className}
-            defaultValue={initialValue ?? undefined}
-            setValue={(value) => {
-                const selectedSuggestion = suggestions.find((it) => it.code.toLowerCase() === value.toLowerCase())
-
-                startTransition(() => {
-                    onChange()
-
-                    if (selectedSuggestion) {
-                        onSelect(selectedSuggestion)
-                    }
-
-                    setSearchValue(value)
-                })
-            }}
-        >
+        <AkselifiedComboboxWrapper labelId={`${id}-label`} label={label} className={className} store={combobox}>
             <AkselifiedCombobox id={name} aria-labelledby={`${id}-label`} placeholder="Søk på kode eller beskrivelse">
-                <AkselifiedComboboxDisclosure loading={data != null && isLoading} />
+                <AkselifiedComboboxDisclosure loading={suggestions.length > 0 && isLoading} />
             </AkselifiedCombobox>
             <AkselifiedComboboxPopover>
                 <AkselifiedComboboxNonSelectables>
-                    {data == null && isLoading && <AkselifiedComboboxLoading />}
-                    {(searchValue.trim() === '' || (data == null && !isLoading)) && (
+                    {suggestions.length === 0 && isLoading && <AkselifiedComboboxLoading />}
+                    {(state.value.trim() === '' || (suggestions.length === 0 && !isLoading)) && (
                         <AkselifiedComboboxNonInteractiveFeedbackItem>
                             Søk på enten kode eller beskrivelse
                         </AkselifiedComboboxNonInteractiveFeedbackItem>
                     )}
-                    {data && suggestions.length === 0 && !isLoading && searchValue.trim() !== '' && (
+                    {suggestions.length === 0 && !isLoading && state.value.trim() !== '' && (
                         <AkselifiedComboboxNonInteractiveFeedbackItem>
-                            {`Fant ingen diagnose med kode eller beskrivelse "${searchValue}"`}
+                            {`Fant ingen diagnose med kode eller beskrivelse "${state.value}"`}
                         </AkselifiedComboboxNonInteractiveFeedbackItem>
                     )}
-                    {error && (
+                    {hasError && (
                         <AkselifiedComboboxNonInteractiveFeedbackItem>
                             {`Feil ved henting av ${system}-kode. Prøv igjen senere.`}
                         </AkselifiedComboboxNonInteractiveFeedbackItem>
                     )}
                 </AkselifiedComboboxNonSelectables>
-                {searchValue &&
+                {state.value &&
                     suggestions.length > 0 &&
                     suggestions.map((value) => (
                         <AkselifiedComboboxItem key={value.code} value={value.code}>

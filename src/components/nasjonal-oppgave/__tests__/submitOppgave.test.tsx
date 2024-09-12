@@ -53,9 +53,9 @@ describe('Submit oppgave', async () => {
 
         const diagnoseSection = within(screen.getByRole('region', { name: '3 Diagnose' }))
 
-        await userEvent.type(diagnoseSection.getByLabelText('3.1.2 Kode'), 'A000')
+        await userEvent.type(diagnoseSection.getByLabelText('3.1.2 Kode'), 'A000{arrowDown}{enter}')
         await userEvent.click(diagnoseSection.getByRole('button', { name: 'Legg til bidiagnose' }))
-        await userEvent.type(await diagnoseSection.findByLabelText('3.2.2 Kode'), 'A000')
+        await userEvent.type(await diagnoseSection.findByLabelText('3.2.2 Kode'), 'A000{arrowDown}{enter}')
         await userEvent.click(diagnoseSection.getByRole('checkbox', { name: /Annen lovfestet fraværsgrunn/ }))
         await userEvent.click(
             diagnoseSection.getByRole('checkbox', {
@@ -162,8 +162,14 @@ describe('Submit oppgave', async () => {
         await userEvent.click(screen.getByRole('checkbox', { name: /Feltene stemmer overens/ }))
         await userEvent.click(screen.getByRole('button', { name: 'Registrer sykmeldingen' }))
 
-        expect(invokedBody).not.toBeNull()
+        // Shouldn't have any validation errors
+        expect(
+            screen.queryByRole('region', {
+                name: /du må fylle ut disse feltene før du kan registrere sykmeldingen/i,
+            }),
+        ).not.toBeInTheDocument()
 
+        expect(invokedBody).not.toBeNull()
         const body = {
             ...invokedBody!,
             perioder: invokedBody!.perioder.sort((a: { fom: string }, b: { fom: string }) =>
