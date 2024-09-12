@@ -61,7 +61,7 @@ export function createDefaultValues(sykmelding: Papirsykmelding | null): Default
         },
         andreInnspillTilArbeidsgiver: sykmelding?.meldingTilArbeidsgiver ?? null,
         tilbakedatering: {
-            tilbakedatert: sykmelding?.kontaktMedPasient?.kontaktDato != null ?? false,
+            tilbakedatert: sykmelding?.kontaktMedPasient?.kontaktDato != null,
             tilbakedatertDato: safeToDate(sykmelding?.kontaktMedPasient?.kontaktDato),
             kunneIkkeIvaretaEgneInteresser: !!sykmelding?.kontaktMedPasient?.begrunnelseIkkeKontakt,
             kunneIkkeIvaretaEgneInteresserBegrunnelse: sykmelding?.kontaktMedPasient?.begrunnelseIkkeKontakt ?? null,
