@@ -60,31 +60,33 @@ describe('Mapping opppgave fetched from API', async () => {
         // 3 Diagnose
         expect(screen.getAllByDisplayValue('ICD10')).toHaveLength(2)
         expect(screen.getAllByDisplayValue('ICPC2')).toHaveLength(1)
+
+        // 3.1 Hoveddiagnose
+        expect(screen.getByRole('combobox', { name: '3.1.2 Kode' })).toHaveValue(
+            fullOppgave.papirSmRegistering.medisinskVurdering.hovedDiagnose.kode,
+        )
         expect(
-            screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.hovedDiagnose.kode),
-        ).toBeInTheDocument()
-        expect(
-            screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[0].kode),
-        ).toBeInTheDocument()
-        expect(
-            screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[1].kode),
-        ).toBeInTheDocument()
-        expect(
-            within(screen.getByRole('region', { name: '3.1 Hoveddiagnose' })).getAllByText(
+            within(screen.getByRole('region', { name: '3.1 Hoveddiagnose' })).getByText(
                 fullOppgave.papirSmRegistering.medisinskVurdering.hovedDiagnose.tekst,
             ),
-            // Two occurences means it has been picked, since JSDOM still sees hidden elements
-        ).toHaveLength(2)
+        ).toBeInTheDocument()
 
+        // 3.2 Bidiagnoser
         const bidiagnoseSection = within(screen.getByRole('region', { name: '3.2 Bidiagnose' }))
+        const bidiagnoseComboboxes = bidiagnoseSection.getAllByRole('combobox', { name: '3.2.2 Kode' })
+        expect(bidiagnoseComboboxes.at(0)).toHaveValue(
+            fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[0].kode,
+        )
+        expect(bidiagnoseComboboxes.at(1)).toHaveValue(
+            fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[1].kode,
+        )
         expect(
-            bidiagnoseSection.getAllByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[0].tekst),
-            // Two occurences means it has been picked, since JSDOM still sees hidden elements
-        ).toHaveLength(2)
+            bidiagnoseSection.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[0].tekst),
+        ).toBeInTheDocument()
         expect(
-            bidiagnoseSection.getAllByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[1].tekst),
-            // Two occurences means it has been picked, since JSDOM still sees hidden elements
-        ).toHaveLength(2)
+            bidiagnoseSection.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[1].tekst),
+        ).toBeInTheDocument()
+
         expect(screen.getByRole('checkbox', { name: /Annen lovfestet fraværsgrunn/ })).toBeChecked()
         expect(screen.getByRole('checkbox', { name: /Når vedkommende er under behandling/ })).toBeChecked()
         expect(

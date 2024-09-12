@@ -1,4 +1,4 @@
-import { useState, ReactElement, startTransition } from 'react'
+import { useState, ReactElement, startTransition, useEffect } from 'react'
 import useSWR from 'swr'
 import { Detail, Label } from '@navikt/ds-react'
 import { logger } from '@navikt/next-logger'
@@ -40,6 +40,11 @@ function DiagnoseCombobox({
     initialValue,
 }: Props): ReactElement {
     const [searchValue, setSearchValue] = useState(initialValue ?? '')
+    // Possibly a temporary fix, can this be solved by making the ariakit-combobox controlled?
+    useEffect(() => {
+        setSearchValue('')
+    }, [system])
+
     const { data, isLoading, error } = useSWR(
         () => {
             if (searchValue.trim() === '') return null
