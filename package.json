@@ -72,11 +72,10 @@
         "@navikt/ds-tailwind": "^6.16.3",
         "@navikt/eslint-config-teamsykmelding": "^6.6.0",
         "@parcel/watcher": "^2.4.1",
-        "@playwright/test": "^1.47.0",
+        "@playwright/test": "1.47.0",
         "@testing-library/dom": "^10.4.0",
         "@testing-library/react": "^16.0.1",
         "@testing-library/user-event": "^14.5.2",
-        "@types/http-proxy": "^1",
         "@types/node": "20.16.5",
         "@types/pdfobject": "^2.2.5",
         "@types/qs": "^6.9.15",
@@ -88,7 +87,6 @@
         "dotenv": "^16.4.5",
         "eslint": "8.57.0",
         "eslint-config-next": "14.2.10",
-        "http-proxy": "^1.18.1",
         "husky": "^9.1.6",
         "jsdom": "^25.0.0",
         "lint-staged": "^15.2.10",
@@ -108,7 +106,8 @@
         "vitest-dom": "^0.1.1"
     },
     "resolutions": {
-        "eslint-plugin-react-hooks": "5.0.0-canary-7118f5dd7-20230705"
+        "eslint-plugin-react-hooks": "5.0.0-canary-7118f5dd7-20230705",
+        "eslint-plugin-import": "2.30.0"
     },
     "prettier": "@navikt/eslint-config-teamsykmelding/prettier",
     "eslintConfig": {

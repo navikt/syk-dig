@@ -2,14 +2,13 @@ import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test'
 
 const PORT = process.env.PORT || 3000
 
-type OptionsType = { baseURL: string; timeout: number; server: PlaywrightTestConfig['webServer'] }
+type OptionsType = { baseURL: string; timeout: number; server: PlaywrightTestConfig['webServer'] | undefined }
 const opts: OptionsType = process.env.CI
     ? {
           baseURL: `http://localhost:3000`,
           timeout: 30 * 1000,
-          server: {
-              command: 'node e2e/proxy.mjs',
-          },
+          // Uses service container app
+          server: undefined,
       }
     : process.env.FAST
       ? {
