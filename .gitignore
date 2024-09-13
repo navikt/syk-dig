@@ -68,3 +68,7 @@ dist
 
 # next
 .next
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
