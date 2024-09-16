@@ -1,7 +1,7 @@
 import * as R from 'remeda'
-import React, { CSSProperties, ReactElement } from 'react'
+import React, { CSSProperties, ReactElement, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { BodyShort, ExpansionCard, HStack, List } from '@navikt/ds-react'
+import { Alert, BodyShort, ExpansionCard, HStack, List } from '@navikt/ds-react'
 import { InformationIcon } from '@navikt/aksel-icons'
 
 import { sections } from '../sections'
@@ -35,6 +35,7 @@ type OppgaveOrFerdigstilt =
 type Props = { sykmelding: Papirsykmelding | null } & OppgaveOrFerdigstilt
 
 function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
+    const [hasParseError, setHasParseError] = useState(false)
     const [errorRef, focusErrorSection] = useErrorSection()
     const defaultValues = createDefaultValues(sykmelding)
     const form = useForm<NasjonalFormValues>({
@@ -53,7 +54,10 @@ function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
         <FormProvider {...form}>
             <InfoAboutSmregMigrationAlert />
             <form
-                onSubmit={form.handleSubmit(submitHandler, focusErrorSection)}
+                onSubmit={form.handleSubmit(
+                    (values) => submitHandler(values).catch(() => setHasParseError(true)),
+                    focusErrorSection,
+                )}
                 onKeyDown={(e) => {
                     // Don't submit form on enter, anywhere in the form
                     const { key, target } = e
@@ -89,6 +93,12 @@ function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
                 })}
                 <div className="px-2">
                     <Errors ref={errorRef} />
+                    {hasParseError && (
+                        <Alert variant="error" className="my-8 mx-4">
+                            En uventet feil har skjedd! Dette er en bug som må rettes av Team Sykmelding. Ta kontakt med
+                            brukerstøtte.
+                        </Alert>
+                    )}
                 </div>
                 <ActionSection submitResult={submitResult} {...props} />
             </form>

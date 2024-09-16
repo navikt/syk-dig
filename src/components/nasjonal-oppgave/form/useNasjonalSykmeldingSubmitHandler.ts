@@ -14,7 +14,7 @@ import { NasjonalFormValues } from './NasjonalSykmeldingFormTypes'
 export function useNasjonalSykmeldingSubmitHandler(
     oppgaveMeta: { oppgaveId: string } | { ferdigstilt: true; sykmeldingId: string },
     sykmelding: Papirsykmelding | null,
-): [(values: NasjonalFormValues) => void, MutationResult<{ ruleHits: RuleHitErrors | null }>] {
+): [(values: NasjonalFormValues) => Promise<void>, MutationResult<{ ruleHits: RuleHitErrors | null }>] {
     const router = useRouter()
     const params = useSearchParams()
     const context = useModiaContext()
@@ -65,13 +65,20 @@ export function useNasjonalSykmeldingSubmitHandler(
 
     return [
         async (values) => {
-            const mappedValues = mapFormValueToSmregRegistrertSykmelding(values, sykmelding)
+            try {
+                const mappedValues = mapFormValueToSmregRegistrertSykmelding(values, sykmelding)
+                logger.info(`Submitting nasjonal sykmelding with values ${JSON.stringify(oppgaveMeta, null, 2)}`)
 
-            logger.info(`Submitting nasjonal sykmelding with values ${JSON.stringify(oppgaveMeta, null, 2)}`)
+                await mutate({
+                    variables: { input: mappedValues, path: url },
+                })
+            } catch (error) {
+                logger.error(
+                    new Error(`Unknown parsing error, oppgaveMeta: ${JSON.stringify(oppgaveMeta)}`, { cause: error }),
+                )
 
-            await mutate({
-                variables: { input: mappedValues, path: url },
-            })
+                throw error
+            }
         },
         result,
     ]
