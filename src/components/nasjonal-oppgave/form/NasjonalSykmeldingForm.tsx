@@ -3,6 +3,7 @@ import React, { CSSProperties, ReactElement, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Alert, BodyShort, ExpansionCard, HStack, List } from '@navikt/ds-react'
 import { InformationIcon } from '@navikt/aksel-icons'
+import { DevTool } from '@hookform/devtools'
 
 import { sections } from '../sections'
 import Errors, { useErrorSection } from '../../Errors/Errors'
@@ -101,6 +102,7 @@ function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
                     )}
                 </div>
                 <ActionSection submitResult={submitResult} {...props} />
+                {process.env.NODE_ENV !== 'production' && <DevTool control={form.control} placement="bottom-right" />}
             </form>
         </FormProvider>
     )
