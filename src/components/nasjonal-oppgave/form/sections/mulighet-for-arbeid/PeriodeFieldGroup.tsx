@@ -107,6 +107,7 @@ function GradertFieldGroup({ parent }: { parent: `mulighetForArbeid.${number}` }
     })
     const { field: reisetilskuddField } = useController<NasjonalFormValues, `${typeof parent}.reisetilskudd`>({
         name: `${parent}.reisetilskudd`,
+        defaultValue: false,
     })
 
     return (
