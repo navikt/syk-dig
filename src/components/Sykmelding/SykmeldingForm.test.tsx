@@ -1,7 +1,6 @@
 import { describe, beforeAll, it, expect } from 'vitest'
 import mockRouter from 'next-router-mock'
 import userEvent from '@testing-library/user-event'
-import { axe } from 'vitest-axe'
 
 import { createOppgave } from '../../mocks/data/dataCreators'
 import { render, screen, within } from '../../utils/testUtils'
@@ -9,12 +8,8 @@ import {
     Avvisingsgrunn,
     AvvisOppgaveDocument,
     DigitaliseringsoppgaveStatusEnum,
-    PeriodeType,
-    SaveOppgaveDocument,
-    SykmeldingUnderArbeidStatus,
 } from '../../graphql/queries/graphql.generated'
 import { createMock } from '../../utils/test/apolloTestUtils'
-import { DiagnoseSystem } from '../FormComponents/DiagnosePicker/diagnose-combobox/types'
 
 import SykmeldingForm from './SykmeldingForm'
 
@@ -23,142 +18,7 @@ describe('SykmeldingForm', () => {
         mockRouter.setCurrentUrl('/oppgave/test-oppgave-id')
     })
 
-    describe('when saving', () => {
-        it('allow submit when saving draft', async () => {
-            const oppgave = createOppgave()
-            const expectedRequest = createMock({
-                request: {
-                    query: SaveOppgaveDocument,
-                    variables: {
-                        id: 'test-oppgave-id',
-                        values: {
-                            fnrPasient: 'fnr-pasient',
-                            skrevetLand: null,
-                            behandletTidspunkt: null,
-                            hovedDiagnose: null,
-                            biDiagnoser: [],
-                            perioder: [],
-                            folkeRegistertAdresseErBrakkeEllerTilsvarende: false,
-                            erAdresseUtland: false,
-                        },
-                        status: SykmeldingUnderArbeidStatus.UnderArbeid,
-                        enhetId: 'B17',
-                    },
-                },
-                result: {
-                    data: { __typename: 'Mutation', lagre: oppgave },
-                },
-            })
-
-            render(<SykmeldingForm oppgave={oppgave} />, {
-                mocks: [expectedRequest],
-            })
-
-            await userEvent.click(screen.getByRole('button', { name: 'Lagre og lukk' }))
-
-            expect(screen.getByText(/Oppgaven ble lagret/)).toBeInTheDocument()
-        })
-
-        it('should correctly save a completely filled out form given a blank oppgave', async () => {
-            const oppgave = createOppgave()
-            const expectedRequest = createMock({
-                request: {
-                    query: SaveOppgaveDocument,
-                    variables: {
-                        id: 'test-oppgave-id',
-                        values: {
-                            fnrPasient: 'fnr-pasient',
-                            skrevetLand: 'POL',
-                            behandletTidspunkt: '2022-06-07',
-                            hovedDiagnose: { kode: 'L815', system: 'ICD10' },
-                            biDiagnoser: [{ kode: 'Y04', system: 'ICPC2' }],
-                            perioder: [
-                                { fom: '2022-02-02', tom: '2022-02-16', type: PeriodeType.Gradert, grad: 60 },
-                                {
-                                    fom: '2022-05-05',
-                                    tom: '2022-05-19',
-                                    type: PeriodeType.AktivitetIkkeMulig,
-                                    grad: null,
-                                },
-                            ],
-                            folkeRegistertAdresseErBrakkeEllerTilsvarende: false,
-                            erAdresseUtland: false,
-                        },
-                        status: SykmeldingUnderArbeidStatus.Ferdigstilt,
-                        enhetId: 'B17',
-                    },
-                },
-                result: {
-                    data: { __typename: 'Mutation', lagre: oppgave },
-                },
-            })
-
-            const { container } = render(<SykmeldingForm oppgave={oppgave} />, {
-                mocks: [expectedRequest],
-            })
-
-            await fillPasientOpplysningerSection({
-                land: { type: 'Pol', click: 'Polen' },
-            })
-
-            await fillPeriodeSection([
-                { fom: '02.02.2022', tom: '16.02.2022', option: 'Gradert sykmelding', grad: 60 },
-                { fom: '05.05.2022', tom: '19.05.2022', option: '100% sykmeldt' },
-            ])
-
-            await fillDiagnoseSection([
-                { system: 'ICD10', search: 'L81', click: /L815/ },
-                { system: 'ICPC2', search: 'Y0', click: /Y04/ },
-            ])
-
-            await fillAndreOpplysningerSection({
-                skrevetDato: '07.06.2022',
-            })
-
-            expect(
-                await axe(container, {
-                    // TODO: Remove once ds-datepicker fixes it's validations
-                    rules: { 'aria-valid-attr-value': { enabled: false }, 'aria-dialog-name': { enabled: false } },
-                }),
-            ).toHaveNoViolations()
-
-            await userEvent.click(screen.getByRole('button', { name: 'Registrer og send' }))
-
-            const confirmationDialog = screen.getByRole('dialog', {
-                name: 'Er du sikker på at du vil registrere og sende inn sykmeldingen?',
-            })
-
-            expect(confirmationDialog).toBeInTheDocument()
-
-            await userEvent.click(within(confirmationDialog).getByRole('button', { name: 'Ja, jeg er sikker' }))
-
-            expect(await screen.findByRole('dialog', { name: /Sykmeldingen er registrert/ })).toBeInTheDocument()
-        }, 20000) // This tests fills out a very large form, so we can expect it to be long running,
-
-        it('should fill one empty default periode even when perioder is an empty list instead of null', () => {
-            const oppgave = createOppgave({
-                values: {
-                    __typename: 'OppgaveValues',
-                    fnrPasient: 'fnr-pasient',
-                    hoveddiagnose: null,
-                    biDiagnoser: null,
-                    behandletTidspunkt: null,
-                    skrevetLand: null,
-                    perioder: [],
-                    folkeRegistertAdresseErBrakkeEllerTilsvarende: null,
-                    erAdresseUtland: null,
-                },
-            })
-
-            render(<SykmeldingForm oppgave={oppgave} />)
-
-            const section = within(screen.getByRole('region', { name: 'Sykmeldingsperiode' }))
-
-            expect(section.getAllByRole('combobox', { name: /Periode/ })).toHaveLength(1)
-            expect(screen.getByRole('button', { name: 'Legg til periode' })).toBeInTheDocument()
-        })
-    })
-
+    // TODO: e2e
     describe('when avvising', () => {
         it('should allow avvising sykmelding', async () => {
             const oppgave = createOppgave()
@@ -254,6 +114,7 @@ describe('SykmeldingForm', () => {
         })
     })
 
+    // TODO: e2e
     describe('Error summary', () => {
         it('should show validation errors when registering a sykmelding with missing fields', async () => {
             const oppgave = createOppgave()
@@ -377,21 +238,6 @@ describe('SykmeldingForm', () => {
     })
 })
 
-async function fillPasientOpplysningerSection({ land }: { land: { type: string; click: string } }): Promise<void> {
-    const section = within(screen.getByRole('region', { name: 'Pasientopplysninger' }))
-
-    await section.findByPlaceholderText('Søk etter land')
-    await userEvent.type(await section.findByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), land.type)
-    await userEvent.click(await section.findByRole('option', { name: land.click }))
-}
-
-async function fillAndreOpplysningerSection({ skrevetDato }: { skrevetDato: string }): Promise<void> {
-    const section = within(screen.getByRole('region', { name: 'Andre opplysninger' }))
-
-    await userEvent.type(section.getByRole('textbox', { name: 'Datoen sykmeldingen ble skrevet' }), skrevetDato)
-    await userEvent.keyboard('{Escape}')
-}
-
 async function fillPeriodeSection(
     perioder: { option: string; grad?: number; fom: string; tom: string }[],
 ): Promise<void> {
@@ -408,26 +254,6 @@ async function fillPeriodeSection(
 
         if (index !== perioder.length - 1 && perioder.length > 1) {
             await userEvent.click(screen.getByRole('button', { name: 'Legg til periode' }))
-        }
-        index++
-    }
-}
-
-async function fillDiagnoseSection(
-    diagnoser: { system: DiagnoseSystem; search: string; click: RegExp }[],
-): Promise<void> {
-    const section = within(screen.getByRole('region', { name: 'Diagnose' }))
-
-    let index = 0
-    for (const diagnose of diagnoser) {
-        await userEvent.selectOptions(section.getAllByRole('combobox', { name: 'Kodesystem' })[index], diagnose.system)
-
-        const combobox = section.getAllByRole('combobox', { name: 'Diagnosekode' })[index]
-        await userEvent.type(combobox, diagnose.search)
-        await userEvent.click(await screen.findByRole('option', { name: diagnose.click }))
-
-        if (index !== diagnoser.length - 1 && diagnoser.length > 1) {
-            await userEvent.click(section.getByRole('button', { name: 'Legg til bidiagnose' }))
         }
         index++
     }

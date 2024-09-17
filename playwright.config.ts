@@ -31,7 +31,7 @@ const opts: OptionsType = process.env.CI
                 command: 'NEXT_PUBLIC_IS_E2E=true yarn dev --turbo',
                 url: `http://localhost:${PORT}`,
                 timeout: 120 * 1000,
-                reuseExistingServer: false,
+                reuseExistingServer: true,
                 env: {
                     NEXT_PUBLIC_IS_E2E: 'true',
                 },
