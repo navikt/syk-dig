@@ -16,7 +16,13 @@ const config: CodegenConfig = {
                 'typescript',
                 'typescript-operations',
                 'typed-document-node',
-                { add: { placement: 'prepend', content: '/* eslint-disable @typescript-eslint/no-explicit-any */' } },
+                {
+                    add: {
+                        placement: 'prepend',
+                        content:
+                            '/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */',
+                    },
+                },
             ],
             config: {
                 exportFragmentSpreadSubTypes: true,
