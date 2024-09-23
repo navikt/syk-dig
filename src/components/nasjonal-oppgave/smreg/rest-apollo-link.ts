@@ -40,7 +40,14 @@ const smregRestLink = new RestLink({
 
         return res
     },
-    responseTransformer: async (response: Response, typeName) => {
+    responseTransformer: async (response: Response | null, typeName) => {
+        // Seems like a weird edge case with 404, whene responseTransformer is not provided the Response object
+        if (response == null) {
+            throw new OppgaveAlreadySolvedError(
+                `Fant ingen uløste oppgaver. Oppgaven finnes ikke eller er allerede løst.`,
+            )
+        }
+
         // 204 No Content from POST
         if (!(response instanceof Response) && Object.keys(response).length === 0) return null
 

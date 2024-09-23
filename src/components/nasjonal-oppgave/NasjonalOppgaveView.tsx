@@ -37,7 +37,7 @@ function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
                 />
             )}
             {query.error && (
-                <NasjonalOppgaveError>
+                <NasjonalOppgaveError error={query.error}>
                     {`Klarte ikke å laste oppgave med oppgave-id "${oppgaveId}".`}
                 </NasjonalOppgaveError>
             )}

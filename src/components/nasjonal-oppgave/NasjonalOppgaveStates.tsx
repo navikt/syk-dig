@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactElement } from 'react'
 import { range } from 'remeda'
 import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react'
-import { QueryResult } from '@apollo/client'
+import { ApolloError, QueryResult } from '@apollo/client'
 
 import { raise } from '../../utils/tsUtils'
 import { FormSectionSkeleton } from '../form-layout/FormSection'
@@ -11,6 +11,7 @@ import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewS
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
 
 import { FerdigstiltOppgaveVariables, OppgaveResult, OppgaveVariables } from './useNasjonalOppgave'
+import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
 
 export function NasjonalOppgaveSkeleton(): ReactElement {
     return (
@@ -32,7 +33,21 @@ export function NasjonalOppgaveSkeleton(): ReactElement {
     )
 }
 
-export function NasjonalOppgaveError({ children }: PropsWithChildren): ReactElement {
+export function NasjonalOppgaveError({ error, children }: PropsWithChildren<{ error: ApolloError }>): ReactElement {
+    if (error.cause instanceof OppgaveAlreadySolvedError) {
+        return (
+            <Alert variant="warning" className="m-4">
+                <Heading size="small" spacing>
+                    Fant ikke oppgave, eller oppgaven er allerede løst
+                </Heading>
+                <BodyShort>
+                    Dersom dette ikke stemmer kan du kontakte Team Sykmelding på{' '}
+                    <a href="https://nav-it.slack.com/archives/CMA3XV997">Slack</a> eller ta kontakt med brukerstøtte.
+                </BodyShort>
+            </Alert>
+        )
+    }
+
     return (
         <Alert variant="error" className="m-4">
             <Heading size="small" spacing>

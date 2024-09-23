@@ -37,7 +37,7 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactE
                 />
             )}
             {query.error && (
-                <NasjonalOppgaveError>
+                <NasjonalOppgaveError error={query.error}>
                     {`Klarte ikke å laste ferdigstilt oppgave med sykmelding-id "${sykmeldingId}".`}
                 </NasjonalOppgaveError>
             )}
