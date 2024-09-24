@@ -120,6 +120,10 @@ function AvvisSection({ disableUnsavedWarning }: Props): ReactElement {
                         <option value={Avvisingsgrunn.BasertPaaTelefonkontakt}>
                             Sykmelding basert på telefonkontakt
                         </option>
+                        <option value={Avvisingsgrunn.VarsletISaken}>Varslet i saken - under vurdering</option>
+                        <option value={Avvisingsgrunn.MaxdatoOppnaadd}>Maks dato oppnådd</option>
+                        <option value={Avvisingsgrunn.LopendeAap}>Løpende AAP</option>
+                        <option value={Avvisingsgrunn.Duplikat}>Duplikat</option>
                         <option value={Avvisingsgrunn.Annet}>Annet</option>
                     </Select>
                     {avvisningsgrunn.grunn === Avvisingsgrunn.Annet && (
@@ -199,6 +203,14 @@ function selectValueToAvvisingsgrunn(value: string | null | undefined): Avvising
             return Avvisingsgrunn.TilbakedatertSykmelding
         case Avvisingsgrunn.BasertPaaTelefonkontakt:
             return Avvisingsgrunn.BasertPaaTelefonkontakt
+        case Avvisingsgrunn.VarsletISaken:
+            return Avvisingsgrunn.VarsletISaken
+        case Avvisingsgrunn.MaxdatoOppnaadd:
+            return Avvisingsgrunn.MaxdatoOppnaadd
+        case Avvisingsgrunn.LopendeAap:
+            return Avvisingsgrunn.LopendeAap
+        case Avvisingsgrunn.Duplikat:
+            return Avvisingsgrunn.Duplikat
         case Avvisingsgrunn.Annet:
             return Avvisingsgrunn.Annet
         default:
