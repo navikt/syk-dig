@@ -121,6 +121,10 @@ function AvvisSection({ disableUnsavedWarning }: Props): ReactElement {
                         <option value={Avvisingsgrunn.BasertPaaTelefonkontakt}>
                             Sykmelding basert på telefonkontakt
                         </option>
+                        <option value={Avvisingsgrunn.VarsletISaken}>Varslet i saken - under vurdering</option>
+                        <option value={Avvisingsgrunn.MaxdatoOppnaadd}>Maks dato oppnådd</option>
+                        <option value={Avvisingsgrunn.LopendeAap}>Løpende AAP</option>
+                        <option value={Avvisingsgrunn.Duplikat}>Duplikat</option>
                         <option value={Avvisingsgrunn.Annet}>Annet</option>
                     </Select>
                     {avvisningsgrunn.grunn === Avvisingsgrunn.Annet && (

@@ -56,6 +56,30 @@
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
+                        {
+                            "name": "VARSLET_I_SAKEN",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "LOPENDE_AAP",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "MAXDATO_OPPNAADD",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "DUPLIKAT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
                         { "name": "ANNET", "description": null, "isDeprecated": false, "deprecationReason": null }
                     ],
                     "possibleTypes": null

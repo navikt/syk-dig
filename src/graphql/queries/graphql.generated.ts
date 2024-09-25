@@ -23,13 +23,17 @@ export type Scalars = {
 export enum Avvisingsgrunn {
     Annet = 'ANNET',
     BasertPaaTelefonkontakt = 'BASERT_PAA_TELEFONKONTAKT',
+    Duplikat = 'DUPLIKAT',
     ForLangPeriode = 'FOR_LANG_PERIODE',
+    LopendeAap = 'LOPENDE_AAP',
     ManglendeDiagnose = 'MANGLENDE_DIAGNOSE',
     ManglendeOrginalSykmelding = 'MANGLENDE_ORGINAL_SYKMELDING',
     ManglendePeriodeEllerSluttdato = 'MANGLENDE_PERIODE_ELLER_SLUTTDATO',
     ManglendeUnderskriftEllerStempelFraSykmelder = 'MANGLENDE_UNDERSKRIFT_ELLER_STEMPEL_FRA_SYKMELDER',
+    MaxdatoOppnaadd = 'MAXDATO_OPPNAADD',
     Risikosak = 'RISIKOSAK',
     TilbakedatertSykmelding = 'TILBAKEDATERT_SYKMELDING',
+    VarsletISaken = 'VARSLET_I_SAKEN',
 }
 
 export type Bostedsadresse = Matrikkeladresse | UkjentBosted | UtenlandskAdresse | Vegadresse
