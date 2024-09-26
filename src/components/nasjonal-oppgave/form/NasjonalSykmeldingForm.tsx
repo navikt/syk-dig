@@ -1,8 +1,7 @@
 import * as R from 'remeda'
-import React, { CSSProperties, ReactElement, useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Alert, BodyShort, ExpansionCard, HStack, List } from '@navikt/ds-react'
-import { InformationIcon } from '@navikt/aksel-icons'
+import { Alert } from '@navikt/ds-react'
 import { DevTool } from '@hookform/devtools'
 
 import { sections } from '../sections'
@@ -53,7 +52,6 @@ function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
 
     return (
         <FormProvider {...form}>
-            <InfoAboutSmregMigrationAlert />
             <form
                 onSubmit={form.handleSubmit(
                     (values) => submitHandler(values).catch(() => setHasParseError(true)),
@@ -105,60 +103,6 @@ function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
                 {process.env.NODE_ENV !== 'production' && <DevTool control={form.control} placement="bottom-right" />}
             </form>
         </FormProvider>
-    )
-}
-
-/**
- * @Deprecated Once smreg is shut down we can remove this info and redirect
- */
-export function InfoAboutSmregMigrationAlert(): ReactElement {
-    return (
-        <ExpansionCard
-            defaultOpen={localStorage.getItem('minimized-smreg-info-card') == null}
-            onToggle={(isOpen) => {
-                if (!isOpen) {
-                    localStorage.setItem('minimized-smreg-info-card', 'true')
-                } else {
-                    localStorage.removeItem('minimized-smreg-info-card')
-                }
-            }}
-            className="mx-4"
-            aria-label="Demo med ikon"
-            size="small"
-            style={
-                {
-                    '--ac-expansioncard-bg': 'var(--a-surface-info-subtle)',
-                    '--ac-expansioncard-border-open-color': 'var(--a-border-alt-3)',
-                    '--ac-expansioncard-border-hover-color': 'var(--a-border-alt-3)',
-                } as CSSProperties
-            }
-        >
-            <ExpansionCard.Header>
-                <HStack wrap={false} gap="4" align="center">
-                    <div>
-                        <InformationIcon aria-hidden fontSize="3rem" />
-                    </div>
-                    <div>
-                        <ExpansionCard.Title size="small">
-                            Dette er en ny versjon av digitalisering av papirsykmeldinger
-                        </ExpansionCard.Title>
-                    </div>
-                </HStack>
-            </ExpansionCard.Header>
-            <ExpansionCard.Content>
-                <BodyShort spacing>
-                    Utfyllingen skal oppføre seg helt likt som den gamle løsningen, med noen små endringer:
-                </BodyShort>
-                <List>
-                    <List.Item>F.o.m. og T.o.m. er nå to felter</List.Item>
-                    <List.Item>Små endringer i hvordan ting ser ut</List.Item>
-                </List>
-                <BodyShort>
-                    Opplever du noe trøbbel er det fint om du tar kontakt med brukerstøtte eller Team Sykmelding på{' '}
-                    <a href="mailto:nav.sykmelding@nav.no">mail</a> og forteller oss hva som gikk galt.
-                </BodyShort>
-            </ExpansionCard.Content>
-        </ExpansionCard>
     )
 }
 
