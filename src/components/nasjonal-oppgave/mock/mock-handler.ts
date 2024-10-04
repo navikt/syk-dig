@@ -12,11 +12,11 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
     logger.info(`Mocking path: ${path}`)
 
     switch (path) {
-        case 'GET /api/v1/oppgave/[id|hpr]':
+        case 'GET /api/v1/proxy/oppgave/[id|hpr]':
             return Response.json(mockOppgave, { status: 200 })
-        case 'GET /api/v1/sykmelding/[uuid]/ferdigstilt':
+        case 'GET /api/v1/proxy/sykmelding/[uuid]/ferdigstilt':
             return Response.json(mockOppgave, { status: 200 })
-        case 'POST /api/v1/oppgave/[id|hpr]/send':
+        case 'POST /api/v1/proxy/oppgave/[id|hpr]/send':
             verifyHasEnhet(request)
 
             const shouldRuleHit = false
@@ -35,21 +35,21 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
             }
 
             return new Response(null, { status: 204 })
-        case 'POST /api/v1/sykmelding/[uuid]':
+        case 'POST /api/v1/proxy/sykmelding/[uuid]':
             verifyHasEnhet(request)
 
             return new Response(null, { status: 204 })
-        case 'POST /api/v1/oppgave/[id|hpr]/avvis':
+        case 'POST /api/v1/proxy/oppgave/[id|hpr]/avvis':
             verifyHasEnhet(request)
 
             return new Response(null, { status: 204 })
-        case 'POST /api/v1/oppgave/[id|hpr]/tilgosys':
+        case 'POST /api/v1/proxy/oppgave/[id|hpr]/tilgosys':
             return new Response(null, { status: 204 })
-        case 'GET /api/v1/sykmelder/[id|hpr]':
+        case 'GET /api/v1/proxy/sykmelder/[id|hpr]':
             return Response.json(mockSykmelder, { status: 200 })
-        case 'GET /api/v1/pasient':
+        case 'GET /api/v1/proxy/pasient':
             return Response.json(mockPasientNavn, { status: 200 })
-        case 'GET /api/v1/pdf/[id|hpr]/[id|hpr]':
+        case 'GET /api/v1/proxy/pdf/[id|hpr]/[id|hpr]':
             return new Response(Buffer.from(pdf, 'base64'), {
                 headers: { 'Content-Type': 'application/pdf' },
                 status: 200,

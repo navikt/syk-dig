@@ -17,7 +17,7 @@ export function useFerdigstiltNasjonalOppgave(
     return useQuery<OppgaveResult, FerdigstiltOppgaveVariables>(
         gql`
             query SmregOppgave($sykmeldingId: String!) {
-                oppgave(id: $sykmeldingId) @rest(type: "Oppgave", path: "sykmelding/{args.id}/ferdigstilt") {
+                oppgave(id: $sykmeldingId) @rest(type: "Oppgave", path: "proxy/sykmelding/{args.id}/ferdigstilt") {
                     oppgaveid
                     papirSmRegistering
                     documents
@@ -36,7 +36,7 @@ export function useNasjonalOppgave(oppgaveId: string): QueryResult<OppgaveResult
     return useQuery<OppgaveResult, OppgaveVariables>(
         gql`
             query SmregOppgave($oppgaveId: String!) {
-                oppgave(id: $oppgaveId) @rest(type: "Oppgave", path: "oppgave/{args.id}") {
+                oppgave(id: $oppgaveId) @rest(type: "Oppgave", path: "proxy/oppgave/{args.id}") {
                     oppgaveid
                     papirSmRegistering
                     documents

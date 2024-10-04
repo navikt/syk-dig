@@ -21,7 +21,7 @@ function BehandlerInfo({ behandlerInfo, hpr }: Props): ReactElement | null {
     const queryResult = useQuery<BehandlerResult>(
         gql`
             query Behandler($hpr: String!) {
-                sykmelder(hpr: $hpr) @rest(type: "Sykmelder", path: "sykmelder/{args.hpr}") {
+                sykmelder(hpr: $hpr) @rest(type: "Sykmelder", path: "proxy/sykmelder/{args.hpr}") {
                     hprNummer
                     fnr
                     fornavn

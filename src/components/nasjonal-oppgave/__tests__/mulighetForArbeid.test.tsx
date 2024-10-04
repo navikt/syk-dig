@@ -23,10 +23,10 @@ describe('Mulighet for arbeid section', async () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let invokedBody: any | null = null
         server.use(
-            http.get(apiUrl(`/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}`), () =>
+            http.get(apiUrl(`/proxy/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}`), () =>
                 HttpResponse.json(fullOppgaveWithoutPeriods),
             ),
-            http.post(apiUrl(`/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), async ({ request }) => {
+            http.post(apiUrl(`/proxy/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), async ({ request }) => {
                 invokedBody = await request.json()
                 return new HttpResponse(undefined, { status: 204 })
             }),
