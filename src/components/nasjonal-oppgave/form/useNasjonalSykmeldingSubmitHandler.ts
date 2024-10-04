@@ -21,8 +21,8 @@ export function useNasjonalSykmeldingSubmitHandler(
 
     const url =
         'sykmeldingId' in oppgaveMeta
-            ? `sykmelding/${oppgaveMeta.sykmeldingId}`
-            : `oppgave/${oppgaveMeta.oppgaveId}/send`
+            ? `proxy/sykmelding/${oppgaveMeta.sykmeldingId}`
+            : `proxy/oppgave/${oppgaveMeta.oppgaveId}/send`
 
     const [mutate, result] = useMutation<{ ruleHits: RuleHitErrors | null }>(
         gql`

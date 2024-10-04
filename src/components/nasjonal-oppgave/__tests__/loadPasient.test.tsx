@@ -20,8 +20,8 @@ describe('Load pasientinfo', async () => {
 
     it('Should search for name of pasient when typing 11 digits in pasientFnr input field', async () => {
         server.use(
-            http.get(apiUrl(`/oppgave/${nullFnrOppgave.oppgaveid}`), () => HttpResponse.json(nullFnrOppgave)),
-            http.get(apiUrl('/pasient'), () =>
+            http.get(apiUrl(`/proxy/oppgave/${nullFnrOppgave.oppgaveid}`), () => HttpResponse.json(nullFnrOppgave)),
+            http.get(apiUrl('/proxy/pasient'), () =>
                 HttpResponse.json({
                     fornavn: 'Per',
                     mellomnavn: 'Anders',
@@ -45,8 +45,8 @@ describe('Load pasientinfo', async () => {
 
     it('Should display error when request fails', async () => {
         server.use(
-            http.get(apiUrl(`/oppgave/${nullFnrOppgave.oppgaveid}`), () => HttpResponse.json(nullFnrOppgave)),
-            http.get(apiUrl('/pasient'), () => HttpResponse.text('Internal server error', { status: 500 })),
+            http.get(apiUrl(`/proxy/oppgave/${nullFnrOppgave.oppgaveid}`), () => HttpResponse.json(nullFnrOppgave)),
+            http.get(apiUrl('/proxy/pasient'), () => HttpResponse.text('Internal server error', { status: 500 })),
         )
 
         render(<NasjonalOppgaveView oppgaveId={`${nullFnrOppgave.oppgaveid}`} layout={undefined} />, {

@@ -16,7 +16,7 @@ export function useTilbakeTilGosysSmreg({
         gql`
             mutation TilbakeTilGosys($oppgaveId: String!) {
                 tilGosys(oppgaveId: $oppgaveId, input: " ")
-                    @rest(path: "oppgave/{args.oppgaveId}/tilgosys", method: "POST")
+                    @rest(path: "proxy/oppgave/{args.oppgaveId}/tilgosys", method: "POST")
             }
         `,
         {
@@ -52,7 +52,7 @@ export function useAvvisSykmeldingSmreg({
         gql`
             mutation TilbakeTilGosys($oppgaveId: String!, $input: Avvis!) {
                 tilGosys(oppgaveId: $oppgaveId, input: $input)
-                    @rest(path: "oppgave/{args.oppgaveId}/avvis", method: "POST")
+                    @rest(path: "proxy/oppgave/{args.oppgaveId}/avvis", method: "POST")
             }
         `,
         {

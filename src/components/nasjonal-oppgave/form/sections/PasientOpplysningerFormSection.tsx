@@ -78,7 +78,7 @@ function usePersonName(fnr: string | null): QueryResult<{ person: PasientNavn }>
     return useQuery(
         gql`
             query PasientNavn($sykmeldingId: String!) {
-                person(id: $sykmeldingId) @rest(type: "Pasient", path: "pasient") {
+                person(id: $sykmeldingId) @rest(type: "Pasient", path: "proxy/pasient") {
                     fornavn
                     etternavn
                     mellomnavn

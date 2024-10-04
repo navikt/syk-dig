@@ -66,7 +66,7 @@ function getPdfUrl(
 ): string {
     if ('smreg' in id) {
         /* Until syk-dig-backend starts reading smregs oppgave-types, we have to proxy this PDF through smreg. */
-        return `/api/smreg/api/v1/pdf/${id.oppgaveId}/${documentId}`
+        return `/api/smreg/api/v1/proxy/pdf/${id.oppgaveId}/${documentId}`
     }
 
     if ('oppgaveId' in id) {

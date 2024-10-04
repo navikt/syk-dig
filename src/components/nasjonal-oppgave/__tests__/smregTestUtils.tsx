@@ -9,11 +9,11 @@ import { useNasjonalOppgave } from '../useNasjonalOppgave'
 import NasjonalSykmeldingForm from '../form/NasjonalSykmeldingForm'
 
 export function mockBehandlerinfo(): void {
-    server.use(http.get(apiUrl('/sykmelder/:hpr'), () => HttpResponse.json(sykmelder)))
+    server.use(http.get(apiUrl('/proxy//sykmelder/:hpr'), () => HttpResponse.json(sykmelder)))
 }
 
 export function mockPasientinfo(): void {
-    server.use(http.get(apiUrl('/pasient'), () => HttpResponse.json(pasientNavn)))
+    server.use(http.get(apiUrl('/proxy/pasient'), () => HttpResponse.json(pasientNavn)))
 }
 
 export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway({

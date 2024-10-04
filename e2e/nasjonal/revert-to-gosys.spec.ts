@@ -12,7 +12,7 @@ test('Should display modal when clicking "Send til Gosys"', async ({ page }) => 
 
     const request = await clickAndWait(
         dialog.getByRole('button', { name: 'Send til Gosys' }).click(),
-        waitForREST(page)('/api/smreg/api/v1/oppgave/123456789/tilgosys', 'POST'),
+        waitForREST(page)('/api/smreg/api/v1/proxy/oppgave/123456789/tilgosys', 'POST'),
     )
 
     const confirmationDialog = page.getByRole('dialog', { name: 'Oppgaven ble sendt tilbake til Gosys.' })
