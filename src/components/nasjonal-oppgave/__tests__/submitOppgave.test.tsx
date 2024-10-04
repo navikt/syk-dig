@@ -23,7 +23,7 @@ describe('Submit oppgave', async () => {
     it('Should be able to fill out and submit form', async () => {
         let invokedBody: RegistrertSykmelding | null = null
         server.use(
-            http.get(apiUrl(`/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)),
+            http.get(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)),
             http.post(apiUrl(`/oppgave/${emptyOppgave.oppgaveid}/send`), async ({ request }) => {
                 invokedBody = (await request.json()) as RegistrertSykmelding
 

@@ -22,9 +22,9 @@ describe('Avvis oppgave', async () => {
 
     it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
         server.use(
-            http.get(apiUrl(`/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
+            http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
             http.post(
-                apiUrl(`/oppgave/${fullOppgave.oppgaveid}/avvis`),
+                apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}/avvis`),
                 () => new HttpResponse(undefined, { status: 204 }),
             ),
         )

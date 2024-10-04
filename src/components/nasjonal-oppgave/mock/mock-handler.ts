@@ -12,7 +12,7 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
     logger.info(`Mocking path: ${path}`)
 
     switch (path) {
-        case 'GET /api/v1/oppgave/[id|hpr]':
+        case 'GET /api/v1/proxy/oppgave/[id|hpr]':
             return Response.json(mockOppgave, { status: 200 })
         case 'GET /api/v1/sykmelding/[uuid]/ferdigstilt':
             return Response.json(mockOppgave, { status: 200 })
@@ -39,7 +39,7 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
             verifyHasEnhet(request)
 
             return new Response(null, { status: 204 })
-        case 'POST /api/v1/oppgave/[id|hpr]/avvis':
+        case 'POST /api/v1/proxy/oppgave/[id|hpr]/avvis':
             verifyHasEnhet(request)
 
             return new Response(null, { status: 204 })

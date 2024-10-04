@@ -36,7 +36,7 @@ export function useNasjonalOppgave(oppgaveId: string): QueryResult<OppgaveResult
     return useQuery<OppgaveResult, OppgaveVariables>(
         gql`
             query SmregOppgave($oppgaveId: String!) {
-                oppgave(id: $oppgaveId) @rest(type: "Oppgave", path: "oppgave/{args.id}") {
+                oppgave(id: $oppgaveId) @rest(type: "Oppgave", path: "proxy/oppgave/{args.id}") {
                     oppgaveid
                     papirSmRegistering
                     documents

@@ -21,7 +21,7 @@ describe('Registration api errors', async () => {
 
     it('Should show received body error message when status code is 400', async () => {
         server.use(
-            http.get(apiUrl(`/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
+            http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
             http.post(apiUrl(`/oppgave/${fullOppgave.oppgaveid}/send`), () =>
                 HttpResponse.text('This is an error', { status: 400 }),
             ),
@@ -49,7 +49,7 @@ describe('Registration api errors', async () => {
 
     it('Should show generic error message when status code is 500', async () => {
         server.use(
-            http.get(apiUrl(`/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
+            http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
             http.post(apiUrl(`/oppgave/${fullOppgave.oppgaveid}/send`), () =>
                 HttpResponse.text('This is an error', { status: 500 }),
             ),
@@ -77,7 +77,7 @@ describe('Registration api errors', async () => {
 
     it('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
         server.use(
-            http.get(apiUrl(`/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
+            http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
             http.post(apiUrl(`/oppgave/${fullOppgave.oppgaveid}/send`), () =>
                 HttpResponse.json(
                     {
