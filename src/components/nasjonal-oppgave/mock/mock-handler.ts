@@ -47,7 +47,7 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
             return new Response(null, { status: 204 })
         case 'GET /api/v1/sykmelder/[id|hpr]':
             return Response.json(mockSykmelder, { status: 200 })
-        case 'GET /api/v1/pasient':
+        case 'GET /api/v1/proxy/pasient':
             return Response.json(mockPasientNavn, { status: 200 })
         case 'GET /api/v1/pdf/[id|hpr]/[id|hpr]':
             return new Response(Buffer.from(pdf, 'base64'), {

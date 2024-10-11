@@ -13,7 +13,7 @@ export function mockBehandlerinfo(): void {
 }
 
 export function mockPasientinfo(): void {
-    server.use(http.get(apiUrl('/pasient'), () => HttpResponse.json(pasientNavn)))
+    server.use(http.get(apiUrl('/proxy/pasient'), () => HttpResponse.json(pasientNavn)))
 }
 
 export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway({
