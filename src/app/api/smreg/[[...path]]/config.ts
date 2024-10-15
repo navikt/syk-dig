@@ -1,7 +1,7 @@
 export const allowedAPIs = [
     'GET /api/v1/proxy/pasient',
     'GET /api/v1/proxy/oppgave/[id|hpr]',
-    'GET /api/v1/sykmelder/[id|hpr]',
+    'GET /api/v1/proxy/sykmelder/[id|hpr]',
     'POST /api/v1/oppgave/[id|hpr]/tilgosys',
     'POST /api/v1/proxy/oppgave/[id|hpr]/avvis',
     'POST /api/v1/oppgave/[id|hpr]/send',
