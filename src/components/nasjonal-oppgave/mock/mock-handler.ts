@@ -16,7 +16,7 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
             return Response.json(mockOppgave, { status: 200 })
         case 'GET /api/v1/sykmelding/[uuid]/ferdigstilt':
             return Response.json(mockOppgave, { status: 200 })
-        case 'POST /api/v1/oppgave/[id|hpr]/send':
+        case 'POST /api/v1/proxy/oppgave/[id|hpr]/send':
             verifyHasEnhet(request)
 
             const shouldRuleHit = false

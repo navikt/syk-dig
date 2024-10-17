@@ -24,7 +24,7 @@ describe('Submit oppgave', async () => {
         let invokedBody: RegistrertSykmelding | null = null
         server.use(
             http.get(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)),
-            http.post(apiUrl(`/oppgave/${emptyOppgave.oppgaveid}/send`), async ({ request }) => {
+            http.post(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}/send`), async ({ request }) => {
                 invokedBody = (await request.json()) as RegistrertSykmelding
 
                 return new HttpResponse(undefined, { status: 204 })

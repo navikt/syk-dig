@@ -26,7 +26,7 @@ describe('Mulighet for arbeid section', async () => {
             http.get(apiUrl(`/proxy/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}`), () =>
                 HttpResponse.json(fullOppgaveWithoutPeriods),
             ),
-            http.post(apiUrl(`/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), async ({ request }) => {
+            http.post(apiUrl(`/proxy/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), async ({ request }) => {
                 invokedBody = await request.json()
                 return new HttpResponse(undefined, { status: 204 })
             }),
