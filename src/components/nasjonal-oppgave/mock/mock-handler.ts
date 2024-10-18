@@ -43,7 +43,7 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
             verifyHasEnhet(request)
 
             return new Response(null, { status: 204 })
-        case 'POST /api/v1/oppgave/[id|hpr]/tilgosys':
+        case 'POST /api/v1/proxy/oppgave/[id|hpr]/tilgosys':
             return new Response(null, { status: 204 })
         case 'GET /api/v1/proxy/sykmelder/[id|hpr]':
             return Response.json(mockSykmelder, { status: 200 })
