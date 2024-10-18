@@ -17,7 +17,7 @@ export function useFerdigstiltNasjonalOppgave(
     return useQuery<OppgaveResult, FerdigstiltOppgaveVariables>(
         gql`
             query SmregOppgave($sykmeldingId: String!) {
-                oppgave(id: $sykmeldingId) @rest(type: "Oppgave", path: "sykmelding/{args.id}/ferdigstilt") {
+                oppgave(id: $sykmeldingId) @rest(type: "Oppgave", path: "proxy/sykmelding/{args.id}/ferdigstilt") {
                     oppgaveid
                     papirSmRegistering
                     documents
