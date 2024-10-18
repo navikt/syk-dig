@@ -34,15 +34,15 @@ async function smregProxy(request: Request, { params }: RouteParams): Promise<Re
     }
 
     const serverEnv = getServerEnv()
-    const oboResult = await requestOboToken(accessToken, serverEnv.SMREGISTRERING_BACKEND_SCOPE)
+    const oboResult = await requestOboToken(accessToken, serverEnv.SYK_DIG_BACKEND_SCOPE)
     if (!oboResult.ok) {
         logger.error(new Error(`Unable to exchange OBO token: ${oboResult.error.message}`, { cause: oboResult.error }))
         return new Response('Not logged in', { status: 401 })
     }
 
-    logger.info(`Proxying request for path ${serverEnv.SMREGISTRERING_BACKEND_HOST}${proxyPath}`)
+    logger.info(`Proxying request for path ${serverEnv.SYK_DIG_BACKEND_HOST}${proxyPath}`)
     return await proxyRouteHandler(request, {
-        hostname: serverEnv.SMREGISTRERING_BACKEND_HOST,
+        hostname: serverEnv.SYK_DIG_BACKEND_HOST,
         path: proxyPath,
         https: false,
         bearerToken: oboResult.token,

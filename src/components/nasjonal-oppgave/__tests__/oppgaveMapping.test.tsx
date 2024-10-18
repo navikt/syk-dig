@@ -29,7 +29,7 @@ describe('Mapping opppgave fetched from API', async () => {
     })
 
     it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', async () => {
-        server.use(http.get(apiUrl(`/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)))
+        server.use(http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)))
 
         render(
             <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
@@ -205,7 +205,7 @@ describe('Mapping opppgave fetched from API', async () => {
     })
 
     it('Should not map any field when "oppgave.papirSmRegistrering" is null', async () => {
-        server.use(http.get(apiUrl(`/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)))
+        server.use(http.get(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)))
 
         render(<NasjonalOppgaveView oppgaveId={`${emptyOppgave.oppgaveid}`} layout={undefined} />, {
             useRestLink: true,
