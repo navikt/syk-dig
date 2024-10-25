@@ -1,8 +1,7 @@
 'use client'
 
 import { Button, BodyLong, Modal, Textarea, Alert, BodyShort } from '@navikt/ds-react'
-import React, { ReactElement, useRef, useState, useEffect } from 'react'
-import { useFormState } from 'react-dom'
+import React, { ReactElement, useRef, useState, useEffect, useActionState } from 'react'
 import { CheckmarkIcon, FaceFrownIcon, FaceIcon, FaceSmileIcon } from '@navikt/aksel-icons'
 
 import { cn } from '../../../utils/tw-utils'
@@ -14,7 +13,7 @@ function Flexjar(): ReactElement {
     const [selected, setSelected] = useState<'good' | 'meh' | 'bad' | null>(null)
     const [hasClickedSend, setHasClickedSend] = useState(false)
     const [text, setText] = useState<string | null>(null)
-    const [feedbackState, sendFeedbackAction] = useFormState(sendFlexjarFeedbackAction, {
+    const [feedbackState, sendFeedbackAction] = useActionState(sendFlexjarFeedbackAction, {
         id: null,
         completed: false,
         error: null,

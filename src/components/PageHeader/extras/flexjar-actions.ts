@@ -20,7 +20,7 @@ export async function sendFlexjarFeedbackAction(
         return { ...devMode, error: null }
     }
 
-    const token = getToken(headers())
+    const token = getToken(await headers())
     if (!token) {
         throw new Error('User not logged in')
     }

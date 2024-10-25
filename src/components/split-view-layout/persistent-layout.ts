@@ -7,8 +7,8 @@ export type PaneView = {
     layout: PersistentPaneLayout
 }
 
-export function getPersistentPaneLayout(): PersistentPaneLayout {
-    const layout = cookies().get('syk-dig-split-view:layout')
+export async function getPersistentPaneLayout(): Promise<PersistentPaneLayout> {
+    const layout = (await cookies()).get('syk-dig-split-view:layout')
     if (!layout) return undefined
 
     const sizes = layout ? JSON.parse(layout.value) : undefined

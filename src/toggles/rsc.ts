@@ -23,9 +23,9 @@ export async function getToggles(): Promise<{ toggles: IToggle[] }> {
     }
 
     try {
-        const sessionId = getUnleashSessionId()
+        const sessionId = await getUnleashSessionId()
         const definitions = await getAndValidateDefinitions()
-        const userId = getAzureUser()?.toLowerCase()
+        const userId = (await getAzureUser())?.toLowerCase()
         logger.info(`Found user ID: ${userId}`)
         return evaluateFlags(definitions, {
             sessionId,
@@ -85,8 +85,8 @@ async function getAndValidateDefinitions(): Promise<Awaited<ReturnType<typeof ge
     return definitions
 }
 
-function getUnleashSessionId(): string {
-    const existingUnleashId = cookies().get(UNLEASH_COOKIE_NAME)
+async function getUnleashSessionId(): Promise<string> {
+    const existingUnleashId = (await cookies()).get(UNLEASH_COOKIE_NAME)
     if (existingUnleashId != null) {
         return existingUnleashId.value
     } else {
@@ -95,8 +95,8 @@ function getUnleashSessionId(): string {
     }
 }
 
-function getAzureUser(): string | undefined {
-    const token = getToken(headers())
+async function getAzureUser(): Promise<string | undefined> {
+    const token = getToken(await headers())
     if (token == null) {
         logger.warn('No token found in headers, cannot get NAVident')
         return undefined

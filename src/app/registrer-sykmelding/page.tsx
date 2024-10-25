@@ -8,8 +8,8 @@ export const metadata: Metadata = {
     title: 'Registrer sykmelding',
 }
 
-function RegistrerSykmelding(): ReactElement {
-    return <RegistrerSykmeldingView layout={getPersistentPaneLayout()} />
+async function RegistrerSykmelding(): Promise<ReactElement> {
+    return <RegistrerSykmeldingView layout={await getPersistentPaneLayout()} />
 }
 
 export default RegistrerSykmelding

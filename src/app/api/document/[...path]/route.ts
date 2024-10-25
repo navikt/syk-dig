@@ -6,15 +6,16 @@ import { getServerEnv, isLocalOrDemo } from '../../../../utils/env'
 import { alternativeDocumentPdf, pdf } from '../../../../mocks/data/examplePdfbase64'
 
 type RouteParams = {
-    params: { path: string[] }
+    params: Promise<{ path: string[] }>
 }
 
 export async function GET(request: Request, { params }: RouteParams): Promise<Response> {
+    const path = (await params).path
     const serverEnv = getServerEnv()
 
     if (isLocalOrDemo) {
-        logger.warn(`Running with mock, mocking PDF for local and demo for ${params.path.join('/')}`)
-        return new Response(Buffer.from(params.path.includes('primary') ? pdf : alternativeDocumentPdf, 'base64'), {
+        logger.warn(`Running with mock, mocking PDF for local and demo for ${path.join('/')}`)
+        return new Response(Buffer.from(path.includes('primary') ? pdf : alternativeDocumentPdf, 'base64'), {
             headers: { 'Content-Type': 'application/pdf' },
             status: 200,
         })
@@ -32,7 +33,7 @@ export async function GET(request: Request, { params }: RouteParams): Promise<Re
         return new Response('Not logged in', { status: 401 })
     }
 
-    const proxyPath = `/api/document/${params.path.join('/')}`
+    const proxyPath = `/api/document/${path.join('/')}`
     logger.info(`Proxying document request to syk-dig-backend to ${proxyPath}`)
     return proxyRouteHandler(request, {
         hostname: serverEnv.SYK_DIG_BACKEND_HOST,
