@@ -69,7 +69,7 @@ export async function updateFeedback(
 async function getBearerToken(token: string): Promise<string> {
     const serverEnv = getServerEnv()
 
-    const flexjarScope = `api://${serverEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === 'production' ? 'prod' : 'dev'}-gcp.flex.flexjar-backend/.default`
+    const flexjarScope = `api://${serverEnv.NEXT_PUBLIC_RUNTIME_ENV === 'production' ? 'prod' : 'dev'}-gcp.flex.flexjar-backend/.default`
     const tokenResult = await requestOboToken(token, flexjarScope)
 
     if (!tokenResult.ok) {

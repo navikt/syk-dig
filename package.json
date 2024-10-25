@@ -11,7 +11,7 @@
         "start": "concurrently -n next,codegen \"yarn start:watch\" \"yarn gen:watch\"",
         "start:watch": "next dev | pino-pretty",
         "start:e2e": "NEXT_PUBLIC_ASSET_PREFIX= node .next/standalone/server.js | pino-pretty",
-        "build": "next build",
+        "build": "./scripts/pre-build.sh && next build",
         "build:e2e": "./scripts/build-e2e.sh",
         "lint": "next lint",
         "test": "vitest --config vitest.config.mts",

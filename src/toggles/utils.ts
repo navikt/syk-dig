@@ -19,7 +19,7 @@ export function localDevelopmentToggles(): IToggle[] {
 }
 
 export function getUnleashEnvironment(): 'development' | 'production' {
-    switch (bundledEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT) {
+    switch (bundledEnv.NEXT_PUBLIC_RUNTIME_ENV) {
         case 'dev':
         case 'test':
         case 'local':
