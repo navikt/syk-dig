@@ -64,9 +64,16 @@ test('validation error if fom is more than 30 days after behandletTidspunkt', as
 })
 
 function getErrorSection(page: Page): Locator {
-    return page.getByRole('region', {
-        name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen',
-    })
+    /**
+     * Aksel fjernet section med accessible name, selectoren så sånn ut før:
+     *
+     * return page.getByRole('region', {
+     *     name: 'Du må fylle ut disse feltene før du kan registrere sykmeldingen',
+     * })
+     *
+     * Dersom aksel gjør om på endringen så kan vi gå tilbake til den, frem til da må vi jukse litt med locators:
+     */
+    return page.locator('text=Du må fylle ut disse feltene før du kan registrere sykmeldingen').locator('..')
 }
 
 function expectHasValidationError(errorSection: Locator) {
