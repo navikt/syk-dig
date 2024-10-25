@@ -8,7 +8,7 @@ import { isLocalOrDemo } from '../utils/env'
 export async function isUserLoggedIn(): Promise<boolean> {
     if (isLocalOrDemo) return true
 
-    const requestHeaders = headers()
+    const requestHeaders = await headers()
     const token = getToken(requestHeaders)
     if (!token) {
         return false
@@ -21,7 +21,7 @@ export async function isUserLoggedIn(): Promise<boolean> {
 export async function verifyUserLoggedIn(): Promise<{
     accessToken: string
 }> {
-    const requestHeaders = headers()
+    const requestHeaders = await headers()
 
     if (isLocalOrDemo) {
         logger.warn('Is running locally, skipping RSC auth')

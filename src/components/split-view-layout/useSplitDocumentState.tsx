@@ -12,8 +12,8 @@ type UseSplitDocumentState = {
     setView: (state: ViewState) => void
     viewState: ViewState
     refs: {
-        formPane: RefObject<ImperativePanelHandle>
-        pdfPane: RefObject<ImperativePanelHandle>
+        formPane: RefObject<ImperativePanelHandle | null>
+        pdfPane: RefObject<ImperativePanelHandle | null>
     }
 }
 

@@ -1,11 +1,11 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import { NextConfig } from 'next'
+
+const nextConfig: NextConfig = {
     output: 'standalone',
     reactStrictMode: true,
     assetPrefix: process.env.NEXT_PUBLIC_ASSET_PREFIX,
     experimental: {
         optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
-        instrumentationHook: true,
     },
     eslint: {
         ignoreDuringBuilds: true,

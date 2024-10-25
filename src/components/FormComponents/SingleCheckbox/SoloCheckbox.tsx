@@ -1,12 +1,13 @@
-import React, { ReactElement, forwardRef, ForwardedRef } from 'react'
+import React, { ReactElement, Ref } from 'react'
 import { Checkbox, CheckboxGroup, CheckboxGroupProps } from '@navikt/ds-react'
 
 type Props = Omit<CheckboxGroupProps, 'onChange' | 'value'> & {
+    ref: Ref<HTMLFieldSetElement>
     value: boolean
     onChange: (value: boolean) => void
 }
 
-function SoloCheckbox({ children, ...props }: Props, ref: ForwardedRef<HTMLFieldSetElement>): ReactElement {
+function SoloCheckbox({ ref, children, ...props }: Props): ReactElement {
     return (
         <CheckboxGroup
             {...props}
@@ -19,4 +20,4 @@ function SoloCheckbox({ children, ...props }: Props, ref: ForwardedRef<HTMLField
     )
 }
 
-export default forwardRef(SoloCheckbox)
+export default SoloCheckbox

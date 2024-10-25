@@ -8,8 +8,10 @@ export const metadata: Metadata = {
     title: 'Registrer mangler i utenlandsk sykmelding',
 }
 
-function Page({ params }: { params: { oppgaveId: string } }): ReactElement {
-    return <UtenlandskOppgaveView oppgaveId={params.oppgaveId} layout={getPersistentPaneLayout()} />
+async function Page({ params }: { params: Promise<{ oppgaveId: string }> }): Promise<ReactElement> {
+    const { oppgaveId } = await params
+
+    return <UtenlandskOppgaveView oppgaveId={oppgaveId} layout={await getPersistentPaneLayout()} />
 }
 
 export default Page

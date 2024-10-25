@@ -8,14 +8,14 @@ import { mockedSmregData } from '../../../../components/nasjonal-oppgave/mock/mo
 import { allowedAPIs, cleanPath } from './config'
 
 type RouteParams = {
-    params: { path: string[] }
+    params: Promise<{ path: string[] }>
 }
 
 export const GET = smregProxy
 export const POST = smregProxy
 
 async function smregProxy(request: Request, { params }: RouteParams): Promise<Response> {
-    const proxyPath = `/${params.path.join('/')}`
+    const proxyPath = `/${(await params).path.join('/')}`
     const api = `${request.method} ${proxyPath}`
 
     if (!allowedAPIs.includes(cleanPath(api))) {
