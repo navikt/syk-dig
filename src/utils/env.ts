@@ -2,7 +2,7 @@ import { z, ZodError } from 'zod'
 
 export type BundledEnv = z.infer<typeof bundledEnvSchema>
 const bundledEnvSchema = z.object({
-    NEXT_PUBLIC_RUNTIME_ENVIRONMENT: z.union([
+    NEXT_PUBLIC_RUNTIME_ENV: z.union([
         z.literal('local'),
         z.literal('test'),
         z.literal('demo'),
@@ -34,7 +34,7 @@ export const serverEnvSchema = z.object({
 })
 
 export const bundledEnv = bundledEnvSchema.parse({
-    NEXT_PUBLIC_RUNTIME_ENVIRONMENT: process.env.NEXT_PUBLIC_RUNTIME_ENVIRONMENT,
+    NEXT_PUBLIC_RUNTIME_ENV: process.env.NEXT_PUBLIC_RUNTIME_ENV,
     NEXT_PUBLIC_MODIA_URL: process.env.NEXT_PUBLIC_MODIA_URL,
     NEXT_PUBLIC_GOSYS_URL: process.env.NEXT_PUBLIC_GOSYS_URL,
     NEXT_PUBLIC_ASSET_PREFIX: process.env.NEXT_PUBLIC_ASSET_PREFIX,
@@ -83,5 +83,4 @@ export function getServerEnv(): ServerEnv & BundledEnv {
     }
 }
 
-export const isLocalOrDemo =
-    process.env.NODE_ENV !== 'production' || bundledEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === 'demo'
+export const isLocalOrDemo = process.env.NODE_ENV !== 'production' || bundledEnv.NEXT_PUBLIC_RUNTIME_ENV === 'demo'

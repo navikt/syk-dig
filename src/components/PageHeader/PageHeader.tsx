@@ -47,7 +47,7 @@ function PageHeader({ children }: PropsWithChildren): ReactElement {
 }
 
 function HeaderText(): ReactElement {
-    if (bundledEnv.NEXT_PUBLIC_RUNTIME_ENVIRONMENT === 'production') {
+    if (bundledEnv.NEXT_PUBLIC_RUNTIME_ENV === 'production') {
         return <InternalHeader.Title as="div">Digitalisering av sykmeldinger</InternalHeader.Title>
     }
 
