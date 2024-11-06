@@ -47,7 +47,6 @@ spec:
     outbound:
       rules:
         - application: syk-dig-backend
-        - application: smregistrering-backend
         - application: modiacontextholder
           namespace: personoversikt
         - application: flexjar-backend
@@ -59,10 +58,6 @@ spec:
       value: api://prod-gcp.teamsykmelding.syk-dig-backend/.default
     - name: SYK_DIG_BACKEND_HOST
       value: syk-dig-backend
-    - name: SMREGISTRERING_BACKEND_SCOPE
-      value: api://prod-gcp.teamsykmelding.smregistrering-backend/.default
-    - name: SMREGISTRERING_BACKEND_HOST
-      value: smregistrering-backend
     - name: MODIACONTEXTHOLDER_SCOPE
       value: api://prod-gcp.personoversikt.modiacontextholder/.default
     - name: MODIACONTEXTHOLDER_HOST
