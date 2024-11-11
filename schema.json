@@ -63,23 +63,18 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "LOPENDE_AAP",
-                            "description": null,
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
                             "name": "MAXDATO_OPPNAADD",
                             "description": null,
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
-                            "name": "DUPLIKAT",
+                            "name": "LOPENDE_AAP",
                             "description": null,
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
+                        { "name": "DUPLIKAT", "description": null, "isDeprecated": false, "deprecationReason": null },
                         { "name": "ANNET", "description": null, "isDeprecated": false, "deprecationReason": null }
                     ],
                     "possibleTypes": null
@@ -363,6 +358,98 @@
                         { "name": "AVVIST", "description": null, "isDeprecated": false, "deprecationReason": null }
                     ],
                     "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "DigitalisertSykmelding",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "sykmeldingId",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "documents",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "OBJECT", "name": "Document", "ofType": null }
+                                    }
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "person",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "OBJECT", "name": "Person", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "type",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "ENUM", "name": "SykmeldingsType", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "values",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "OBJECT", "name": "OppgaveValues", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "UNION",
+                    "name": "DigitalisertSykmeldingResult",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": [
+                        { "kind": "OBJECT", "name": "OppdatertSykmeldingStatus", "ofType": null },
+                        { "kind": "OBJECT", "name": "DigitalisertSykmelding", "ofType": null }
+                    ]
                 },
                 {
                     "kind": "OBJECT",
@@ -968,6 +1055,55 @@
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "oppdaterDigitalisertSykmelding",
+                            "description": null,
+                            "args": [
+                                {
+                                    "name": "sykmeldingId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                },
+                                {
+                                    "name": "enhetId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                },
+                                {
+                                    "name": "values",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "INPUT_OBJECT",
+                                            "name": "SykmeldingUnderArbeidValues",
+                                            "ofType": null
+                                        }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                }
+                            ],
+                            "type": { "kind": "OBJECT", "name": "OppdatertSykmeldingStatus", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,
@@ -1016,6 +1152,74 @@
                     "inputFields": null,
                     "interfaces": [],
                     "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "OppdatertSykmeldingStatus",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "sykmeldingId",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "status",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "ENUM", "name": "OppdatertSykmeldingStatusEnum", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "ENUM",
+                    "name": "OppdatertSykmeldingStatusEnum",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        { "name": "OPPDATERT", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "IKKE_FERDIGSTILT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FERDIGSTILT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FINNES_IKKE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "AVVIST", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "IKKE_EN_SYKMELDING",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
                     "possibleTypes": null
                 },
                 {
@@ -1358,6 +1562,27 @@
                                 "name": null,
                                 "ofType": { "kind": "UNION", "name": "JournalpostResult", "ofType": null }
                             },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "digitalisertSykmelding",
+                            "description": null,
+                            "args": [
+                                {
+                                    "name": "sykmeldingId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                }
+                            ],
+                            "type": { "kind": "UNION", "name": "DigitalisertSykmeldingResult", "ofType": null },
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
