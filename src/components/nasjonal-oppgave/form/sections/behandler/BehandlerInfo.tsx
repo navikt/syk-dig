@@ -41,7 +41,11 @@ function BehandlerInfo({ behandlerInfo, hpr }: Props): ReactElement | null {
     )
 
     if (!isValidHpr) {
-        return null
+        return (
+            <Alert variant="error">
+                HPR-nummeret er ikke gyldig.
+            </Alert>
+        )
     }
 
     if (queryResult.loading) {
