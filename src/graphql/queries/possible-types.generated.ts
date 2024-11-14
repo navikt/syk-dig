@@ -7,6 +7,7 @@ const result: PossibleTypesResultData = {
     possibleTypes: {
         Bostedsadresse: ['Matrikkeladresse', 'UkjentBosted', 'UtenlandskAdresse', 'Vegadresse'],
         DigitaliseringsoppgaveResult: ['Digitaliseringsoppgave', 'DigitaliseringsoppgaveStatus'],
+        DigitalisertSykmeldingResult: ['DigitalisertSykmelding', 'OppdatertSykmeldingStatus'],
         JournalpostResult: ['Journalpost', 'JournalpostStatus'],
         Oppholdsadresse: ['Matrikkeladresse', 'OppholdAnnetSted', 'UtenlandskAdresse', 'Vegadresse'],
     },

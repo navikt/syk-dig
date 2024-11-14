@@ -36,3 +36,13 @@ mutation NavngiDokument($oppgaveId: String!, $dokumentInfoId: String!, $tittel: 
         ...Document
     }
 }
+
+mutation UpdateDigitalisertSykmelding(
+    $sykmeldingId: String!
+    $enhetId: String!
+    $values: SykmeldingUnderArbeidValues!
+) {
+    oppdaterDigitalisertSykmelding(sykmeldingId: $sykmeldingId, enhetId: $enhetId, values: $values) {
+        ...OppdatertSykmeldingStatus
+    }
+}

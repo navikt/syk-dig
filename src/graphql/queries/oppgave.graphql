@@ -30,6 +30,7 @@ fragment OppgaveValues on OppgaveValues {
 
 fragment Sykmelding on DigitalisertSykmelding {
     sykmeldingId
+    oppgaveId
     documents {
         ...Document
     }
@@ -131,10 +132,19 @@ fragment DigitaliseringsoppgaveStatus on DigitaliseringsoppgaveStatus {
     oppgaveId
     status
 }
+fragment OppdatertSykmeldingStatus on OppdatertSykmeldingStatus {
+    sykmeldingId
+    status
+}
 
 fragment DigitaliseringOppgaveResult on DigitaliseringsoppgaveResult {
     ...Oppgave
     ...DigitaliseringsoppgaveStatus
+}
+
+fragment DigitalisertSykmeldingResult on DigitalisertSykmeldingResult {
+    ...Sykmelding
+    ...OppdatertSykmeldingStatus
 }
 
 fragment Document on Document {
@@ -148,3 +158,8 @@ query OppgaveById($oppgaveId: String!) {
     }
 }
 
+query SykmeldingById($sykmeldingId: String!) {
+    digitalisertSykmelding(sykmeldingId: $sykmeldingId) {
+        ...DigitalisertSykmeldingResult
+    }
+}

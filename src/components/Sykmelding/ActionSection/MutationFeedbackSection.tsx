@@ -71,7 +71,7 @@ export function MutationResultFeedback({
     result,
     children,
 }: PropsWithChildren<{
-    what: 'lagre' | 'registrere' | 'sende tilbake' | 'avvise'
+    what: 'lagre' | 'registrere' | 'sende tilbake' | 'avvise' | 'Oppdatere'
     result: MutationResult
 }>): ReactElement | null {
     if (!result.called || result.loading) return null

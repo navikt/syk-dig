@@ -12,16 +12,20 @@ import {
     JournalpostStatusEnum,
     NavngiDokumentDocument,
     NavngiDokumentMutation,
+    OppdatertSykmeldingStatusEnum,
     OppgaveByIdDocument,
     PeriodeFragment,
     PeriodeInput,
     SaveOppgaveDocument,
     SaveOppgaveMutation,
+    SykmeldingByIdDocument,
     SykmeldingFraJournalpostDocument,
     SykmeldingFraJournalpostMutation,
     SykmeldingUnderArbeidStatus,
     TilbakeTilGosysDocument,
     TilbakeTilGosysMutation,
+    UpdateDigitalisertSykmeldingDocument,
+    UpdateDigitalisertSykmeldingMutation,
 } from '../graphql/queries/graphql.generated'
 import { notNull } from '../utils/tsUtils'
 
@@ -40,10 +44,15 @@ export const handlers = [
         await delay()
         return HttpResponse.json({ data: { __typename: 'Query', oppgave } })
     }),
+    graphql.query(SykmeldingByIdDocument, async ({ variables }) => {
+        const digitalisertSykmelding = getMockDb().getDigitalisertSykmelding(variables.sykmeldingId)
+
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Query', digitalisertSykmelding } })
+    }),
     graphql.mutation(SaveOppgaveDocument, async ({ variables }) => {
         const oppgave = getMockDb().getOppgave(variables.id)
         const values = variables.values
-
         if (variables.status === SykmeldingUnderArbeidStatus.Ferdigstilt) {
             await delay()
 
@@ -68,6 +77,18 @@ export const handlers = [
 
         await delay()
         return HttpResponse.json({ data: { __typename: 'Mutation', lagre: oppgave } })
+    }),
+    graphql.mutation(UpdateDigitalisertSykmeldingDocument, async ({ variables }) => {
+        return HttpResponse.json({
+            data: {
+                __typename: 'Mutation',
+                oppdaterDigitalisertSykmelding: {
+                    __typename: 'OppdatertSykmeldingStatus',
+                    sykmeldingId: variables.sykmeldingId,
+                    status: OppdatertSykmeldingStatusEnum.Oppdatert,
+                },
+            } satisfies UpdateDigitalisertSykmeldingMutation,
+        })
     }),
     graphql.query(JournalpostByIdDocument, async ({ variables }) => {
         await delay()

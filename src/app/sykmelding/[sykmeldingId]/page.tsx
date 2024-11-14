@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react'
 import { Metadata } from 'next'
 
 import { getPersistentPaneLayout } from '../../../components/split-view-layout/persistent-layout'
-import UtenlandskSykmelding from "../../../components/utenlandsk-sykmelding/UtenlandskSykmelding";
+import UtenlandskSykmelding from '../../../components/utenlandsk-sykmelding/UtenlandskSykmelding'
 
 export const metadata: Metadata = {
     title: 'Rediger mangler i utenlandsk sykmelding',

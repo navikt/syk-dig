@@ -53,7 +53,7 @@ function UtenlandskOppgaveView({ oppgaveId, layout }: Props): ReactElement {
 
 function DigitaliseringsOppgave({ oppgave }: { oppgave: DigitaliseringOppgaveResultFragment }): ReactElement {
     if (oppgave.__typename === 'Digitaliseringsoppgave') {
-        return <SykmeldingForm oppgave={oppgave} />
+        return <SykmeldingForm values={oppgave.values} person={oppgave.person} />
     } else {
         return <OppgaveStatus oppgave={oppgave} />
     }

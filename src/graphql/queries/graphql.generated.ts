@@ -74,6 +74,18 @@ export enum DigitaliseringsoppgaveStatusEnum {
     IkkeEnSykmelding = 'IKKE_EN_SYKMELDING',
 }
 
+export type DigitalisertSykmelding = {
+    __typename: 'DigitalisertSykmelding'
+    documents: Array<Document>
+    oppgaveId: Scalars['String']['output']
+    person: Person
+    sykmeldingId: Scalars['String']['output']
+    type: SykmeldingsType
+    values: OppgaveValues
+}
+
+export type DigitalisertSykmeldingResult = DigitalisertSykmelding | OppdatertSykmeldingStatus
+
 export type Document = {
     __typename: 'Document'
     dokumentInfoId: Scalars['String']['output']
@@ -357,6 +369,7 @@ export type Mutation = {
     avvis?: Maybe<DigitaliseringsoppgaveStatus>
     dokument?: Maybe<Document>
     lagre?: Maybe<DigitaliseringsoppgaveResult>
+    oppdaterDigitalisertSykmelding?: Maybe<OppdatertSykmeldingStatus>
     oppgaveTilbakeTilGosys?: Maybe<DigitaliseringsoppgaveStatus>
     sykmeldingFraJournalpost: JournalpostStatus
 }
@@ -381,6 +394,12 @@ export type MutationLagreArgs = {
     values: SykmeldingUnderArbeidValues
 }
 
+export type MutationOppdaterDigitalisertSykmeldingArgs = {
+    enhetId: Scalars['String']['input']
+    sykmeldingId: Scalars['String']['input']
+    values: SykmeldingUnderArbeidValues
+}
+
 export type MutationOppgaveTilbakeTilGosysArgs = {
     oppgaveId: Scalars['String']['input']
 }
@@ -395,6 +414,21 @@ export type Navn = {
     etternavn: Scalars['String']['output']
     fornavn: Scalars['String']['output']
     mellomnavn?: Maybe<Scalars['String']['output']>
+}
+
+export type OppdatertSykmeldingStatus = {
+    __typename: 'OppdatertSykmeldingStatus'
+    status?: Maybe<OppdatertSykmeldingStatusEnum>
+    sykmeldingId: Scalars['String']['output']
+}
+
+export enum OppdatertSykmeldingStatusEnum {
+    Avvist = 'AVVIST',
+    Ferdigstilt = 'FERDIGSTILT',
+    FinnesIkke = 'FINNES_IKKE',
+    IkkeEnSykmelding = 'IKKE_EN_SYKMELDING',
+    IkkeFerdigstilt = 'IKKE_FERDIGSTILT',
+    Oppdatert = 'OPPDATERT',
 }
 
 export type OppgaveValues = {
@@ -447,8 +481,13 @@ export type Person = {
 export type Query = {
     __typename: 'Query'
     _service: _Service
+    digitalisertSykmelding?: Maybe<DigitalisertSykmeldingResult>
     journalpost: JournalpostResult
     oppgave?: Maybe<DigitaliseringsoppgaveResult>
+}
+
+export type QueryDigitalisertSykmeldingArgs = {
+    sykmeldingId: Scalars['String']['input']
 }
 
 export type QueryJournalpostArgs = {
@@ -587,6 +626,86 @@ export type OppgaveValuesFragment = {
     }> | null
     hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
     biDiagnoser?: Array<{ __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string }> | null
+}
+
+export type SykmeldingFragment = {
+    __typename: 'DigitalisertSykmelding'
+    sykmeldingId: string
+    oppgaveId: string
+    documents: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
+    person: {
+        __typename: 'Person'
+        navn?: string | null
+        bostedsadresse?:
+            | {
+                  __typename: 'Matrikkeladresse'
+                  bruksenhetsnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+                  tilleggsnavn?: string | null
+              }
+            | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
+            | {
+                  __typename: 'UtenlandskAdresse'
+                  adressenavnNummer?: string | null
+                  bySted?: string | null
+                  landkode: string
+                  postboksNummerNavn?: string | null
+                  postkode?: string | null
+              }
+            | {
+                  __typename: 'Vegadresse'
+                  adressenavn?: string | null
+                  husbokstav?: string | null
+                  husnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+              }
+            | null
+        oppholdsadresse?:
+            | {
+                  __typename: 'Matrikkeladresse'
+                  bruksenhetsnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+                  tilleggsnavn?: string | null
+              }
+            | { __typename: 'OppholdAnnetSted'; type?: string | null }
+            | {
+                  __typename: 'UtenlandskAdresse'
+                  adressenavnNummer?: string | null
+                  bySted?: string | null
+                  landkode: string
+                  postboksNummerNavn?: string | null
+                  postkode?: string | null
+              }
+            | {
+                  __typename: 'Vegadresse'
+                  adressenavn?: string | null
+                  husbokstav?: string | null
+                  husnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+              }
+            | null
+    }
+    values: {
+        __typename: 'OppgaveValues'
+        fnrPasient: string
+        behandletTidspunkt?: string | null
+        skrevetLand?: string | null
+        folkeRegistertAdresseErBrakkeEllerTilsvarende?: boolean | null
+        erAdresseUtland?: boolean | null
+        perioder?: Array<{
+            __typename: 'PeriodeValue'
+            fom: string
+            tom: string
+            type: PeriodeType
+            grad?: number | null
+        }> | null
+        hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
+        biDiagnoser?: Array<{ __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string }> | null
+    }
 }
 
 export type OppgaveFragment = {
@@ -772,6 +891,12 @@ export type DigitaliseringsoppgaveStatusFragment = {
     status: DigitaliseringsoppgaveStatusEnum
 }
 
+export type OppdatertSykmeldingStatusFragment = {
+    __typename: 'OppdatertSykmeldingStatus'
+    sykmeldingId: string
+    status?: OppdatertSykmeldingStatusEnum | null
+}
+
 export type DigitaliseringOppgaveResult_Digitaliseringsoppgave_Fragment = {
     __typename: 'Digitaliseringsoppgave'
     oppgaveId: string
@@ -860,6 +985,96 @@ export type DigitaliseringOppgaveResult_DigitaliseringsoppgaveStatus_Fragment = 
 export type DigitaliseringOppgaveResultFragment =
     | DigitaliseringOppgaveResult_Digitaliseringsoppgave_Fragment
     | DigitaliseringOppgaveResult_DigitaliseringsoppgaveStatus_Fragment
+
+export type DigitalisertSykmeldingResult_DigitalisertSykmelding_Fragment = {
+    __typename: 'DigitalisertSykmelding'
+    sykmeldingId: string
+    oppgaveId: string
+    documents: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
+    person: {
+        __typename: 'Person'
+        navn?: string | null
+        bostedsadresse?:
+            | {
+                  __typename: 'Matrikkeladresse'
+                  bruksenhetsnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+                  tilleggsnavn?: string | null
+              }
+            | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
+            | {
+                  __typename: 'UtenlandskAdresse'
+                  adressenavnNummer?: string | null
+                  bySted?: string | null
+                  landkode: string
+                  postboksNummerNavn?: string | null
+                  postkode?: string | null
+              }
+            | {
+                  __typename: 'Vegadresse'
+                  adressenavn?: string | null
+                  husbokstav?: string | null
+                  husnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+              }
+            | null
+        oppholdsadresse?:
+            | {
+                  __typename: 'Matrikkeladresse'
+                  bruksenhetsnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+                  tilleggsnavn?: string | null
+              }
+            | { __typename: 'OppholdAnnetSted'; type?: string | null }
+            | {
+                  __typename: 'UtenlandskAdresse'
+                  adressenavnNummer?: string | null
+                  bySted?: string | null
+                  landkode: string
+                  postboksNummerNavn?: string | null
+                  postkode?: string | null
+              }
+            | {
+                  __typename: 'Vegadresse'
+                  adressenavn?: string | null
+                  husbokstav?: string | null
+                  husnummer?: string | null
+                  postnummer?: string | null
+                  poststed?: string | null
+              }
+            | null
+    }
+    values: {
+        __typename: 'OppgaveValues'
+        fnrPasient: string
+        behandletTidspunkt?: string | null
+        skrevetLand?: string | null
+        folkeRegistertAdresseErBrakkeEllerTilsvarende?: boolean | null
+        erAdresseUtland?: boolean | null
+        perioder?: Array<{
+            __typename: 'PeriodeValue'
+            fom: string
+            tom: string
+            type: PeriodeType
+            grad?: number | null
+        }> | null
+        hoveddiagnose?: { __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string } | null
+        biDiagnoser?: Array<{ __typename: 'DiagnoseValue'; kode: string; tekst?: string | null; system: string }> | null
+    }
+}
+
+export type DigitalisertSykmeldingResult_OppdatertSykmeldingStatus_Fragment = {
+    __typename: 'OppdatertSykmeldingStatus'
+    sykmeldingId: string
+    status?: OppdatertSykmeldingStatusEnum | null
+}
+
+export type DigitalisertSykmeldingResultFragment =
+    | DigitalisertSykmeldingResult_DigitalisertSykmelding_Fragment
+    | DigitalisertSykmeldingResult_OppdatertSykmeldingStatus_Fragment
 
 export type DocumentFragment = { __typename: 'Document'; tittel: string; dokumentInfoId: string }
 
@@ -959,6 +1174,110 @@ export type OppgaveByIdQuery = {
               }
           }
         | { __typename: 'DigitaliseringsoppgaveStatus'; oppgaveId: string; status: DigitaliseringsoppgaveStatusEnum }
+        | null
+}
+
+export type SykmeldingByIdQueryVariables = Exact<{
+    sykmeldingId: Scalars['String']['input']
+}>
+
+export type SykmeldingByIdQuery = {
+    __typename: 'Query'
+    digitalisertSykmelding?:
+        | {
+              __typename: 'DigitalisertSykmelding'
+              sykmeldingId: string
+              oppgaveId: string
+              documents: Array<{ __typename: 'Document'; tittel: string; dokumentInfoId: string }>
+              person: {
+                  __typename: 'Person'
+                  navn?: string | null
+                  bostedsadresse?:
+                      | {
+                            __typename: 'Matrikkeladresse'
+                            bruksenhetsnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                            tilleggsnavn?: string | null
+                        }
+                      | { __typename: 'UkjentBosted'; bostedskommune?: string | null }
+                      | {
+                            __typename: 'UtenlandskAdresse'
+                            adressenavnNummer?: string | null
+                            bySted?: string | null
+                            landkode: string
+                            postboksNummerNavn?: string | null
+                            postkode?: string | null
+                        }
+                      | {
+                            __typename: 'Vegadresse'
+                            adressenavn?: string | null
+                            husbokstav?: string | null
+                            husnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                        }
+                      | null
+                  oppholdsadresse?:
+                      | {
+                            __typename: 'Matrikkeladresse'
+                            bruksenhetsnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                            tilleggsnavn?: string | null
+                        }
+                      | { __typename: 'OppholdAnnetSted'; type?: string | null }
+                      | {
+                            __typename: 'UtenlandskAdresse'
+                            adressenavnNummer?: string | null
+                            bySted?: string | null
+                            landkode: string
+                            postboksNummerNavn?: string | null
+                            postkode?: string | null
+                        }
+                      | {
+                            __typename: 'Vegadresse'
+                            adressenavn?: string | null
+                            husbokstav?: string | null
+                            husnummer?: string | null
+                            postnummer?: string | null
+                            poststed?: string | null
+                        }
+                      | null
+              }
+              values: {
+                  __typename: 'OppgaveValues'
+                  fnrPasient: string
+                  behandletTidspunkt?: string | null
+                  skrevetLand?: string | null
+                  folkeRegistertAdresseErBrakkeEllerTilsvarende?: boolean | null
+                  erAdresseUtland?: boolean | null
+                  perioder?: Array<{
+                      __typename: 'PeriodeValue'
+                      fom: string
+                      tom: string
+                      type: PeriodeType
+                      grad?: number | null
+                  }> | null
+                  hoveddiagnose?: {
+                      __typename: 'DiagnoseValue'
+                      kode: string
+                      tekst?: string | null
+                      system: string
+                  } | null
+                  biDiagnoser?: Array<{
+                      __typename: 'DiagnoseValue'
+                      kode: string
+                      tekst?: string | null
+                      system: string
+                  }> | null
+              }
+          }
+        | {
+              __typename: 'OppdatertSykmeldingStatus'
+              sykmeldingId: string
+              status?: OppdatertSykmeldingStatusEnum | null
+          }
         | null
 }
 
@@ -1102,6 +1421,21 @@ export type NavngiDokumentMutationVariables = Exact<{
 export type NavngiDokumentMutation = {
     __typename: 'Mutation'
     dokument?: { __typename: 'Document'; tittel: string; dokumentInfoId: string } | null
+}
+
+export type UpdateDigitalisertSykmeldingMutationVariables = Exact<{
+    sykmeldingId: Scalars['String']['input']
+    enhetId: Scalars['String']['input']
+    values: SykmeldingUnderArbeidValues
+}>
+
+export type UpdateDigitalisertSykmeldingMutation = {
+    __typename: 'Mutation'
+    oppdaterDigitalisertSykmelding?: {
+        __typename: 'OppdatertSykmeldingStatus'
+        sykmeldingId: string
+        status?: OppdatertSykmeldingStatusEnum | null
+    } | null
 }
 
 export const JournalpostFragmentDoc = {
@@ -2194,6 +2528,635 @@ export const DigitaliseringOppgaveResultFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<DigitaliseringOppgaveResultFragment, unknown>
+export const SykmeldingFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Sykmelding' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DigitalisertSykmelding' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documents' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Document' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'person' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bostedsadresse' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Bostedsadresse' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'oppholdsadresse' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'FragmentSpread',
+                                                name: { kind: 'Name', value: 'Oppholdsadresse' },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'values' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'OppgaveValues' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Vegadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'adressenavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'husbokstav' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'husnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'poststed' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Matrikkeladresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Matrikkeladresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bruksenhetsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'poststed' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tilleggsnavn' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'UtenlandskAdresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'adressenavnNummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bySted' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'landkode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postboksNummerNavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postkode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'UkjentBosted' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UkjentBosted' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'bostedskommune' } }],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppholdAnnet' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppholdAnnetSted' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'type' } }],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Periode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PeriodeValue' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Diagnose' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DiagnoseValue' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Document' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Bostedsadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Bostedsadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Vegadresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Matrikkeladresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Matrikkeladresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UkjentBosted' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'UkjentBosted' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Oppholdsadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Oppholdsadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Vegadresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Matrikkeladresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Matrikkeladresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppholdAnnetSted' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'OppholdAnnet' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppgaveValues' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppgaveValues' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnrPasient' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandletTidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skrevetLand' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Periode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hoveddiagnose' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'biDiagnoser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'folkeRegistertAdresseErBrakkeEllerTilsvarende' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erAdresseUtland' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SykmeldingFragment, unknown>
+export const OppdatertSykmeldingStatusFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<OppdatertSykmeldingStatusFragment, unknown>
+export const DigitalisertSykmeldingResultFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'DigitalisertSykmeldingResult' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DigitalisertSykmeldingResult' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Sykmelding' } },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Document' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Vegadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'adressenavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'husbokstav' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'husnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'poststed' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Matrikkeladresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Matrikkeladresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bruksenhetsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'poststed' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tilleggsnavn' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'UtenlandskAdresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'adressenavnNummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bySted' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'landkode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postboksNummerNavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postkode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'UkjentBosted' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UkjentBosted' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'bostedskommune' } }],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Bostedsadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Bostedsadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Vegadresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Matrikkeladresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Matrikkeladresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UkjentBosted' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'UkjentBosted' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppholdAnnet' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppholdAnnetSted' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'type' } }],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Oppholdsadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Oppholdsadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Vegadresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Matrikkeladresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Matrikkeladresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppholdAnnetSted' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'OppholdAnnet' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Periode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PeriodeValue' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Diagnose' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DiagnoseValue' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppgaveValues' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppgaveValues' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnrPasient' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandletTidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skrevetLand' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Periode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hoveddiagnose' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'biDiagnoser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'folkeRegistertAdresseErBrakkeEllerTilsvarende' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erAdresseUtland' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Sykmelding' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DigitalisertSykmelding' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documents' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Document' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'person' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bostedsadresse' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Bostedsadresse' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'oppholdsadresse' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'FragmentSpread',
+                                                name: { kind: 'Name', value: 'Oppholdsadresse' },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'values' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'OppgaveValues' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<DigitalisertSykmeldingResultFragment, unknown>
 export const JournalpostByIdDocument = {
     kind: 'Document',
     definitions: [
@@ -2690,6 +3653,361 @@ export const OppgaveByIdDocument = {
         },
     ],
 } as unknown as DocumentNode<OppgaveByIdQuery, OppgaveByIdQueryVariables>
+export const SykmeldingByIdDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'SykmeldingById' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'digitalisertSykmelding' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'sykmeldingId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'sykmeldingId' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                {
+                                    kind: 'FragmentSpread',
+                                    name: { kind: 'Name', value: 'DigitalisertSykmeldingResult' },
+                                },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Document' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Vegadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'adressenavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'husbokstav' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'husnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'poststed' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Matrikkeladresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Matrikkeladresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bruksenhetsnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postnummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'poststed' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tilleggsnavn' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'UtenlandskAdresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'adressenavnNummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'bySted' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'landkode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postboksNummerNavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'postkode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'UkjentBosted' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UkjentBosted' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'bostedskommune' } }],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Bostedsadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Bostedsadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Vegadresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Matrikkeladresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Matrikkeladresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UkjentBosted' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'UkjentBosted' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppholdAnnet' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppholdAnnetSted' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [{ kind: 'Field', name: { kind: 'Name', value: 'type' } }],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Oppholdsadresse' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Oppholdsadresse' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Vegadresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Vegadresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Matrikkeladresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Matrikkeladresse' } }],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UtenlandskAdresse' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'InlineFragment',
+                        typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppholdAnnetSted' } },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'OppholdAnnet' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Periode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PeriodeValue' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Diagnose' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DiagnoseValue' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppgaveValues' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppgaveValues' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnrPasient' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandletTidspunkt' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skrevetLand' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Periode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hoveddiagnose' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'biDiagnoser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Diagnose' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'folkeRegistertAdresseErBrakkeEllerTilsvarende' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'erAdresseUtland' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Sykmelding' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DigitalisertSykmelding' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documents' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Document' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'person' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'bostedsadresse' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Bostedsadresse' } },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'Field',
+                                    name: { kind: 'Name', value: 'oppholdsadresse' },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            {
+                                                kind: 'FragmentSpread',
+                                                name: { kind: 'Name', value: 'Oppholdsadresse' },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'values' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'OppgaveValues' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'DigitalisertSykmeldingResult' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DigitalisertSykmeldingResult' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'Sykmelding' } },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SykmeldingByIdQuery, SykmeldingByIdQueryVariables>
 export const SaveOppgaveDocument = {
     kind: 'Document',
     definitions: [
@@ -3290,3 +4608,77 @@ export const NavngiDokumentDocument = {
         },
     ],
 } as unknown as DocumentNode<NavngiDokumentMutation, NavngiDokumentMutationVariables>
+export const UpdateDigitalisertSykmeldingDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'UpdateDigitalisertSykmelding' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'enhetId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'values' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'SykmeldingUnderArbeidValues' } },
+                    },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'oppdaterDigitalisertSykmelding' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'sykmeldingId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'sykmeldingId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'enhetId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'enhetId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'values' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'values' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'OppdatertSykmeldingStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<UpdateDigitalisertSykmeldingMutation, UpdateDigitalisertSykmeldingMutationVariables>
