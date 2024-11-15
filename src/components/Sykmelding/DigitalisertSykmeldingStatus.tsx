@@ -33,7 +33,7 @@ function DigitalisertSykmeldingStatus({ sykmeldingStatus }: Props): ReactElement
                     <Heading size="medium" spacing>
                         Sykmeldingen er avvist
                     </Heading>
-                    <BodyShort spacing>Dersom dette ikke dette stemmer, kan du ta kontakt med brukerstøtte.</BodyShort>
+                    <BodyShort spacing>Dersom dette ikke stemmer, kan du ta kontakt med brukerstøtte.</BodyShort>
                 </Alert>
             )
         case OppdatertSykmeldingStatusEnum.IkkeFerdigstilt:

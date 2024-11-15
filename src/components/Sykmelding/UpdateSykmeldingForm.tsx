@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react'
-import { Button } from '@navikt/ds-react'
+import { Alert, Button } from '@navikt/ds-react'
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { MutationResult } from '@apollo/client'
 import { ArrowLeftIcon } from '@navikt/aksel-icons'
 
 import { OppgaveValues, Person } from '../../graphql/queries/graphql.generated'
 import Errors, { useErrorSection } from '../Errors/Errors'
-import { bundledEnv } from '../../utils/env'
+import { bundledEnv, isLocalOrDemo } from '../../utils/env'
 import ConfirmButton from '../ConfirmButton/ConfirmButton'
 import { redirectTilModia } from '../../utils/modia'
 
@@ -18,6 +18,8 @@ import Sykmeldingsperiode from './Sykmeldingsperiode'
 import DiagnoseFormSection from './DiagnoseFormSection'
 import AndreOpplysninger from './AndreOpplysninger'
 import { MutationResultFeedback } from './ActionSection/MutationFeedbackSection'
+import FeedbackModal from './ActionSection/FeedbackModal'
+import styles from './ActionSection/MutationFeedbackSection.module.css'
 
 interface Props {
     values: OppgaveValues
@@ -60,11 +62,16 @@ interface UpdateSykmeldingActionProps {
     submitResult: MutationResult
 }
 
+function isMutationSuccess(result: MutationResult): boolean {
+    return result.called && !result.loading && !result.error
+}
+
 function UpdateSykmeldingAction({ submitResult }: UpdateSykmeldingActionProps): ReactElement {
     const { trigger } = useFormContext<UtenlanskFormValues>()
 
     return (
         <div className="flex flex-col gap-8 p-8 border-t-2 border-border-default">
+            <MutationFeedback submitResult={submitResult} />
             <ConfirmButton
                 preModalCheck={async () => {
                     // Only open modal if form validates
@@ -88,7 +95,7 @@ function UpdateSykmeldingAction({ submitResult }: UpdateSykmeldingActionProps): 
                         },
                     },
                     feedback: <MutationResultFeedback result={submitResult} what="lagre" />,
-                    hide: submitResult.called && !submitResult.loading,
+                    hide: isMutationSuccess(submitResult),
                 }}
             >
                 Korriger og oppdater sykmelding
@@ -105,5 +112,25 @@ function UpdateSykmeldingAction({ submitResult }: UpdateSykmeldingActionProps): 
                 </Button>
             </div>
         </div>
+    )
+}
+
+function MutationFeedback({ submitResult }: UpdateSykmeldingActionProps): ReactElement {
+    return (
+        <MutationResultFeedback what="oppdatere" result={submitResult}>
+            <FeedbackModal title="Sykmeldingen ble lagret">
+                {isLocalOrDemo && (
+                    <Alert className={styles.demoWarning} variant="warning">
+                        Dette er bare en demo, du blir ikke sendt tilbake til Modia
+                    </Alert>
+                )}
+                <Alert variant="success" className={styles.saveSuccess}>
+                    Sykmeldingen ble oppdatert, sender deg tilbake til Modia...
+                </Alert>
+                <Button variant="tertiary" as="a" href={bundledEnv.NEXT_PUBLIC_MODIA_URL}>
+                    Klikk her dersom du ikke blir videresendt...
+                </Button>
+            </FeedbackModal>
+        </MutationResultFeedback>
     )
 }

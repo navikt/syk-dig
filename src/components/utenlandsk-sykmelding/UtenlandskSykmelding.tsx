@@ -100,14 +100,11 @@ function OppgaveDocuments({
 }: {
     query: QueryResult<SykmeldingByIdQuery, SykmeldingByIdQueryVariables>
 }): ReactElement {
-    const isStatus = query.data?.digitalisertSykmelding?.__typename === 'DigitalisertSykmelding'
     const { loading, error, data } = query
     const oppgave = data?.digitalisertSykmelding
 
     if (loading) {
         return <DocumentsViewerSkeleton />
-    } else if (!loading && isStatus) {
-        return <DocumentsViewerNoDocuments text="Oppgaven er ikke åpen" />
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
     } else if (oppgave != null && oppgave?.__typename === 'DigitalisertSykmelding') {
