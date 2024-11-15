@@ -8,7 +8,20 @@ interface OppgaveRoute {
     oppgaveId: string
 }
 
-export function useParam(location: Location): OppgaveRoute {
+interface SykmeldingRoute {
+    sykmeldingId: string
+}
+
+export function useSykmeldingParam(): SykmeldingRoute {
+    const params = useNextParams()
+    const sykmeldingId = params.sykmeldingId as string | undefined
+    if (sykmeldingId == null) {
+        throw new Error(`Invalid param for route 'Sykmelding', was ${typeof sykmeldingId}`)
+    }
+    return { sykmeldingId }
+}
+
+export function useOppgaveParam(location: Location): OppgaveRoute {
     const params = useNextParams()
 
     if (params == null) {

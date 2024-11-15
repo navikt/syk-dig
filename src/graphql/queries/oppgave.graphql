@@ -28,6 +28,26 @@ fragment OppgaveValues on OppgaveValues {
     erAdresseUtland
 }
 
+fragment Sykmelding on DigitalisertSykmelding {
+    sykmeldingId
+    oppgaveId
+    documents {
+        ...Document
+    }
+    person {
+        navn
+        bostedsadresse {
+            ...Bostedsadresse
+        }
+        oppholdsadresse {
+            ...Oppholdsadresse
+        }
+    }
+    values {
+        ...OppgaveValues
+    }
+}
+
 fragment Oppgave on Digitaliseringsoppgave {
     oppgaveId
     documents {
@@ -112,10 +132,19 @@ fragment DigitaliseringsoppgaveStatus on DigitaliseringsoppgaveStatus {
     oppgaveId
     status
 }
+fragment OppdatertSykmeldingStatus on OppdatertSykmeldingStatus {
+    sykmeldingId
+    status
+}
 
 fragment DigitaliseringOppgaveResult on DigitaliseringsoppgaveResult {
     ...Oppgave
     ...DigitaliseringsoppgaveStatus
+}
+
+fragment DigitalisertSykmeldingResult on DigitalisertSykmeldingResult {
+    ...Sykmelding
+    ...OppdatertSykmeldingStatus
 }
 
 fragment Document on Document {
@@ -126,5 +155,11 @@ fragment Document on Document {
 query OppgaveById($oppgaveId: String!) {
     oppgave(oppgaveId: $oppgaveId) {
         ...DigitaliseringOppgaveResult
+    }
+}
+
+query SykmeldingById($sykmeldingId: String!) {
+    digitalisertSykmelding(sykmeldingId: $sykmeldingId) {
+        ...DigitalisertSykmeldingResult
     }
 }

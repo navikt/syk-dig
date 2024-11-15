@@ -3,7 +3,7 @@ import { ReactElement, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import Errors, { useErrorSection } from '../Errors/Errors'
-import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
+import { OppgaveValues, Person } from '../../graphql/queries/graphql.generated'
 import useWarnUnsavedPopup from '../../hooks/useWarnUnsaved'
 import { redirectTilGosys } from '../../utils/gosys'
 
@@ -28,16 +28,17 @@ export interface UtenlanskFormValues {
 }
 
 interface Props {
-    oppgave: OppgaveFragment
+    values: OppgaveValues
+    person: Person
 }
 
-function SykmeldingForm({ oppgave }: Props): ReactElement {
+function SykmeldingForm({ values, person }: Props): ReactElement {
     const router = useRouter()
     const params = useSearchParams()
     const [errorRef, focusErrorSection] = useErrorSection()
 
     const [onSave, result] = useHandleRegister({
-        fnr: oppgave.values.fnrPasient,
+        fnr: values.fnrPasient,
         onCompleted: () => {
             // TODO: Better solution to this hacky implementation of a delay:
             // Necessary to let RHF re-render with isSubmitSuccessful before we redirect to Gosys
@@ -52,7 +53,7 @@ function SykmeldingForm({ oppgave }: Props): ReactElement {
     })
 
     const form = useForm<UtenlanskFormValues>({
-        defaultValues: createDefaultValues(oppgave.values),
+        defaultValues: createDefaultValues(values),
         shouldFocusError: false,
     })
     const shouldShowAvvisActions = form.watch('mangelfullSykmelding') === true
@@ -65,7 +66,7 @@ function SykmeldingForm({ oppgave }: Props): ReactElement {
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSave, focusErrorSection)} id="sykmelding-form">
-                <Pasientopplysninger fnr={oppgave.values.fnrPasient} person={oppgave.person} />
+                <Pasientopplysninger fnr={values.fnrPasient} person={person} />
                 <Sykmeldingsperiode />
                 <DiagnoseFormSection />
                 <AndreOpplysninger />
@@ -76,7 +77,7 @@ function SykmeldingForm({ oppgave }: Props): ReactElement {
                         <AvvisSection disableUnsavedWarning={() => setDisableWarnUnsaved(true)} />
                     ) : (
                         <ActionSection
-                            fnr={oppgave.values.fnrPasient}
+                            fnr={values.fnrPasient}
                             registerResult={result}
                             focusErrorSection={focusErrorSection}
                             disableUnsavedWarning={() => setDisableWarnUnsaved(true)}

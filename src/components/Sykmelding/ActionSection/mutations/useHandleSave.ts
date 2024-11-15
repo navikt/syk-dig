@@ -9,8 +9,10 @@ import {
     SaveOppgaveMutation,
     SykmeldingUnderArbeidStatus,
     SykmeldingUnderArbeidValues,
+    UpdateDigitalisertSykmeldingDocument,
+    UpdateDigitalisertSykmeldingMutation,
 } from '../../../../graphql/queries/graphql.generated'
-import { Location, useParam } from '../../../../utils/useParam'
+import { Location, useOppgaveParam, useSykmeldingParam } from '../../../../utils/useOppgaveParam'
 import { UtenlanskFormValues } from '../../SykmeldingForm'
 import { safeDate, safeString } from '../../../../utils/formUtils'
 import { notNull, raise } from '../../../../utils/tsUtils'
@@ -20,9 +22,13 @@ import { DiagnoseFormValue } from '../../../FormComponents/DiagnosePicker/diagno
 
 type UseSave = [save: SubmitHandler<UtenlanskFormValues>, result: MutationResult<SaveOppgaveMutation>]
 type UseSaveOptions = { fnr: string; onCompleted?: () => void }
-
+type UseUpdate = [
+    save: SubmitHandler<UtenlanskFormValues>,
+    result: MutationResult<UpdateDigitalisertSykmeldingMutation>,
+]
+type UseUpdateOptions = { fnr: string; onCompleted?: () => void }
 export function useHandleSave({ fnr, onCompleted }: UseSaveOptions): UseSave {
-    const params = useParam(Location.Utenlansk)
+    const params = useOppgaveParam(Location.Utenlansk)
     const { selectedEnhetId } = useModiaContext()
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument)
     const saveAndClose = async (data: UtenlanskFormValues): Promise<void> => {
@@ -43,7 +49,7 @@ export function useHandleSave({ fnr, onCompleted }: UseSaveOptions): UseSave {
 }
 
 export function useHandleRegister({ fnr, onCompleted }: UseSaveOptions): UseSave {
-    const params = useParam(Location.Utenlansk)
+    const params = useOppgaveParam(Location.Utenlansk)
     const [saveOppgave, mutationResult] = useMutation(SaveOppgaveDocument)
     const { selectedEnhetId } = useModiaContext()
     const registerAndSubmit: SubmitHandler<UtenlanskFormValues> = async (data): Promise<void> => {
@@ -61,6 +67,26 @@ export function useHandleRegister({ fnr, onCompleted }: UseSaveOptions): UseSave
     }
 
     return [registerAndSubmit, mutationResult]
+}
+
+export function useHandleUpdateSykmelding({ fnr, onCompleted }: UseUpdateOptions): UseUpdate {
+    const params = useSykmeldingParam()
+    const [updateSykmelding, mutationResult] = useMutation(UpdateDigitalisertSykmeldingDocument)
+    const { selectedEnhetId } = useModiaContext()
+
+    const submitUpdateSykmelding: SubmitHandler<UtenlanskFormValues> = async (data): Promise<void> => {
+        logger.info(`Submitting update sykmelding for sykmeldingId ${params.sykmeldingId}`)
+        await updateSykmelding({
+            variables: {
+                sykmeldingId: params.sykmeldingId,
+                values: mapFormValues(fnr, data),
+                enhetId: selectedEnhetId ?? raise('Sykmeldingen kan ikke oppdateres uten valgt enhet'),
+            },
+            onCompleted,
+        })
+    }
+
+    return [submitUpdateSykmelding, mutationResult]
 }
 
 function mapFormValues(fnr: string, formValues: UtenlanskFormValues): SykmeldingUnderArbeidValues {

@@ -1,6 +1,7 @@
 import {
     DigitaliseringsoppgaveStatusEnum,
     DigitaliseringsoppgaveStatusFragment,
+    DigitalisertSykmeldingResultFragment,
     OppgaveFragment,
     PeriodeType,
 } from '../../graphql/queries/graphql.generated'
@@ -123,5 +124,20 @@ export class FakeMockDB {
             throw new Error(`No oppgave found with id ${oppgaveId}`)
         }
         return oppgave
+    }
+
+    public getDigitalisertSykmelding(sykmeldingId: string): DigitalisertSykmeldingResultFragment {
+        const oppgave = this._oppgaver[sykmeldingId.toLowerCase()]
+        if (!oppgave) {
+            throw new Error(`No sykmelding found with id ${sykmeldingId}`)
+        }
+        return {
+            __typename: 'DigitalisertSykmelding',
+            documents: oppgave.documents,
+            values: oppgave.values,
+            person: oppgave.person,
+            sykmeldingId: sykmeldingId,
+            oppgaveId: oppgave.oppgaveId,
+        }
     }
 }

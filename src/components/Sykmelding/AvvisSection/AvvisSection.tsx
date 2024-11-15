@@ -8,7 +8,7 @@ import { MutationResultFeedback } from '../ActionSection/MutationFeedbackSection
 import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
 import styles from '../ActionSection/MutationFeedbackSection.module.css'
 import FeedbackModal from '../ActionSection/FeedbackModal'
-import { Location, useParam } from '../../../utils/useParam'
+import { Location, useOppgaveParam } from '../../../utils/useOppgaveParam'
 import { UtenlanskFormValues } from '../SykmeldingForm'
 import { redirectTilGosys } from '../../../utils/gosys'
 import { useModiaContext } from '../../../modia/modia-context'
@@ -20,7 +20,7 @@ type Props = {
 
 function AvvisSection({ disableUnsavedWarning }: Props): ReactElement {
     const { reset } = useFormContext<UtenlanskFormValues>()
-    const params = useParam(Location.Utenlansk)
+    const params = useOppgaveParam(Location.Utenlansk)
     const { selectedEnhetId } = useModiaContext()
     const [avvisningsgrunn, setAvvisningsgrunn] = useState<{ grunn: string | null; grunnAnnet?: string | null }>({
         grunn: null,
