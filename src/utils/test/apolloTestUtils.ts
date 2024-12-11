@@ -1,12 +1,12 @@
-import { FetchResult, TypedDocumentNode, Unmasked } from '@apollo/client'
+import { FetchResult, TypedDocumentNode } from '@apollo/client'
 import { MockedResponse, ResultFunction } from '@apollo/client/testing'
 
 export function createMock<Query, Variables extends Record<string, unknown>>(mockedResponse: {
     request: { query: TypedDocumentNode<Query, Variables>; variables?: Variables }
-    result?: FetchResult<Unmasked<Query>> | ResultFunction<FetchResult<Unmasked<Query>>, Variables>
+    result?: FetchResult<Query> | ResultFunction<FetchResult<Query>>
     error?: Error
     delay?: number
-    newData?: ResultFunction<FetchResult<Unmasked<Query>>, Variables>
+    newData?: ResultFunction<FetchResult<Query>>
 }): MockedResponse<Query> {
     return mockedResponse
 }

@@ -1,7 +1,7 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { PropsWithChildren, ReactElement } from 'react'
 import { RenderOptions, render, Screen } from '@testing-library/react'
-import { Cache, from, InMemoryCache, TypedDocumentNode, Unmasked } from '@apollo/client'
+import { Cache, from, InMemoryCache, TypedDocumentNode } from '@apollo/client'
 import open from 'open'
 
 import { cacheConfig } from '../graphql/apollo'
@@ -56,7 +56,7 @@ function AllTheProviders({
 
 export function createInitialQuery<Query, Variables>(
     typedDocumentNode: TypedDocumentNode<Query, Variables>,
-    data: Unmasked<Query>,
+    data: Query,
     variables?: Variables,
 ): Cache.WriteQueryOptions<Query, Variables> {
     return {
