@@ -77,7 +77,7 @@ export function NasjonalOppgaveDocuments({
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
     } else if (data?.oppgave != null) {
-        return <DocumentsViewer oppgaveId={oppgaveId} documents={data.oppgave.documents} edit={false} smreg />
+        return <DocumentsViewer oppgaveId={oppgaveId} documents={data.oppgave.documents} edit={false} />
     } else {
         raise(new Error('Illegal state: Non loading, non error oppgave that is null'))
     }
