@@ -9,6 +9,7 @@ const result: PossibleTypesResultData = {
         DigitaliseringsoppgaveResult: ['Digitaliseringsoppgave', 'DigitaliseringsoppgaveStatus'],
         DigitalisertSykmeldingResult: ['DigitalisertSykmelding', 'OppdatertSykmeldingStatus'],
         JournalpostResult: ['Journalpost', 'JournalpostStatus'],
+        NasjonalOppgaveResult: ['NasjonalOppgave', 'NasjonalOppgaveStatus'],
         Oppholdsadresse: ['Matrikkeladresse', 'OppholdAnnetSted', 'UtenlandskAdresse', 'Vegadresse'],
     },
 }

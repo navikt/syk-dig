@@ -1,0 +1,135 @@
+fragment NasjonalOppgave on NasjonalOppgave {
+    oppgaveId
+    documents {
+        ...Document
+    }
+    nasjonalSykmelding {
+        ...NasjonalSykmelding
+    }
+}
+
+fragment NasjonalOppgaveResult on NasjonalOppgaveResult {
+    ...NasjonalOppgave
+    ...NasjonalOppgaveStatus
+}
+
+fragment NasjonalOppgaveStatus on NasjonalOppgaveStatus {
+    oppgaveId
+    status
+}
+
+fragment NasjonalSykmelding on NasjonalSykmelding {
+    sykmeldingId
+    fnr
+    journalpostId
+    datoOpprettet
+    syketilfelleStartDato
+    behandletTidspunkt
+    arbeidsgiver {
+        ...Arbeidsgiver
+    }
+    behandler {
+        ...Behandler
+    }
+    skjermesForPasient
+    perioder {
+        ...Periode
+    }
+    meldingTilNAV {
+        ...MeldingTilNAV
+    }
+    meldingTilArbeidsgiver
+    medisinskVurdering {
+        ...MedisinskVurdering
+    }
+    kontaktMedPasient {
+        ...KontaktMedPasient
+    }
+}
+
+fragment KontaktMedPasient on KontaktMedPasient {
+    kontaktDato
+    begrunnelseIkkeKontakt
+}
+
+fragment NasjonalDiagnose on DiagnoseSchema {
+    kode
+    tekst
+    system
+}
+
+fragment MeldingTilNAV on MeldingTilNAV {
+    bistandUmiddelbart
+    beskrivBistand
+}
+
+fragment MedisinskVurdering on MedisinskVurdering {
+    hovedDiagnose {
+        ...NasjonalDiagnose
+    }
+    biDiagnoser {
+        ...NasjonalDiagnose
+    }
+    annenFraversArsak {
+        ...AnnenFraversArsak
+    }
+}
+
+fragment AnnenFraversArsak on AnnenFraversArsak {
+    beskrivelse
+    grunn
+}
+
+fragment Periode on Periode {
+    fom
+    tom
+    reisetilskudd
+    gradert {
+        ...Gradert
+    }
+    behandlingsdager
+    avventendeInnspillTilArbeidsgiver
+    aktivitetIkkeMulig {
+        ...AktivitetIkkeMulig
+    }
+}
+
+fragment Gradert on Gradert {
+    grad
+    reisetilskudd
+}
+
+fragment AktivitetIkkeMulig on AktivitetIkkeMulig {
+    medisinskArsak {
+        ...MedisinskArsak
+    }
+    arbeidsrelatertArsak {
+        ...ArbeidsrelatertArsak
+    }
+}
+
+fragment MedisinskArsak on MedisinskArsak {
+    beskrivelse
+    arsak
+}
+
+fragment ArbeidsrelatertArsak on ArbeidsrelatertArsak {
+    beskrivelse
+    arsak
+}
+
+fragment Arbeidsgiver on Arbeidsgiver {
+    navn
+    stillingsprosent
+    yrkesbetegnelse
+    harArbeidsgiver
+}
+
+fragment Behandler on Behandler {
+    fornavn
+    mellomnavn
+    etternavn
+    fnr
+    hpr
+    tlf
+}

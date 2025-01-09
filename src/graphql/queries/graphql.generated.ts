@@ -20,6 +20,50 @@ export type Scalars = {
     _FieldSet: { input: any; output: any }
 }
 
+export type AktivitetIkkeMulig = {
+    __typename: 'AktivitetIkkeMulig'
+    arbeidsrelatertArsak?: Maybe<ArbeidsrelatertArsak>
+    medisinskArsak?: Maybe<MedisinskArsak>
+}
+
+export type AnnenFraversArsak = {
+    __typename: 'AnnenFraversArsak'
+    beskrivelse?: Maybe<Scalars['String']['output']>
+    grunn?: Maybe<Array<Maybe<AnnenFraversArsakGrunn>>>
+}
+
+export enum AnnenFraversArsakGrunn {
+    Abort = 'ABORT',
+    ArbeidsrettetTiltak = 'ARBEIDSRETTET_TILTAK',
+    BehandlingForhindrerArbeid = 'BEHANDLING_FORHINDRER_ARBEID',
+    BehandlingSterilisering = 'BEHANDLING_STERILISERING',
+    Donor = 'DONOR',
+    GodkjentHelseinstitusjon = 'GODKJENT_HELSEINSTITUSJON',
+    MottarTilskuddGrunnetHelsetilstand = 'MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND',
+    NodvendigKontrollundenrsokelse = 'NODVENDIG_KONTROLLUNDENRSOKELSE',
+    Smittefare = 'SMITTEFARE',
+    UforGrunnetBarnloshet = 'UFOR_GRUNNET_BARNLOSHET',
+}
+
+export type Arbeidsgiver = {
+    __typename: 'Arbeidsgiver'
+    harArbeidsgiver?: Maybe<HarArbeidsgiver>
+    navn?: Maybe<Scalars['String']['output']>
+    stillingsprosent?: Maybe<Scalars['Int']['output']>
+    yrkesbetegnelse?: Maybe<Scalars['String']['output']>
+}
+
+export type ArbeidsrelatertArsak = {
+    __typename: 'ArbeidsrelatertArsak'
+    arsak?: Maybe<Array<Maybe<ArbeidsrelatertArsakType>>>
+    beskrivelse?: Maybe<Scalars['String']['output']>
+}
+
+export enum ArbeidsrelatertArsakType {
+    Annet = 'ANNET',
+    ManglendeTilrettelegging = 'MANGLENDE_TILRETTELEGGING',
+}
+
 export enum Avvisingsgrunn {
     Annet = 'ANNET',
     BasertPaaTelefonkontakt = 'BASERT_PAA_TELEFONKONTAKT',
@@ -36,11 +80,28 @@ export enum Avvisingsgrunn {
     VarsletISaken = 'VARSLET_I_SAKEN',
 }
 
+export type Behandler = {
+    __typename: 'Behandler'
+    etternavn: Scalars['String']['output']
+    fnr: Scalars['String']['output']
+    fornavn: Scalars['String']['output']
+    hpr?: Maybe<Scalars['String']['output']>
+    mellomnavn?: Maybe<Scalars['String']['output']>
+    tlf?: Maybe<Scalars['String']['output']>
+}
+
 export type Bostedsadresse = Matrikkeladresse | UkjentBosted | UtenlandskAdresse | Vegadresse
 
 export type DiagnoseInput = {
     kode: Scalars['String']['input']
     system: Scalars['String']['input']
+}
+
+export type DiagnoseSchema = {
+    __typename: 'DiagnoseSchema'
+    kode?: Maybe<Scalars['String']['output']>
+    system?: Maybe<Scalars['String']['output']>
+    tekst?: Maybe<Scalars['String']['output']>
 }
 
 export type DiagnoseValue = {
@@ -331,6 +392,18 @@ export enum ErrorType {
     Unknown = 'UNKNOWN',
 }
 
+export type Gradert = {
+    __typename: 'Gradert'
+    grad?: Maybe<Scalars['Int']['output']>
+    reisetilskudd: Scalars['Boolean']['output']
+}
+
+export enum HarArbeidsgiver {
+    EnArbeidsgiver = 'EN_ARBEIDSGIVER',
+    FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
+    IngenArbeidsgiver = 'INGEN_ARBEIDSGIVER',
+}
+
 export type Journalpost = {
     __typename: 'Journalpost'
     dokumenter: Array<Document>
@@ -356,12 +429,47 @@ export enum JournalpostStatusEnum {
     Opprettet = 'OPPRETTET',
 }
 
+export type KontaktMedPasient = {
+    __typename: 'KontaktMedPasient'
+    begrunnelseIkkeKontakt?: Maybe<Scalars['String']['output']>
+    kontaktDato?: Maybe<Scalars['String']['output']>
+}
+
 export type Matrikkeladresse = {
     __typename: 'Matrikkeladresse'
     bruksenhetsnummer?: Maybe<Scalars['String']['output']>
     postnummer?: Maybe<Scalars['String']['output']>
     poststed?: Maybe<Scalars['String']['output']>
     tilleggsnavn?: Maybe<Scalars['String']['output']>
+}
+
+export type MedisinskArsak = {
+    __typename: 'MedisinskArsak'
+    arsak?: Maybe<Array<Maybe<MedisinskArsakType>>>
+    beskrivelse?: Maybe<Scalars['String']['output']>
+}
+
+export enum MedisinskArsakType {
+    AktivitetForhindrerBedring = 'AKTIVITET_FORHINDRER_BEDRING',
+    AktivitetForverrerTilstand = 'AKTIVITET_FORVERRER_TILSTAND',
+    Annet = 'ANNET',
+    TilstandHindrerAktivitet = 'TILSTAND_HINDRER_AKTIVITET',
+}
+
+export type MedisinskVurdering = {
+    __typename: 'MedisinskVurdering'
+    annenFraversArsak?: Maybe<AnnenFraversArsak>
+    biDiagnoser: Array<Maybe<DiagnoseSchema>>
+    hovedDiagnose?: Maybe<DiagnoseSchema>
+    svangerskap: Scalars['Boolean']['output']
+    yrkesskade: Scalars['Boolean']['output']
+    yrkesskadeDato?: Maybe<Scalars['String']['output']>
+}
+
+export type MeldingTilNav = {
+    __typename: 'MeldingTilNAV'
+    beskrivBistand?: Maybe<Scalars['String']['output']>
+    bistandUmiddelbart: Scalars['Boolean']['output']
 }
 
 export type Mutation = {
@@ -409,6 +517,46 @@ export type MutationSykmeldingFraJournalpostArgs = {
     norsk: Scalars['Boolean']['input']
 }
 
+export type NasjonalOppgave = {
+    __typename: 'NasjonalOppgave'
+    documents: Array<Document>
+    nasjonalSykmelding: NasjonalSykmelding
+    oppgaveId: Scalars['String']['output']
+}
+
+export type NasjonalOppgaveResult = NasjonalOppgave | NasjonalOppgaveStatus
+
+export type NasjonalOppgaveStatus = {
+    __typename: 'NasjonalOppgaveStatus'
+    oppgaveId: Scalars['String']['output']
+    status: NasjonalOppgaveStatusEnum
+}
+
+export enum NasjonalOppgaveStatusEnum {
+    Avvist = 'AVVIST',
+    Ferdigstilt = 'FERDIGSTILT',
+    FinnesIkke = 'FINNES_IKKE',
+    IkkeEnSykmelding = 'IKKE_EN_SYKMELDING',
+}
+
+export type NasjonalSykmelding = {
+    __typename: 'NasjonalSykmelding'
+    arbeidsgiver?: Maybe<Arbeidsgiver>
+    behandler?: Maybe<Behandler>
+    behandletTidspunkt?: Maybe<Scalars['Date']['output']>
+    datoOpprettet?: Maybe<Scalars['String']['output']>
+    fnr?: Maybe<Scalars['String']['output']>
+    journalpostId: Scalars['String']['output']
+    kontaktMedPasient?: Maybe<KontaktMedPasient>
+    medisinskVurdering?: Maybe<MedisinskVurdering>
+    meldingTilArbeidsgiver?: Maybe<Scalars['String']['output']>
+    meldingTilNAV?: Maybe<MeldingTilNav>
+    perioder?: Maybe<Array<Maybe<Periode>>>
+    skjermesForPasient?: Maybe<Scalars['Boolean']['output']>
+    syketilfelleStartDato?: Maybe<Scalars['String']['output']>
+    sykmeldingId?: Maybe<Scalars['String']['output']>
+}
+
 export type Navn = {
     __typename: 'Navn'
     etternavn: Scalars['String']['output']
@@ -451,6 +599,17 @@ export type OppholdAnnetSted = {
 
 export type Oppholdsadresse = Matrikkeladresse | OppholdAnnetSted | UtenlandskAdresse | Vegadresse
 
+export type Periode = {
+    __typename: 'Periode'
+    aktivitetIkkeMulig?: Maybe<AktivitetIkkeMulig>
+    avventendeInnspillTilArbeidsgiver?: Maybe<Scalars['String']['output']>
+    behandlingsdager?: Maybe<Scalars['Int']['output']>
+    fom: Scalars['Date']['output']
+    gradert?: Maybe<Gradert>
+    reisetilskudd?: Maybe<Scalars['Boolean']['output']>
+    tom: Scalars['Date']['output']
+}
+
 export type PeriodeInput = {
     fom: Scalars['Date']['input']
     grad?: InputMaybe<Scalars['Int']['input']>
@@ -483,6 +642,7 @@ export type Query = {
     _service: _Service
     digitalisertSykmelding?: Maybe<DigitalisertSykmeldingResult>
     journalpost: JournalpostResult
+    nasjonalOppgave?: Maybe<NasjonalOppgaveResult>
     oppgave?: Maybe<DigitaliseringsoppgaveResult>
 }
 
@@ -492,6 +652,10 @@ export type QueryDigitalisertSykmeldingArgs = {
 
 export type QueryJournalpostArgs = {
     id: Scalars['String']['input']
+}
+
+export type QueryNasjonalOppgaveArgs = {
+    oppgaveId: Scalars['String']['input']
 }
 
 export type QueryOppgaveArgs = {
