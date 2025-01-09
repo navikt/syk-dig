@@ -133,3 +133,9 @@ fragment Behandler on Behandler {
     hpr
     tlf
 }
+
+query getNasjonalOppgaveById($oppgaveId: String!) {
+    nasjonalOppgave(oppgaveId: $oppgaveId) {
+        ...NasjonalOppgave
+    }
+}
