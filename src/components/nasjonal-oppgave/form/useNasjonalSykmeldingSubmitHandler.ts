@@ -6,14 +6,14 @@ import { RuleHitErrors } from '../schema/RuleHitErrors'
 import { mapFormValueToSmregRegistrertSykmelding } from '../smreg/smreg-mapping'
 import { useModiaContext } from '../../../modia/modia-context'
 import { redirectTilGosys } from '../../../utils/gosys'
-import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
 import { raise } from '../../../utils/tsUtils'
+import { NasjonalSykmeldingFragment } from '../../../graphql/queries/graphql.generated'
 
 import { NasjonalFormValues } from './NasjonalSykmeldingFormTypes'
 
 export function useNasjonalSykmeldingSubmitHandler(
     oppgaveMeta: { oppgaveId: string } | { ferdigstilt: true; sykmeldingId: string },
-    sykmelding: Papirsykmelding | null,
+    sykmelding: NasjonalSykmeldingFragment | null,
 ): [(values: NasjonalFormValues) => Promise<void>, MutationResult<{ ruleHits: RuleHitErrors | null }>] {
     const router = useRouter()
     const params = useSearchParams()

@@ -4,11 +4,11 @@ import { logger } from '@navikt/next-logger'
 import { Alert, Heading, HelpText, Loader, Table, Tag } from '@navikt/ds-react'
 
 import FormInfo from '../../../../form-layout/FormInfo'
-import { Behandler } from '../../../schema/sykmelding/Behandler'
 import { AutorisasjonValues, HelsepersonellkategoriValues, Sykmelder } from '../../../schema/Sykmelder'
+import { BehandlerFragment } from '../../../../../graphql/queries/graphql.generated'
 
 type Props = {
-    behandlerInfo: Behandler | null
+    behandlerInfo: BehandlerFragment | null
     hpr: string
     isValidHpr: RegExpMatchArray
 }

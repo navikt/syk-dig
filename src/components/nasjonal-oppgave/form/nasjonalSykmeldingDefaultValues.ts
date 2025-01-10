@@ -3,10 +3,9 @@ import { logger } from '@navikt/next-logger'
 
 import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
 import { notNull, raise } from '../../../utils/tsUtils'
-import { Periode } from '../schema/sykmelding/Periode'
 import { safeToDate, toDate } from '../../../utils/dateUtils'
-import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
 import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { NasjonalPeriodeFragment, NasjonalSykmeldingFragment } from '../../../graphql/queries/graphql.generated'
 
 import {
     AktivitetIkkeMuligPeriode,
@@ -18,7 +17,7 @@ import {
     ReisetilskuddPeriode,
 } from './NasjonalSykmeldingFormTypes'
 
-export function createDefaultValues(sykmelding: Papirsykmelding | null): DefaultValues<NasjonalFormValues> {
+export function createDefaultValues(sykmelding: NasjonalSykmeldingFragment | null): DefaultValues<NasjonalFormValues> {
     return {
         pasientopplysninger: {
             fnr: sykmelding?.fnr ?? null,
@@ -74,7 +73,7 @@ export function createDefaultValues(sykmelding: Papirsykmelding | null): Default
     }
 }
 
-function periodeToMulighetForArbeid(periode: Periode): MulighetForArbeid {
+function periodeToMulighetForArbeid(periode: NasjonalPeriodeFragment): MulighetForArbeid {
     if (periode.aktivitetIkkeMulig != null) {
         return {
             type: 'aktivitetIkkeMulig',
