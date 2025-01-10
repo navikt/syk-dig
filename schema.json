@@ -52,7 +52,11 @@
                             "type": {
                                 "kind": "LIST",
                                 "name": null,
-                                "ofType": { "kind": "ENUM", "name": "AnnenFraversArsakGrunn", "ofType": null }
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": { "kind": "ENUM", "name": "AnnenFraversArsakGrunn", "ofType": null }
+                                }
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -180,9 +184,17 @@
                             "description": null,
                             "args": [],
                             "type": {
-                                "kind": "LIST",
+                                "kind": "NON_NULL",
                                 "name": null,
-                                "ofType": { "kind": "ENUM", "name": "ArbeidsrelatertArsakType", "ofType": null }
+                                "ofType": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "ENUM", "name": "ArbeidsrelatertArsakType", "ofType": null }
+                                    }
+                                }
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -1259,9 +1271,17 @@
                             "description": null,
                             "args": [],
                             "type": {
-                                "kind": "LIST",
+                                "kind": "NON_NULL",
                                 "name": null,
-                                "ofType": { "kind": "ENUM", "name": "MedisinskArsakType", "ofType": null }
+                                "ofType": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "ENUM", "name": "MedisinskArsakType", "ofType": null }
+                                    }
+                                }
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -1325,7 +1345,11 @@
                                 "ofType": {
                                     "kind": "LIST",
                                     "name": null,
-                                    "ofType": { "kind": "OBJECT", "name": "DiagnoseSchema", "ofType": null }
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "OBJECT", "name": "DiagnoseSchema", "ofType": null }
+                                    }
                                 }
                             },
                             "isDeprecated": false,
@@ -1690,6 +1714,43 @@
                     "possibleTypes": null
                 },
                 {
+                    "kind": "ENUM",
+                    "name": "NasjonalOppdatertSykmeldingStatusEnum",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        { "name": "OPPDATERT", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "IKKE_FERDIGSTILT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FERDIGSTILT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FINNES_IKKE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "AVVIST", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "IKKE_EN_SYKMELDING",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "possibleTypes": null
+                },
+                {
                     "kind": "OBJECT",
                     "name": "NasjonalOppgave",
                     "description": null,
@@ -1900,9 +1961,17 @@
                             "description": null,
                             "args": [],
                             "type": {
-                                "kind": "LIST",
+                                "kind": "NON_NULL",
                                 "name": null,
-                                "ofType": { "kind": "OBJECT", "name": "Periode", "ofType": null }
+                                "ofType": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "OBJECT", "name": "Periode", "ofType": null }
+                                    }
+                                }
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -1944,6 +2013,46 @@
                             "description": null,
                             "args": [],
                             "type": { "kind": "OBJECT", "name": "Behandler", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "UNION",
+                    "name": "NasjonalSykmeldingResult",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": [
+                        { "kind": "OBJECT", "name": "NasjonalSykmelding", "ofType": null },
+                        { "kind": "OBJECT", "name": "NasjonalSykmeldingStatus", "ofType": null }
+                    ]
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "NasjonalSykmeldingStatus",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "sykmeldingId",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "status",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "ENUM", "name": "NasjonalOppdatertSykmeldingStatusEnum", "ofType": null },
                             "isDeprecated": false,
                             "deprecationReason": null
                         }

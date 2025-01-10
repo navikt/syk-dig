@@ -3,13 +3,13 @@ import { Alert, HelpText, TextField } from '@navikt/ds-react'
 import { useController, useWatch } from 'react-hook-form'
 
 import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
-import { Behandler } from '../../../schema/sykmelding/Behandler'
+import { BehandlerFragment } from '../../../../../graphql/queries/graphql.generated'
 
 import styles from './BehandlerFieldGroup.module.css'
 import BehandlerInfo, { useBehandler } from './BehandlerInfo'
 
 type Props = {
-    behandlerInfo: Behandler | null
+    behandlerInfo: BehandlerFragment | null
 }
 
 function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
