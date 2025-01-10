@@ -10,6 +10,7 @@ const result: PossibleTypesResultData = {
         DigitalisertSykmeldingResult: ['DigitalisertSykmelding', 'OppdatertSykmeldingStatus'],
         JournalpostResult: ['Journalpost', 'JournalpostStatus'],
         NasjonalOppgaveResult: ['NasjonalOppgave', 'NasjonalOppgaveStatus'],
+        NasjonalSykmeldingResult: ['NasjonalSykmelding', 'NasjonalSykmeldingStatus'],
         Oppholdsadresse: ['Matrikkeladresse', 'OppholdAnnetSted', 'UtenlandskAdresse', 'Vegadresse'],
     },
 }

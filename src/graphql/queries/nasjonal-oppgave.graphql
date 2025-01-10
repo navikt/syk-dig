@@ -1,7 +1,7 @@
 fragment NasjonalOppgave on NasjonalOppgave {
     oppgaveId
     documents {
-        ...Document
+        ...NasjonalDocument
     }
     nasjonalSykmelding {
         ...NasjonalSykmelding
@@ -13,6 +13,15 @@ fragment NasjonalOppgaveResult on NasjonalOppgaveResult {
     ...NasjonalOppgaveStatus
 }
 
+#fragment NasjonalSykmeldingResult on NasjonalSykmeldingResult {
+#    ...NasjonalSykmelding
+#    ...NasjonalSykmeldingStatus
+#}
+#
+#fragment NasjonalSykmeldingStatus on NasjonalSykmeldingStatus {
+#    sykmeldingId
+#    status
+#}
 fragment NasjonalOppgaveStatus on NasjonalOppgaveStatus {
     oppgaveId
     status
@@ -33,7 +42,7 @@ fragment NasjonalSykmelding on NasjonalSykmelding {
     }
     skjermesForPasient
     perioder {
-        ...Periode
+        ...NasjonalPeriode
     }
     meldingTilNAV {
         ...MeldingTilNAV
@@ -45,6 +54,11 @@ fragment NasjonalSykmelding on NasjonalSykmelding {
     kontaktMedPasient {
         ...KontaktMedPasient
     }
+}
+
+fragment NasjonalDocument on Document {
+    dokumentInfoId
+    tittel
 }
 
 fragment KontaktMedPasient on KontaktMedPasient {
@@ -73,6 +87,9 @@ fragment MedisinskVurdering on MedisinskVurdering {
     annenFraversArsak {
         ...AnnenFraversArsak
     }
+    svangerskap
+    yrkesskade
+    yrkesskadeDato
 }
 
 fragment AnnenFraversArsak on AnnenFraversArsak {
@@ -80,7 +97,7 @@ fragment AnnenFraversArsak on AnnenFraversArsak {
     grunn
 }
 
-fragment Periode on Periode {
+fragment NasjonalPeriode on Periode {
     fom
     tom
     reisetilskudd
@@ -134,8 +151,14 @@ fragment Behandler on Behandler {
     tlf
 }
 
-query getNasjonalOppgaveById($oppgaveId: String!) {
+query NasjonalOppgaveById($oppgaveId: String!) {
     nasjonalOppgave(oppgaveId: $oppgaveId) {
-        ...NasjonalOppgave
+        ...NasjonalOppgaveResult
     }
 }
+
+#query NasjonalSykmeldingById($sykmeldingId: String!) {
+#    nasjonalSykmelding(sykmeldingId: $sykmeldingId) {
+#        ...NasjonalSykmeldingResult
+#    }
+#}

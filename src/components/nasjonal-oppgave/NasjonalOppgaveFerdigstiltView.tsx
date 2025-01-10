@@ -8,8 +8,8 @@ import { PaneView } from '../split-view-layout/persistent-layout'
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import { useFerdigstiltNasjonalOppgave } from './useNasjonalOppgave'
 import {
-    NasjonalOppgaveFerdigstiltDocuments,
     NasjonalOppgaveError,
+    NasjonalOppgaveFerdigstiltDocuments,
     NasjonalOppgaveSkeleton,
 } from './NasjonalOppgaveStates'
 
@@ -19,7 +19,9 @@ type Props = PaneView & {
 
 function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactElement {
     const query = useFerdigstiltNasjonalOppgave(sykmeldingId)
-
+    // const nasjonalSykmeldingQuery = useQuery(, {
+    //     variables: { oppgaveId },
+    // })
     return (
         <SplitDocumentView
             title="Korrigering av registrert papirsykmelding"

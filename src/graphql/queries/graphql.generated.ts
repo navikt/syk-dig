@@ -29,7 +29,7 @@ export type AktivitetIkkeMulig = {
 export type AnnenFraversArsak = {
     __typename: 'AnnenFraversArsak'
     beskrivelse?: Maybe<Scalars['String']['output']>
-    grunn?: Maybe<Array<Maybe<AnnenFraversArsakGrunn>>>
+    grunn?: Maybe<Array<AnnenFraversArsakGrunn>>
 }
 
 export enum AnnenFraversArsakGrunn {
@@ -55,7 +55,7 @@ export type Arbeidsgiver = {
 
 export type ArbeidsrelatertArsak = {
     __typename: 'ArbeidsrelatertArsak'
-    arsak?: Maybe<Array<Maybe<ArbeidsrelatertArsakType>>>
+    arsak: Array<ArbeidsrelatertArsakType>
     beskrivelse?: Maybe<Scalars['String']['output']>
 }
 
@@ -445,7 +445,7 @@ export type Matrikkeladresse = {
 
 export type MedisinskArsak = {
     __typename: 'MedisinskArsak'
-    arsak?: Maybe<Array<Maybe<MedisinskArsakType>>>
+    arsak: Array<MedisinskArsakType>
     beskrivelse?: Maybe<Scalars['String']['output']>
 }
 
@@ -459,7 +459,7 @@ export enum MedisinskArsakType {
 export type MedisinskVurdering = {
     __typename: 'MedisinskVurdering'
     annenFraversArsak?: Maybe<AnnenFraversArsak>
-    biDiagnoser: Array<Maybe<DiagnoseSchema>>
+    biDiagnoser: Array<DiagnoseSchema>
     hovedDiagnose?: Maybe<DiagnoseSchema>
     svangerskap: Scalars['Boolean']['output']
     yrkesskade: Scalars['Boolean']['output']
@@ -517,6 +517,15 @@ export type MutationSykmeldingFraJournalpostArgs = {
     norsk: Scalars['Boolean']['input']
 }
 
+export enum NasjonalOppdatertSykmeldingStatusEnum {
+    Avvist = 'AVVIST',
+    Ferdigstilt = 'FERDIGSTILT',
+    FinnesIkke = 'FINNES_IKKE',
+    IkkeEnSykmelding = 'IKKE_EN_SYKMELDING',
+    IkkeFerdigstilt = 'IKKE_FERDIGSTILT',
+    Oppdatert = 'OPPDATERT',
+}
+
 export type NasjonalOppgave = {
     __typename: 'NasjonalOppgave'
     documents: Array<Document>
@@ -551,9 +560,17 @@ export type NasjonalSykmelding = {
     medisinskVurdering?: Maybe<MedisinskVurdering>
     meldingTilArbeidsgiver?: Maybe<Scalars['String']['output']>
     meldingTilNAV?: Maybe<MeldingTilNav>
-    perioder?: Maybe<Array<Maybe<Periode>>>
+    perioder: Array<Periode>
     skjermesForPasient?: Maybe<Scalars['Boolean']['output']>
     syketilfelleStartDato?: Maybe<Scalars['String']['output']>
+    sykmeldingId?: Maybe<Scalars['String']['output']>
+}
+
+export type NasjonalSykmeldingResult = NasjonalSykmelding | NasjonalSykmeldingStatus
+
+export type NasjonalSykmeldingStatus = {
+    __typename: 'NasjonalSykmeldingStatus'
+    status?: Maybe<NasjonalOppdatertSykmeldingStatusEnum>
     sykmeldingId?: Maybe<Scalars['String']['output']>
 }
 
@@ -762,6 +779,495 @@ export type SykmeldingFraJournalpostMutation = {
         status: JournalpostStatusEnum
         oppgaveId?: string | null
     }
+}
+
+export type NasjonalOppgaveFragment = {
+    __typename: 'NasjonalOppgave'
+    oppgaveId: string
+    documents: Array<{ __typename: 'Document'; dokumentInfoId: string; tittel: string }>
+    nasjonalSykmelding: {
+        __typename: 'NasjonalSykmelding'
+        sykmeldingId?: string | null
+        fnr?: string | null
+        journalpostId: string
+        datoOpprettet?: string | null
+        syketilfelleStartDato?: string | null
+        behandletTidspunkt?: string | null
+        skjermesForPasient?: boolean | null
+        meldingTilArbeidsgiver?: string | null
+        arbeidsgiver?: {
+            __typename: 'Arbeidsgiver'
+            navn?: string | null
+            stillingsprosent?: number | null
+            yrkesbetegnelse?: string | null
+            harArbeidsgiver?: HarArbeidsgiver | null
+        } | null
+        behandler?: {
+            __typename: 'Behandler'
+            fornavn: string
+            mellomnavn?: string | null
+            etternavn: string
+            fnr: string
+            hpr?: string | null
+            tlf?: string | null
+        } | null
+        perioder: Array<{
+            __typename: 'Periode'
+            fom: string
+            tom: string
+            reisetilskudd?: boolean | null
+            behandlingsdager?: number | null
+            avventendeInnspillTilArbeidsgiver?: string | null
+            gradert?: { __typename: 'Gradert'; grad?: number | null; reisetilskudd: boolean } | null
+            aktivitetIkkeMulig?: {
+                __typename: 'AktivitetIkkeMulig'
+                medisinskArsak?: {
+                    __typename: 'MedisinskArsak'
+                    beskrivelse?: string | null
+                    arsak: Array<MedisinskArsakType>
+                } | null
+                arbeidsrelatertArsak?: {
+                    __typename: 'ArbeidsrelatertArsak'
+                    beskrivelse?: string | null
+                    arsak: Array<ArbeidsrelatertArsakType>
+                } | null
+            } | null
+        }>
+        meldingTilNAV?: {
+            __typename: 'MeldingTilNAV'
+            bistandUmiddelbart: boolean
+            beskrivBistand?: string | null
+        } | null
+        medisinskVurdering?: {
+            __typename: 'MedisinskVurdering'
+            svangerskap: boolean
+            yrkesskade: boolean
+            yrkesskadeDato?: string | null
+            hovedDiagnose?: {
+                __typename: 'DiagnoseSchema'
+                kode?: string | null
+                tekst?: string | null
+                system?: string | null
+            } | null
+            biDiagnoser: Array<{
+                __typename: 'DiagnoseSchema'
+                kode?: string | null
+                tekst?: string | null
+                system?: string | null
+            }>
+            annenFraversArsak?: {
+                __typename: 'AnnenFraversArsak'
+                beskrivelse?: string | null
+                grunn?: Array<AnnenFraversArsakGrunn> | null
+            } | null
+        } | null
+        kontaktMedPasient?: {
+            __typename: 'KontaktMedPasient'
+            kontaktDato?: string | null
+            begrunnelseIkkeKontakt?: string | null
+        } | null
+    }
+}
+
+export type NasjonalOppgaveResult_NasjonalOppgave_Fragment = {
+    __typename: 'NasjonalOppgave'
+    oppgaveId: string
+    documents: Array<{ __typename: 'Document'; dokumentInfoId: string; tittel: string }>
+    nasjonalSykmelding: {
+        __typename: 'NasjonalSykmelding'
+        sykmeldingId?: string | null
+        fnr?: string | null
+        journalpostId: string
+        datoOpprettet?: string | null
+        syketilfelleStartDato?: string | null
+        behandletTidspunkt?: string | null
+        skjermesForPasient?: boolean | null
+        meldingTilArbeidsgiver?: string | null
+        arbeidsgiver?: {
+            __typename: 'Arbeidsgiver'
+            navn?: string | null
+            stillingsprosent?: number | null
+            yrkesbetegnelse?: string | null
+            harArbeidsgiver?: HarArbeidsgiver | null
+        } | null
+        behandler?: {
+            __typename: 'Behandler'
+            fornavn: string
+            mellomnavn?: string | null
+            etternavn: string
+            fnr: string
+            hpr?: string | null
+            tlf?: string | null
+        } | null
+        perioder: Array<{
+            __typename: 'Periode'
+            fom: string
+            tom: string
+            reisetilskudd?: boolean | null
+            behandlingsdager?: number | null
+            avventendeInnspillTilArbeidsgiver?: string | null
+            gradert?: { __typename: 'Gradert'; grad?: number | null; reisetilskudd: boolean } | null
+            aktivitetIkkeMulig?: {
+                __typename: 'AktivitetIkkeMulig'
+                medisinskArsak?: {
+                    __typename: 'MedisinskArsak'
+                    beskrivelse?: string | null
+                    arsak: Array<MedisinskArsakType>
+                } | null
+                arbeidsrelatertArsak?: {
+                    __typename: 'ArbeidsrelatertArsak'
+                    beskrivelse?: string | null
+                    arsak: Array<ArbeidsrelatertArsakType>
+                } | null
+            } | null
+        }>
+        meldingTilNAV?: {
+            __typename: 'MeldingTilNAV'
+            bistandUmiddelbart: boolean
+            beskrivBistand?: string | null
+        } | null
+        medisinskVurdering?: {
+            __typename: 'MedisinskVurdering'
+            svangerskap: boolean
+            yrkesskade: boolean
+            yrkesskadeDato?: string | null
+            hovedDiagnose?: {
+                __typename: 'DiagnoseSchema'
+                kode?: string | null
+                tekst?: string | null
+                system?: string | null
+            } | null
+            biDiagnoser: Array<{
+                __typename: 'DiagnoseSchema'
+                kode?: string | null
+                tekst?: string | null
+                system?: string | null
+            }>
+            annenFraversArsak?: {
+                __typename: 'AnnenFraversArsak'
+                beskrivelse?: string | null
+                grunn?: Array<AnnenFraversArsakGrunn> | null
+            } | null
+        } | null
+        kontaktMedPasient?: {
+            __typename: 'KontaktMedPasient'
+            kontaktDato?: string | null
+            begrunnelseIkkeKontakt?: string | null
+        } | null
+    }
+}
+
+export type NasjonalOppgaveResult_NasjonalOppgaveStatus_Fragment = {
+    __typename: 'NasjonalOppgaveStatus'
+    oppgaveId: string
+    status: NasjonalOppgaveStatusEnum
+}
+
+export type NasjonalOppgaveResultFragment =
+    | NasjonalOppgaveResult_NasjonalOppgave_Fragment
+    | NasjonalOppgaveResult_NasjonalOppgaveStatus_Fragment
+
+export type NasjonalOppgaveStatusFragment = {
+    __typename: 'NasjonalOppgaveStatus'
+    oppgaveId: string
+    status: NasjonalOppgaveStatusEnum
+}
+
+export type NasjonalSykmeldingFragment = {
+    __typename: 'NasjonalSykmelding'
+    sykmeldingId?: string | null
+    fnr?: string | null
+    journalpostId: string
+    datoOpprettet?: string | null
+    syketilfelleStartDato?: string | null
+    behandletTidspunkt?: string | null
+    skjermesForPasient?: boolean | null
+    meldingTilArbeidsgiver?: string | null
+    arbeidsgiver?: {
+        __typename: 'Arbeidsgiver'
+        navn?: string | null
+        stillingsprosent?: number | null
+        yrkesbetegnelse?: string | null
+        harArbeidsgiver?: HarArbeidsgiver | null
+    } | null
+    behandler?: {
+        __typename: 'Behandler'
+        fornavn: string
+        mellomnavn?: string | null
+        etternavn: string
+        fnr: string
+        hpr?: string | null
+        tlf?: string | null
+    } | null
+    perioder: Array<{
+        __typename: 'Periode'
+        fom: string
+        tom: string
+        reisetilskudd?: boolean | null
+        behandlingsdager?: number | null
+        avventendeInnspillTilArbeidsgiver?: string | null
+        gradert?: { __typename: 'Gradert'; grad?: number | null; reisetilskudd: boolean } | null
+        aktivitetIkkeMulig?: {
+            __typename: 'AktivitetIkkeMulig'
+            medisinskArsak?: {
+                __typename: 'MedisinskArsak'
+                beskrivelse?: string | null
+                arsak: Array<MedisinskArsakType>
+            } | null
+            arbeidsrelatertArsak?: {
+                __typename: 'ArbeidsrelatertArsak'
+                beskrivelse?: string | null
+                arsak: Array<ArbeidsrelatertArsakType>
+            } | null
+        } | null
+    }>
+    meldingTilNAV?: { __typename: 'MeldingTilNAV'; bistandUmiddelbart: boolean; beskrivBistand?: string | null } | null
+    medisinskVurdering?: {
+        __typename: 'MedisinskVurdering'
+        svangerskap: boolean
+        yrkesskade: boolean
+        yrkesskadeDato?: string | null
+        hovedDiagnose?: {
+            __typename: 'DiagnoseSchema'
+            kode?: string | null
+            tekst?: string | null
+            system?: string | null
+        } | null
+        biDiagnoser: Array<{
+            __typename: 'DiagnoseSchema'
+            kode?: string | null
+            tekst?: string | null
+            system?: string | null
+        }>
+        annenFraversArsak?: {
+            __typename: 'AnnenFraversArsak'
+            beskrivelse?: string | null
+            grunn?: Array<AnnenFraversArsakGrunn> | null
+        } | null
+    } | null
+    kontaktMedPasient?: {
+        __typename: 'KontaktMedPasient'
+        kontaktDato?: string | null
+        begrunnelseIkkeKontakt?: string | null
+    } | null
+}
+
+export type NasjonalDocumentFragment = { __typename: 'Document'; dokumentInfoId: string; tittel: string }
+
+export type KontaktMedPasientFragment = {
+    __typename: 'KontaktMedPasient'
+    kontaktDato?: string | null
+    begrunnelseIkkeKontakt?: string | null
+}
+
+export type NasjonalDiagnoseFragment = {
+    __typename: 'DiagnoseSchema'
+    kode?: string | null
+    tekst?: string | null
+    system?: string | null
+}
+
+export type MeldingTilNavFragment = {
+    __typename: 'MeldingTilNAV'
+    bistandUmiddelbart: boolean
+    beskrivBistand?: string | null
+}
+
+export type MedisinskVurderingFragment = {
+    __typename: 'MedisinskVurdering'
+    svangerskap: boolean
+    yrkesskade: boolean
+    yrkesskadeDato?: string | null
+    hovedDiagnose?: {
+        __typename: 'DiagnoseSchema'
+        kode?: string | null
+        tekst?: string | null
+        system?: string | null
+    } | null
+    biDiagnoser: Array<{
+        __typename: 'DiagnoseSchema'
+        kode?: string | null
+        tekst?: string | null
+        system?: string | null
+    }>
+    annenFraversArsak?: {
+        __typename: 'AnnenFraversArsak'
+        beskrivelse?: string | null
+        grunn?: Array<AnnenFraversArsakGrunn> | null
+    } | null
+}
+
+export type AnnenFraversArsakFragment = {
+    __typename: 'AnnenFraversArsak'
+    beskrivelse?: string | null
+    grunn?: Array<AnnenFraversArsakGrunn> | null
+}
+
+export type NasjonalPeriodeFragment = {
+    __typename: 'Periode'
+    fom: string
+    tom: string
+    reisetilskudd?: boolean | null
+    behandlingsdager?: number | null
+    avventendeInnspillTilArbeidsgiver?: string | null
+    gradert?: { __typename: 'Gradert'; grad?: number | null; reisetilskudd: boolean } | null
+    aktivitetIkkeMulig?: {
+        __typename: 'AktivitetIkkeMulig'
+        medisinskArsak?: {
+            __typename: 'MedisinskArsak'
+            beskrivelse?: string | null
+            arsak: Array<MedisinskArsakType>
+        } | null
+        arbeidsrelatertArsak?: {
+            __typename: 'ArbeidsrelatertArsak'
+            beskrivelse?: string | null
+            arsak: Array<ArbeidsrelatertArsakType>
+        } | null
+    } | null
+}
+
+export type GradertFragment = { __typename: 'Gradert'; grad?: number | null; reisetilskudd: boolean }
+
+export type AktivitetIkkeMuligFragment = {
+    __typename: 'AktivitetIkkeMulig'
+    medisinskArsak?: {
+        __typename: 'MedisinskArsak'
+        beskrivelse?: string | null
+        arsak: Array<MedisinskArsakType>
+    } | null
+    arbeidsrelatertArsak?: {
+        __typename: 'ArbeidsrelatertArsak'
+        beskrivelse?: string | null
+        arsak: Array<ArbeidsrelatertArsakType>
+    } | null
+}
+
+export type MedisinskArsakFragment = {
+    __typename: 'MedisinskArsak'
+    beskrivelse?: string | null
+    arsak: Array<MedisinskArsakType>
+}
+
+export type ArbeidsrelatertArsakFragment = {
+    __typename: 'ArbeidsrelatertArsak'
+    beskrivelse?: string | null
+    arsak: Array<ArbeidsrelatertArsakType>
+}
+
+export type ArbeidsgiverFragment = {
+    __typename: 'Arbeidsgiver'
+    navn?: string | null
+    stillingsprosent?: number | null
+    yrkesbetegnelse?: string | null
+    harArbeidsgiver?: HarArbeidsgiver | null
+}
+
+export type BehandlerFragment = {
+    __typename: 'Behandler'
+    fornavn: string
+    mellomnavn?: string | null
+    etternavn: string
+    fnr: string
+    hpr?: string | null
+    tlf?: string | null
+}
+
+export type NasjonalOppgaveByIdQueryVariables = Exact<{
+    oppgaveId: Scalars['String']['input']
+}>
+
+export type NasjonalOppgaveByIdQuery = {
+    __typename: 'Query'
+    nasjonalOppgave?:
+        | {
+              __typename: 'NasjonalOppgave'
+              oppgaveId: string
+              documents: Array<{ __typename: 'Document'; dokumentInfoId: string; tittel: string }>
+              nasjonalSykmelding: {
+                  __typename: 'NasjonalSykmelding'
+                  sykmeldingId?: string | null
+                  fnr?: string | null
+                  journalpostId: string
+                  datoOpprettet?: string | null
+                  syketilfelleStartDato?: string | null
+                  behandletTidspunkt?: string | null
+                  skjermesForPasient?: boolean | null
+                  meldingTilArbeidsgiver?: string | null
+                  arbeidsgiver?: {
+                      __typename: 'Arbeidsgiver'
+                      navn?: string | null
+                      stillingsprosent?: number | null
+                      yrkesbetegnelse?: string | null
+                      harArbeidsgiver?: HarArbeidsgiver | null
+                  } | null
+                  behandler?: {
+                      __typename: 'Behandler'
+                      fornavn: string
+                      mellomnavn?: string | null
+                      etternavn: string
+                      fnr: string
+                      hpr?: string | null
+                      tlf?: string | null
+                  } | null
+                  perioder: Array<{
+                      __typename: 'Periode'
+                      fom: string
+                      tom: string
+                      reisetilskudd?: boolean | null
+                      behandlingsdager?: number | null
+                      avventendeInnspillTilArbeidsgiver?: string | null
+                      gradert?: { __typename: 'Gradert'; grad?: number | null; reisetilskudd: boolean } | null
+                      aktivitetIkkeMulig?: {
+                          __typename: 'AktivitetIkkeMulig'
+                          medisinskArsak?: {
+                              __typename: 'MedisinskArsak'
+                              beskrivelse?: string | null
+                              arsak: Array<MedisinskArsakType>
+                          } | null
+                          arbeidsrelatertArsak?: {
+                              __typename: 'ArbeidsrelatertArsak'
+                              beskrivelse?: string | null
+                              arsak: Array<ArbeidsrelatertArsakType>
+                          } | null
+                      } | null
+                  }>
+                  meldingTilNAV?: {
+                      __typename: 'MeldingTilNAV'
+                      bistandUmiddelbart: boolean
+                      beskrivBistand?: string | null
+                  } | null
+                  medisinskVurdering?: {
+                      __typename: 'MedisinskVurdering'
+                      svangerskap: boolean
+                      yrkesskade: boolean
+                      yrkesskadeDato?: string | null
+                      hovedDiagnose?: {
+                          __typename: 'DiagnoseSchema'
+                          kode?: string | null
+                          tekst?: string | null
+                          system?: string | null
+                      } | null
+                      biDiagnoser: Array<{
+                          __typename: 'DiagnoseSchema'
+                          kode?: string | null
+                          tekst?: string | null
+                          system?: string | null
+                      }>
+                      annenFraversArsak?: {
+                          __typename: 'AnnenFraversArsak'
+                          beskrivelse?: string | null
+                          grunn?: Array<AnnenFraversArsakGrunn> | null
+                      } | null
+                  } | null
+                  kontaktMedPasient?: {
+                      __typename: 'KontaktMedPasient'
+                      kontaktDato?: string | null
+                      begrunnelseIkkeKontakt?: string | null
+                  } | null
+              }
+          }
+        | { __typename: 'NasjonalOppgaveStatus'; oppgaveId: string; status: NasjonalOppgaveStatusEnum }
+        | null
 }
 
 export type PeriodeFragment = {
@@ -1649,6 +2155,1404 @@ export const JournalpostStatusFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<JournalpostStatusFragment, unknown>
+export const NasjonalDocumentFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalDocument' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NasjonalDocumentFragment, unknown>
+export const ArbeidsgiverFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Arbeidsgiver' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Arbeidsgiver' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'stillingsprosent' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesbetegnelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harArbeidsgiver' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ArbeidsgiverFragment, unknown>
+export const BehandlerFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Behandler' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Behandler' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'hpr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tlf' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<BehandlerFragment, unknown>
+export const GradertFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Gradert' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Gradert' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GradertFragment, unknown>
+export const MedisinskArsakFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<MedisinskArsakFragment, unknown>
+export const ArbeidsrelatertArsakFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ArbeidsrelatertArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ArbeidsrelatertArsakFragment, unknown>
+export const AktivitetIkkeMuligFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AktivitetIkkeMulig' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'medisinskArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MedisinskArsak' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsrelatertArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ArbeidsrelatertArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<AktivitetIkkeMuligFragment, unknown>
+export const NasjonalPeriodeFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'gradert' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Gradert' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingsdager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'avventendeInnspillTilArbeidsgiver' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'aktivitetIkkeMulig' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ArbeidsrelatertArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Gradert' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Gradert' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AktivitetIkkeMulig' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'medisinskArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MedisinskArsak' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsrelatertArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NasjonalPeriodeFragment, unknown>
+export const MeldingTilNavFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MeldingTilNAV' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MeldingTilNAV' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bistandUmiddelbart' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivBistand' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<MeldingTilNavFragment, unknown>
+export const NasjonalDiagnoseFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalDiagnose' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DiagnoseSchema' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NasjonalDiagnoseFragment, unknown>
+export const AnnenFraversArsakFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AnnenFraversArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grunn' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<AnnenFraversArsakFragment, unknown>
+export const MedisinskVurderingFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskVurdering' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskVurdering' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hovedDiagnose' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDiagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'biDiagnoser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDiagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'annenFraversArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'svangerskap' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesskade' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesskadeDato' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalDiagnose' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DiagnoseSchema' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AnnenFraversArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grunn' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<MedisinskVurderingFragment, unknown>
+export const KontaktMedPasientFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'KontaktMedPasient' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'KontaktMedPasient' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kontaktDato' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseIkkeKontakt' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<KontaktMedPasientFragment, unknown>
+export const NasjonalSykmeldingFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalSykmelding' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalSykmelding' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'datoOpprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'syketilfelleStartDato' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandletTidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsgiver' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Arbeidsgiver' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'behandler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Behandler' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjermesForPasient' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalPeriode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'meldingTilNAV' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MeldingTilNAV' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'meldingTilArbeidsgiver' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'medisinskVurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'MedisinskVurdering' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kontaktMedPasient' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'KontaktMedPasient' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Gradert' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Gradert' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ArbeidsrelatertArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AktivitetIkkeMulig' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'medisinskArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MedisinskArsak' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsrelatertArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalDiagnose' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DiagnoseSchema' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AnnenFraversArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grunn' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Arbeidsgiver' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Arbeidsgiver' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'stillingsprosent' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesbetegnelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harArbeidsgiver' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Behandler' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Behandler' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'hpr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tlf' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'gradert' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Gradert' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingsdager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'avventendeInnspillTilArbeidsgiver' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'aktivitetIkkeMulig' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MeldingTilNAV' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MeldingTilNAV' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bistandUmiddelbart' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivBistand' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskVurdering' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskVurdering' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hovedDiagnose' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDiagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'biDiagnoser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDiagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'annenFraversArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'svangerskap' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesskade' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesskadeDato' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'KontaktMedPasient' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'KontaktMedPasient' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kontaktDato' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseIkkeKontakt' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NasjonalSykmeldingFragment, unknown>
+export const NasjonalOppgaveFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalOppgave' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalOppgave' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documents' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDocument' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nasjonalSykmelding' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalSykmelding' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Arbeidsgiver' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Arbeidsgiver' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'stillingsprosent' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesbetegnelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harArbeidsgiver' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Behandler' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Behandler' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'hpr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tlf' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Gradert' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Gradert' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ArbeidsrelatertArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AktivitetIkkeMulig' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'medisinskArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MedisinskArsak' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsrelatertArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'gradert' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Gradert' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingsdager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'avventendeInnspillTilArbeidsgiver' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'aktivitetIkkeMulig' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MeldingTilNAV' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MeldingTilNAV' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bistandUmiddelbart' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivBistand' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalDiagnose' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DiagnoseSchema' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AnnenFraversArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grunn' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskVurdering' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskVurdering' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hovedDiagnose' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDiagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'biDiagnoser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDiagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'annenFraversArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'svangerskap' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesskade' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesskadeDato' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'KontaktMedPasient' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'KontaktMedPasient' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kontaktDato' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseIkkeKontakt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalDocument' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalSykmelding' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalSykmelding' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'datoOpprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'syketilfelleStartDato' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandletTidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsgiver' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Arbeidsgiver' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'behandler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Behandler' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjermesForPasient' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalPeriode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'meldingTilNAV' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MeldingTilNAV' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'meldingTilArbeidsgiver' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'medisinskVurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'MedisinskVurdering' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kontaktMedPasient' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'KontaktMedPasient' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NasjonalOppgaveFragment, unknown>
+export const NasjonalOppgaveStatusFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalOppgaveStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalOppgaveStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NasjonalOppgaveStatusFragment, unknown>
+export const NasjonalOppgaveResultFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalOppgaveResult' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalOppgaveResult' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalOppgave' } },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalOppgaveStatus' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalDocument' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Arbeidsgiver' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Arbeidsgiver' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'stillingsprosent' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesbetegnelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harArbeidsgiver' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Behandler' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Behandler' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'hpr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tlf' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Gradert' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Gradert' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ArbeidsrelatertArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AktivitetIkkeMulig' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'medisinskArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MedisinskArsak' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsrelatertArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'gradert' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Gradert' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingsdager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'avventendeInnspillTilArbeidsgiver' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'aktivitetIkkeMulig' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MeldingTilNAV' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MeldingTilNAV' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bistandUmiddelbart' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivBistand' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalDiagnose' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DiagnoseSchema' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AnnenFraversArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grunn' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskVurdering' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskVurdering' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hovedDiagnose' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDiagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'biDiagnoser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDiagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'annenFraversArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'svangerskap' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesskade' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesskadeDato' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'KontaktMedPasient' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'KontaktMedPasient' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kontaktDato' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseIkkeKontakt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalSykmelding' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalSykmelding' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'datoOpprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'syketilfelleStartDato' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandletTidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsgiver' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Arbeidsgiver' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'behandler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Behandler' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjermesForPasient' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalPeriode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'meldingTilNAV' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MeldingTilNAV' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'meldingTilArbeidsgiver' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'medisinskVurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'MedisinskVurdering' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kontaktMedPasient' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'KontaktMedPasient' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalOppgave' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalOppgave' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documents' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDocument' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nasjonalSykmelding' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalSykmelding' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalOppgaveStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalOppgaveStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NasjonalOppgaveResultFragment, unknown>
 export const DocumentFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -3463,6 +5367,395 @@ export const SykmeldingFraJournalpostDocument = {
         },
     ],
 } as unknown as DocumentNode<SykmeldingFraJournalpostMutation, SykmeldingFraJournalpostMutationVariables>
+export const NasjonalOppgaveByIdDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'NasjonalOppgaveById' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nasjonalOppgave' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalOppgaveResult' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalDocument' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Document' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'dokumentInfoId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Arbeidsgiver' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Arbeidsgiver' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'stillingsprosent' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesbetegnelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harArbeidsgiver' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Behandler' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Behandler' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'hpr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tlf' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Gradert' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Gradert' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ArbeidsrelatertArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'arsak' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AktivitetIkkeMulig' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'medisinskArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MedisinskArsak' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsrelatertArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ArbeidsrelatertArsak' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalPeriode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'reisetilskudd' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'gradert' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Gradert' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandlingsdager' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'avventendeInnspillTilArbeidsgiver' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'aktivitetIkkeMulig' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AktivitetIkkeMulig' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MeldingTilNAV' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MeldingTilNAV' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'bistandUmiddelbart' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivBistand' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalDiagnose' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'DiagnoseSchema' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'system' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'AnnenFraversArsak' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'beskrivelse' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grunn' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'MedisinskVurdering' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'MedisinskVurdering' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'hovedDiagnose' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDiagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'biDiagnoser' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDiagnose' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'annenFraversArsak' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'AnnenFraversArsak' } },
+                            ],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'svangerskap' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesskade' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'yrkesskadeDato' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'KontaktMedPasient' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'KontaktMedPasient' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'kontaktDato' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'begrunnelseIkkeKontakt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalSykmelding' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalSykmelding' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'sykmeldingId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'journalpostId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'datoOpprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'syketilfelleStartDato' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'behandletTidspunkt' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'arbeidsgiver' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Arbeidsgiver' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'behandler' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Behandler' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'skjermesForPasient' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'perioder' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalPeriode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'meldingTilNAV' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'MeldingTilNAV' } }],
+                        },
+                    },
+                    { kind: 'Field', name: { kind: 'Name', value: 'meldingTilArbeidsgiver' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'medisinskVurdering' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'MedisinskVurdering' } },
+                            ],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'kontaktMedPasient' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'KontaktMedPasient' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalOppgave' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalOppgave' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'documents' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalDocument' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'nasjonalSykmelding' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalSykmelding' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalOppgaveStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalOppgaveStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'NasjonalOppgaveResult' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalOppgaveResult' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalOppgave' } },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'NasjonalOppgaveStatus' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NasjonalOppgaveByIdQuery, NasjonalOppgaveByIdQueryVariables>
 export const OppgaveByIdDocument = {
     kind: 'Document',
     definitions: [
