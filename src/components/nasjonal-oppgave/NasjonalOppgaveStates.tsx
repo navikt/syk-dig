@@ -12,6 +12,11 @@ import DocumentsViewer from '../split-view-layout/document/DocumentView'
 
 import { FerdigstiltOppgaveVariables, OppgaveResult, OppgaveVariables } from './useNasjonalOppgave'
 import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
+import {
+    NasjonalOppgaveByIdQuery,
+    NasjonalOppgaveResult,
+    OppgaveByIdQueryVariables
+} from "../../graphql/queries/graphql.generated";
 
 export function NasjonalOppgaveSkeleton(): ReactElement {
     return (
@@ -68,16 +73,15 @@ export function NasjonalOppgaveDocuments({
     query,
 }: {
     oppgaveId: string
-    query: QueryResult<OppgaveResult, OppgaveVariables>
+    query: QueryResult<NasjonalOppgaveByIdQuery, OppgaveByIdQueryVariables>
 }): ReactElement {
     const { loading, data, error } = query
-
     if (loading) {
         return <DocumentsViewerSkeleton />
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
-    } else if (data?.oppgave != null) {
-        return <DocumentsViewer oppgaveId={oppgaveId} documents={data.oppgave.documents} edit={false} smreg />
+    } else if (data?.nasjonalOppgave != null && data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
+        return <DocumentsViewer documents={data?.nasjonalOppgave.documents} oppgaveId={oppgaveId} edit={false} smreg />
     } else {
         raise(new Error('Illegal state: Non loading, non error oppgave that is null'))
     }
