@@ -17,11 +17,10 @@ type Props = PaneView & {
 }
 
 function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
+    const modiaContext = useModiaContext()
     const nasjonalOppgaveQuery = useQuery(NasjonalOppgaveByIdDocument, {
         variables: { oppgaveId },
     })
-    const modiaContext = useModiaContext()
-
     return (
         <SplitDocumentView
             title="Nasjonal papirsykmelding"

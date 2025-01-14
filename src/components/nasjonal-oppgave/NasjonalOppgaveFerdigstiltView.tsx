@@ -12,6 +12,7 @@ import {
     NasjonalOppgaveFerdigstiltDocuments,
     NasjonalOppgaveSkeleton,
 } from './NasjonalOppgaveStates'
+import {useQuery} from "@apollo/client";
 
 type Props = PaneView & {
     sykmeldingId: string
