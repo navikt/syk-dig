@@ -7,6 +7,8 @@ import sykmelder from '../mock/sykmelder.json'
 import { apiUrl } from '../smreg/api'
 import { useNasjonalOppgave } from '../useNasjonalOppgave'
 import NasjonalSykmeldingForm from '../form/NasjonalSykmeldingForm'
+import {useQuery} from "@apollo/client";
+import {NasjonalOppgaveFragmentDoc} from "../../../graphql/queries/graphql.generated";
 
 export function mockBehandlerinfo(): void {
     server.use(http.get(apiUrl('/proxy/sykmelder/:hpr'), () => HttpResponse.json(sykmelder)))
@@ -21,7 +23,9 @@ export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAny
 }: {
     oppgaveId: string
 }): ReactElement {
-    const query = useNasjonalOppgave(oppgaveId)
+    const query = useQuery(NasjonalOppgaveFragmentDoc, {
+        variables: { oppgaveId },
+    })
 
     if (query.loading) {
         return <div>Loading...</div>
@@ -30,7 +34,7 @@ export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAny
     return (
         <NasjonalSykmeldingForm
             oppgaveId={oppgaveId}
-            sykmelding={query.data?.oppgave.papirSmRegistering ?? null}
+            sykmelding={query.data?.nasjonalSykmelding ?? null}
             ferdigstilt={false}
         />
     )
