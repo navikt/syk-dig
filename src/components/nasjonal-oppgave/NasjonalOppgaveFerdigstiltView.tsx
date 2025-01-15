@@ -13,9 +13,7 @@ import {
 } from './NasjonalOppgaveStates'
 import {useQuery} from "@apollo/client";
 import {
-    NasjonalOppgaveByIdDocument,
-    OppgaveByIdDocument,
-    SykmeldingByIdDocument
+    NasjonalOppgaveFragmentDoc,
 } from "../../graphql/queries/graphql.generated";
 
 type Props = PaneView & {
@@ -23,7 +21,7 @@ type Props = PaneView & {
 }
 
 function NasjonalOppgaveFerdigstiltView({ oppgaveId, layout }: Props): ReactElement {
-    const query = useQuery(NasjonalOppgaveByIdDocument, {
+    const query = useQuery(NasjonalOppgaveFragmentDoc, {
         variables: { oppgaveId },
     })
     return (
@@ -35,16 +33,16 @@ function NasjonalOppgaveFerdigstiltView({ oppgaveId, layout }: Props): ReactElem
             defaultLayout={layout}
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
-            {query.data && query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgave' && query.data.nasjonalOppgave.nasjonalSykmelding.sykmeldingId && (
+            {query.data && query.data?.__typename === 'NasjonalOppgave' && query.data.nasjonalSykmelding.sykmeldingId && (
                 <NasjonalSykmeldingForm
-                    sykmelding={query.data?.nasjonalOppgave.nasjonalSykmelding}
-                    sykmeldingId={query.data.nasjonalOppgave.nasjonalSykmelding.sykmeldingId}
+                    sykmelding={query.data?.nasjonalSykmelding}
+                    sykmeldingId={query.data?.nasjonalSykmelding.sykmeldingId}
                     ferdigstilt
                 />
             )}
             {query.error && (
                 <NasjonalOppgaveError error={query.error}>
-                    {`Klarte ikke å laste ferdigstilt oppgave med oppgaveid "${oppgaveId}".`}
+                    {`Klarte ikke å laste ferdigstilt oppgave med oppgaveId "${oppgaveId}".`}
                 </NasjonalOppgaveError>
             )}
         </SplitDocumentView>
