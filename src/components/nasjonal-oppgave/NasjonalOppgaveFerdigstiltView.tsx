@@ -6,23 +6,23 @@ import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
-import { useFerdigstiltNasjonalOppgave } from './useNasjonalOppgave'
 import {
     NasjonalOppgaveError,
     NasjonalOppgaveFerdigstiltDocuments,
     NasjonalOppgaveSkeleton,
 } from './NasjonalOppgaveStates'
 import {useQuery} from "@apollo/client";
+import {NasjonalOppgaveByIdDocument, SykmeldingByIdDocument} from "../../graphql/queries/graphql.generated";
 
 type Props = PaneView & {
-    sykmeldingId: string
+    oppgaveId: string
 }
 
-function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactElement {
-    const query = useFerdigstiltNasjonalOppgave(sykmeldingId)
-    // const nasjonalSykmeldingQuery = useQuery(, {
-    //     variables: { oppgaveId },
-    // })
+function NasjonalOppgaveFerdigstiltView({ oppgaveId, layout }: Props): ReactElement {
+   // const query = useFerdigstiltNasjonalOppgave(sykmeldingId)
+    const query = useQuery(NasjonalOppgaveByIdDocument, {
+        variables: { oppgaveId },
+    })
     return (
         <SplitDocumentView
             title="Korrigering av registrert papirsykmelding"
@@ -32,16 +32,16 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactE
             defaultLayout={layout}
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
-            {query.data && (
+            {query.data && query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgave' && query.data.nasjonalOppgave.nasjonalSykmelding.sykmeldingId && (
                 <NasjonalSykmeldingForm
-                    sykmelding={query.data.oppgave.papirSmRegistering}
-                    sykmeldingId={sykmeldingId}
+                    sykmelding={query.data.nasjonalOppgave.nasjonalSykmelding}
+                    sykmeldingId={query.data.nasjonalOppgave.nasjonalSykmelding.sykmeldingId}
                     ferdigstilt
                 />
             )}
             {query.error && (
                 <NasjonalOppgaveError error={query.error}>
-                    {`Klarte ikke å laste ferdigstilt oppgave med sykmelding-id "${sykmeldingId}".`}
+                    {`Klarte ikke å laste ferdigstilt oppgave med oppgaveid "${oppgaveId}".`}
                 </NasjonalOppgaveError>
             )}
         </SplitDocumentView>
