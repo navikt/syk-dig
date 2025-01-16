@@ -1,13 +1,19 @@
-import { describe, it, expect } from 'vitest'
+import {describe, expect, it} from 'vitest'
 
-import { toDate } from '../../../utils/dateUtils'
-import { Periode } from '../schema/sykmelding/Periode'
-import { NasjonalFormValues } from '../form/NasjonalSykmeldingFormTypes'
-import { RegistrertSykmelding } from '../schema/sykmelding/RegistrertSykmelding'
+import {toDate} from '../../../utils/dateUtils'
+import {Periode} from '../schema/sykmelding/Periode'
+import {NasjonalFormValues} from '../form/NasjonalSykmeldingFormTypes'
 import emptyOppgave from '../__tests__/testData/emptyOppgave.json'
-import { OppgaveSchema } from '../schema/oppgave/Oppgave'
+import {OppgaveSchema} from '../schema/oppgave/Oppgave'
 
-import { mapFormPeriodToRegistrertPeriod, mapFormValueToSmregRegistrertSykmelding } from './smreg-mapping'
+import {mapFormPeriodToRegistrertPeriod, mapFormValueToSmregRegistrertSykmelding} from './smreg-mapping'
+import {
+    AnnenFraversArsakGrunn,
+    ArbeidsrelatertArsakType,
+    HarArbeidsgiver,
+    MedisinskArsakType,
+    NasjonalSykmeldingFragment
+} from "../../../graphql/queries/graphql.generated";
 
 /**
  * These tests are from the old smreg registrertSykmeldingUtils.test.ts file.
@@ -71,10 +77,10 @@ describe('smreg-mapping', () => {
                     fom: toDate('2020-10-01'),
                     tom: toDate('2020-10-02'),
                     medisinskArsak: true,
-                    medisinskArsakType: ['AKTIVITET_FORVERRER_TILSTAND'],
+                    medisinskArsakType: [MedisinskArsakType.AktivitetForverrerTilstand],
                     medisinskArsakBeskrivelse: 'Kan ikke være i aktivitet pga medisin',
                     arbeidsrelatertArsak: true,
-                    arbeidsrelatertArsakType: ['MANGLENDE_TILRETTELEGGING'],
+                    arbeidsrelatertArsakType: [ArbeidsrelatertArsakType.ManglendeTilrettelegging],
                     arbeidsrelatertArsakBeskrivelse: 'Kan ikke være i aktivitet pga arbeid',
                 })
                 const expected: Periode = {
@@ -229,7 +235,7 @@ describe('smreg-mapping', () => {
                     fnr: '12345678910',
                 },
                 arbeidsgiver: {
-                    harArbeidsgiver: 'EN_ARBEIDSGIVER',
+                    harArbeidsgiver: HarArbeidsgiver.EnArbeidsgiver,
                     arbeidsgiverNavn: 'Olav Normann',
                     yrkesbetegnelse: 'Brannmann',
                     stillingsprosent: 100,
@@ -256,7 +262,7 @@ describe('smreg-mapping', () => {
                     yrkesskade: true,
                     svangerskap: true,
                     annenFraversArsak: true,
-                    annenFraversArsakGrunn: ['ABORT', 'ARBEIDSRETTET_TILTAK'],
+                    annenFraversArsakGrunn: [AnnenFraversArsakGrunn.Abort, AnnenFraversArsakGrunn.ArbeidsrettetTiltak],
                     annenFraversArsakBeskrivelse: 'Fraværsbeskrivelse',
                 },
                 skjermesForPasient: true,
@@ -279,10 +285,10 @@ describe('smreg-mapping', () => {
                         fom: toDate('2021-04-03'),
                         tom: toDate('2021-04-04'),
                         medisinskArsak: true,
-                        medisinskArsakType: ['AKTIVITET_FORHINDRER_BEDRING', 'ANNET'],
+                        medisinskArsakType: [MedisinskArsakType.AktivitetForhindrerBedring, MedisinskArsakType.Annet],
                         medisinskArsakBeskrivelse: 'Medisinsk beskrivelse',
                         arbeidsrelatertArsak: true,
-                        arbeidsrelatertArsakType: ['MANGLENDE_TILRETTELEGGING', 'ANNET'],
+                        arbeidsrelatertArsakType: [ArbeidsrelatertArsakType.ManglendeTilrettelegging, ArbeidsrelatertArsakType.Annet],
                         arbeidsrelatertArsakBeskrivelse: 'Arbeidsrelatert beskrivelse',
                     },
                     {
@@ -316,11 +322,13 @@ describe('smreg-mapping', () => {
                 },
             }
 
-            const expected: RegistrertSykmelding = {
-                pasientFnr: '12345678910',
-                sykmelderFnr: '',
+            const expected: NasjonalSykmeldingFragment = {
+                __typename: "NasjonalSykmelding",
+                journalpostId: "",
+                fnr: '12345678910',
                 perioder: [
                     {
+                        __typename: 'Periode',
                         fom: '2021-02-03',
                         tom: '2021-02-04',
                         aktivitetIkkeMulig: null,
@@ -330,28 +338,34 @@ describe('smreg-mapping', () => {
                         reisetilskudd: false,
                     },
                     {
+                        __typename: 'Periode',
                         fom: '2021-03-03',
                         tom: '2021-03-04',
                         aktivitetIkkeMulig: null,
                         avventendeInnspillTilArbeidsgiver: null,
                         behandlingsdager: null,
                         gradert: {
+                            __typename: "Gradert",
                             reisetilskudd: true,
                             grad: 80,
                         },
                         reisetilskudd: false,
                     },
                     {
+                        __typename: 'Periode',
                         fom: '2021-04-03',
                         tom: '2021-04-04',
                         aktivitetIkkeMulig: {
+                            __typename: "AktivitetIkkeMulig",
                             medisinskArsak: {
+                                __typename: "MedisinskArsak",
                                 beskrivelse: 'Medisinsk beskrivelse',
-                                arsak: ['AKTIVITET_FORHINDRER_BEDRING', 'ANNET'],
+                                arsak: [MedisinskArsakType.AktivitetForhindrerBedring, MedisinskArsakType.Annet],
                             },
                             arbeidsrelatertArsak: {
+                                __typename: "ArbeidsrelatertArsak",
                                 beskrivelse: 'Arbeidsrelatert beskrivelse',
-                                arsak: ['MANGLENDE_TILRETTELEGGING', 'ANNET'],
+                                arsak: [ArbeidsrelatertArsakType.ManglendeTilrettelegging, ArbeidsrelatertArsakType.Annet],
                             },
                         },
                         avventendeInnspillTilArbeidsgiver: null,
@@ -360,6 +374,7 @@ describe('smreg-mapping', () => {
                         reisetilskudd: false,
                     },
                     {
+                        __typename: 'Periode',
                         fom: '2021-05-03',
                         tom: '2021-05-04',
                         aktivitetIkkeMulig: null,
@@ -369,6 +384,7 @@ describe('smreg-mapping', () => {
                         reisetilskudd: false,
                     },
                     {
+                        __typename: 'Periode',
                         fom: '2021-06-03',
                         tom: '2021-06-04',
                         aktivitetIkkeMulig: null,
@@ -379,18 +395,22 @@ describe('smreg-mapping', () => {
                     },
                 ],
                 medisinskVurdering: {
+                    __typename: 'MedisinskVurdering',
                     hovedDiagnose: {
+                        __typename: "DiagnoseSchema",
                         system: '2.16.578.1.12.4.1.1.7110',
                         kode: 'A001',
                         tekst: 'Diagnosetekst',
                     },
                     biDiagnoser: [
                         {
+                            __typename: "DiagnoseSchema",
                             system: '2.16.578.1.12.4.1.1.7170',
                             kode: 'A002',
                             tekst: 'Diagnosetekst2',
                         },
                         {
+                            __typename: "DiagnoseSchema",
                             system: '2.16.578.1.12.4.1.1.7110',
                             kode: 'A003',
                             tekst: 'Diagnosetekst3',
@@ -400,51 +420,44 @@ describe('smreg-mapping', () => {
                     yrkesskade: true,
                     yrkesskadeDato: null,
                     annenFraversArsak: {
+                        __typename: "AnnenFraversArsak",
                         beskrivelse: 'Fraværsbeskrivelse',
-                        grunn: ['ABORT', 'ARBEIDSRETTET_TILTAK'],
+                        grunn: [AnnenFraversArsakGrunn.Abort, AnnenFraversArsakGrunn.ArbeidsrettetTiltak],
                     },
                 },
                 arbeidsgiver: {
-                    harArbeidsgiver: 'EN_ARBEIDSGIVER',
+                    __typename: "Arbeidsgiver",
+                    harArbeidsgiver: HarArbeidsgiver.EnArbeidsgiver,
                     navn: 'Olav Normann',
                     yrkesbetegnelse: 'Brannmann',
                     stillingsprosent: 100,
                 },
-                behandletDato: '2021-02-02',
                 skjermesForPasient: true,
                 behandler: {
+                    __typename: "Behandler",
                     fornavn: '',
                     mellomnavn: null,
                     etternavn: '',
-                    aktoerId: '',
                     fnr: '',
                     hpr: '12345',
-                    her: null,
-                    adresse: {
-                        gate: null,
-                        postnummer: null,
-                        kommune: null,
-                        postboks: null,
-                        land: null,
-                    },
                     tlf: '12345678',
                 },
                 kontaktMedPasient: {
+                    __typename: "KontaktMedPasient",
                     kontaktDato: '2020-02-01',
                     begrunnelseIkkeKontakt: 'Pasienten hadde omgangssjuke',
                 },
                 syketilfelleStartDato: null,
                 meldingTilNAV: {
+                    __typename: "MeldingTilNAV",
                     bistandUmiddelbart: true,
                     beskrivBistand: 'Melding til NAV',
                 },
-                meldingTilArbeidsgiver: 'Melding til arbeidsgiver',
-                harUtdypendeOpplysninger: true,
-                navnFastlege: null,
+                meldingTilArbeidsgiver: 'Melding til arbeidsgiver'
             }
 
             expect(
-                mapFormValueToSmregRegistrertSykmelding(schema, OppgaveSchema.parse(emptyOppgave).papirSmRegistering),
+                mapFormValueToSmregRegistrertSykmelding(schema, emptyOppgave),
             ).toEqual(expected)
         })
     })

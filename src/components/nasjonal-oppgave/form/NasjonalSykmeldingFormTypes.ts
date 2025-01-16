@@ -1,7 +1,11 @@
-import { HarArbeidsgiver } from '../schema/sykmelding/Arbeidsgiver'
-import { AnnenFraverGrunn } from '../schema/sykmelding/MedisinskVurdering'
-import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../schema/sykmelding/Periode'
+
 import { DiagnoseFormValue } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import {
+    AnnenFraversArsakGrunn,
+    ArbeidsrelatertArsakType,
+    HarArbeidsgiver,
+    MedisinskArsakType
+} from "../../../graphql/queries/graphql.generated";
 
 export type NasjonalFormValues = {
     pasientopplysninger: {
@@ -17,7 +21,7 @@ export type NasjonalFormValues = {
         hoveddiagnose: DiagnoseFormValue
         bidiagnoser: DiagnoseFormValue[]
         annenFraversArsak: boolean
-        annenFraversArsakGrunn: AnnenFraverGrunn[] | null
+        annenFraversArsakGrunn: AnnenFraversArsakGrunn[] | null
         annenFraversArsakBeskrivelse: string | null
 
         svangerskap: boolean
@@ -53,8 +57,8 @@ export type MulighetForArbeid =
     | ReisetilskuddPeriode
 
 export type FomTom = {
-    fom: Date | null
-    tom: Date | null
+    fom: Date
+    tom: Date
 }
 
 export type AvventendePeriode = FomTom & {
