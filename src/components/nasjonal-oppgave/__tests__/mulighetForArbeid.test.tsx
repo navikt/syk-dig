@@ -5,6 +5,7 @@ import { http, HttpResponse } from 'msw'
 import { render, screen, within } from '../../../utils/testUtils'
 import { server } from '../../../mocks/server'
 import { apiUrl } from '../smreg/api'
+import mockSykmelder from '../mock/sykmelder.json'
 
 import fullOppgaveWithoutPeriods from './testData/fullOppgaveWithoutPeriods.json'
 import {
@@ -12,6 +13,7 @@ import {
     mockPasientinfo,
     TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
 } from './smregTestUtils'
+import fullOppgave from './testData/fullOppgave.json'
 
 describe('Mulighet for arbeid section', async () => {
     beforeEach(() => {
@@ -23,6 +25,9 @@ describe('Mulighet for arbeid section', async () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let invokedBody: any | null = null
         server.use(
+            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
+                HttpResponse.json(mockSykmelder),
+            ),
             http.get(apiUrl(`/proxy/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}`), () =>
                 HttpResponse.json(fullOppgaveWithoutPeriods),
             ),

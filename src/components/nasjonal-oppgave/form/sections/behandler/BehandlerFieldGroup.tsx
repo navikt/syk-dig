@@ -1,18 +1,22 @@
 import React, { ReactElement } from 'react'
-import { HelpText, TextField } from '@navikt/ds-react'
-import { useController } from 'react-hook-form'
+import { Alert, HelpText, TextField } from '@navikt/ds-react'
+import { useController, useWatch } from 'react-hook-form'
 
 import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 import { Behandler } from '../../../schema/sykmelding/Behandler'
 
 import styles from './BehandlerFieldGroup.module.css'
-import BehandlerInfo from './BehandlerInfo'
+import BehandlerInfo, { useBehandler } from './BehandlerInfo'
 
 type Props = {
     behandlerInfo: Behandler | null
 }
 
 function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
+    const hpr = useWatch({ name: 'behandler.hpr' })
+    const isValidHpr: false | RegExpMatchArray | null =
+        hpr?.length >= 7 && hpr?.length <= 9 && hpr.match('^\\+?[- _0-9]+$')
+    const { data } = useBehandler(hpr, isValidHpr)
     const { field: hprField, fieldState: hprState } = useController<NasjonalFormValues, 'behandler.hpr'>({
         name: 'behandler.hpr',
         rules: {
@@ -23,6 +27,8 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
                     return 'Behandlers HPR-nummer må være mellom 7 og 9 siffer'
                 } else if (!value.match('^\\+?[- _0-9]+$')) {
                     return 'Behandlers HPR-nummer er ikke på et gyldig format'
+                } else if (!data?.sykmelder) {
+                    return 'Vi klarte ikke å laste behandleren.'
                 }
             },
         },
@@ -56,7 +62,13 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
                     label="12.5 Telefon"
                 />
             </div>
-            {hprField.value != null && <BehandlerInfo hpr={hprField.value} behandlerInfo={behandlerInfo} />}
+            {!isValidHpr ? (
+                <Alert variant="error">HPR-nummeret er ikke gyldig.</Alert>
+            ) : (
+                hprField.value != null && (
+                    <BehandlerInfo hpr={hprField.value} behandlerInfo={behandlerInfo} isValidHpr={isValidHpr} />
+                )
+            )}
         </div>
     )
 }

@@ -5,6 +5,7 @@ import { http, HttpResponse } from 'msw'
 import { render, screen } from '../../../utils/testUtils'
 import { server } from '../../../mocks/server'
 import { apiUrl } from '../smreg/api'
+import mockSykmelder from '../mock/sykmelder.json'
 
 import fullOppgave from './testData/fullOppgave.json'
 import {
@@ -21,6 +22,9 @@ describe('Registration api errors', async () => {
 
     it('Should show received body error message when status code is 400', async () => {
         server.use(
+            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
+                HttpResponse.json(mockSykmelder),
+            ),
             http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
             http.post(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}/send`), () =>
                 HttpResponse.text('This is an error', { status: 400 }),
@@ -49,6 +53,9 @@ describe('Registration api errors', async () => {
 
     it('Should show generic error message when status code is 500', async () => {
         server.use(
+            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
+                HttpResponse.json(mockSykmelder),
+            ),
             http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
             http.post(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}/send`), () =>
                 HttpResponse.text('This is an error', { status: 500 }),
@@ -77,6 +84,9 @@ describe('Registration api errors', async () => {
 
     it('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
         server.use(
+            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
+                HttpResponse.json(mockSykmelder),
+            ),
             http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
             http.post(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}/send`), () =>
                 HttpResponse.json(

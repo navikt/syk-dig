@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { gql, useQuery } from '@apollo/client'
+import { gql, QueryResult, useQuery } from '@apollo/client'
 import { logger } from '@navikt/next-logger'
 import { Alert, Heading, HelpText, Loader, Table, Tag } from '@navikt/ds-react'
 
@@ -10,45 +10,18 @@ import { AutorisasjonValues, HelsepersonellkategoriValues, Sykmelder } from '../
 type Props = {
     behandlerInfo: Behandler | null
     hpr: string
+    isValidHpr: RegExpMatchArray
 }
 
 type BehandlerResult = {
     sykmelder: Sykmelder
 }
 
-function BehandlerInfo({ behandlerInfo, hpr }: Props): ReactElement | null {
-    const isValidHpr = hpr.length >= 7 && hpr.length <= 9 && hpr.match('^\\+?[- _0-9]+$')
-    const queryResult = useQuery<BehandlerResult>(
-        gql`
-            query Behandler($hpr: String!) {
-                sykmelder(hpr: $hpr) @rest(type: "Sykmelder", path: "proxy/sykmelder/{args.hpr}") {
-                    hprNummer
-                    fnr
-                    fornavn
-                    mellomnavn
-                    etternavn
-                    godkjenninger
-                }
-            }
-        `,
-        {
-            variables: { hpr },
-            fetchPolicy: 'network-only',
-            notifyOnNetworkStatusChange: true,
-            skip: !isValidHpr,
-            onError: (e) => logger.error(e),
-        },
-    )
+function BehandlerInfo({ behandlerInfo, hpr, isValidHpr }: Props): ReactElement | null {
+    const { data, loading } = useBehandler(hpr, isValidHpr)
+    const sykmelder = data?.sykmelder
 
-    if (!isValidHpr) {
-        return (
-            <Alert variant="error">
-                HPR-nummeret er ikke gyldig.
-            </Alert>
-        )
-    }
-
-    if (queryResult.loading) {
+    if (loading) {
         return (
             <div className="p-4 bg-surface-subtle flex justify-center items-center">
                 <Loader size="2xlarge" />
@@ -56,7 +29,6 @@ function BehandlerInfo({ behandlerInfo, hpr }: Props): ReactElement | null {
         )
     }
 
-    const sykmelder = queryResult.data?.sykmelder
     if (!sykmelder) {
         return (
             <Alert variant="error">
@@ -150,6 +122,30 @@ function BehandlerInfo({ behandlerInfo, hpr }: Props): ReactElement | null {
                 </FormInfo>
             </div>
         </div>
+    )
+}
+
+export function useBehandler(hpr: string, isValidHpr: false | RegExpMatchArray | null): QueryResult<BehandlerResult> {
+    return useQuery<BehandlerResult>(
+        gql`
+            query Behandler($hpr: String!) {
+                sykmelder(hpr: $hpr) @rest(type: "Sykmelder", path: "proxy/sykmelder/{args.hpr}") {
+                    hprNummer
+                    fnr
+                    fornavn
+                    mellomnavn
+                    etternavn
+                    godkjenninger
+                }
+            }
+        `,
+        {
+            variables: { hpr },
+            fetchPolicy: 'network-only',
+            notifyOnNetworkStatusChange: true,
+            skip: !isValidHpr,
+            onError: (e) => logger.error(e),
+        },
     )
 }
 
