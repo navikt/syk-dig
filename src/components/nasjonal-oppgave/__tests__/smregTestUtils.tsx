@@ -8,7 +8,7 @@ import { apiUrl } from '../smreg/api'
 import { useNasjonalOppgave } from '../useNasjonalOppgave'
 import NasjonalSykmeldingForm from '../form/NasjonalSykmeldingForm'
 import {useQuery} from "@apollo/client";
-import {NasjonalOppgaveFragmentDoc} from "../../../graphql/queries/graphql.generated";
+import {NasjonalOppgaveByIdDocument, NasjonalOppgaveFragmentDoc} from "../../../graphql/queries/graphql.generated";
 
 export function mockBehandlerinfo(): void {
     server.use(http.get(apiUrl('/proxy/sykmelder/:hpr'), () => HttpResponse.json(sykmelder)))
@@ -23,7 +23,7 @@ export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAny
 }: {
     oppgaveId: string
 }): ReactElement {
-    const query = useQuery(NasjonalOppgaveFragmentDoc, {
+    const query = useQuery(NasjonalOppgaveByIdDocument, {
         variables: { oppgaveId },
     })
 
@@ -31,11 +31,17 @@ export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAny
         return <div>Loading...</div>
     }
 
-    return (
-        <NasjonalSykmeldingForm
-            oppgaveId={oppgaveId}
-            sykmelding={query.data?.nasjonalSykmelding ?? null}
-            ferdigstilt={false}
-        />
-    )
+    if (query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
+        return (
+            <NasjonalSykmeldingForm
+                oppgaveId={oppgaveId}
+                sykmelding={query.data?.nasjonalOppgave.nasjonalSykmelding ?? null}
+                ferdigstilt={false}
+            />
+        )
+    }
+    else {
+        return <div>Sykemlding ble ikke funnet</div>
+    }
+
 }

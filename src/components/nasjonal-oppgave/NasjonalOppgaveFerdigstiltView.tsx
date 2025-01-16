@@ -13,6 +13,7 @@ import {
 } from './NasjonalOppgaveStates'
 import {useQuery} from "@apollo/client";
 import {
+    NasjonalOppgaveByIdDocument,
     NasjonalOppgaveFragmentDoc,
 } from "../../graphql/queries/graphql.generated";
 
@@ -21,7 +22,7 @@ type Props = PaneView & {
 }
 
 function NasjonalOppgaveFerdigstiltView({ oppgaveId, layout }: Props): ReactElement {
-    const query = useQuery(NasjonalOppgaveFragmentDoc, {
+    const query = useQuery(NasjonalOppgaveByIdDocument, {
         variables: { oppgaveId },
     })
     return (
@@ -33,10 +34,10 @@ function NasjonalOppgaveFerdigstiltView({ oppgaveId, layout }: Props): ReactElem
             defaultLayout={layout}
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
-            {query.data && query.data?.__typename === 'NasjonalOppgave' && query.data.nasjonalSykmelding.sykmeldingId && (
+            {query.data && query?.data?.nasjonalOppgave?.__typename === 'NasjonalOppgave' && query?.data?.nasjonalOppgave?.nasjonalSykmelding?.sykmeldingId && (
                 <NasjonalSykmeldingForm
-                    sykmelding={query.data?.nasjonalSykmelding}
-                    sykmeldingId={query.data?.nasjonalSykmelding.sykmeldingId}
+                    sykmelding={query.data?.nasjonalOppgave?.nasjonalSykmelding}
+                    sykmeldingId={query.data?.nasjonalOppgave?.nasjonalSykmelding?.sykmeldingId}
                     ferdigstilt
                 />
             )}
