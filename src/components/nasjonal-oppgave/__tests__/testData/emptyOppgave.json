@@ -1,10 +1,16 @@
 {
-    "oppgaveid": 123,
-    "papirSmRegistering": null,
-    "documents": [
-        {
-            "dokumentInfoId": "099b3362-100d-4743-9d93-6db46c6e9588",
-            "tittel": "Papirsykmelding"
+    "__typename": "NasjonalOppgave",
+    "oppgaveId": "1",
+    "documents": [],
+    "nasjonalSykmelding": {
+        "__typename": "NasjonalSykmelding",
+        "journalpostId": "123",
+        "perioder": [],
+        "medisinskVurdering": {
+            "__typename": "MedisinskVurdering",
+            "svangerskap": false,
+            "yrkesskade": false,
+            "biDiagnoser": []
         }
-    ]
+    }
 }
