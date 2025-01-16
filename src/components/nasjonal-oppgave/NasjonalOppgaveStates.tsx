@@ -14,7 +14,7 @@ import { FerdigstiltOppgaveVariables, OppgaveResult, OppgaveVariables } from './
 import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
 import {
     NasjonalOppgaveByIdQuery, NasjonalOppgaveFragment,
-    NasjonalOppgaveResult, NasjonalOppgaveStatusFragmentDoc, NasjonalSykmelding,
+    NasjonalOppgaveResult, NasjonalOppgaveResultFragmentDoc, NasjonalOppgaveStatusFragmentDoc, NasjonalSykmelding,
     OppgaveByIdQueryVariables, SykmeldingByIdQuery, SykmeldingByIdQueryVariables
 } from "../../graphql/queries/graphql.generated";
 
@@ -90,7 +90,7 @@ export function NasjonalOppgaveDocuments({
 export function NasjonalOppgaveFerdigstiltDocuments({
     query,
 }: {
-    query: QueryResult<NasjonalOppgaveFragment>
+    query: QueryResult<NasjonalOppgaveByIdQuery, OppgaveByIdQueryVariables>
 }): ReactElement {
     const { loading, data, error } = query
 
@@ -98,14 +98,14 @@ export function NasjonalOppgaveFerdigstiltDocuments({
         return <DocumentsViewerSkeleton />
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
-    } else if (data != null && data?.nasjonalSykmelding) {
+    } else if ((data != null && data?.nasjonalOppgave?.__typename === 'NasjonalOppgave')) {
         return (
             <DocumentsViewer
                 journalpostId={
-                    (data.nasjonalSykmelding?.journalpostId) ??
+                    (data.nasjonalOppgave?.nasjonalSykmelding?.journalpostId) ??
                     raise(new Error('Ferdigstilt oppgave uten sykmelding, det gåkke an vel?'))
                 }
-                documents={data.documents}
+                documents={data.nasjonalOppgave?.documents}
                 edit={false}
             />
         )
