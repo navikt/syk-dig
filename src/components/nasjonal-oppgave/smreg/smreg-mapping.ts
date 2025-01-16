@@ -6,10 +6,11 @@ import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
 import { RegistrertSykmelding, RegistrertSykmeldingSchema } from '../schema/sykmelding/RegistrertSykmelding'
 import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
 import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import {NasjonalSykmeldingFragment} from "../../../graphql/queries/graphql.generated";
 
 export function mapFormValueToSmregRegistrertSykmelding(
     values: NasjonalFormValues,
-    sykmelding: Papirsykmelding | null,
+    sykmelding: NasjonalSykmeldingFragment | null,
 ): RegistrertSykmelding {
     return RegistrertSykmeldingSchema.parse({
         pasientFnr: values.pasientopplysninger.fnr,
@@ -48,14 +49,6 @@ export function mapFormValueToSmregRegistrertSykmelding(
         skjermesForPasient: values.skjermesForPasient,
         behandler: {
             hpr: values.behandler.hpr,
-            // TODO: Lol why are all these values here?
-            adresse: sykmelding?.behandler?.adresse ?? {
-                gate: null,
-                postnummer: null,
-                kommune: null,
-                postboks: null,
-                land: null,
-            },
             tlf: values.behandler.tlf ?? sykmelding?.behandler?.tlf ?? null,
             her: null,
             aktoerId: '',
