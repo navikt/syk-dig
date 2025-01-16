@@ -6,6 +6,7 @@ import { render, screen, within } from '../../../utils/testUtils'
 import { server } from '../../../mocks/server'
 import { apiUrl } from '../smreg/api'
 import { RegistrertSykmelding } from '../schema/sykmelding/RegistrertSykmelding'
+import mockSykmelder from '../mock/sykmelder.json'
 
 import emptyOppgave from './testData/emptyOppgave.json'
 import {
@@ -23,6 +24,7 @@ describe('Submit oppgave', async () => {
     it('Should be able to fill out and submit form', async () => {
         let invokedBody: RegistrertSykmelding | null = null
         server.use(
+            http.get(apiUrl('/proxy/sykmelder/1234567'), () => HttpResponse.json(mockSykmelder)),
             http.get(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)),
             http.post(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}/send`), async ({ request }) => {
                 invokedBody = (await request.json()) as RegistrertSykmelding
