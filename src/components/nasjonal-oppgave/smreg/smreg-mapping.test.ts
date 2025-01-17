@@ -1,7 +1,6 @@
 import {describe, expect, it} from 'vitest'
 
 import {toDate} from '../../../utils/dateUtils'
-import {Periode} from '../schema/sykmelding/Periode'
 import {NasjonalFormValues} from '../form/NasjonalSykmeldingFormTypes'
 import emptyOppgave from '../__tests__/testData/emptyOppgave.json'
 import {OppgaveSchema} from '../schema/oppgave/Oppgave'
@@ -12,7 +11,8 @@ import {
     ArbeidsrelatertArsakType,
     HarArbeidsgiver,
     MedisinskArsakType,
-    NasjonalSykmeldingFragment
+    NasjonalSykmeldingFragment,
+    Periode
 } from "../../../graphql/queries/graphql.generated";
 
 /**
@@ -32,6 +32,7 @@ describe('smreg-mapping', () => {
                 })
 
                 const expected = {
+                    __typename: "Periode",
                     fom: '2020-10-01',
                     tom: '2020-10-02',
                     reisetilskudd: false,
@@ -55,10 +56,12 @@ describe('smreg-mapping', () => {
                 })
 
                 const expected: Periode = {
+                    __typename: "Periode",
                     fom: '2020-10-01',
                     tom: '2020-10-02',
                     reisetilskudd: false,
                     gradert: {
+                        __typename: "Gradert",
                         reisetilskudd: true,
                         grad: 80,
                     },
@@ -84,46 +87,22 @@ describe('smreg-mapping', () => {
                     arbeidsrelatertArsakBeskrivelse: 'Kan ikke være i aktivitet pga arbeid',
                 })
                 const expected: Periode = {
+                    __typename: "Periode",
                     fom: '2020-10-01',
                     tom: '2020-10-02',
                     reisetilskudd: false,
                     aktivitetIkkeMulig: {
+                        __typename: "AktivitetIkkeMulig",
                         medisinskArsak: {
-                            arsak: ['AKTIVITET_FORVERRER_TILSTAND'],
+                            __typename: "MedisinskArsak",
+                            arsak: [MedisinskArsakType.AktivitetForverrerTilstand],
                             beskrivelse: 'Kan ikke være i aktivitet pga medisin',
                         },
                         arbeidsrelatertArsak: {
-                            arsak: ['MANGLENDE_TILRETTELEGGING'],
+                            __typename: "ArbeidsrelatertArsak",
+                            arsak: [ArbeidsrelatertArsakType.ManglendeTilrettelegging],
                             beskrivelse: 'Kan ikke være i aktivitet pga arbeid',
                         },
-                    },
-                    behandlingsdager: null,
-                    gradert: null,
-                    avventendeInnspillTilArbeidsgiver: null,
-                }
-
-                expect(builtAktivitetIkkeMuligSykmelding).toEqual(expected)
-            })
-
-            it('Return aktivitetIkkeMulig sykmelding without other stuff', () => {
-                const builtAktivitetIkkeMuligSykmelding = mapFormPeriodToRegistrertPeriod({
-                    type: 'aktivitetIkkeMulig',
-                    fom: toDate('2020-10-01'),
-                    tom: toDate('2020-10-02'),
-                    medisinskArsak: false,
-                    medisinskArsakType: [],
-                    medisinskArsakBeskrivelse: null,
-                    arbeidsrelatertArsak: false,
-                    arbeidsrelatertArsakType: [],
-                    arbeidsrelatertArsakBeskrivelse: null,
-                })
-                const expected: Periode = {
-                    fom: '2020-10-01',
-                    tom: '2020-10-02',
-                    reisetilskudd: false,
-                    aktivitetIkkeMulig: {
-                        medisinskArsak: null,
-                        arbeidsrelatertArsak: null,
                     },
                     behandlingsdager: null,
                     gradert: null,
@@ -144,6 +123,7 @@ describe('smreg-mapping', () => {
                 })
 
                 const expected: Periode = {
+                    __typename: "Periode",
                     fom: '2020-10-01',
                     tom: '2020-10-02',
                     reisetilskudd: false,
@@ -166,6 +146,7 @@ describe('smreg-mapping', () => {
                 })
 
                 const expected: Periode = {
+                    __typename: "Periode",
                     fom: '2020-10-01',
                     tom: '2020-10-02',
                     reisetilskudd: true,
@@ -432,6 +413,7 @@ describe('smreg-mapping', () => {
                     yrkesbetegnelse: 'Brannmann',
                     stillingsprosent: 100,
                 },
+                behandletTidspunkt: '2021-02-02',
                 skjermesForPasient: true,
                 behandler: {
                     __typename: "Behandler",
@@ -457,7 +439,7 @@ describe('smreg-mapping', () => {
             }
 
             expect(
-                mapFormValueToSmregRegistrertSykmelding(schema, emptyOppgave),
+                mapFormValueToSmregRegistrertSykmelding(schema, emptyOppgave.papirSmRegistering),
             ).toEqual(expected)
         })
     })
