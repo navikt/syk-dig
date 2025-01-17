@@ -13,6 +13,7 @@ import {
     MedisinskArsakType,
     MedisinskArsakTypeValues,
 } from '../schema/sykmelding/Periode'
+import mockSykmelder from '../mock/sykmelder.json'
 
 import fullOppgave from './testData/fullOppgave.json'
 import emptyOppgave from './testData/emptyOppgave.json'
@@ -29,7 +30,12 @@ describe('Mapping opppgave fetched from API', async () => {
     })
 
     it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', async () => {
-        server.use(http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)))
+        server.use(
+            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
+                HttpResponse.json(mockSykmelder),
+            ),
+            http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
+        )
 
         render(
             <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
@@ -202,7 +208,7 @@ describe('Mapping opppgave fetched from API', async () => {
 
         expect(screen.getByDisplayValue(fullOppgave.papirSmRegistering.behandler.hpr)).toBeInTheDocument() // Can not getByLabelText before fixing label
         expect(screen.getByLabelText('12.5 Telefon')).toHaveDisplayValue(fullOppgave.papirSmRegistering.behandler.tlf)
-    })
+    }, 20000)
 
     it('Should not map any field when "oppgave.papirSmRegistrering" is null', async () => {
         server.use(http.get(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)))

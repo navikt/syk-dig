@@ -9,7 +9,7 @@ import { useNasjonalOppgave } from '../useNasjonalOppgave'
 import NasjonalSykmeldingForm from '../form/NasjonalSykmeldingForm'
 
 export function mockBehandlerinfo(): void {
-    server.use(http.get(apiUrl('/proxy//sykmelder/:hpr'), () => HttpResponse.json(sykmelder)))
+    server.use(http.get(apiUrl('/proxy/sykmelder/:hpr'), () => HttpResponse.json(sykmelder)))
 }
 
 export function mockPasientinfo(): void {
