@@ -10,12 +10,10 @@ import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentVi
 import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
 
-import { FerdigstiltOppgaveVariables, OppgaveResult, OppgaveVariables } from './useNasjonalOppgave'
 import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
 import {
-    NasjonalOppgaveByIdQuery, NasjonalOppgaveFragment,
-    NasjonalOppgaveResult, NasjonalOppgaveResultFragmentDoc, NasjonalOppgaveStatusFragmentDoc, NasjonalSykmelding,
-    OppgaveByIdQueryVariables, SykmeldingByIdQuery, SykmeldingByIdQueryVariables
+    NasjonalOppgaveByIdQuery,
+    OppgaveByIdQueryVariables,
 } from "../../graphql/queries/graphql.generated";
 
 export function NasjonalOppgaveSkeleton(): ReactElement {

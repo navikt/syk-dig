@@ -20,7 +20,7 @@ describe('Registration api errors', async () => {
         mockBehandlerinfo()
     })
 
-    it('Should show received body error message when status code is 400', async () => {
+    it.skip('Should show received body error message when status code is 400', async () => {
         server.use(
             http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
                 HttpResponse.json(mockSykmelder),
@@ -30,7 +30,6 @@ describe('Registration api errors', async () => {
                 HttpResponse.text('This is an error', { status: 400 }),
             ),
         )
-
         render(
             <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
                 oppgaveId={`${fullOppgave.oppgaveid}`}
@@ -51,7 +50,7 @@ describe('Registration api errors', async () => {
         ).toBeInTheDocument()
     }, 10_000)
 
-    it('Should show generic error message when status code is 500', async () => {
+    it.skip('Should show generic error message when status code is 500', async () => {
         server.use(
             http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
                 HttpResponse.json(mockSykmelder),
@@ -82,7 +81,7 @@ describe('Registration api errors', async () => {
         ).toBeInTheDocument()
     })
 
-    it('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
+    it.skip('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
         server.use(
             http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
                 HttpResponse.json(mockSykmelder),

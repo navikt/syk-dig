@@ -10,6 +10,7 @@ import {
     JournalpostByIdDocument,
     JournalpostByIdQuery,
     JournalpostStatusEnum,
+    NasjonalOppgaveByIdDocument,
     NavngiDokumentDocument,
     NavngiDokumentMutation,
     OppdatertSykmeldingStatusEnum,
@@ -49,6 +50,12 @@ export const handlers = [
 
         await delay()
         return HttpResponse.json({ data: { __typename: 'Query', digitalisertSykmelding } })
+    }),
+    graphql.query(NasjonalOppgaveByIdDocument, async ({ variables }) => {
+        const nasjonalOppgave = getMockDb().getNasjonalOppgave(variables.oppgaveId)
+
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Query', nasjonalOppgave } })
     }),
     graphql.mutation(SaveOppgaveDocument, async ({ variables }) => {
         const oppgave = getMockDb().getOppgave(variables.id)
