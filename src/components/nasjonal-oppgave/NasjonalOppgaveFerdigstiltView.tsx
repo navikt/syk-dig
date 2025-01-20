@@ -14,7 +14,6 @@ import {
 import {useQuery} from "@apollo/client";
 import {
     NasjonalOppgaveByIdDocument,
-    NasjonalOppgaveFragmentDoc,
 } from "../../graphql/queries/graphql.generated";
 
 type Props = PaneView & {

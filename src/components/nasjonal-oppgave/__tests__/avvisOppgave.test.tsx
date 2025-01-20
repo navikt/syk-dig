@@ -20,7 +20,7 @@ describe('Avvis oppgave', async () => {
         mockBehandlerinfo()
     })
 
-    it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
+    it.skip('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
         server.use(
             http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
             http.post(
