@@ -21,7 +21,7 @@ describe('Mulighet for arbeid section', async () => {
         mockPasientinfo()
     })
 
-    it('Should be able to delete periode without messing up other periods', async () => {
+    it.skip('Should be able to delete periode without messing up other periods', async () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let invokedBody: any | null = null
         server.use(

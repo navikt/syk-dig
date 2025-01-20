@@ -1,12 +1,13 @@
 import {
     DigitaliseringsoppgaveStatusEnum,
     DigitaliseringsoppgaveStatusFragment,
-    DigitalisertSykmeldingResultFragment,
+    DigitalisertSykmeldingResultFragment, NasjonalOppgaveFragment,
     OppgaveFragment,
     PeriodeType,
 } from '../../graphql/queries/graphql.generated'
 
 import { createOppgave } from './dataCreators'
+import {undefined} from "zod";
 
 /**
  * Fake data singleton used for local development and testing.
@@ -124,6 +125,20 @@ export class FakeMockDB {
             throw new Error(`No oppgave found with id ${oppgaveId}`)
         }
         return oppgave
+    }
+
+
+    public getNasjonalOppgave(oppgaveId: string): NasjonalOppgaveFragment {
+        const oppgave = this._oppgaver[oppgaveId.toLowerCase()]
+        if (!oppgave) {
+            throw new Error(`No oppgave found with id ${oppgaveId}`)
+        }
+        return {
+            nasjonalSykmelding: {__typename: "NasjonalSykmelding", journalpostId: "", perioder: []},
+            __typename: 'NasjonalOppgave',
+            documents: oppgave.documents,
+            oppgaveId: oppgave.oppgaveId
+        }
     }
 
     public getDigitalisertSykmelding(sykmeldingId: string): DigitalisertSykmeldingResultFragment {
