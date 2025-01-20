@@ -57,8 +57,8 @@ export type MulighetForArbeid =
     | ReisetilskuddPeriode
 
 export type FomTom = {
-    fom: Date | null
-    tom: Date | null
+    fom: Date
+    tom: Date
 }
 
 export type AvventendePeriode = FomTom & {
