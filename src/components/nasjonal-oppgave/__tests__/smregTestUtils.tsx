@@ -26,8 +26,7 @@ export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAny
     const query = useQuery(NasjonalOppgaveByIdDocument, {
         variables: { oppgaveId },
     })
-    const query2 = useNasjonalOppgave(oppgaveId)
-
+  
     if (query.loading) {
         return <div>Loading...</div>
     }
