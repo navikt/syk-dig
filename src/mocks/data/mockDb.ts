@@ -7,7 +7,6 @@ import {
 } from '../../graphql/queries/graphql.generated'
 
 import { createOppgave } from './dataCreators'
-import {undefined} from "zod";
 
 /**
  * Fake data singleton used for local development and testing.
