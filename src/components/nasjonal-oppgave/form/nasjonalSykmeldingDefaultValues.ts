@@ -122,8 +122,8 @@ function periodeToMulighetForArbeid(periode: NasjonalPeriodeFragment): MulighetF
 export function createEmptyAktivitetMuligPeriode(): AktivitetIkkeMuligPeriode {
     return {
         type: 'aktivitetIkkeMulig',
-        fom: toDate('2020-10-01'),
-        tom: toDate('2020-10-02'),
+        fom: toDate(''),
+        tom: toDate(''),
         medisinskArsak: false,
         medisinskArsakType: [],
         medisinskArsakBeskrivelse: null,
