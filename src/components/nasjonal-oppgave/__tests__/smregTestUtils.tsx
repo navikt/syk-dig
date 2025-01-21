@@ -8,7 +8,6 @@ import { apiUrl } from '../smreg/api'
 import NasjonalSykmeldingForm from '../form/NasjonalSykmeldingForm'
 import {useQuery} from "@apollo/client";
 import {NasjonalOppgaveByIdDocument} from "../../../graphql/queries/graphql.generated";
-import {useNasjonalOppgave} from "../useNasjonalOppgave";
 
 export function mockBehandlerinfo(): void {
     server.use(http.get(apiUrl('/proxy/sykmelder/:hpr'), () => HttpResponse.json(sykmelder)))
@@ -26,7 +25,7 @@ export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAny
     const query = useQuery(NasjonalOppgaveByIdDocument, {
         variables: { oppgaveId },
     })
-  
+
     if (query.loading) {
         return <div>Loading...</div>
     }
