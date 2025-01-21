@@ -21,6 +21,7 @@ function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
     const nasjonalOppgaveQuery = useQuery(NasjonalOppgaveByIdDocument, {
         variables: { oppgaveId },
     })
+    console.log("Entering nasjonalOppgaveView")
     return (
         <SplitDocumentView
             title="Nasjonal papirsykmelding"
@@ -44,6 +45,7 @@ function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
 }
 
 function NasjonalOppgaveStatus({ oppgave }: { oppgave: NasjonalOppgaveResultFragment }): ReactElement {
+    console.log("Entering NasjonalOppgaveStatus")
     if (oppgave.__typename === 'NasjonalOppgave') {
         return (
             <NasjonalSykmeldingForm

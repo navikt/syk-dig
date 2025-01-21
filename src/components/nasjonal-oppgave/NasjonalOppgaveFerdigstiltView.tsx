@@ -24,6 +24,7 @@ function NasjonalOppgaveFerdigstiltView({ oppgaveId, layout }: Props): ReactElem
     const query = useQuery(NasjonalOppgaveByIdDocument, {
         variables: { oppgaveId },
     })
+    console.log("Entering nasjonalOppgaveFerdigstiltView")
     return (
         <SplitDocumentView
             title="Korrigering av registrert papirsykmelding"
