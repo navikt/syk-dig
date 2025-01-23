@@ -2,6 +2,8 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { PropsWithChildren, ReactElement } from 'react'
 import { RenderOptions, render, Screen } from '@testing-library/react'
 import { Cache, from, InMemoryCache, TypedDocumentNode } from '@apollo/client'
+import { FetchResult } from '@apollo/client/link/core'
+import { ResultFunction } from '@apollo/client/testing/core/mocking/mockLink'
 import open from 'open'
 
 import { cacheConfig } from '../graphql/apollo'
@@ -64,6 +66,16 @@ export function createInitialQuery<Query, Variables>(
         data,
         variables,
     }
+}
+
+export function createMock<Query, Variables extends Record<string, unknown>>(mockedResponse: {
+    request: { query: TypedDocumentNode<Query, Variables>; variables?: Variables }
+    result?: FetchResult<Query> | ResultFunction<FetchResult<Query>>
+    error?: Error
+    delay?: number
+    newData?: ResultFunction<FetchResult<Query>, Record<string, unknown>>
+}): MockedResponse<Query> {
+    return mockedResponse
 }
 
 const customRender = (
