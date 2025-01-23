@@ -1,122 +1,102 @@
 {
-    "oppgaveid": 123,
-    "papirSmRegistering": {
-        "journalpostId": "467035825",
-        "fnr": "20026900817",
-        "dokumentInfoId": "485253318",
-        "datoOpprettet": "2020-02-19T08:14:24",
-        "sykmeldingId": "a62a4ab1-aaf2-4394-9b16-0507583bcab3",
-        "syketilfelleStartDato": "2020-08-06",
-        "arbeidsgiver": {
-            "harArbeidsgiver": "EN_ARBEIDSGIVER",
-            "navn": "Langtvekkistan politidistrikt",
-            "yrkesbetegnelse": "Politi",
-            "stillingsprosent": 100
-        },
-        "medisinskVurdering": {
-            "hovedDiagnose": { "system": "2.16.578.1.12.4.1.1.7110", "kode": "A009", "tekst": "Uspesifisert kolera" },
-            "biDiagnoser": [
-                { "kode": "H02", "system": "2.16.578.1.12.4.1.1.7170", "tekst": "Hørsel symptomer/plager" },
-                {
-                    "kode": "I714",
-                    "system": "2.16.578.1.12.4.1.1.7110",
-                    "tekst": "Abdominalt aorta-aneurisme uten opplysning om ruptur"
-                }
-            ],
-            "svangerskap": true,
-            "yrkesskade": true,
-            "yrkesskadeDato": "2020-02-06",
-            "annenFraversArsak": {
-                "grunn": ["BEHANDLING_FORHINDRER_ARBEID", "NODVENDIG_KONTROLLUNDENRSOKELSE"],
-                "beskrivelse": "Dette er årsaken"
-            }
-        },
-        "skjermesForPasient": true,
-        "perioder": [
-            {
-                "fom": "2020-01-01",
-                "tom": "2020-01-05",
-                "aktivitetIkkeMulig": null,
-                "avventendeInnspillTilArbeidsgiver": "Må avvente",
-                "behandlingsdager": null,
-                "gradert": null,
-                "reisetilskudd": false
-            },
-            {
-                "fom": "2020-02-01",
-                "tom": "2020-02-05",
-                "aktivitetIkkeMulig": null,
-                "avventendeInnspillTilArbeidsgiver": null,
-                "behandlingsdager": null,
-                "gradert": { "grad": 80, "reisetilskudd": true },
-                "reisetilskudd": false
-            },
-            {
-                "fom": "2020-03-01",
-                "tom": "2020-03-05",
-                "aktivitetIkkeMulig": {
-                    "medisinskArsak": {
-                        "arsak": ["TILSTAND_HINDRER_AKTIVITET", "AKTIVITET_FORHINDRER_BEDRING"],
-                        "beskrivelse": "Dette er beskrivelsen på den medisinske årsaken"
-                    },
-                    "arbeidsrelatertArsak": {
-                        "arsak": ["MANGLENDE_TILRETTELEGGING"],
-                        "beskrivelse": "Dette er beskrivelsen på den arbeidsrelaterte årsaken"
-                    }
-                },
-                "avventendeInnspillTilArbeidsgiver": null,
-                "behandlingsdager": null,
-                "gradert": null,
-                "reisetilskudd": false
-            },
-            {
-                "fom": "2020-04-01",
-                "tom": "2020-04-05",
-                "aktivitetIkkeMulig": null,
-                "avventendeInnspillTilArbeidsgiver": null,
-                "behandlingsdager": 13,
-                "gradert": null,
-                "reisetilskudd": false
-            },
-            {
-                "fom": "2020-05-01",
-                "tom": "2020-05-05",
-                "aktivitetIkkeMulig": null,
-                "avventendeInnspillTilArbeidsgiver": null,
-                "behandlingsdager": null,
-                "gradert": null,
-                "reisetilskudd": true
-            }
-        ],
-        "meldingTilNAV": { "bistandUmiddelbart": true, "beskrivBistand": "Dette er en beskrivelse av bistand" },
-        "meldingTilArbeidsgiver": "Melding til arbeidsgiver",
-        "kontaktMedPasient": {
-            "kontaktDato": "2020-10-03",
-            "begrunnelseIkkeKontakt": "Pasienten kunne ikke bevege seg"
-        },
-        "behandletTidspunkt": "2020-11-06",
-        "behandler": {
-            "fornavn": "Nina Unni",
-            "mellomnavn": null,
-            "etternavn": "Borge",
-            "aktoerId": "1804968790639",
-            "fnr": "01117302624",
-            "hpr": "7125186",
-            "her": "",
-            "adresse": {
-                "gate": "Gatenavn",
-                "postnummer": 1234,
-                "kommune": "Andeby",
-                "postboks": "Tulleboks",
-                "land": "LaaangtVekke"
-            },
-            "tlf": "+4712345678"
-        }
-    },
+  "__typename" : "Query",
+  "nasjonalOppgave": {
+    "oppgaveId": "12345",
     "documents": [
+      {
+        "dokumentInfoId": "doc-67890",
+        "tittel": "Important Document Title"
+      },
+      {
+        "dokumentInfoId": "doc-54321",
+        "tittel": "Another Document Title"
+      }
+    ],
+    "nasjonalSykmelding": {
+      "sykmeldingId": "sykmelding-98765",
+      "fnr": "12345678901",
+      "journalpostId": "journalpost-67890",
+      "datoOpprettet": "2025-01-01",
+      "syketilfelleStartDato": "2025-01-01",
+      "behandletTidspunkt": "2025-01-15T12:00:00Z",
+      "arbeidsgiver": {
+        "navn": "Employer AS",
+        "stillingsprosent": 100,
+        "yrkesbetegnelse": "Software Developer",
+        "harArbeidsgiver": true
+      },
+      "behandler": {
+        "fornavn": "Jane",
+        "mellomnavn": "Doe",
+        "etternavn": "Smith",
+        "fnr": "98765432101",
+        "hpr": "hpr-12345",
+        "tlf": "+4712345678"
+      },
+      "skjermesForPasient": false,
+      "perioder": [
         {
-            "dokumentInfoId": "ex-doc-1",
-            "tittel": "Papirsykmelding"
+          "fom": "2025-01-01",
+          "tom": "2025-01-15",
+          "reisetilskudd": false,
+          "gradert": {
+            "grad": 50,
+            "reisetilskudd": false
+          },
+          "behandlingsdager": 2,
+          "avventendeInnspillTilArbeidsgiver": "Waiting for feedback",
+          "aktivitetIkkeMulig": {
+            "medisinskArsak": {
+              "beskrivelse": "Medical reason description",
+              "arsak": [
+                "REASON_CODE"
+              ]
+            },
+            "arbeidsrelatertArsak": {
+              "beskrivelse": "Work-related reason description",
+              "arsak": [
+                "WORK_REASON_CODE"
+              ]
+            }
+          }
         }
-    ]
+      ],
+      "meldingTilNAV": {
+        "bistandUmiddelbart": true,
+        "beskrivBistand": "Urgent assistance needed."
+      },
+      "meldingTilArbeidsgiver": "Message to the employer.",
+      "medisinskVurdering": {
+        "hovedDiagnose": {
+          "kode": "A01",
+          "tekst": "Main diagnosis text",
+          "system": "ICD-10"
+        },
+        "biDiagnoser": [
+          {
+            "kode": "B02",
+            "tekst": "Secondary diagnosis text",
+            "system": "ICD-10"
+          }
+        ],
+        "annenFraversArsak": {
+          "beskrivelse": "Other absence reason",
+          "grunn": [
+            "OTHER_REASON_CODE"
+          ]
+        },
+        "svangerskap": false,
+        "yrkesskade": false,
+        "yrkesskadeDato": null
+      },
+      "kontaktMedPasient": {
+        "kontaktDato": "2025-01-10",
+        "begrunnelseIkkeKontakt": "Reason for no contact"
+      }
+    },
+    "status": {
+      "oppgaveId": "12345",
+      "status": "COMPLETED"
+    }
+  }
 }

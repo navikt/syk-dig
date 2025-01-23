@@ -29,7 +29,9 @@ export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAny
     if (query.loading) {
         return <div>Loading...</div>
     }
-
+    console.log("query.data:", JSON.stringify(query.data, null, 2));
+    console.log(NasjonalOppgaveByIdDocument.loc?.source.body);
+    console.log("ObjectandKeys" + Object.keys(NasjonalOppgaveByIdDocument));
     if (query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
         return (
             <NasjonalSykmeldingForm
