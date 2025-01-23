@@ -2,7 +2,6 @@ import { logger } from '@navikt/next-logger'
 
 import { raise } from '../../../utils/tsUtils'
 import { pdf } from '../../../mocks/data/examplePdfbase64'
-// import emptyOppgave from '../__tests__/testData/emptyOppgave.json'
 
 import mockOppgave from './oppgave.json'
 import mockSykmelder from './sykmelder.json'
