@@ -17,7 +17,7 @@ function AndreOpplysninger(): ReactElement {
             <DatoSykmeldingenBleSkrevet />
             <SimpleConfirmationPanel
                 id={adresseUtlandField.name}
-                label="Adressen er oppholds-, post- eller kontaktadresse i utlandet"
+                label="Sykmeldingen skal til 2101 i Infotrygd"
                 checked={adresseUtlandField.value ?? false}
                 onChange={adresseUtlandField.onChange}
                 onBlur={adresseUtlandField.onBlur}
