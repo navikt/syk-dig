@@ -15,6 +15,7 @@ import {
     NasjonalOppgaveByIdQuery,
     OppgaveByIdQueryVariables,
 } from "../../graphql/queries/graphql.generated";
+import {FerdigstiltOppgaveVariables, OppgaveResult} from "./useNasjonalOppgave";
 
 export function NasjonalOppgaveSkeleton(): ReactElement {
     return (
@@ -88,7 +89,7 @@ export function NasjonalOppgaveDocuments({
 export function NasjonalOppgaveFerdigstiltDocuments({
     query,
 }: {
-    query: QueryResult<NasjonalOppgaveByIdQuery, OppgaveByIdQueryVariables>
+    query: QueryResult<OppgaveResult, FerdigstiltOppgaveVariables>
 }): ReactElement {
     const { loading, data, error } = query
 
@@ -96,14 +97,14 @@ export function NasjonalOppgaveFerdigstiltDocuments({
         return <DocumentsViewerSkeleton />
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
-    } else if ((data != null && data?.nasjonalOppgave?.__typename === 'NasjonalOppgave')) {
+    } else if ((data != null)) {
         return (
             <DocumentsViewer
                 journalpostId={
-                    (data.nasjonalOppgave?.nasjonalSykmelding?.journalpostId) ??
+                    (data?.oppgave?.papirSmRegistering?.journalpostId) ??
                     raise(new Error('Ferdigstilt oppgave uten sykmelding, det gåkke an vel?'))
                 }
-                documents={data.nasjonalOppgave?.documents}
+                documents={data?.oppgave.documents}
                 edit={false}
             />
         )

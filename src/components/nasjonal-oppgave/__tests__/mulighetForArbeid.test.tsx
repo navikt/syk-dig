@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
 
-import { render, screen, within } from '../../../utils/testUtils'
+import {createMock, render, screen, within} from '../../../utils/testUtils'
 import { server } from '../../../mocks/server'
 import { apiUrl } from '../smreg/api'
 import mockSykmelder from '../mock/sykmelder.json'
@@ -14,11 +14,51 @@ import {
     TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
 } from './smregTestUtils'
 import fullOppgave from './testData/fullOppgave.json'
+import {NasjonalOppgaveByIdDocument} from "../../../graphql/queries/graphql.generated";
 
 describe('Mulighet for arbeid section', async () => {
+    let mocks: any[]
+    let testOppgaveId: string
     beforeEach(() => {
         mockBehandlerinfo()
         mockPasientinfo()
+        testOppgaveId = '12345'
+        mocks = [
+            createMock({
+                request: {
+                    query: NasjonalOppgaveByIdDocument,
+                    variables: { oppgaveId: testOppgaveId},
+                },
+                result: {
+                    data: {
+                        __typename: 'Query',
+                        nasjonalOppgave:
+                            {
+                                __typename: 'NasjonalOppgave',
+                                oppgaveId: testOppgaveId,
+                                documents: [],
+                                nasjonalSykmelding: {
+                                    __typename: 'NasjonalSykmelding',
+                                    sykmeldingId: null,
+                                    fnr: null,
+                                    journalpostId: '123',
+                                    datoOpprettet: null,
+                                    syketilfelleStartDato: null,
+                                    behandletTidspunkt: null,
+                                    skjermesForPasient: null,
+                                    meldingTilArbeidsgiver: null,
+                                    arbeidsgiver: null,
+                                    behandler: null,
+                                    perioder: [],
+                                    meldingTilNAV: null,
+                                    medisinskVurdering: null,
+                                    kontaktMedPasient: null,
+                                }
+                            }
+                    },
+                },
+            }),
+        ];
     })
 
     it.skip('Should be able to delete periode without messing up other periods', async () => {
