@@ -6,8 +6,12 @@ import pasientNavn from '../mock/pasientNavn.json'
 import sykmelder from '../mock/sykmelder.json'
 import { apiUrl } from '../smreg/api'
 import NasjonalSykmeldingForm from '../form/NasjonalSykmeldingForm'
-import {useQuery} from "@apollo/client";
-import {NasjonalOppgaveByIdDocument} from "../../../graphql/queries/graphql.generated";
+import {QueryResult, useQuery} from "@apollo/client";
+import {
+    NasjonalOppgaveByIdDocument,
+    NasjonalOppgaveByIdQuery,
+    NasjonalOppgaveByIdQueryVariables, OppgaveByIdDocument
+} from "../../../graphql/queries/graphql.generated";
 
 export function mockBehandlerinfo(): void {
     server.use(http.get(apiUrl('/proxy/sykmelder/:hpr'), () => HttpResponse.json(sykmelder)))
@@ -18,21 +22,24 @@ export function mockPasientinfo(): void {
 }
 
 export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway({
-    oppgaveId,
+    oppgaveId
 }: {
-    oppgaveId: string
+    oppgaveId: string,
+
 }): ReactElement {
     const query = useQuery(NasjonalOppgaveByIdDocument, {
-        variables: { oppgaveId },
+        variables: { oppgaveId: oppgaveId },
     })
 
     if (query.loading) {
         return <div>Loading...</div>
     }
-    console.log("query.data:", JSON.stringify(query.data, null, 2));
-    console.log(NasjonalOppgaveByIdDocument.loc?.source.body);
-    console.log("ObjectandKeys" + Object.keys(NasjonalOppgaveByIdDocument));
+    console.log("Queryerror " + JSON.stringify(query.error))
+    console.log("Query Variables: ", JSON.stringify(query.variables));
+    console.log("Query data" + JSON.stringify(query.data));
     if (query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
+        console.log("Perioder " + query.data?.nasjonalOppgave.nasjonalSykmelding?.perioder)
+        console.log("OppgaveId " + query.data?.nasjonalOppgave.oppgaveId)
         return (
             <NasjonalSykmeldingForm
                 oppgaveId={oppgaveId}

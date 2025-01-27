@@ -18,39 +18,34 @@ import {
 } from "../../../graphql/queries/graphql.generated";
 import React from "react";
 import {MockedProvider} from "@apollo/client/testing";
-import {InMemoryCache} from "@apollo/client";
+import {InMemoryCache, useQuery} from "@apollo/client";
 
 describe('Registration api errors', async () => {
+    let mocks: any[]
+    let testOppgaveId: string
     beforeEach(() => {
         mockPasientinfo()
         mockBehandlerinfo()
-    })
-
-
-    it('Should show received body error message when status code is 400', async () => {
-        const mocks = [
+        testOppgaveId = '12345'
+        mocks = [
             createMock({
                 request: {
                     query: NasjonalOppgaveByIdDocument,
-                    variables: { oppgaveId: '12345'},
+                    variables: { oppgaveId: testOppgaveId},
                 },
                 result: {
                     data: {
                         __typename: 'Query',
                         nasjonalOppgave:
                             {
-                                __typename: "NasjonalOppgave",
-                                oppgaveId: "12345",
-                                documents: [{
-                                    __typename: 'Document',
-                                    dokumentInfoId: "ex-doc-1",
-                                    tittel: "Papirsykmelding"
-                                }],
+                                __typename: 'NasjonalOppgave',
+                                oppgaveId: testOppgaveId,
+                                documents: [],
                                 nasjonalSykmelding: {
                                     __typename: 'NasjonalSykmelding',
                                     sykmeldingId: null,
                                     fnr: null,
-                                    journalpostId: "123",
+                                    journalpostId: '123',
                                     datoOpprettet: null,
                                     syketilfelleStartDato: null,
                                     behandletTidspunkt: null,
@@ -58,12 +53,9 @@ describe('Registration api errors', async () => {
                                     meldingTilArbeidsgiver: null,
                                     arbeidsgiver: null,
                                     behandler: null,
-                                    perioder: [{
-                                        __typename: 'Periode',
-                                        fom: '2020-01-01',
-                                        tom: '2020-01-15',
-                                    }],
+                                    perioder: [],
                                     meldingTilNAV: null,
+                                    medisinskVurdering: null,
                                     kontaktMedPasient: null,
                                 }
                             }
@@ -71,17 +63,17 @@ describe('Registration api errors', async () => {
                 },
             }),
         ];
-        console.log(JSON.stringify(mocks, null, 2));
-        console.log("NS:" + JSON.stringify(NasjonalOppgaveByIdDocument, null, 2));
+    })
+
+
+    it('Should show received body error message when status code is 400', async () => {
+
         render(
-            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true} cache={new InMemoryCache()}>
+            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
                 <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                    oppgaveId={`${fullOppgave.nasjonalOppgave.oppgaveId}`}
+                    oppgaveId={testOppgaveId}
                 />
-            </MockedProvider>,
-            {
-                useRestLink: true,
-            },
+            </MockedProvider>
         )
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
@@ -95,24 +87,18 @@ describe('Registration api errors', async () => {
         ).toBeInTheDocument()
     }, 10_000)
 
-    it.skip('Should show generic error message when status code is 500', async () => {
-        server.use(
-            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
-                HttpResponse.json(mockSykmelder),
-            ),
-            http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
-            http.post(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}/send`), () =>
-                HttpResponse.text('This is an error', {status: 500}),
-            ),
-        )
+    it('Should show generic error message when status code is 500', async () => {
 
         render(
+            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
             <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                oppgaveId={`${fullOppgave.oppgaveid}`}
-            />,
+                oppgaveId={`${testOppgaveId}`}
+            />
+            </MockedProvider>,
             {
                 useRestLink: true,
             },
+
         )
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
@@ -126,34 +112,32 @@ describe('Registration api errors', async () => {
         ).toBeInTheDocument()
     })
 
-    it.skip('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
-        server.use(
-            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
-                HttpResponse.json(mockSykmelder),
-            ),
-            http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
-            http.post(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}/send`), () =>
-                HttpResponse.json(
-                    {
-                        status: 'INVALID',
-                        ruleHits: [
-                            {
-                                ruleName: 'RULE_NUMBER_ONE',
-                                ruleStatus: 'INVALID',
-                                messageForSender: 'Dont break the rules, please',
-                                messageForUser: 'message for user',
-                            },
-                        ],
-                    },
-                    {status: 400},
-                ),
-            ),
-        )
+    it('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
+        mocks = [
+            createMock({
+                request: {
+                    query: NasjonalOppgaveByIdDocument,
+                    variables: { oppgaveId: testOppgaveId},
+                },
+                result: {
+                    ruleHits: [
+                        {
+                            ruleName: 'RULE_NUMBER_ONE',
+                            ruleStatus: 'INVALID',
+                            messageForSender: 'Dont break the rules, please',
+                            messageForUser: 'message for user',
+                        },
+                    ],
+                },
+            }),
+        ];
 
         render(
+            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
             <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                oppgaveId={`${fullOppgave.oppgaveid}`}
-            />,
+                oppgaveId={`${testOppgaveId}`}
+            />
+            </MockedProvider>,
             {
                 useRestLink: true,
             },

@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { http, HttpResponse } from 'msw'
 import { within } from '@testing-library/react'
 
-import { render, screen } from '../../../utils/testUtils'
+import {createMock, render, screen} from '../../../utils/testUtils'
 import NasjonalOppgaveView from '../NasjonalOppgaveView'
 import { server } from '../../../mocks/server'
 import { apiUrl } from '../smreg/api'
@@ -22,11 +22,52 @@ import {
     mockPasientinfo,
     TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
 } from './smregTestUtils'
+import {MockedProvider} from "@apollo/client/testing";
+import {NasjonalOppgaveByIdDocument} from "../../../graphql/queries/graphql.generated";
 
 describe('Mapping opppgave fetched from API', async () => {
+    let mocks: any[]
+    let testOppgaveId: string
     beforeEach(() => {
         mockPasientinfo()
         mockBehandlerinfo()
+        testOppgaveId = '12345'
+        mocks = [
+            createMock({
+                request: {
+                    query: NasjonalOppgaveByIdDocument,
+                    variables: { oppgaveId: testOppgaveId},
+                },
+                result: {
+                    data: {
+                        __typename: 'Query',
+                        nasjonalOppgave:
+                            {
+                                __typename: 'NasjonalOppgave',
+                                oppgaveId: testOppgaveId,
+                                documents: [],
+                                nasjonalSykmelding: {
+                                    __typename: 'NasjonalSykmelding',
+                                    sykmeldingId: null,
+                                    fnr: null,
+                                    journalpostId: '123',
+                                    datoOpprettet: null,
+                                    syketilfelleStartDato: null,
+                                    behandletTidspunkt: null,
+                                    skjermesForPasient: null,
+                                    meldingTilArbeidsgiver: null,
+                                    arbeidsgiver: null,
+                                    behandler: null,
+                                    perioder: [],
+                                    meldingTilNAV: null,
+                                    medisinskVurdering: null,
+                                    kontaktMedPasient: null,
+                                }
+                            }
+                    },
+                },
+            }),
+        ];
     })
 
     it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', async () => {
@@ -38,9 +79,11 @@ describe('Mapping opppgave fetched from API', async () => {
         )
 
         render(
+            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
             <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                oppgaveId={`${fullOppgave.oppgaveid}`}
-            />,
+                oppgaveId={`${testOppgaveId}`}
+            />
+            </MockedProvider>,
             {
                 useRestLink: true,
             },
