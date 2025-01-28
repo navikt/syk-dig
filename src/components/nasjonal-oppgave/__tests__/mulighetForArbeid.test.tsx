@@ -15,6 +15,7 @@ import {
 } from './smregTestUtils'
 import fullOppgave from './testData/fullOppgave.json'
 import {NasjonalOppgaveByIdDocument} from "../../../graphql/queries/graphql.generated";
+import {MockedProvider} from "@apollo/client/testing";
 
 describe('Mulighet for arbeid section', async () => {
     let mocks: any[]
@@ -61,26 +62,16 @@ describe('Mulighet for arbeid section', async () => {
         ];
     })
 
-    it.skip('Should be able to delete periode without messing up other periods', async () => {
+    it('Should be able to delete periode without messing up other periods', async () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let invokedBody: any | null = null
-        server.use(
-            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
-                HttpResponse.json(mockSykmelder),
-            ),
-            http.get(apiUrl(`/proxy/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}`), () =>
-                HttpResponse.json(fullOppgaveWithoutPeriods),
-            ),
-            http.post(apiUrl(`/proxy/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), async ({ request }) => {
-                invokedBody = await request.json()
-                return new HttpResponse(undefined, { status: 204 })
-            }),
-        )
 
         render(
+            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
             <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
                 oppgaveId={`${fullOppgaveWithoutPeriods.oppgaveid}`}
-            />,
+            />
+            </MockedProvider>,
             {
                 useRestLink: true,
             },

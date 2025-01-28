@@ -18,7 +18,6 @@ import {
 } from "../../../graphql/queries/graphql.generated";
 import React from "react";
 import {MockedProvider} from "@apollo/client/testing";
-import {InMemoryCache, useQuery} from "@apollo/client";
 
 describe('Registration api errors', async () => {
     let mocks: any[]
@@ -69,7 +68,7 @@ describe('Registration api errors', async () => {
     it('Should show received body error message when status code is 400', async () => {
 
         render(
-            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
+            <MockedProvider mocks={mocks} addTypename={false} showWarnings={true}>
                 <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
                     oppgaveId={testOppgaveId}
                 />
@@ -90,7 +89,7 @@ describe('Registration api errors', async () => {
     it('Should show generic error message when status code is 500', async () => {
 
         render(
-            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
+            <MockedProvider mocks={mocks} addTypename={false} showWarnings={false}>
             <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
                 oppgaveId={`${testOppgaveId}`}
             />
