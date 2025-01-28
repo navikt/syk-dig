@@ -34,18 +34,23 @@ export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAny
     if (query.loading) {
         return <div>Loading...</div>
     }
+    console.log("Query vars" + query.variables?.oppgaveId);
     console.log("Queryerror " + JSON.stringify(query.error))
     console.log("Query Variables: ", JSON.stringify(query.variables));
     console.log("Query data" + JSON.stringify(query.data));
+    console.log("Query data" + query.data);
+    /* <NasjonalSykmeldingForm
+    /* <NasjonalSykmeldingForm
+    oppgaveId={oppgaveId}
+    sykmelding={query.data?.nasjonalOppgave.nasjonalSykmelding ?? null}
+    ferdigstilt={false}
+    />*/
     if (query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
         console.log("Perioder " + query.data?.nasjonalOppgave.nasjonalSykmelding?.perioder)
-        console.log("OppgaveId " + query.data?.nasjonalOppgave.oppgaveId)
+        console.log("OppgaveId " + JSON.stringify(query.data?.nasjonalOppgave))
         return (
-            <NasjonalSykmeldingForm
-                oppgaveId={oppgaveId}
-                sykmelding={query.data?.nasjonalOppgave.nasjonalSykmelding ?? null}
-                ferdigstilt={false}
-            />
+            <div></div>
+
         )
     }
     else {
