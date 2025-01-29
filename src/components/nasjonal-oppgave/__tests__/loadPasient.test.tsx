@@ -60,16 +60,6 @@ describe('Load pasientinfo', async () => {
     })
 
     it('Should search for name of pasient when typing 11 digits in pasientFnr input field', async () => {
-        server.use(
-            http.get(apiUrl(`/proxy/oppgave/${nullFnrOppgave.oppgaveid}`), () => HttpResponse.json(nullFnrOppgave)),
-            http.get(apiUrl('/proxy/pasient'), () =>
-                HttpResponse.json({
-                    fornavn: 'Per',
-                    mellomnavn: 'Anders',
-                    etternavn: 'Persson',
-                }),
-            ),
-        )
 
         render(
             <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
