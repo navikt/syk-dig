@@ -1874,6 +1874,12 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "IKKE_FERDIGSTILT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "FINNES_IKKE",
                             "description": null,
                             "isDeprecated": false,
@@ -2618,6 +2624,27 @@
                             "args": [
                                 {
                                     "name": "oppgaveId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                }
+                            ],
+                            "type": { "kind": "UNION", "name": "NasjonalOppgaveResult", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "nasjonalFerdigstiltOppgave",
+                            "description": null,
+                            "args": [
+                                {
+                                    "name": "sykmeldingId",
                                     "description": null,
                                     "type": {
                                         "kind": "NON_NULL",

@@ -12,6 +12,11 @@ import {
     NasjonalOppgaveFerdigstiltDocuments,
     NasjonalOppgaveSkeleton,
 } from './NasjonalOppgaveStates'
+import {useQuery} from "@apollo/client";
+import {
+    NasjonalFerdigstiltOppgaveByIdDocument,
+    NasjonalOppgaveByIdDocument
+} from "../../graphql/queries/graphql.generated";
 
 type Props = PaneView & {
     sykmeldingId: string
@@ -19,9 +24,9 @@ type Props = PaneView & {
 
 function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactElement {
     const query = useFerdigstiltNasjonalOppgave(sykmeldingId)
-    // const nasjonalSykmeldingQuery = useQuery(, {
-    //     variables: { oppgaveId },
-    // })
+    const nasjonalSykmeldingQuery = useQuery(NasjonalFerdigstiltOppgaveByIdDocument, {
+         variables: { sykmeldingId },
+     })
     return (
         <SplitDocumentView
             title="Korrigering av registrert papirsykmelding"
