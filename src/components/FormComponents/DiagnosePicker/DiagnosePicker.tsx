@@ -30,7 +30,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props)
         name,
         rules: {
             validate: (value) => {
-                if (value.code == null) return `Du må velge en diagnosekode for ${diagnoseType}`
+                if (value.code == null || value.code === '') return `Du må velge en diagnosekode for ${diagnoseType}`
             },
         },
     })
