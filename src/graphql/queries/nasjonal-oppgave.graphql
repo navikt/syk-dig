@@ -13,15 +13,15 @@ fragment NasjonalOppgaveResult on NasjonalOppgaveResult {
     ...NasjonalOppgaveStatus
 }
 
-#fragment NasjonalSykmeldingResult on NasjonalSykmeldingResult {
-#    ...NasjonalSykmelding
-#    ...NasjonalSykmeldingStatus
-#}
-#
-#fragment NasjonalSykmeldingStatus on NasjonalSykmeldingStatus {
-#    sykmeldingId
-#    status
-#}
+fragment NasjonalSykmeldingResult on NasjonalSykmeldingResult {
+    ...NasjonalSykmelding
+    ...NasjonalSykmeldingStatus
+}
+
+fragment NasjonalSykmeldingStatus on NasjonalSykmeldingStatus {
+    sykmeldingId
+    status
+}
 fragment NasjonalOppgaveStatus on NasjonalOppgaveStatus {
     oppgaveId
     status
@@ -157,8 +157,8 @@ query NasjonalOppgaveById($oppgaveId: String!) {
     }
 }
 
-#query NasjonalSykmeldingById($sykmeldingId: String!) {
-#    nasjonalSykmelding(sykmeldingId: $sykmeldingId) {
-#        ...NasjonalSykmeldingResult
-#    }
-#}
+query NasjonalFerdigstiltOppgaveById($sykmeldingId: String!) {
+    nasjonalFerdigstiltOppgave(sykmeldingId: $sykmeldingId) {
+        ...NasjonalOppgaveResult
+    }
+}
