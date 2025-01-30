@@ -1,21 +1,22 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { http, HttpResponse } from 'msw'
+import { MockedProvider } from '@apollo/client/testing'
 
 import { apiUrl } from '../smreg/api'
 import { server } from '../../../mocks/server'
-import {createMock, render, screen} from '../../../utils/testUtils'
+import { createMock, render, screen } from '../../../utils/testUtils'
 import NasjonalOppgaveView from '../NasjonalOppgaveView'
+import { NasjonalOppgaveByIdDocument } from '../../../graphql/queries/graphql.generated'
 
 import nullFnrOppgave from './testData/nullFnrOppgave.json'
 import {
     mockBehandlerinfo,
     TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
 } from './smregTestUtils'
-import {NasjonalOppgaveByIdDocument} from "../../../graphql/queries/graphql.generated";
-import {MockedProvider} from "@apollo/client/testing";
 
 describe('Load pasientinfo', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let mocks: any[]
     let testOppgaveId: string
     beforeEach(() => {
@@ -25,47 +26,45 @@ describe('Load pasientinfo', async () => {
             createMock({
                 request: {
                     query: NasjonalOppgaveByIdDocument,
-                    variables: { oppgaveId: testOppgaveId},
+                    variables: { oppgaveId: testOppgaveId },
                 },
                 result: {
                     data: {
                         __typename: 'Query',
-                        nasjonalOppgave:
-                            {
-                                __typename: 'NasjonalOppgave',
-                                oppgaveId: testOppgaveId,
-                                documents: [],
-                                nasjonalSykmelding: {
-                                    __typename: 'NasjonalSykmelding',
-                                    sykmeldingId: null,
-                                    fnr: null,
-                                    journalpostId: '123',
-                                    datoOpprettet: null,
-                                    syketilfelleStartDato: null,
-                                    behandletTidspunkt: null,
-                                    skjermesForPasient: null,
-                                    meldingTilArbeidsgiver: null,
-                                    arbeidsgiver: null,
-                                    behandler: null,
-                                    perioder: [],
-                                    meldingTilNAV: null,
-                                    medisinskVurdering: null,
-                                    kontaktMedPasient: null,
-                                }
-                            }
+                        nasjonalOppgave: {
+                            __typename: 'NasjonalOppgave',
+                            oppgaveId: testOppgaveId,
+                            documents: [],
+                            nasjonalSykmelding: {
+                                __typename: 'NasjonalSykmelding',
+                                sykmeldingId: null,
+                                fnr: null,
+                                journalpostId: '123',
+                                datoOpprettet: null,
+                                syketilfelleStartDato: null,
+                                behandletTidspunkt: null,
+                                skjermesForPasient: null,
+                                meldingTilArbeidsgiver: null,
+                                arbeidsgiver: null,
+                                behandler: null,
+                                perioder: [],
+                                meldingTilNAV: null,
+                                medisinskVurdering: null,
+                                kontaktMedPasient: null,
+                            },
+                        },
                     },
                 },
             }),
-        ];
+        ]
     })
 
     it('Should search for name of pasient when typing 11 digits in pasientFnr input field', async () => {
-
         render(
             <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
-            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                oppgaveId={`${nullFnrOppgave.oppgaveid}`}
-            />
+                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                    oppgaveId={`${nullFnrOppgave.oppgaveid}`}
+                />
             </MockedProvider>,
             {
                 useRestLink: true,

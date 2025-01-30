@@ -1,11 +1,10 @@
-
 import { DiagnoseFormValue } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
 import {
     AnnenFraversArsakGrunn,
     ArbeidsrelatertArsakType,
     HarArbeidsgiver,
-    MedisinskArsakType
-} from "../../../graphql/queries/graphql.generated";
+    MedisinskArsakType,
+} from '../../../graphql/queries/graphql.generated'
 
 export type NasjonalFormValues = {
     pasientopplysninger: {
@@ -57,8 +56,8 @@ export type MulighetForArbeid =
     | ReisetilskuddPeriode
 
 export type FomTom = {
-    fom: Date
-    tom: Date
+    fom: Date | string
+    tom: Date | string
 }
 
 export type AvventendePeriode = FomTom & {

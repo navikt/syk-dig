@@ -1,20 +1,19 @@
-import {describe, it, expect, beforeEach} from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import React from 'react'
+import { MockedProvider } from '@apollo/client/testing'
 
-import {createMock, render, screen} from '../../../utils/testUtils'
+import { createMock, render, screen } from '../../../utils/testUtils'
+import { NasjonalOppgaveByIdDocument } from '../../../graphql/queries/graphql.generated'
+
 import {
     mockBehandlerinfo,
     mockPasientinfo,
     TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
 } from './smregTestUtils'
-import {
-
-    NasjonalOppgaveByIdDocument,
-} from "../../../graphql/queries/graphql.generated";
-import React from "react";
-import {MockedProvider} from "@apollo/client/testing";
 
 describe('Registration api errors', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let mocks: any[]
     let testOppgaveId: string
     beforeEach(() => {
@@ -22,58 +21,53 @@ describe('Registration api errors', async () => {
         mockBehandlerinfo()
         testOppgaveId = '12345'
         mocks = [
-            {
+            createMock({
                 request: {
                     query: NasjonalOppgaveByIdDocument,
-                    variables: {oppgaveId: testOppgaveId},
+                    variables: { oppgaveId: testOppgaveId },
                 },
                 result: {
                     data: {
                         __typename: 'Query',
-                        nasjonalOppgave:
-                            {
-                                __typename: 'NasjonalOppgave',
-                                oppgaveId: testOppgaveId,
-                                documents: [],
-                                nasjonalSykmelding: {
-                                    __typename: 'NasjonalSykmelding',
-                                    sykmeldingId: '456',
-                                    fnr: null,
-                                    journalpostId: '123',
-                                    datoOpprettet: null,
-                                    syketilfelleStartDato: null,
-                                    behandletTidspunkt: null,
-                                    skjermesForPasient: null,
-                                    meldingTilArbeidsgiver: null,
-                                    arbeidsgiver: null,
-                                    behandler: null,
-                                    perioder: [],
-                                    meldingTilNAV: null,
-                                    medisinskVurdering: null,
-                                    kontaktMedPasient: null,
-                                }
-                            }
+                        nasjonalOppgave: {
+                            __typename: 'NasjonalOppgave',
+                            oppgaveId: testOppgaveId,
+                            documents: [],
+                            nasjonalSykmelding: {
+                                __typename: 'NasjonalSykmelding',
+                                sykmeldingId: '456',
+                                fnr: null,
+                                journalpostId: '123',
+                                datoOpprettet: null,
+                                syketilfelleStartDato: null,
+                                behandletTidspunkt: null,
+                                skjermesForPasient: null,
+                                meldingTilArbeidsgiver: null,
+                                arbeidsgiver: null,
+                                behandler: null,
+                                perioder: [],
+                                meldingTilNAV: null,
+                                medisinskVurdering: null,
+                                kontaktMedPasient: null,
+                            },
+                        },
                     },
                 },
-            },
-        ];
+            }),
+        ]
     })
 
     it('Should show received body error message when status code is 400', async () => {
-
         render(
-            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}
-            >
-                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                    oppgaveId={`${testOppgaveId}`}
-                />
-            </MockedProvider>
+            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
+                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway oppgaveId={`${testOppgaveId}`} />
+            </MockedProvider>,
         )
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 
         const registerButton = await screen.findByRole('button', {
-            name: 'Registrer sykmeldingen'
+            name: 'Registrer sykmeldingen',
         })
         expect(registerButton).not.toBeDisabled()
         await userEvent.click(registerButton)
@@ -84,20 +78,16 @@ describe('Registration api errors', async () => {
     }, 10_000)
 
     it('Should show generic error message when status code is 500', async () => {
-
         render(
-            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}
-            >
-                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                    oppgaveId={`${testOppgaveId}`}
-                />
-            </MockedProvider>
+            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
+                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway oppgaveId={`${testOppgaveId}`} />
+            </MockedProvider>,
         )
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 
         const registerButton = await screen.findByRole('button', {
-            name: 'Registrer sykmeldingen'
+            name: 'Registrer sykmeldingen',
         })
         expect(registerButton).not.toBeDisabled()
         await userEvent.click(registerButton)
@@ -113,32 +103,28 @@ describe('Registration api errors', async () => {
                 request: {
                     query: NasjonalOppgaveByIdDocument,
                     variables: {
-                        oppgaveId: testOppgaveId
+                        oppgaveId: testOppgaveId,
                     },
                 },
                 result: {
                     data: {
-                    ruleHits: [
-                        {
-                            ruleName: 'RULE_NUMBER_ONE',
-                            ruleStatus: 'INVALID',
-                            messageForSender: 'Dont break the rules, please',
-                            messageForUser: 'message for user',
-                        },
-                    ],
-                }},
+                        ruleHits: [
+                            //TODO: fix
+                            {
+                                ruleName: 'RULE_NUMBER_ONE',
+                                ruleStatus: 'INVALID',
+                                messageForSender: 'Dont break the rules, please',
+                                messageForUser: 'message for user',
+                            },
+                        ],
+                    },
+                },
             }),
-        ];
+        ]
 
         render(
-            <MockedProvider mocks={mocks} addTypename={true} showWarnings={
-                true
-            }>
-                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                    oppgaveId={
-                        `${testOppgaveId}`
-                    }
-                />
+            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
+                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway oppgaveId={`${testOppgaveId}`} />
             </MockedProvider>,
             {
                 useRestLink: true,
@@ -148,7 +134,7 @@ describe('Registration api errors', async () => {
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 
         const registerButton = await screen.findByRole('button', {
-            name: 'Registrer sykmeldingen'
+            name: 'Registrer sykmeldingen',
         })
         expect(registerButton).not.toBeDisabled()
         await userEvent.click(registerButton)

@@ -1,8 +1,8 @@
 import { MulighetForArbeid, NasjonalFormValues } from '../form/NasjonalSykmeldingFormTypes'
 import { toDateString } from '../../../utils/dateUtils'
 import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
-import {NasjonalSykmeldingFragment, Periode} from "../../../graphql/queries/graphql.generated";
-import {DiagnosekodeSystem} from "../schema/sykmelding/Diagnosekoder";
+import { NasjonalSykmeldingFragment, Periode } from '../../../graphql/queries/graphql.generated'
+import { DiagnosekodeSystem } from '../schema/sykmelding/Diagnosekoder'
 
 export function mapFormValueToSmregRegistrertSykmelding(
     values: NasjonalFormValues,
@@ -14,27 +14,27 @@ export function mapFormValueToSmregRegistrertSykmelding(
         fnr: values.pasientopplysninger.fnr,
         perioder: values.mulighetForArbeid.map(mapFormPeriodToRegistrertPeriod),
         medisinskVurdering: {
-            __typename:  'MedisinskVurdering',
+            __typename: 'MedisinskVurdering',
             svangerskap: values.medisinskVurdering.svangerskap,
             yrkesskade: values.medisinskVurdering.yrkesskade,
             yrkesskadeDato: values.medisinskVurdering.yrkesskadeDato
                 ? toDateString(values.medisinskVurdering.yrkesskadeDato)
                 : null,
             hovedDiagnose: {
-                __typename:  'DiagnoseSchema',
+                __typename: 'DiagnoseSchema',
                 system: diagnoseSystemToAbbrevation(values.medisinskVurdering.hoveddiagnose.system),
                 kode: values.medisinskVurdering.hoveddiagnose.code,
                 tekst: values.medisinskVurdering.hoveddiagnose.text,
             },
             biDiagnoser: values.medisinskVurdering.bidiagnoser.map((it) => ({
-                __typename:  'DiagnoseSchema',
+                __typename: 'DiagnoseSchema',
                 system: diagnoseSystemToAbbrevation(it.system),
                 kode: it.code,
                 tekst: it.text,
             })),
             annenFraversArsak: values.medisinskVurdering.annenFraversArsak
                 ? {
-                     __typename: 'AnnenFraversArsak',
+                      __typename: 'AnnenFraversArsak',
                       grunn: values.medisinskVurdering.annenFraversArsakGrunn ?? [],
                       beskrivelse: values.medisinskVurdering.annenFraversArsakBeskrivelse,
                   }
@@ -71,7 +71,7 @@ export function mapFormValueToSmregRegistrertSykmelding(
             beskrivBistand: values.bistandFraNAV.beskrivelse,
         },
         meldingTilArbeidsgiver: values.andreInnspillTilArbeidsgiver,
-        syketilfelleStartDato: null
+        syketilfelleStartDato: null,
     }
 }
 
@@ -100,19 +100,16 @@ export function mapFormPeriodToRegistrertPeriod(periode: MulighetForArbeid): Per
                 reisetilskudd: false,
                 aktivitetIkkeMulig: {
                     __typename: 'AktivitetIkkeMulig',
-                    medisinskArsak:
-                         {
-                              __typename: 'MedisinskArsak',
-                              arsak: periode.medisinskArsakType,
-                              beskrivelse: periode.medisinskArsakBeskrivelse,
-                          },
-                    arbeidsrelatertArsak:
-                         {
-                              __typename: 'ArbeidsrelatertArsak',
-                              arsak: periode.arbeidsrelatertArsakType,
-                              beskrivelse: periode.arbeidsrelatertArsakBeskrivelse,
-                          }
-
+                    medisinskArsak: {
+                        __typename: 'MedisinskArsak',
+                        arsak: periode.medisinskArsakType,
+                        beskrivelse: periode.medisinskArsakBeskrivelse,
+                    },
+                    arbeidsrelatertArsak: {
+                        __typename: 'ArbeidsrelatertArsak',
+                        arsak: periode.arbeidsrelatertArsakType,
+                        beskrivelse: periode.arbeidsrelatertArsakBeskrivelse,
+                    },
                 },
                 behandlingsdager: null,
                 avventendeInnspillTilArbeidsgiver: null,

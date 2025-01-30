@@ -145,13 +145,15 @@ function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): Rea
     const createdOppgaveId: string | null = createResult.data?.sykmeldingFraJournalpost.oppgaveId ?? null
     const opprettetSykmeldingStatus: JournalpostStatusEnum | null =
         createResult.data?.sykmeldingFraJournalpost.status ?? null
-    console.log("Creating Sykmelding Form")
     return (
         <div className="mt-8">
             <Heading size="medium" spacing>
                 Opprett sykmelding
             </Heading>
-            <RadioGroup legend="Er det en norsk eller en utenlandsk sykmelding?" onChange={(val) => setSykmeldingType(val)}>
+            <RadioGroup
+                legend="Er det en norsk eller en utenlandsk sykmelding?"
+                onChange={(val) => setSykmeldingType(val)}
+            >
                 <Radio value="norsk" disabled={createResult.data != null}>
                     Norsk sykmelding
                 </Radio>

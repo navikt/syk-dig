@@ -1,26 +1,22 @@
 import { http, HttpResponse } from 'msw'
-import {PropsWithChildren, ReactElement} from 'react'
+import { PropsWithChildren, ReactElement } from 'react'
+import { ApolloLink, useQuery } from '@apollo/client'
+import { renderHook, RenderHookOptions, RenderHookResult } from '@testing-library/react'
+import { MockedProvider, MockedResponse, MockLink } from '@apollo/client/testing'
+import { onError } from '@apollo/client/link/error'
 
 import { server } from '../../../mocks/server'
 import pasientNavn from '../mock/pasientNavn.json'
 import sykmelder from '../mock/sykmelder.json'
 import { apiUrl } from '../smreg/api'
 import NasjonalSykmeldingForm from '../form/NasjonalSykmeldingForm'
-import {ApolloLink, gql, QueryResult, useQuery} from "@apollo/client";
-import {
-    NasjonalOppgaveByIdDocument,
-    NasjonalOppgaveByIdQuery,
-    NasjonalOppgaveByIdQueryVariables, OppgaveByIdDocument
-} from "../../../graphql/queries/graphql.generated";
-import { print } from 'graphql';
-import {renderHook, RenderHookOptions, RenderHookResult} from "@testing-library/react";
-import {MockedProvider, MockedResponse, MockLink} from "@apollo/client/testing";
-import {onError} from "@apollo/client/link/error";
+import { NasjonalOppgaveByIdDocument } from '../../../graphql/queries/graphql.generated'
 
 type ProviderProps = {
     readonly mocks?: MockedResponse[]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const customRenderHook = <TProps, TResult>(
     hook: (props: TProps) => TResult,
     options: Omit<RenderHookOptions<TProps>, 'wrapper'> & ProviderProps = {},
@@ -45,39 +41,35 @@ const errorLoggingLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {
         graphQLErrors.forEach(({ message, locations, path, extensions }) => {
             if (extensions?.dontLog) {
+                // eslint-disable-next-line no-console
                 console.log('[GraphQL error]:' + `Message: ${message},` + `Location: ${locations},` + `Path: ${path}`)
             }
         })
     }
 
     if (networkError) {
-       console.log(`[Network error]: ${networkError}`)
+        // eslint-disable-next-line no-console
+        console.log(`[Network error]: ${networkError}`)
     }
 })
 
 function AllTheProviders({ children, mocks }: PropsWithChildren<ProviderProps>): ReactElement {
-
     const mockLink = new MockLink(mocks ?? [])
     const link = ApolloLink.from([errorLoggingLink, mockLink])
 
     return (
-
-            <MockedProvider link={link} mocks={mocks}>
-                {children}
-            </MockedProvider>
-
+        <MockedProvider link={link} mocks={mocks}>
+            {children}
+        </MockedProvider>
     )
 }
 
-
 export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway({
-    oppgaveId
+    oppgaveId,
 }: {
-    oppgaveId: string,
-
+    oppgaveId: string
 }): ReactElement {
-   const query = useQuery(
-        NasjonalOppgaveByIdDocument, {
+    const query = useQuery(NasjonalOppgaveByIdDocument, {
         variables: { oppgaveId: oppgaveId },
     })
 
@@ -85,28 +77,14 @@ export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAny
         return <div>Loading...</div>
     }
 
-    console.log("Query vars" + query.variables?.oppgaveId);
-    console.log("Queryerror " + JSON.stringify(query.error))
-    console.log("Query Variables: ", JSON.stringify(query.variables));
-    console.log("Query data" + JSON.stringify(query.data));
-    console.log("Query data" + query.data);
-
-    /* <NasjonalSykmeldingForm
-    /* <NasjonalSykmeldingForm
-    oppgaveId={oppgaveId}
-    sykmelding={query.data?.nasjonalOppgave.nasjonalSykmelding ?? null}
-    ferdigstilt={false}
-    />*/
     if (query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
-        console.log("Perioder " + query.data?.nasjonalOppgave.nasjonalSykmelding?.perioder)
-        console.log("OppgaveId " + JSON.stringify(query.data?.nasjonalOppgave.oppgaveId))
         return (
-            <div></div>
-
+            <NasjonalSykmeldingForm
+                oppgaveId={oppgaveId}
+                sykmelding={query.data?.nasjonalOppgave?.nasjonalSykmelding ?? null}
+                ferdigstilt={false}
+            />
         )
     }
-    else {
-        return <div>Sykmelding ble ikke funnet</div>
-    }
-
+    return <div>Sykmelding ble ikke funnet</div>
 }

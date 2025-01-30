@@ -25,8 +25,8 @@ describe('Submit oppgave', async () => {
         let invokedBody: RegistrertSykmelding | null = null
         server.use(
             http.get(apiUrl('/proxy/sykmelder/1234567'), () => HttpResponse.json(mockSykmelder)),
-            http.get(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)),
-            http.post(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}/send`), async ({ request }) => {
+            http.get(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveId}`), () => HttpResponse.json(emptyOppgave)),
+            http.post(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveId}/send`), async ({ request }) => {
                 invokedBody = (await request.json()) as RegistrertSykmelding
 
                 return new HttpResponse(undefined, { status: 204 })
@@ -35,7 +35,7 @@ describe('Submit oppgave', async () => {
 
         render(
             <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                oppgaveId={`${emptyOppgave.oppgaveid}`}
+                oppgaveId={`${emptyOppgave.oppgaveId}`}
             />,
             {
                 useRestLink: true,

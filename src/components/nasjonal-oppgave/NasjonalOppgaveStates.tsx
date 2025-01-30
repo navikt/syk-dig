@@ -9,14 +9,14 @@ import { InfoWithHeaderSkeleton, InputWithTitleSkeleton } from '../skeleton/Skel
 import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
 import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
-
-import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
 import {
     NasjonalFerdigstiltOppgaveByIdQuery,
     NasjonalOppgaveByIdQuery,
     OppgaveByIdQueryVariables,
-} from "../../graphql/queries/graphql.generated";
-import {FerdigstiltOppgaveVariables, OppgaveResult} from "./useNasjonalOppgave";
+} from '../../graphql/queries/graphql.generated'
+
+import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
+import { FerdigstiltOppgaveVariables } from './useNasjonalOppgave'
 
 export function NasjonalOppgaveSkeleton(): ReactElement {
     return (
@@ -80,7 +80,7 @@ export function NasjonalOppgaveDocuments({
         return <DocumentsViewerSkeleton />
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
-    } else if (data?.nasjonalOppgave != null && data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
+    } else if (data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
         return <DocumentsViewer documents={data?.nasjonalOppgave.documents} oppgaveId={oppgaveId} edit={false} smreg />
     } else {
         raise(new Error('Illegal state: Non loading, non error oppgave that is null'))
@@ -98,14 +98,11 @@ export function NasjonalOppgaveFerdigstiltDocuments({
         return <DocumentsViewerSkeleton />
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
-    } else if ((data != null && data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgave'))  {
+    } else if (data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgave') {
         return (
             <DocumentsViewer
-                journalpostId={
-                    (data?.nasjonalFerdigstiltOppgave.nasjonalSykmelding.journalpostId) ??
-                    raise(new Error('Ferdigstilt oppgave uten sykmelding, det gåkke an vel?'))
-                }
-                documents={data?.nasjonalFerdigstiltOppgave.documents}
+                journalpostId={data.nasjonalFerdigstiltOppgave.nasjonalSykmelding.journalpostId}
+                documents={data.nasjonalFerdigstiltOppgave?.documents}
                 edit={false}
             />
         )
