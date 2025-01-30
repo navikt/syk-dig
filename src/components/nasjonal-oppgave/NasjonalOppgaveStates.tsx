@@ -12,6 +12,7 @@ import DocumentsViewer from '../split-view-layout/document/DocumentView'
 
 import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
 import {
+    NasjonalFerdigstiltOppgaveByIdQuery,
     NasjonalOppgaveByIdQuery,
     OppgaveByIdQueryVariables,
 } from "../../graphql/queries/graphql.generated";
@@ -89,7 +90,7 @@ export function NasjonalOppgaveDocuments({
 export function NasjonalOppgaveFerdigstiltDocuments({
     query,
 }: {
-    query: QueryResult<OppgaveResult, FerdigstiltOppgaveVariables>
+    query: QueryResult<NasjonalFerdigstiltOppgaveByIdQuery, FerdigstiltOppgaveVariables>
 }): ReactElement {
     const { loading, data, error } = query
 
@@ -97,14 +98,14 @@ export function NasjonalOppgaveFerdigstiltDocuments({
         return <DocumentsViewerSkeleton />
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
-    } else if ((data != null)) {
+    } else if ((data != null && data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgave'))  {
         return (
             <DocumentsViewer
                 journalpostId={
-                    (data?.oppgave?.papirSmRegistering?.journalpostId) ??
+                    (data?.nasjonalFerdigstiltOppgave.nasjonalSykmelding.journalpostId) ??
                     raise(new Error('Ferdigstilt oppgave uten sykmelding, det gåkke an vel?'))
                 }
-                documents={data?.oppgave.documents}
+                documents={data?.nasjonalFerdigstiltOppgave.documents}
                 edit={false}
             />
         )
