@@ -23,8 +23,7 @@ type Props = PaneView & {
 }
 
 function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactElement {
-    const query = useFerdigstiltNasjonalOppgave(sykmeldingId)
-    const nasjonalSykmeldingQuery = useQuery(NasjonalFerdigstiltOppgaveByIdDocument, {
+    const query = useQuery(NasjonalFerdigstiltOppgaveByIdDocument, {
          variables: { sykmeldingId },
      })
     return (
@@ -36,9 +35,9 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactE
             defaultLayout={layout}
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
-            {query.data && (
+            {query.data && query.data.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgave' && (
                 <NasjonalSykmeldingForm
-                    sykmelding={query.data.oppgave.papirSmRegistering}
+                    sykmelding={query.data.nasjonalFerdigstiltOppgave.nasjonalSykmelding}
                     sykmeldingId={sykmeldingId}
                     ferdigstilt
                 />
