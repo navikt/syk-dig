@@ -1,17 +1,19 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { within } from '@testing-library/react'
+import { MockedProvider } from '@apollo/client/testing'
 
-import {createMock, render, screen} from '../../../utils/testUtils'
+import { createMock, render, screen } from '../../../utils/testUtils'
+import { NasjonalOppgaveByIdDocument } from '../../../graphql/queries/graphql.generated'
+
 import {
     mockBehandlerinfo,
     mockPasientinfo,
     TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
 } from './smregTestUtils'
-import {MockedProvider} from "@apollo/client/testing";
-import {NasjonalOppgaveByIdDocument} from "../../../graphql/queries/graphql.generated";
 
 describe('Avvis oppgave', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let mocks: any[]
     let testOppgaveId: string
     beforeEach(() => {
@@ -22,48 +24,43 @@ describe('Avvis oppgave', async () => {
             createMock({
                 request: {
                     query: NasjonalOppgaveByIdDocument,
-                    variables: { oppgaveId: testOppgaveId},
+                    variables: { oppgaveId: testOppgaveId },
                 },
                 result: {
                     data: {
                         __typename: 'Query',
-                        nasjonalOppgave:
-                            {
-                                __typename: 'NasjonalOppgave',
-                                oppgaveId: testOppgaveId,
-                                documents: [],
-                                nasjonalSykmelding: {
-                                    __typename: 'NasjonalSykmelding',
-                                    sykmeldingId: null,
-                                    fnr: null,
-                                    journalpostId: '123',
-                                    datoOpprettet: null,
-                                    syketilfelleStartDato: null,
-                                    behandletTidspunkt: null,
-                                    skjermesForPasient: null,
-                                    meldingTilArbeidsgiver: null,
-                                    arbeidsgiver: null,
-                                    behandler: null,
-                                    perioder: [],
-                                    meldingTilNAV: null,
-                                    medisinskVurdering: null,
-                                    kontaktMedPasient: null,
-                                }
-                            }
+                        nasjonalOppgave: {
+                            __typename: 'NasjonalOppgave',
+                            oppgaveId: testOppgaveId,
+                            documents: [],
+                            nasjonalSykmelding: {
+                                __typename: 'NasjonalSykmelding',
+                                sykmeldingId: null,
+                                fnr: null,
+                                journalpostId: '123',
+                                datoOpprettet: null,
+                                syketilfelleStartDato: null,
+                                behandletTidspunkt: null,
+                                skjermesForPasient: null,
+                                meldingTilArbeidsgiver: null,
+                                arbeidsgiver: null,
+                                behandler: null,
+                                perioder: [],
+                                meldingTilNAV: null,
+                                medisinskVurdering: null,
+                                kontaktMedPasient: null,
+                            },
+                        },
                     },
                 },
             }),
-        ];
+        ]
     })
 
-
     it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
-
         render(
             <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
-            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                oppgaveId={`${testOppgaveId}`}
-            />
+                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway oppgaveId={`${testOppgaveId}`} />
             </MockedProvider>,
             {
                 useRestLink: true,

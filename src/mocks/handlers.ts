@@ -51,12 +51,6 @@ export const handlers = [
         await delay()
         return HttpResponse.json({ data: { __typename: 'Query', digitalisertSykmelding } })
     }),
-    graphql.query(NasjonalOppgaveByIdDocument, async ({ variables }) => {
-        const nasjonalOppgave = getMockDb().getNasjonalOppgave(variables.oppgaveId)
-
-        await delay()
-        return HttpResponse.json({ data: { __typename: 'Query', nasjonalOppgave } })
-    }),
     graphql.mutation(SaveOppgaveDocument, async ({ variables }) => {
         const oppgave = getMockDb().getOppgave(variables.id)
         const values = variables.values
@@ -251,6 +245,13 @@ export const handlers = [
         })
     }),
     ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
+    // Nasjonal
+    graphql.query(NasjonalOppgaveByIdDocument, async () => {
+        const nasjonalOppgave = getMockDb().getNasjonalOppgave()
+
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Query', nasjonalOppgave } })
+    }),
 ]
 
 function mapInputDiagnoseToOppgaveDiagnose(

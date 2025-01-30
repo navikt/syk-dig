@@ -8,7 +8,7 @@ interface Props {
     oppgave: NasjonalOppgaveStatusFragment
 }
 
-function NasjonalOppgaveStatus({ oppgave }: Props): ReactElement {
+function NasjonalOppgaveStatus({ oppgave }: Props): ReactElement | null {
     switch (oppgave.status) {
         case NasjonalOppgaveStatusEnum.Avvist:
             return (
@@ -58,6 +58,8 @@ function NasjonalOppgaveStatus({ oppgave }: Props): ReactElement {
                     <BodyShort spacing>Dersom problemet vedvarer kan du ta kontakt med brukerstøtte.</BodyShort>
                 </Alert>
             )
+        default:
+            return null
     }
 }
 

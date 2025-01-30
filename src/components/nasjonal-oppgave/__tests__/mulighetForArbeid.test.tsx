@@ -1,11 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { http, HttpResponse } from 'msw'
+import { MockedProvider } from '@apollo/client/testing'
 
-import {createMock, render, screen, within} from '../../../utils/testUtils'
-import { server } from '../../../mocks/server'
-import { apiUrl } from '../smreg/api'
-import mockSykmelder from '../mock/sykmelder.json'
+import { createMock, render, screen, within } from '../../../utils/testUtils'
+import { NasjonalOppgaveByIdDocument } from '../../../graphql/queries/graphql.generated'
 
 import fullOppgaveWithoutPeriods from './testData/fullOppgaveWithoutPeriods.json'
 import {
@@ -13,11 +11,9 @@ import {
     mockPasientinfo,
     TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
 } from './smregTestUtils'
-import fullOppgave from './testData/fullOppgave.json'
-import {NasjonalOppgaveByIdDocument} from "../../../graphql/queries/graphql.generated";
-import {MockedProvider} from "@apollo/client/testing";
 
 describe('Mulighet for arbeid section', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let mocks: any[]
     let testOppgaveId: string
     beforeEach(() => {
@@ -28,49 +24,48 @@ describe('Mulighet for arbeid section', async () => {
             createMock({
                 request: {
                     query: NasjonalOppgaveByIdDocument,
-                    variables: { oppgaveId: testOppgaveId},
+                    variables: { oppgaveId: testOppgaveId },
                 },
                 result: {
                     data: {
                         __typename: 'Query',
-                        nasjonalOppgave:
-                            {
-                                __typename: 'NasjonalOppgave',
-                                oppgaveId: testOppgaveId,
-                                documents: [],
-                                nasjonalSykmelding: {
-                                    __typename: 'NasjonalSykmelding',
-                                    sykmeldingId: null,
-                                    fnr: null,
-                                    journalpostId: '123',
-                                    datoOpprettet: null,
-                                    syketilfelleStartDato: null,
-                                    behandletTidspunkt: null,
-                                    skjermesForPasient: null,
-                                    meldingTilArbeidsgiver: null,
-                                    arbeidsgiver: null,
-                                    behandler: null,
-                                    perioder: [],
-                                    meldingTilNAV: null,
-                                    medisinskVurdering: null,
-                                    kontaktMedPasient: null,
-                                }
-                            }
+                        nasjonalOppgave: {
+                            __typename: 'NasjonalOppgave',
+                            oppgaveId: testOppgaveId,
+                            documents: [],
+                            nasjonalSykmelding: {
+                                __typename: 'NasjonalSykmelding',
+                                sykmeldingId: null,
+                                fnr: null,
+                                journalpostId: '123',
+                                datoOpprettet: null,
+                                syketilfelleStartDato: null,
+                                behandletTidspunkt: null,
+                                skjermesForPasient: null,
+                                meldingTilArbeidsgiver: null,
+                                arbeidsgiver: null,
+                                behandler: null,
+                                perioder: [],
+                                meldingTilNAV: null,
+                                medisinskVurdering: null,
+                                kontaktMedPasient: null,
+                            },
+                        },
                     },
                 },
             }),
-        ];
+        ]
     })
 
     it('Should be able to delete periode without messing up other periods', async () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let invokedBody: any | null = null
+        const invokedBody: any | null = null
 
         render(
             <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
-            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                oppgaveId={`${fullOppgaveWithoutPeriods.oppgaveid}`}
-            />
+                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                    oppgaveId={`${fullOppgaveWithoutPeriods.oppgaveid}`}
+                />
             </MockedProvider>,
             {
                 useRestLink: true,

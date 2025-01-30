@@ -11,6 +11,7 @@ import { NasjonalOppgaveByIdDocument, NasjonalOppgaveResultFragment } from '../.
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import { NasjonalOppgaveDocuments, NasjonalOppgaveError, NasjonalOppgaveSkeleton } from './NasjonalOppgaveStates'
+import NasjonalOppgaveStatus from './status/NasjonalOppgaveStatus'
 
 type Props = PaneView & {
     oppgaveId: string
@@ -21,7 +22,6 @@ function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
     const nasjonalOppgaveQuery = useQuery(NasjonalOppgaveByIdDocument, {
         variables: { oppgaveId },
     })
-    console.log("Entering nasjonalOppgaveView")
     return (
         <SplitDocumentView
             title="Nasjonal papirsykmelding"
@@ -33,7 +33,7 @@ function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
             {'errorType' in modiaContext.modia && <ModiaAlert error={modiaContext.modia} />}
             {nasjonalOppgaveQuery.loading && <NasjonalOppgaveSkeleton />}
             {nasjonalOppgaveQuery.data?.nasjonalOppgave && (
-                <NasjonalOppgaveStatus oppgave={nasjonalOppgaveQuery.data.nasjonalOppgave} />
+                <NasjonalOppgave oppgave={nasjonalOppgaveQuery.data.nasjonalOppgave} />
             )}
             {nasjonalOppgaveQuery.error && (
                 <NasjonalOppgaveError error={nasjonalOppgaveQuery.error}>
@@ -44,8 +44,7 @@ function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
     )
 }
 
-function NasjonalOppgaveStatus({ oppgave }: { oppgave: NasjonalOppgaveResultFragment }): ReactElement {
-    console.log("Entering NasjonalOppgaveStatus")
+function NasjonalOppgave({ oppgave }: { oppgave: NasjonalOppgaveResultFragment }): ReactElement {
     if (oppgave.__typename === 'NasjonalOppgave') {
         return (
             <NasjonalSykmeldingForm

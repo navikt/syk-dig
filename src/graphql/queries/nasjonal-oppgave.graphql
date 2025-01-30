@@ -13,15 +13,6 @@ fragment NasjonalOppgaveResult on NasjonalOppgaveResult {
     ...NasjonalOppgaveStatus
 }
 
-fragment NasjonalSykmeldingResult on NasjonalSykmeldingResult {
-    ...NasjonalSykmelding
-    ...NasjonalSykmeldingStatus
-}
-
-fragment NasjonalSykmeldingStatus on NasjonalSykmeldingStatus {
-    sykmeldingId
-    status
-}
 fragment NasjonalOppgaveStatus on NasjonalOppgaveStatus {
     oppgaveId
     status

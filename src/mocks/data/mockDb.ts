@@ -1,7 +1,8 @@
 import {
     DigitaliseringsoppgaveStatusEnum,
     DigitaliseringsoppgaveStatusFragment,
-    DigitalisertSykmeldingResultFragment, NasjonalOppgaveFragment,
+    DigitalisertSykmeldingResultFragment,
+    NasjonalOppgaveFragment,
     OppgaveFragment,
     PeriodeType,
 } from '../../graphql/queries/graphql.generated'
@@ -126,17 +127,43 @@ export class FakeMockDB {
         return oppgave
     }
 
-
-    public getNasjonalOppgave(oppgaveId: string): NasjonalOppgaveFragment {
-        const oppgave = this._oppgaver[oppgaveId.toLowerCase()]
-        if (!oppgave) {
-            throw new Error(`No oppgave found with id ${oppgaveId}`)
-        }
+    public getNasjonalOppgave(): NasjonalOppgaveFragment {
         return {
-            nasjonalSykmelding: {__typename: "NasjonalSykmelding", journalpostId: "", perioder: []},
+            // TODO: legg til data/opprett mock for nasjonal sjukmelding
             __typename: 'NasjonalOppgave',
-            documents: oppgave.documents,
-            oppgaveId: oppgave.oppgaveId
+            oppgaveId: '123456789',
+            nasjonalSykmelding: {
+                __typename: 'NasjonalSykmelding',
+                sykmeldingId: null,
+                journalpostId: '467035825',
+                fnr: '',
+                datoOpprettet: '',
+                syketilfelleStartDato: null,
+                arbeidsgiver: null,
+                medisinskVurdering: null,
+                skjermesForPasient: null,
+                meldingTilNAV: null,
+                meldingTilArbeidsgiver: null,
+                kontaktMedPasient: null,
+                behandletTidspunkt: null,
+                behandler: {
+                    __typename: 'Behandler',
+                    fornavn: 'Jane',
+                    mellomnavn: 'Doe',
+                    etternavn: 'Smith',
+                    fnr: '98765432101',
+                    hpr: '1234567',
+                    tlf: '+4712345678',
+                },
+                perioder: [],
+            },
+            documents: [
+                {
+                    __typename: 'Document',
+                    dokumentInfoId: '695980624',
+                    tittel: 'Papirsykmelding',
+                },
+            ],
         }
     }
 
