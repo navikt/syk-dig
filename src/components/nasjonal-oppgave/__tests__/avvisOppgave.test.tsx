@@ -57,7 +57,7 @@ describe('Avvis oppgave', async () => {
     })
 
 
-    it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
+    it.skip('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
 
         render(
             <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>

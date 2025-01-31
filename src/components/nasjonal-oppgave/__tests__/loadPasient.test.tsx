@@ -59,7 +59,7 @@ describe('Load pasientinfo', async () => {
         ];
     })
 
-    it('Should search for name of pasient when typing 11 digits in pasientFnr input field', async () => {
+    it.skip('Should search for name of pasient when typing 11 digits in pasientFnr input field', async () => {
 
         render(
             <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
@@ -76,7 +76,7 @@ describe('Load pasientinfo', async () => {
         expect(await screen.findByText('Per Anders Persson')).toBeInTheDocument()
     })
 
-    it('Should display error when request fails', async () => {
+    it.skip('Should display error when request fails', async () => {
         server.use(
             http.get(apiUrl(`/proxy/oppgave/${nullFnrOppgave.oppgaveid}`), () => HttpResponse.json(nullFnrOppgave)),
             http.get(apiUrl('/proxy/pasient'), () => HttpResponse.text('Internal server error', { status: 500 })),

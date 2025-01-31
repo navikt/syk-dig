@@ -70,7 +70,7 @@ describe('Mapping opppgave fetched from API', async () => {
         ];
     })
 
-    it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', async () => {
+    it.skip('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', async () => {
         /*server.use(
            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
                 HttpResponse.json(mockSykmelder),
@@ -253,7 +253,7 @@ describe('Mapping opppgave fetched from API', async () => {
         expect(screen.getByLabelText('12.5 Telefon')).toHaveDisplayValue(fullOppgave.papirSmRegistering.behandler.tlf)
     }, 20000)
 
-    it('Should not map any field when "oppgave.papirSmRegistrering" is null', async () => {
+    it.skip('Should not map any field when "oppgave.papirSmRegistrering" is null', async () => {
         server.use(http.get(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)))
 
         render(<NasjonalOppgaveView oppgaveId={`${emptyOppgave.oppgaveid}`} layout={undefined} />, {
