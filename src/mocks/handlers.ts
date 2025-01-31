@@ -10,6 +10,7 @@ import {
     JournalpostByIdDocument,
     JournalpostByIdQuery,
     JournalpostStatusEnum,
+    NasjonalOppgaveByIdDocument,
     NavngiDokumentDocument,
     NavngiDokumentMutation,
     OppdatertSykmeldingStatusEnum,
@@ -244,6 +245,13 @@ export const handlers = [
         })
     }),
     ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
+    // Nasjonal
+    graphql.query(NasjonalOppgaveByIdDocument, async () => {
+        const nasjonalOppgave = getMockDb().getNasjonalOppgave()
+
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Query', nasjonalOppgave } })
+    }),
 ]
 
 function mapInputDiagnoseToOppgaveDiagnose(

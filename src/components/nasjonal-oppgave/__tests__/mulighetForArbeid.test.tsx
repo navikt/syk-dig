@@ -1,11 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { http, HttpResponse } from 'msw'
+import { MockedProvider } from '@apollo/client/testing'
 
-import { render, screen, within } from '../../../utils/testUtils'
-import { server } from '../../../mocks/server'
-import { apiUrl } from '../smreg/api'
-import mockSykmelder from '../mock/sykmelder.json'
+import { createMock, render, screen, within } from '../../../utils/testUtils'
+import { NasjonalOppgaveByIdDocument } from '../../../graphql/queries/graphql.generated'
 
 import fullOppgaveWithoutPeriods from './testData/fullOppgaveWithoutPeriods.json'
 import {
@@ -13,34 +11,62 @@ import {
     mockPasientinfo,
     TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
 } from './smregTestUtils'
-import fullOppgave from './testData/fullOppgave.json'
 
 describe('Mulighet for arbeid section', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let mocks: any[]
+    let testOppgaveId: string
     beforeEach(() => {
         mockBehandlerinfo()
         mockPasientinfo()
+        testOppgaveId = '12345'
+        mocks = [
+            createMock({
+                request: {
+                    query: NasjonalOppgaveByIdDocument,
+                    variables: { oppgaveId: testOppgaveId },
+                },
+                result: {
+                    data: {
+                        __typename: 'Query',
+                        nasjonalOppgave: {
+                            __typename: 'NasjonalOppgave',
+                            oppgaveId: testOppgaveId,
+                            documents: [],
+                            nasjonalSykmelding: {
+                                __typename: 'NasjonalSykmelding',
+                                sykmeldingId: null,
+                                fnr: null,
+                                journalpostId: '123',
+                                datoOpprettet: null,
+                                syketilfelleStartDato: null,
+                                behandletTidspunkt: null,
+                                skjermesForPasient: null,
+                                meldingTilArbeidsgiver: null,
+                                arbeidsgiver: null,
+                                behandler: null,
+                                perioder: [],
+                                meldingTilNAV: null,
+                                medisinskVurdering: null,
+                                kontaktMedPasient: null,
+                            },
+                        },
+                    },
+                },
+            }),
+        ]
     })
 
     it('Should be able to delete periode without messing up other periods', async () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let invokedBody: any | null = null
-        server.use(
-            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
-                HttpResponse.json(mockSykmelder),
-            ),
-            http.get(apiUrl(`/proxy/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}`), () =>
-                HttpResponse.json(fullOppgaveWithoutPeriods),
-            ),
-            http.post(apiUrl(`/proxy/oppgave/${fullOppgaveWithoutPeriods.oppgaveid}/send`), async ({ request }) => {
-                invokedBody = await request.json()
-                return new HttpResponse(undefined, { status: 204 })
-            }),
-        )
+        const invokedBody: any | null = null
 
         render(
-            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                oppgaveId={`${fullOppgaveWithoutPeriods.oppgaveid}`}
-            />,
+            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
+                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
+                    oppgaveId={`${fullOppgaveWithoutPeriods.oppgaveid}`}
+                />
+            </MockedProvider>,
             {
                 useRestLink: true,
             },

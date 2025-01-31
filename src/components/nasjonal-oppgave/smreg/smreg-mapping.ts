@@ -1,97 +1,91 @@
 import { MulighetForArbeid, NasjonalFormValues } from '../form/NasjonalSykmeldingFormTypes'
-import { Nullable } from '../../../utils/tsUtils'
-import { Periode } from '../schema/sykmelding/Periode'
 import { toDateString } from '../../../utils/dateUtils'
-import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
-import { RegistrertSykmelding, RegistrertSykmeldingSchema } from '../schema/sykmelding/RegistrertSykmelding'
-import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
 import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { NasjonalSykmeldingFragment, Periode } from '../../../graphql/queries/graphql.generated'
+import { DiagnosekodeSystem } from '../schema/sykmelding/Diagnosekoder'
 
 export function mapFormValueToSmregRegistrertSykmelding(
     values: NasjonalFormValues,
-    sykmelding: Papirsykmelding | null,
-): RegistrertSykmelding {
-    return RegistrertSykmeldingSchema.parse({
-        pasientFnr: values.pasientopplysninger.fnr,
-        sykmelderFnr: '',
+    sykmelding: NasjonalSykmeldingFragment | null,
+): NasjonalSykmeldingFragment {
+    return {
+        __typename: 'NasjonalSykmelding',
+        journalpostId: '',
+        fnr: values.pasientopplysninger.fnr,
         perioder: values.mulighetForArbeid.map(mapFormPeriodToRegistrertPeriod),
         medisinskVurdering: {
+            __typename: 'MedisinskVurdering',
             svangerskap: values.medisinskVurdering.svangerskap,
             yrkesskade: values.medisinskVurdering.yrkesskade,
             yrkesskadeDato: values.medisinskVurdering.yrkesskadeDato
                 ? toDateString(values.medisinskVurdering.yrkesskadeDato)
                 : null,
             hovedDiagnose: {
-                system: diagnoseSystemToWeirdString(values.medisinskVurdering.hoveddiagnose.system),
+                __typename: 'DiagnoseSchema',
+                system: diagnoseSystemToAbbrevation(values.medisinskVurdering.hoveddiagnose.system),
                 kode: values.medisinskVurdering.hoveddiagnose.code,
                 tekst: values.medisinskVurdering.hoveddiagnose.text,
             },
             biDiagnoser: values.medisinskVurdering.bidiagnoser.map((it) => ({
-                system: diagnoseSystemToWeirdString(it.system),
+                __typename: 'DiagnoseSchema',
+                system: diagnoseSystemToAbbrevation(it.system),
                 kode: it.code,
                 tekst: it.text,
             })),
             annenFraversArsak: values.medisinskVurdering.annenFraversArsak
                 ? {
+                      __typename: 'AnnenFraversArsak',
                       grunn: values.medisinskVurdering.annenFraversArsakGrunn ?? [],
                       beskrivelse: values.medisinskVurdering.annenFraversArsakBeskrivelse,
                   }
                 : null,
         },
         arbeidsgiver: {
+            __typename: 'Arbeidsgiver',
             harArbeidsgiver: values.arbeidsgiver.harArbeidsgiver,
             navn: values.arbeidsgiver.arbeidsgiverNavn,
             yrkesbetegnelse: values.arbeidsgiver.yrkesbetegnelse,
             stillingsprosent: values.arbeidsgiver.stillingsprosent,
         },
-        behandletDato: values.behandler.behandletDato ? toDateString(values.behandler.behandletDato) : null,
+        behandletTidspunkt: values.behandler.behandletDato ? toDateString(values.behandler.behandletDato) : null,
         skjermesForPasient: values.skjermesForPasient,
         behandler: {
+            __typename: 'Behandler',
             hpr: values.behandler.hpr,
-            // TODO: Lol why are all these values here?
-            adresse: sykmelding?.behandler?.adresse ?? {
-                gate: null,
-                postnummer: null,
-                kommune: null,
-                postboks: null,
-                land: null,
-            },
             tlf: values.behandler.tlf ?? sykmelding?.behandler?.tlf ?? null,
-            her: null,
-            aktoerId: '',
             fnr: '',
             fornavn: '',
             mellomnavn: null,
             etternavn: '',
         },
         kontaktMedPasient: {
+            __typename: 'KontaktMedPasient',
             kontaktDato: values.tilbakedatering.tilbakedatertDato
                 ? toDateString(values.tilbakedatering.tilbakedatertDato)
                 : null,
             begrunnelseIkkeKontakt: values.tilbakedatering.kunneIkkeIvaretaEgneInteresserBegrunnelse,
         },
         meldingTilNAV: {
+            __typename: 'MeldingTilNAV',
             bistandUmiddelbart: values.bistandFraNAV.bistandFraNAV,
             beskrivBistand: values.bistandFraNAV.beskrivelse,
         },
         meldingTilArbeidsgiver: values.andreInnspillTilArbeidsgiver,
-        harUtdypendeOpplysninger: values.harUtdypendeOpplysninger,
-        // Was not used in smreg
         syketilfelleStartDato: null,
-        navnFastlege: null,
-    })
+    }
 }
 
-export function mapFormPeriodToRegistrertPeriod(periode: MulighetForArbeid): Nullable<Periode> {
+export function mapFormPeriodToRegistrertPeriod(periode: MulighetForArbeid): Periode {
     const dates = {
-        fom: periode.fom != null ? toDateString(periode.fom) : null,
-        tom: periode.tom != null ? toDateString(periode.tom) : null,
+        fom: toDateString(periode.fom),
+        tom: toDateString(periode.tom),
     }
 
     switch (periode.type) {
         case 'reisetilskudd':
             return {
                 ...dates,
+                __typename: 'Periode',
                 reisetilskudd: true,
                 aktivitetIkkeMulig: null,
                 behandlingsdager: null,
@@ -102,20 +96,20 @@ export function mapFormPeriodToRegistrertPeriod(periode: MulighetForArbeid): Nul
         case 'aktivitetIkkeMulig':
             return {
                 ...dates,
+                __typename: 'Periode',
                 reisetilskudd: false,
                 aktivitetIkkeMulig: {
-                    medisinskArsak: periode.medisinskArsak
-                        ? {
-                              arsak: periode.medisinskArsakType ?? [],
-                              beskrivelse: periode.medisinskArsakBeskrivelse,
-                          }
-                        : null,
-                    arbeidsrelatertArsak: periode.arbeidsrelatertArsak
-                        ? {
-                              arsak: periode.arbeidsrelatertArsakType ?? [],
-                              beskrivelse: periode.arbeidsrelatertArsakBeskrivelse,
-                          }
-                        : null,
+                    __typename: 'AktivitetIkkeMulig',
+                    medisinskArsak: {
+                        __typename: 'MedisinskArsak',
+                        arsak: periode.medisinskArsakType,
+                        beskrivelse: periode.medisinskArsakBeskrivelse,
+                    },
+                    arbeidsrelatertArsak: {
+                        __typename: 'ArbeidsrelatertArsak',
+                        arsak: periode.arbeidsrelatertArsakType,
+                        beskrivelse: periode.arbeidsrelatertArsakBeskrivelse,
+                    },
                 },
                 behandlingsdager: null,
                 avventendeInnspillTilArbeidsgiver: null,
@@ -125,6 +119,7 @@ export function mapFormPeriodToRegistrertPeriod(periode: MulighetForArbeid): Nul
         case 'avventende':
             return {
                 ...dates,
+                __typename: 'Periode',
                 reisetilskudd: false,
                 aktivitetIkkeMulig: null,
                 behandlingsdager: null,
@@ -135,11 +130,13 @@ export function mapFormPeriodToRegistrertPeriod(periode: MulighetForArbeid): Nul
         case 'gradert':
             return {
                 ...dates,
+                __typename: 'Periode',
                 reisetilskudd: false,
                 aktivitetIkkeMulig: null,
                 behandlingsdager: null,
                 avventendeInnspillTilArbeidsgiver: null,
                 gradert: {
+                    __typename: 'Gradert',
                     grad: periode.grad,
                     reisetilskudd: periode.reisetilskudd,
                 },
@@ -148,6 +145,7 @@ export function mapFormPeriodToRegistrertPeriod(periode: MulighetForArbeid): Nul
         case 'behandlingsdager':
             return {
                 ...dates,
+                __typename: 'Periode',
                 reisetilskudd: false,
                 aktivitetIkkeMulig: null,
                 behandlingsdager: periode.antall,
@@ -157,7 +155,7 @@ export function mapFormPeriodToRegistrertPeriod(periode: MulighetForArbeid): Nul
     }
 }
 
-function diagnoseSystemToWeirdString(system: DiagnoseSystem): string {
+function diagnoseSystemToAbbrevation(system: DiagnoseSystem): string {
     switch (system) {
         case 'ICD10':
             return DiagnosekodeSystem.ICD10

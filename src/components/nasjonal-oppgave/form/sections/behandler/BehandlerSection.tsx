@@ -2,13 +2,13 @@ import React, { ReactElement } from 'react'
 
 import FormSection from '../../../../form-layout/FormSection'
 import { getSectionTitle, sections } from '../../../sections'
-import { Behandler } from '../../../schema/sykmelding/Behandler'
+import { BehandlerFragment } from '../../../../../graphql/queries/graphql.generated'
 
 import BehandletDatoField from './BehandletDatoField'
 import BehandlerFieldGroup from './BehandlerFieldGroup'
 
 type Props = {
-    behandlerInfo: Behandler | null
+    behandlerInfo: BehandlerFragment | null
 }
 
 function BehandlerSection({ behandlerInfo }: Props): ReactElement {

@@ -1,13 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { http, HttpResponse } from 'msw'
 import { within } from '@testing-library/react'
+import { MockedProvider } from '@apollo/client/testing'
 
-import { render, screen } from '../../../utils/testUtils'
-import { apiUrl } from '../smreg/api'
-import { server } from '../../../mocks/server'
+import { createMock, render, screen } from '../../../utils/testUtils'
+import { NasjonalOppgaveByIdDocument } from '../../../graphql/queries/graphql.generated'
 
-import fullOppgave from './testData/fullOppgave.json'
 import {
     mockBehandlerinfo,
     mockPasientinfo,
@@ -15,24 +13,55 @@ import {
 } from './smregTestUtils'
 
 describe('Avvis oppgave', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let mocks: any[]
+    let testOppgaveId: string
     beforeEach(() => {
         mockPasientinfo()
         mockBehandlerinfo()
+        testOppgaveId = '12345'
+        mocks = [
+            createMock({
+                request: {
+                    query: NasjonalOppgaveByIdDocument,
+                    variables: { oppgaveId: testOppgaveId },
+                },
+                result: {
+                    data: {
+                        __typename: 'Query',
+                        nasjonalOppgave: {
+                            __typename: 'NasjonalOppgave',
+                            oppgaveId: testOppgaveId,
+                            documents: [],
+                            nasjonalSykmelding: {
+                                __typename: 'NasjonalSykmelding',
+                                sykmeldingId: null,
+                                fnr: null,
+                                journalpostId: '123',
+                                datoOpprettet: null,
+                                syketilfelleStartDato: null,
+                                behandletTidspunkt: null,
+                                skjermesForPasient: null,
+                                meldingTilArbeidsgiver: null,
+                                arbeidsgiver: null,
+                                behandler: null,
+                                perioder: [],
+                                meldingTilNAV: null,
+                                medisinskVurdering: null,
+                                kontaktMedPasient: null,
+                            },
+                        },
+                    },
+                },
+            }),
+        ]
     })
 
     it('Should display modal with confirmation when clicking "avvis sykmeldingen"', async () => {
-        server.use(
-            http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
-            http.post(
-                apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}/avvis`),
-                () => new HttpResponse(undefined, { status: 204 }),
-            ),
-        )
-
         render(
-            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                oppgaveId={`${fullOppgave.oppgaveid}`}
-            />,
+            <MockedProvider mocks={mocks} addTypename={true} showWarnings={true}>
+                <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway oppgaveId={`${testOppgaveId}`} />
+            </MockedProvider>,
             {
                 useRestLink: true,
             },

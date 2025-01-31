@@ -1,15 +1,16 @@
 'use client'
 
 import React, { ReactElement } from 'react'
+import { useQuery } from '@apollo/client'
 
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
+import { NasjonalFerdigstiltOppgaveByIdDocument } from '../../graphql/queries/graphql.generated'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
-import { useFerdigstiltNasjonalOppgave } from './useNasjonalOppgave'
 import {
-    NasjonalOppgaveFerdigstiltDocuments,
     NasjonalOppgaveError,
+    NasjonalOppgaveFerdigstiltDocuments,
     NasjonalOppgaveSkeleton,
 } from './NasjonalOppgaveStates'
 
@@ -18,8 +19,9 @@ type Props = PaneView & {
 }
 
 function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactElement {
-    const query = useFerdigstiltNasjonalOppgave(sykmeldingId)
-
+    const query = useQuery(NasjonalFerdigstiltOppgaveByIdDocument, {
+        variables: { sykmeldingId },
+    })
     return (
         <SplitDocumentView
             title="Korrigering av registrert papirsykmelding"
@@ -29,9 +31,9 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactE
             defaultLayout={layout}
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
-            {query.data && (
+            {query.data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgave' && (
                 <NasjonalSykmeldingForm
-                    sykmelding={query.data.oppgave.papirSmRegistering}
+                    sykmelding={query.data.nasjonalFerdigstiltOppgave.nasjonalSykmelding}
                     sykmeldingId={sykmeldingId}
                     ferdigstilt
                 />
