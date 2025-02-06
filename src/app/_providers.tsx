@@ -1,6 +1,6 @@
 'use client'
 
-import { PropsWithChildren, ReactElement, useState } from 'react'
+import { PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react'
 import { IToggle } from '@unleash/nextjs'
 import { ApolloProvider } from '@apollo/client'
 import { logger } from '@navikt/next-logger'
@@ -26,11 +26,23 @@ function Providers({ children, modiaContext, toggles }: PropsWithChildren<Props>
 
     return (
         <ModiaProvider modiaContext={modiaContext}>
+            <LogColorScheme modiaContext={modiaContext} />
             <ApolloProvider client={apolloClient}>
                 <FlagProvider toggles={toggles}>{children}</FlagProvider>
             </ApolloProvider>
         </ModiaProvider>
     )
+}
+
+function LogColorScheme({ modiaContext }: Pick<Props, 'modiaContext'>): null {
+    const stableContext = useRef(modiaContext)
+    useEffect(() => {
+        const context = stableContext.current
+        const colorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        logger.info(`User ${'ident' in context ? context.ident : 'unknown'} prefers color scheme ${colorScheme}`)
+    }, [])
+
+    return null
 }
 
 export default Providers
