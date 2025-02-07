@@ -75,9 +75,12 @@ export function NasjonalOppgaveDocuments({
     oppgaveId: string
     query: QueryResult<NasjonalOppgaveByIdQuery, OppgaveByIdQueryVariables>
 }): ReactElement {
+    const isStatus = query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgaveStatus'
     const { loading, data, error } = query
     if (loading) {
         return <DocumentsViewerSkeleton />
+    } else if (!loading && isStatus) {
+        return <DocumentsViewerNoDocuments text="Oppgaven er ikke åpen" />
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
     } else if (data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {

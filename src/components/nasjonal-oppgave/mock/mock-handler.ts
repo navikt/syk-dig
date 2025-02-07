@@ -11,8 +11,6 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
     logger.info(`Mocking path: ${path}`)
 
     switch (path) {
-        case 'GET /api/v1/proxy/oppgave/[id|hpr]':
-            return Response.json(mockOppgave, { status: 200 })
         case 'GET /api/v1/proxy/sykmelding/[uuid]/ferdigstilt':
             return Response.json(mockOppgave, { status: 200 })
         case 'POST /api/v1/proxy/oppgave/[id|hpr]/send':

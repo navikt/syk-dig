@@ -11,6 +11,8 @@ import {
     JournalpostByIdQuery,
     JournalpostStatusEnum,
     NasjonalOppgaveByIdDocument,
+    NasjonalOppgaveFragment,
+    NasjonalOppgaveStatusFragment,
     NavngiDokumentDocument,
     NavngiDokumentMutation,
     OppdatertSykmeldingStatusEnum,
@@ -29,6 +31,7 @@ import {
     UpdateDigitalisertSykmeldingMutation,
 } from '../graphql/queries/graphql.generated'
 import { notNull } from '../utils/tsUtils'
+import getNasjonalMockDb from '../components/nasjonal-oppgave/__tests__/testData'
 
 import { handlers as handler } from './handlers-test'
 import getMockDb from './data'
@@ -245,9 +248,11 @@ export const handlers = [
         })
     }),
     ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
-    // Nasjonal
-    graphql.query(NasjonalOppgaveByIdDocument, async () => {
-        const nasjonalOppgave = getMockDb().getNasjonalOppgave()
+
+    // NASJONAL
+    graphql.query(NasjonalOppgaveByIdDocument, async ({ variables }) => {
+        const nasjonalOppgave: NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment =
+            getNasjonalMockDb().getNasjonalOppgaveOrStatus(variables.oppgaveId)
 
         await delay()
         return HttpResponse.json({ data: { __typename: 'Query', nasjonalOppgave } })

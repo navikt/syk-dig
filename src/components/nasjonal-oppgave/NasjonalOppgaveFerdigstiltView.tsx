@@ -9,8 +9,8 @@ import { NasjonalFerdigstiltOppgaveByIdDocument } from '../../graphql/queries/gr
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import {
-    NasjonalOppgaveError,
     NasjonalOppgaveFerdigstiltDocuments,
+    NasjonalOppgaveError,
     NasjonalOppgaveSkeleton,
 } from './NasjonalOppgaveStates'
 

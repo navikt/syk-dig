@@ -2,7 +2,6 @@ import {
     DigitaliseringsoppgaveStatusEnum,
     DigitaliseringsoppgaveStatusFragment,
     DigitalisertSykmeldingResultFragment,
-    NasjonalOppgaveFragment,
     OppgaveFragment,
     PeriodeType,
 } from '../../graphql/queries/graphql.generated'
@@ -83,7 +82,7 @@ export class FakeMockDB {
         },
         avvist: {
             __typename: 'DigitaliseringsoppgaveStatus',
-            oppgaveId: 'finnesikke',
+            oppgaveId: 'avvist',
             status: DigitaliseringsoppgaveStatusEnum.Avvist,
         },
         ikkeensykmelding: {
@@ -125,46 +124,6 @@ export class FakeMockDB {
             throw new Error(`No oppgave found with id ${oppgaveId}`)
         }
         return oppgave
-    }
-
-    public getNasjonalOppgave(): NasjonalOppgaveFragment {
-        return {
-            // TODO: legg til data/opprett mock for nasjonal sjukmelding
-            __typename: 'NasjonalOppgave',
-            oppgaveId: '123456789',
-            nasjonalSykmelding: {
-                __typename: 'NasjonalSykmelding',
-                sykmeldingId: null,
-                journalpostId: '467035825',
-                fnr: '',
-                datoOpprettet: '',
-                syketilfelleStartDato: null,
-                arbeidsgiver: null,
-                medisinskVurdering: null,
-                skjermesForPasient: null,
-                meldingTilNAV: null,
-                meldingTilArbeidsgiver: null,
-                kontaktMedPasient: null,
-                behandletTidspunkt: null,
-                behandler: {
-                    __typename: 'Behandler',
-                    fornavn: 'Jane',
-                    mellomnavn: 'Doe',
-                    etternavn: 'Smith',
-                    fnr: '98765432101',
-                    hpr: '1234567',
-                    tlf: '+4712345678',
-                },
-                perioder: [],
-            },
-            documents: [
-                {
-                    __typename: 'Document',
-                    dokumentInfoId: '695980624',
-                    tittel: 'Papirsykmelding',
-                },
-            ],
-        }
     }
 
     public getDigitalisertSykmelding(sykmeldingId: string): DigitalisertSykmeldingResultFragment {
