@@ -3,8 +3,9 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { MockedProvider } from '@apollo/client/testing'
 
-import { createMock, render, screen } from '../../../utils/testUtils'
+import { render, screen } from '../../../utils/testUtils'
 import { NasjonalOppgaveByIdDocument } from '../../../graphql/queries/graphql.generated'
+import { createMock } from '../../../utils/test/apolloTestUtils'
 
 import {
     mockBehandlerinfo,
