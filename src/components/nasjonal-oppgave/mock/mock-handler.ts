@@ -3,7 +3,6 @@ import { logger } from '@navikt/next-logger'
 import { raise } from '../../../utils/tsUtils'
 import { pdf } from '../../../mocks/data/examplePdfbase64'
 
-import mockOppgave from './oppgave.json'
 import mockSykmelder from './sykmelder.json'
 import mockPasientNavn from './pasientNavn.json'
 
@@ -11,8 +10,6 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
     logger.info(`Mocking path: ${path}`)
 
     switch (path) {
-        case 'GET /api/v1/proxy/sykmelding/[uuid]/ferdigstilt':
-            return Response.json(mockOppgave, { status: 200 })
         case 'POST /api/v1/proxy/oppgave/[id|hpr]/send':
             verifyHasEnhet(request)
 

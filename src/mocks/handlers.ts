@@ -10,6 +10,7 @@ import {
     JournalpostByIdDocument,
     JournalpostByIdQuery,
     JournalpostStatusEnum,
+    NasjonalFerdigstiltOppgaveByIdDocument,
     NasjonalOppgaveByIdDocument,
     NasjonalOppgaveFragment,
     NasjonalOppgaveStatusFragment,
@@ -252,10 +253,17 @@ export const handlers = [
     // NASJONAL
     graphql.query(NasjonalOppgaveByIdDocument, async ({ variables }) => {
         const nasjonalOppgave: NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment =
-            getNasjonalMockDb().getNasjonalOppgaveOrStatus(variables.oppgaveId)
+            getNasjonalMockDb().getNasjonalOppgaveOrStatusByOppgaveId(variables.oppgaveId)
 
         await delay()
         return HttpResponse.json({ data: { __typename: 'Query', nasjonalOppgave } })
+    }),
+    graphql.query(NasjonalFerdigstiltOppgaveByIdDocument, async ({ variables }) => {
+        const nasjonalFerdigstiltOppgave: NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment =
+            getNasjonalMockDb().getNasjonalOppgaveOrStatusBySykmeldingId(variables.sykmeldingId)
+
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Query', nasjonalFerdigstiltOppgave } })
     }),
 ]
 

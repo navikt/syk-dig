@@ -13,6 +13,7 @@ import {
     NasjonalOppgaveError,
     NasjonalOppgaveSkeleton,
 } from './NasjonalOppgaveStates'
+import NasjonalOppgaveStatus from './status/NasjonalOppgaveStatus'
 
 type Props = PaneView & {
     sykmeldingId: string
@@ -31,12 +32,16 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactE
             defaultLayout={layout}
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
-            {query.data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgave' && (
+            {query.data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgave' ? (
                 <NasjonalSykmeldingForm
                     sykmelding={query.data.nasjonalFerdigstiltOppgave.nasjonalSykmelding}
                     sykmeldingId={sykmeldingId}
                     ferdigstilt
                 />
+            ) : (
+                query.data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgaveStatus' && (
+                    <NasjonalOppgaveStatus oppgave={query.data.nasjonalFerdigstiltOppgave} />
+                )
             )}
             {query.error && (
                 <NasjonalOppgaveError error={query.error}>

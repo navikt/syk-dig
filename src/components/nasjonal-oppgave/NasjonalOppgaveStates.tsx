@@ -16,7 +16,10 @@ import {
 } from '../../graphql/queries/graphql.generated'
 
 import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
-import { FerdigstiltOppgaveVariables } from './useNasjonalOppgave'
+
+export type FerdigstiltOppgaveVariables = {
+    sykmeldingId: string
+}
 
 export function NasjonalOppgaveSkeleton(): ReactElement {
     return (

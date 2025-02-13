@@ -62,8 +62,10 @@ export class FakeNasjonalMockDB {
         },
     }
 
-    public getNasjonalOppgaveOrStatus(oppgaveId: string): NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment {
-        const nasjonalOppgave: NasjonalOppgaveFragment | null = this.findOppgaveById(oppgaveId)
+    public getNasjonalOppgaveOrStatusByOppgaveId(
+        oppgaveId: string,
+    ): NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment {
+        const nasjonalOppgave: NasjonalOppgaveFragment | null = this.findOppgaveByOppgaveId(oppgaveId)
         if (nasjonalOppgave) {
             return nasjonalOppgave
         }
@@ -76,9 +78,37 @@ export class FakeNasjonalMockDB {
         throw new Error(`No oppgave or status found with id ${oppgaveId}`)
     }
 
-    private findOppgaveById(oppgaveId: string): NasjonalOppgaveFragment | null {
+    public getNasjonalOppgaveOrStatusBySykmeldingId(
+        sykmeldingId: string,
+    ): NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment {
+        const nasjonalOppgave: NasjonalOppgaveFragment | null = this.findOppgaveBySykmeldingId(
+            sykmeldingId.toLowerCase(),
+        )
+        if (nasjonalOppgave) {
+            return nasjonalOppgave
+        }
+
+        const status: NasjonalOppgaveStatusFragment = this._status[sykmeldingId.toLowerCase()]
+        if (status) {
+            return status
+        }
+
+        throw new Error(`No oppgave or status found with id ${sykmeldingId}`)
+    }
+
+    private findOppgaveByOppgaveId(oppgaveId: string): NasjonalOppgaveFragment | null {
         const nasjonalOppgave = Object.values(this._nasjonal_oppgaver).find(
             (oppgave: NasjonalOppgaveFragment) => oppgave.oppgaveId === oppgaveId,
+        )
+        if (nasjonalOppgave) {
+            return nasjonalOppgave
+        }
+        return null
+    }
+
+    private findOppgaveBySykmeldingId(sykmeldingId: string): NasjonalOppgaveFragment | null {
+        const nasjonalOppgave = Object.values(this._nasjonal_oppgaver).find(
+            (oppgave: NasjonalOppgaveFragment) => oppgave.nasjonalSykmelding.sykmeldingId === sykmeldingId,
         )
         if (nasjonalOppgave) {
             return nasjonalOppgave
