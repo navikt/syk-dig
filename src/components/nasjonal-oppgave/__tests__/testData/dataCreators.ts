@@ -14,7 +14,7 @@ export function createNasjonalOppgave(overrides?: Partial<NasjonalOppgaveFragmen
         oppgaveId: '123456789',
         nasjonalSykmelding: {
             __typename: 'NasjonalSykmelding',
-            sykmeldingId: 'a62a4ab1-aaf2-4394-9b16-0507583bcab3',
+            sykmeldingId: '3edded4c-2654-447d-a210-94ca8eb31801',
             journalpostId: '467035825',
             fnr: '20026900817',
             datoOpprettet: '2020-06-16T08:14:24',
