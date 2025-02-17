@@ -1,16 +1,19 @@
 import { ReactElement } from 'react'
 import { Alert, BodyShort, Heading } from '@navikt/ds-react'
 
-import { NasjonalOppgaveStatusEnum, NasjonalOppgaveStatusFragment } from '../../../graphql/queries/graphql.generated'
+import {
+    NasjonalOppdatertSykmeldingStatusEnum,
+    NasjonalSykmeldingStatusFragment,
+} from '../../../graphql/queries/graphql.generated'
 import styles from '../../utenlandsk-oppgave/status/OppgaveStatus.module.css'
 
 interface Props {
-    oppgave: NasjonalOppgaveStatusFragment
+    oppgave: NasjonalSykmeldingStatusFragment
 }
 
-function NasjonalOppgaveStatus({ oppgave }: Props): ReactElement {
+function NasjonalFerdigstiltOppgaveStatus({ oppgave }: Props): ReactElement {
     switch (oppgave.status) {
-        case NasjonalOppgaveStatusEnum.Avvist:
+        case NasjonalOppdatertSykmeldingStatusEnum.Avvist:
             return (
                 <Alert variant="warning" className={styles.alert}>
                     <Heading size="medium" spacing>
@@ -19,11 +22,11 @@ function NasjonalOppgaveStatus({ oppgave }: Props): ReactElement {
                     <BodyShort spacing>Dersom dette ikke dette stemmer, kan du ta kontakt med brukerstøtte.</BodyShort>
                 </Alert>
             )
-        case NasjonalOppgaveStatusEnum.Ferdigstilt:
+        case NasjonalOppdatertSykmeldingStatusEnum.IkkeEnSykmelding:
             return (
                 <Alert variant="warning" className={styles.alert}>
                     <Heading size="medium" spacing>
-                        Oppgaven er allerede ferdigstilt
+                        Sykmeldingen har blitt sendt tilbake til Gosys fordi det ikke var en sykmelding
                     </Heading>
                     <BodyShort spacing>
                         Dersom du kom hit fra Gosys kan du prøve å oppfriske Gosys og prøve igjen.
@@ -31,11 +34,11 @@ function NasjonalOppgaveStatus({ oppgave }: Props): ReactElement {
                     <BodyShort spacing>Dersom problemet vedvarer kan du ta kontakt med brukerstøtte.</BodyShort>
                 </Alert>
             )
-        case NasjonalOppgaveStatusEnum.IkkeEnSykmelding:
+        case NasjonalOppdatertSykmeldingStatusEnum.IkkeFerdigstilt:
             return (
                 <Alert variant="warning" className={styles.alert}>
                     <Heading size="medium" spacing>
-                        Oppgaven har blitt sendt tilbake til Gosys fordi det ikke var en sykmelding
+                        Sykmeldingen er ikke ferdigstilt
                     </Heading>
                     <BodyShort spacing>
                         Dersom du kom hit fra Gosys kan du prøve å oppfriske Gosys og prøve igjen.
@@ -43,14 +46,14 @@ function NasjonalOppgaveStatus({ oppgave }: Props): ReactElement {
                     <BodyShort spacing>Dersom problemet vedvarer kan du ta kontakt med brukerstøtte.</BodyShort>
                 </Alert>
             )
-        case NasjonalOppgaveStatusEnum.FinnesIkke:
+        case NasjonalOppdatertSykmeldingStatusEnum.FinnesIkke:
             return (
                 <Alert variant="warning" className={styles.alert}>
                     <Heading size="medium" spacing>
-                        Vi klarte ikke å finne oppgaven
+                        Vi klarte ikke å finne sykmeldingen
                     </Heading>
                     <BodyShort spacing>
-                        Oppgaven med oppgave-id: {oppgave.oppgaveId} finnes ikke i våre systemer.
+                        Sykmeldingen med sykmelding-id: {oppgave.sykmeldingId} finnes ikke i våre systemer.
                     </BodyShort>
                     <BodyShort spacing>
                         Dersom du kom hit fra Gosys kan du prøve å oppfriske Gosys og prøve igjen.
@@ -65,7 +68,7 @@ function NasjonalOppgaveStatus({ oppgave }: Props): ReactElement {
                         Vi klarte ikke å finne sykmeldingen eller noe annet gikk feil
                     </Heading>
                     <BodyShort spacing>
-                        Oppgaven med oppgave-id: {oppgave.oppgaveId} finnes ikke i våre systemer.
+                        Sykmelding med sykmelding-id: {oppgave.sykmeldingId} finnes ikke i våre systemer.
                     </BodyShort>
                     <BodyShort spacing>Dersom du kom hit fra Gosys eller modia kan du prøve å oppfriske.</BodyShort>
                     <BodyShort spacing>Dersom problemet vedvarer kan du ta kontakt med brukerstøtte.</BodyShort>
@@ -74,4 +77,4 @@ function NasjonalOppgaveStatus({ oppgave }: Props): ReactElement {
     }
 }
 
-export default NasjonalOppgaveStatus
+export default NasjonalFerdigstiltOppgaveStatus
