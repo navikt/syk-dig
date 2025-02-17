@@ -18,6 +18,16 @@ fragment NasjonalOppgaveStatus on NasjonalOppgaveStatus {
     status
 }
 
+fragment NasjonalSykmeldingResult on NasjonalSykmeldingResult {
+    ...NasjonalOppgave
+    ...NasjonalSykmeldingStatus
+}
+
+fragment NasjonalSykmeldingStatus on NasjonalSykmeldingStatus {
+    sykmeldingId
+    status
+}
+
 fragment NasjonalSykmelding on NasjonalSykmelding {
     sykmeldingId
     fnr
@@ -148,8 +158,8 @@ query NasjonalOppgaveById($oppgaveId: String!) {
     }
 }
 
-query NasjonalFerdigstiltOppgaveById($sykmeldingId: String!) {
+query NasjonalFerdigstiltOppgaveBySykmeldingId($sykmeldingId: String!) {
     nasjonalFerdigstiltOppgave(sykmeldingId: $sykmeldingId) {
-        ...NasjonalOppgaveResult
+        ...NasjonalSykmeldingResult
     }
 }

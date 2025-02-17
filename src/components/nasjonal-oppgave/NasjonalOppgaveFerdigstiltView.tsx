@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client'
 
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
-import { NasjonalFerdigstiltOppgaveByIdDocument } from '../../graphql/queries/graphql.generated'
+import { NasjonalFerdigstiltOppgaveBySykmeldingIdDocument } from '../../graphql/queries/graphql.generated'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import {
@@ -13,14 +13,14 @@ import {
     NasjonalOppgaveError,
     NasjonalOppgaveSkeleton,
 } from './NasjonalOppgaveStates'
-import NasjonalOppgaveStatus from './status/NasjonalOppgaveStatus'
+import NasjonalFerdigstiltOppgaveStatus from './status/NasjonalFerdigstiltOppgaveStatus'
 
 type Props = PaneView & {
     sykmeldingId: string
 }
 
 function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactElement {
-    const query = useQuery(NasjonalFerdigstiltOppgaveByIdDocument, {
+    const query = useQuery(NasjonalFerdigstiltOppgaveBySykmeldingIdDocument, {
         variables: { sykmeldingId },
     })
     return (
@@ -39,8 +39,8 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactE
                     ferdigstilt
                 />
             ) : (
-                query.data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgaveStatus' && (
-                    <NasjonalOppgaveStatus oppgave={query.data.nasjonalFerdigstiltOppgave} />
+                query.data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalSykmeldingStatus' && (
+                    <NasjonalFerdigstiltOppgaveStatus oppgave={query.data.nasjonalFerdigstiltOppgave} />
                 )
             )}
             {query.error && (

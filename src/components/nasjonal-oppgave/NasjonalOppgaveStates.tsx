@@ -10,7 +10,7 @@ import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentVi
 import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
 import {
-    NasjonalFerdigstiltOppgaveByIdQuery,
+    NasjonalFerdigstiltOppgaveBySykmeldingIdQuery,
     NasjonalOppgaveByIdQuery,
     OppgaveByIdQueryVariables,
 } from '../../graphql/queries/graphql.generated'
@@ -96,7 +96,7 @@ export function NasjonalOppgaveDocuments({
 export function NasjonalOppgaveFerdigstiltDocuments({
     query,
 }: {
-    query: QueryResult<NasjonalFerdigstiltOppgaveByIdQuery, FerdigstiltOppgaveVariables>
+    query: QueryResult<NasjonalFerdigstiltOppgaveBySykmeldingIdQuery, FerdigstiltOppgaveVariables>
 }): ReactElement {
     const { loading, data, error } = query
 

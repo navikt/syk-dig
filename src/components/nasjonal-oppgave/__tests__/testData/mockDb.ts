@@ -1,7 +1,9 @@
 import {
+    NasjonalOppdatertSykmeldingStatusEnum,
     NasjonalOppgaveFragment,
     NasjonalOppgaveStatusEnum,
     NasjonalOppgaveStatusFragment,
+    NasjonalSykmeldingStatusFragment,
 } from '../../../../graphql/queries/graphql.generated'
 
 import { createNasjonalOppgave, emptyNasjonalOppgave } from './dataCreators'
@@ -39,7 +41,7 @@ export class FakeNasjonalMockDB {
             },
         }),
     }
-    private _status: Record<string, NasjonalOppgaveStatusFragment> = {
+    private _status_oppgave: Record<string, NasjonalOppgaveStatusFragment> = {
         ferdigstilt: {
             __typename: 'NasjonalOppgaveStatus',
             oppgaveId: 'ferdigstilt',
@@ -62,6 +64,29 @@ export class FakeNasjonalMockDB {
         },
     }
 
+    private _status_ferdigstilt: Record<string, NasjonalSykmeldingStatusFragment> = {
+        finnesikke: {
+            __typename: 'NasjonalSykmeldingStatus',
+            sykmeldingId: 'finnesikke',
+            status: NasjonalOppdatertSykmeldingStatusEnum.FinnesIkke,
+        },
+        avvist: {
+            __typename: 'NasjonalSykmeldingStatus',
+            sykmeldingId: 'avvist',
+            status: NasjonalOppdatertSykmeldingStatusEnum.Avvist,
+        },
+        ikkeensykmelding: {
+            __typename: 'NasjonalSykmeldingStatus',
+            sykmeldingId: 'ikkeensykmelding',
+            status: NasjonalOppdatertSykmeldingStatusEnum.IkkeEnSykmelding,
+        },
+        ikkeferdigstilt: {
+            __typename: 'NasjonalSykmeldingStatus',
+            sykmeldingId: 'ikkeferdigstilt',
+            status: NasjonalOppdatertSykmeldingStatusEnum.IkkeEnSykmelding,
+        },
+    }
+
     public getNasjonalOppgaveOrStatusByOppgaveId(
         oppgaveId: string,
     ): NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment {
@@ -70,7 +95,7 @@ export class FakeNasjonalMockDB {
             return nasjonalOppgave
         }
 
-        const status: NasjonalOppgaveStatusFragment = this._status[oppgaveId.toLowerCase()]
+        const status: NasjonalOppgaveStatusFragment = this._status_oppgave[oppgaveId.toLowerCase()]
         if (status) {
             return status
         }
@@ -80,7 +105,7 @@ export class FakeNasjonalMockDB {
 
     public getNasjonalOppgaveOrStatusBySykmeldingId(
         sykmeldingId: string,
-    ): NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment {
+    ): NasjonalOppgaveFragment | NasjonalSykmeldingStatusFragment {
         const nasjonalOppgave: NasjonalOppgaveFragment | null = this.findOppgaveBySykmeldingId(
             sykmeldingId.toLowerCase(),
         )
@@ -88,7 +113,7 @@ export class FakeNasjonalMockDB {
             return nasjonalOppgave
         }
 
-        const status: NasjonalOppgaveStatusFragment = this._status[sykmeldingId.toLowerCase()]
+        const status: NasjonalSykmeldingStatusFragment = this._status_ferdigstilt[sykmeldingId.toLowerCase()]
         if (status) {
             return status
         }

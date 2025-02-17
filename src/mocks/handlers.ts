@@ -10,10 +10,11 @@ import {
     JournalpostByIdDocument,
     JournalpostByIdQuery,
     JournalpostStatusEnum,
-    NasjonalFerdigstiltOppgaveByIdDocument,
+    NasjonalFerdigstiltOppgaveBySykmeldingIdDocument,
     NasjonalOppgaveByIdDocument,
     NasjonalOppgaveFragment,
     NasjonalOppgaveStatusFragment,
+    NasjonalSykmeldingStatusFragment,
     NavngiDokumentDocument,
     NavngiDokumentMutation,
     OppdatertSykmeldingStatusEnum,
@@ -258,8 +259,8 @@ export const handlers = [
         await delay()
         return HttpResponse.json({ data: { __typename: 'Query', nasjonalOppgave } })
     }),
-    graphql.query(NasjonalFerdigstiltOppgaveByIdDocument, async ({ variables }) => {
-        const nasjonalFerdigstiltOppgave: NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment =
+    graphql.query(NasjonalFerdigstiltOppgaveBySykmeldingIdDocument, async ({ variables }) => {
+        const nasjonalFerdigstiltOppgave: NasjonalOppgaveFragment | NasjonalSykmeldingStatusFragment =
             getNasjonalMockDb().getNasjonalOppgaveOrStatusBySykmeldingId(variables.sykmeldingId)
 
         await delay()
