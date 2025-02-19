@@ -11,15 +11,12 @@ import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewS
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
 import {
     NasjonalFerdigstiltOppgaveBySykmeldingIdQuery,
+    NasjonalFerdigstiltOppgaveBySykmeldingIdQueryVariables,
     NasjonalOppgaveByIdQuery,
-    OppgaveByIdQueryVariables,
+    NasjonalOppgaveByIdQueryVariables,
 } from '../../graphql/queries/graphql.generated'
 
 import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
-
-export type FerdigstiltOppgaveVariables = {
-    sykmeldingId: string
-}
 
 export function NasjonalOppgaveSkeleton(): ReactElement {
     return (
@@ -76,7 +73,7 @@ export function NasjonalOppgaveDocuments({
     query,
 }: {
     oppgaveId: string
-    query: QueryResult<NasjonalOppgaveByIdQuery, OppgaveByIdQueryVariables>
+    query: QueryResult<NasjonalOppgaveByIdQuery, NasjonalOppgaveByIdQueryVariables>
 }): ReactElement {
     const isStatus = query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgaveStatus'
     const { loading, data, error } = query
@@ -96,7 +93,10 @@ export function NasjonalOppgaveDocuments({
 export function NasjonalOppgaveFerdigstiltDocuments({
     query,
 }: {
-    query: QueryResult<NasjonalFerdigstiltOppgaveBySykmeldingIdQuery, FerdigstiltOppgaveVariables>
+    query: QueryResult<
+        NasjonalFerdigstiltOppgaveBySykmeldingIdQuery,
+        NasjonalFerdigstiltOppgaveBySykmeldingIdQueryVariables
+    >
 }): ReactElement {
     const { loading, data, error } = query
 
