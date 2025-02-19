@@ -9,8 +9,13 @@ import { InfoWithHeaderSkeleton, InputWithTitleSkeleton } from '../skeleton/Skel
 import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
 import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
+import {
+    NasjonalFerdigstiltOppgaveBySykmeldingIdQuery,
+    NasjonalFerdigstiltOppgaveBySykmeldingIdQueryVariables,
+    NasjonalOppgaveByIdQuery,
+    NasjonalOppgaveByIdQueryVariables,
+} from '../../graphql/queries/graphql.generated'
 
-import { FerdigstiltOppgaveVariables, OppgaveResult, OppgaveVariables } from './useNasjonalOppgave'
 import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
 
 export function NasjonalOppgaveSkeleton(): ReactElement {
@@ -68,16 +73,18 @@ export function NasjonalOppgaveDocuments({
     query,
 }: {
     oppgaveId: string
-    query: QueryResult<OppgaveResult, OppgaveVariables>
+    query: QueryResult<NasjonalOppgaveByIdQuery, NasjonalOppgaveByIdQueryVariables>
 }): ReactElement {
+    const isStatus = query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgaveStatus'
     const { loading, data, error } = query
-
     if (loading) {
         return <DocumentsViewerSkeleton />
+    } else if (!loading && isStatus) {
+        return <DocumentsViewerNoDocuments text="Oppgaven er ikke åpen" />
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
-    } else if (data?.oppgave != null) {
-        return <DocumentsViewer oppgaveId={oppgaveId} documents={data.oppgave.documents} edit={false} smreg />
+    } else if (data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
+        return <DocumentsViewer documents={data?.nasjonalOppgave.documents} oppgaveId={oppgaveId} edit={false} smreg />
     } else {
         raise(new Error('Illegal state: Non loading, non error oppgave that is null'))
     }
@@ -86,7 +93,10 @@ export function NasjonalOppgaveDocuments({
 export function NasjonalOppgaveFerdigstiltDocuments({
     query,
 }: {
-    query: QueryResult<OppgaveResult, FerdigstiltOppgaveVariables>
+    query: QueryResult<
+        NasjonalFerdigstiltOppgaveBySykmeldingIdQuery,
+        NasjonalFerdigstiltOppgaveBySykmeldingIdQueryVariables
+    >
 }): ReactElement {
     const { loading, data, error } = query
 
@@ -94,14 +104,11 @@ export function NasjonalOppgaveFerdigstiltDocuments({
         return <DocumentsViewerSkeleton />
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
-    } else if (data?.oppgave != null) {
+    } else if (data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgave') {
         return (
             <DocumentsViewer
-                journalpostId={
-                    data.oppgave.papirSmRegistering?.journalpostId ??
-                    raise(new Error('Ferdig stilt oppgave uten sykmelding, det gåkke an vel?'))
-                }
-                documents={data.oppgave.documents}
+                journalpostId={data.nasjonalFerdigstiltOppgave.nasjonalSykmelding.journalpostId}
+                documents={data.nasjonalFerdigstiltOppgave?.documents}
                 edit={false}
             />
         )

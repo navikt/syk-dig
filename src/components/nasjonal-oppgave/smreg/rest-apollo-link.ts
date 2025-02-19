@@ -2,7 +2,6 @@ import { throwServerError } from '@apollo/client'
 import { RestLink } from 'apollo-link-rest'
 import { logger } from '@navikt/next-logger'
 
-import { OppgaveSchema } from '../schema/oppgave/Oppgave'
 import { PasientNavnSchema } from '../schema/Pasient'
 import { RuleHitErrorsSchema } from '../schema/RuleHitErrors'
 import { SykmelderSchema } from '../schema/Sykmelder'
@@ -18,7 +17,6 @@ export class UnauthorizedError extends Error {}
 const smregRestLink = new RestLink({
     uri: '/api/smreg/api/v1/',
     typePatcher: {
-        Oppgave: (data) => OppgaveSchema.parse(data),
         Pasient: (data) => PasientNavnSchema.parse(data),
         RuleHits: (data) => RuleHitErrorsSchema.nullable().parse(data),
         Sykmelder: (data) => SykmelderSchema.parse(data),

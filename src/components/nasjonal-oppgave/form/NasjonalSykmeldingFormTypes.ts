@@ -1,7 +1,7 @@
+import { DiagnoseFormValue } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../schema/sykmelding/Periode'
 import { HarArbeidsgiver } from '../schema/sykmelding/Arbeidsgiver'
 import { AnnenFraverGrunn } from '../schema/sykmelding/MedisinskVurdering'
-import { ArbeidsrelatertArsakType, MedisinskArsakType } from '../schema/sykmelding/Periode'
-import { DiagnoseFormValue } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
 
 export type NasjonalFormValues = {
     pasientopplysninger: {

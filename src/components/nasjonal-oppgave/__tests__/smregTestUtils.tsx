@@ -1,12 +1,13 @@
 import { http, HttpResponse } from 'msw'
 import { ReactElement } from 'react'
+import { useQuery } from '@apollo/client'
 
 import { server } from '../../../mocks/server'
 import pasientNavn from '../mock/pasientNavn.json'
 import sykmelder from '../mock/sykmelder.json'
 import { apiUrl } from '../smreg/api'
-import { useNasjonalOppgave } from '../useNasjonalOppgave'
 import NasjonalSykmeldingForm from '../form/NasjonalSykmeldingForm'
+import { NasjonalOppgaveByIdDocument } from '../../../graphql/queries/graphql.generated'
 
 export function mockBehandlerinfo(): void {
     server.use(http.get(apiUrl('/proxy/sykmelder/:hpr'), () => HttpResponse.json(sykmelder)))
@@ -21,17 +22,22 @@ export function TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAny
 }: {
     oppgaveId: string
 }): ReactElement {
-    const query = useNasjonalOppgave(oppgaveId)
+    const query = useQuery(NasjonalOppgaveByIdDocument, {
+        variables: { oppgaveId: oppgaveId },
+    })
 
     if (query.loading) {
         return <div>Loading...</div>
     }
 
-    return (
-        <NasjonalSykmeldingForm
-            oppgaveId={oppgaveId}
-            sykmelding={query.data?.oppgave.papirSmRegistering ?? null}
-            ferdigstilt={false}
-        />
-    )
+    if (query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
+        return (
+            <NasjonalSykmeldingForm
+                oppgaveId={oppgaveId}
+                sykmelding={query.data?.nasjonalOppgave?.nasjonalSykmelding ?? null}
+                ferdigstilt={false}
+            />
+        )
+    }
+    return <div>Sykmelding ble ikke funnet</div>
 }

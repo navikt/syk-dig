@@ -10,6 +10,11 @@ import {
     JournalpostByIdDocument,
     JournalpostByIdQuery,
     JournalpostStatusEnum,
+    NasjonalFerdigstiltOppgaveBySykmeldingIdDocument,
+    NasjonalOppgaveByIdDocument,
+    NasjonalOppgaveFragment,
+    NasjonalOppgaveStatusFragment,
+    NasjonalSykmeldingStatusFragment,
     NavngiDokumentDocument,
     NavngiDokumentMutation,
     OppdatertSykmeldingStatusEnum,
@@ -28,6 +33,7 @@ import {
     UpdateDigitalisertSykmeldingMutation,
 } from '../graphql/queries/graphql.generated'
 import { notNull } from '../utils/tsUtils'
+import getNasjonalMockDb from '../components/nasjonal-oppgave/__tests__/testData'
 
 import { handlers as handler } from './handlers-test'
 import getMockDb from './data'
@@ -244,6 +250,22 @@ export const handlers = [
         })
     }),
     ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
+
+    // NASJONAL
+    graphql.query(NasjonalOppgaveByIdDocument, async ({ variables }) => {
+        const nasjonalOppgave: NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment =
+            getNasjonalMockDb().getNasjonalOppgaveOrStatusByOppgaveId(variables.oppgaveId)
+
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Query', nasjonalOppgave } })
+    }),
+    graphql.query(NasjonalFerdigstiltOppgaveBySykmeldingIdDocument, async ({ variables }) => {
+        const nasjonalFerdigstiltOppgave: NasjonalOppgaveFragment | NasjonalSykmeldingStatusFragment =
+            getNasjonalMockDb().getNasjonalOppgaveOrStatusBySykmeldingId(variables.sykmeldingId)
+
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Query', nasjonalFerdigstiltOppgave } })
+    }),
 ]
 
 function mapInputDiagnoseToOppgaveDiagnose(
