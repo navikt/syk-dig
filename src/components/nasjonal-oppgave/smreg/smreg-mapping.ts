@@ -2,9 +2,9 @@ import { MulighetForArbeid, NasjonalFormValues } from '../form/NasjonalSykmeldin
 import { Nullable } from '../../../utils/tsUtils'
 import { Periode } from '../schema/sykmelding/Periode'
 import { toDateString } from '../../../utils/dateUtils'
+import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
 import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
 import { NasjonalSykmeldingFragment } from '../../../graphql/queries/graphql.generated'
-import { DiagnosekodeSystem } from '../schema/sykmelding/Diagnosekoder'
 import { RegistrertSykmelding, RegistrertSykmeldingSchema } from '../schema/sykmelding/RegistrertSykmelding'
 
 export function mapFormValueToSmregRegistrertSykmelding(
