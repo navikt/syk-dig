@@ -33,7 +33,7 @@ export function fillDiagnoseSection(page: Page) {
         await section.getByLabel('3.3.2 Beskriv fravær (valgfritt)').fill('Dette er en beskrivelse av fraværet')
         await section.getByRole('checkbox', { name: /Sykdommen er svangerskapsrelatert/ }).check()
         await section.getByRole('checkbox', { name: /Sykmeldingen kan skyldes en yrkesskade/ }).check()
-        await section.getByLabel('3.6 Eventuell skadedato').fill('010120') //+ enter
+        await section.getByLabel('3.6 Eventuell skadedato').fill('010120')
         await section.getByRole('checkbox', { name: /nødvendig å skjerme pasienten/ }).check()
 
         let index = 0
