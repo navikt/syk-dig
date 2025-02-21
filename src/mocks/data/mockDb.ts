@@ -82,7 +82,7 @@ export class FakeMockDB {
         },
         avvist: {
             __typename: 'DigitaliseringsoppgaveStatus',
-            oppgaveId: 'finnesikke',
+            oppgaveId: 'avvist',
             status: DigitaliseringsoppgaveStatusEnum.Avvist,
         },
         ikkeensykmelding: {

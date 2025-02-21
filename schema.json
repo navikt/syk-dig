@@ -6,6 +6,224 @@
             "subscriptionType": null,
             "types": [
                 {
+                    "kind": "OBJECT",
+                    "name": "AktivitetIkkeMulig",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "medisinskArsak",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "MedisinskArsak", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "arbeidsrelatertArsak",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "ArbeidsrelatertArsak", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "AnnenFraversArsak",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "beskrivelse",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "grunn",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": { "kind": "ENUM", "name": "AnnenFraversArsakGrunn", "ofType": null }
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "ENUM",
+                    "name": "AnnenFraversArsakGrunn",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "GODKJENT_HELSEINSTITUSJON",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "BEHANDLING_FORHINDRER_ARBEID",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "ARBEIDSRETTET_TILTAK",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "MOTTAR_TILSKUDD_GRUNNET_HELSETILSTAND",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "NODVENDIG_KONTROLLUNDENRSOKELSE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "SMITTEFARE", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        { "name": "ABORT", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "UFOR_GRUNNET_BARNLOSHET",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "DONOR", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "BEHANDLING_STERILISERING",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "Arbeidsgiver",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "harArbeidsgiver",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "ENUM", "name": "HarArbeidsgiver", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "navn",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "yrkesbetegnelse",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "stillingsprosent",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "Int", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "ArbeidsrelatertArsak",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "beskrivelse",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "arsak",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "ENUM", "name": "ArbeidsrelatertArsakType", "ofType": null }
+                                    }
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "ENUM",
+                    "name": "ArbeidsrelatertArsakType",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "MANGLENDE_TILRETTELEGGING",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "ANNET", "description": null, "isDeprecated": false, "deprecationReason": null }
+                    ],
+                    "possibleTypes": null
+                },
+                {
                     "kind": "ENUM",
                     "name": "Avvisingsgrunn",
                     "description": null,
@@ -77,6 +295,77 @@
                         { "name": "DUPLIKAT", "description": null, "isDeprecated": false, "deprecationReason": null },
                         { "name": "ANNET", "description": null, "isDeprecated": false, "deprecationReason": null }
                     ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "Behandler",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "fornavn",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "mellomnavn",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "etternavn",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "fnr",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "hpr",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "tlf",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
                     "possibleTypes": null
                 },
                 {
@@ -156,6 +445,41 @@
                         }
                     ],
                     "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "DiagnoseSchema",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "system",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "kode",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "tekst",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
                     "enumValues": null,
                     "possibleTypes": null
                 },
@@ -641,6 +965,66 @@
                     "possibleTypes": null
                 },
                 {
+                    "kind": "OBJECT",
+                    "name": "Gradert",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "reisetilskudd",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Boolean", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "grad",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "Int", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "ENUM",
+                    "name": "HarArbeidsgiver",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "EN_ARBEIDSGIVER",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FLERE_ARBEIDSGIVERE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "INGEN_ARBEIDSGIVER",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "possibleTypes": null
+                },
+                {
                     "kind": "SCALAR",
                     "name": "Int",
                     "description": "Built-in Int",
@@ -801,6 +1185,33 @@
                 },
                 {
                     "kind": "OBJECT",
+                    "name": "KontaktMedPasient",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "kontaktDato",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "begrunnelseIkkeKontakt",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
                     "name": "Matrikkeladresse",
                     "description": null,
                     "fields": [
@@ -830,6 +1241,185 @@
                         },
                         {
                             "name": "poststed",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "MedisinskArsak",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "beskrivelse",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "arsak",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "ENUM", "name": "MedisinskArsakType", "ofType": null }
+                                    }
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "ENUM",
+                    "name": "MedisinskArsakType",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "TILSTAND_HINDRER_AKTIVITET",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "AKTIVITET_FORVERRER_TILSTAND",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "AKTIVITET_FORHINDRER_BEDRING",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "ANNET", "description": null, "isDeprecated": false, "deprecationReason": null }
+                    ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "MedisinskVurdering",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "hovedDiagnose",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "DiagnoseSchema", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "biDiagnoser",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "OBJECT", "name": "DiagnoseSchema", "ofType": null }
+                                    }
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "svangerskap",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Boolean", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "yrkesskade",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Boolean", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "yrkesskadeDato",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "annenFraversArsak",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "AnnenFraversArsak", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "MeldingTilNAV",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "bistandUmiddelbart",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Boolean", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "beskrivBistand",
                             "description": null,
                             "args": [],
                             "type": { "kind": "SCALAR", "name": "String", "ofType": null },
@@ -1124,6 +1714,361 @@
                     "possibleTypes": null
                 },
                 {
+                    "kind": "ENUM",
+                    "name": "NasjonalOppdatertSykmeldingStatusEnum",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        { "name": "OPPDATERT", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "IKKE_FERDIGSTILT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FERDIGSTILT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FINNES_IKKE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "AVVIST", "description": null, "isDeprecated": false, "deprecationReason": null },
+                        {
+                            "name": "IKKE_EN_SYKMELDING",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "NasjonalOppgave",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "oppgaveId",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "nasjonalSykmelding",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "OBJECT", "name": "NasjonalSykmelding", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "documents",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "OBJECT", "name": "Document", "ofType": null }
+                                    }
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "UNION",
+                    "name": "NasjonalOppgaveResult",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": [
+                        { "kind": "OBJECT", "name": "NasjonalOppgave", "ofType": null },
+                        { "kind": "OBJECT", "name": "NasjonalOppgaveStatus", "ofType": null }
+                    ]
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "NasjonalOppgaveStatus",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "oppgaveId",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "status",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "ENUM", "name": "NasjonalOppgaveStatusEnum", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "ENUM",
+                    "name": "NasjonalOppgaveStatusEnum",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": [
+                        {
+                            "name": "FERDIGSTILT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "IKKE_EN_SYKMELDING",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "IKKE_FERDIGSTILT",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "FINNES_IKKE",
+                            "description": null,
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        { "name": "AVVIST", "description": null, "isDeprecated": false, "deprecationReason": null }
+                    ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "NasjonalSykmelding",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "sykmeldingId",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "journalpostId",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "fnr",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "datoOpprettet",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "syketilfelleStartDato",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "arbeidsgiver",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "Arbeidsgiver", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "medisinskVurdering",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "MedisinskVurdering", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "skjermesForPasient",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "perioder",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "LIST",
+                                    "name": null,
+                                    "ofType": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "OBJECT", "name": "Periode", "ofType": null }
+                                    }
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "meldingTilNAV",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "MeldingTilNAV", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "meldingTilArbeidsgiver",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "kontaktMedPasient",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "KontaktMedPasient", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "behandletTidspunkt",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "Date", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "behandler",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "Behandler", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "UNION",
+                    "name": "NasjonalSykmeldingResult",
+                    "description": null,
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": [
+                        { "kind": "OBJECT", "name": "NasjonalOppgave", "ofType": null },
+                        { "kind": "OBJECT", "name": "NasjonalSykmeldingStatus", "ofType": null }
+                    ]
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "NasjonalSykmeldingStatus",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "sykmeldingId",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "status",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "ENUM", "name": "NasjonalOppdatertSykmeldingStatusEnum", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
                     "kind": "OBJECT",
                     "name": "Navn",
                     "description": null,
@@ -1364,6 +2309,81 @@
                     ]
                 },
                 {
+                    "kind": "OBJECT",
+                    "name": "Periode",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "fom",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Date", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "tom",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Date", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "aktivitetIkkeMulig",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "AktivitetIkkeMulig", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "avventendeInnspillTilArbeidsgiver",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "behandlingsdager",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "Int", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "gradert",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "Gradert", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "reisetilskudd",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "Boolean", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
                     "kind": "INPUT_OBJECT",
                     "name": "PeriodeInput",
                     "description": null,
@@ -1595,6 +2615,48 @@
                                 }
                             ],
                             "type": { "kind": "UNION", "name": "DigitalisertSykmeldingResult", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "nasjonalOppgave",
+                            "description": null,
+                            "args": [
+                                {
+                                    "name": "oppgaveId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                }
+                            ],
+                            "type": { "kind": "UNION", "name": "NasjonalOppgaveResult", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "nasjonalFerdigstiltOppgave",
+                            "description": null,
+                            "args": [
+                                {
+                                    "name": "sykmeldingId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                }
+                            ],
+                            "type": { "kind": "UNION", "name": "NasjonalSykmeldingResult", "ofType": null },
                             "isDeprecated": false,
                             "deprecationReason": null
                         },

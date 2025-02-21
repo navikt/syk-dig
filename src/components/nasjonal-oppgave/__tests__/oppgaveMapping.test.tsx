@@ -1,278 +1,225 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { http, HttpResponse } from 'msw'
-import { within } from '@testing-library/react'
+import { describe, it, expect } from 'vitest'
 
-import { render, screen } from '../../../utils/testUtils'
+import { render, screen, within } from '../../../utils/testUtils'
 import NasjonalOppgaveView from '../NasjonalOppgaveView'
-import { server } from '../../../mocks/server'
-import { apiUrl } from '../smreg/api'
-import { formatsmregDate, formatsmregDateShorthand } from '../smregDateUtils'
 import {
     ArbeidsrelatertArsakType,
-    ArbeidsrelatertArsakTypeValues,
     MedisinskArsakType,
-    MedisinskArsakTypeValues,
-} from '../schema/sykmelding/Periode'
-import mockSykmelder from '../mock/sykmelder.json'
+    NasjonalOppgaveByIdDocument,
+    NasjonalOppgaveFragment,
+    NasjonalOppgaveStatusEnum,
+    NasjonalOppgaveStatusFragment,
+} from '../../../graphql/queries/graphql.generated'
+import { formatsmregDate, formatsmregDateShorthand } from '../smregDateUtils'
+import { ArbeidsrelatertArsakTypeValues, MedisinskArsakTypeValues } from '../schema/sykmelding/Periode'
+import { createMock } from '../../../utils/test/apolloTestUtils'
 
-import fullOppgave from './testData/fullOppgave.json'
-import emptyOppgave from './testData/emptyOppgave.json'
-import {
-    mockBehandlerinfo,
-    mockPasientinfo,
-    TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway,
-} from './smregTestUtils'
+import { mockBehandlerinfo, mockPasientinfo } from './smregTestUtils'
+import { createNasjonalOppgave, createNasjonalOppgaveStatus } from './testData/dataCreators'
 
 describe('Mapping opppgave fetched from API', async () => {
-    beforeEach(() => {
+    it('Should map all fields when "nasjonalOppgave.nasjonalSykmelding" is completely filled out', async () => {
         mockPasientinfo()
         mockBehandlerinfo()
-    })
 
-    it('Should map all fields when "oppgave.papirSmRegistrering" is completely filled out', async () => {
-        server.use(
-            http.get(apiUrl(`/proxy/sykmelder/${fullOppgave.papirSmRegistering.behandler.hpr}`), () =>
-                HttpResponse.json(mockSykmelder),
-            ),
-            http.get(apiUrl(`/proxy/oppgave/${fullOppgave.oppgaveid}`), () => HttpResponse.json(fullOppgave)),
-        )
+        const nasjonalOppgave: NasjonalOppgaveFragment = createNasjonalOppgave({ oppgaveId: '123456789' })
+        const mocks = createMock({
+            request: { query: NasjonalOppgaveByIdDocument, variables: { oppgaveId: '123456789' } },
+            result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgave } },
+        })
 
-        render(
-            <TestOppgaveViewBecauseOfWeirdPaneBugButThisShouldBePlaywrightAnyway
-                oppgaveId={`${fullOppgave.oppgaveid}`}
-            />,
-            {
-                useRestLink: true,
-            },
-        )
+        render(<NasjonalOppgaveView oppgaveId={nasjonalOppgave.oppgaveId} layout={undefined} />, {
+            mocks: [mocks],
+        })
+
+        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
 
         // 1 Pasientopplysninger
-        expect(await screen.findByLabelText('1.2 Fødselsnummer (11 siffer)')).toHaveDisplayValue(
-            fullOppgave.papirSmRegistering.fnr,
-        )
+        expect(await screen.findByLabelText('1.2 Fødselsnummer (11 siffer)')).toHaveDisplayValue('20026900817')
 
         // 2 Arbeidsgiver
         expect(screen.getByLabelText('2.1 Pasienten har')).toHaveDisplayValue('Én arbeidsgiver')
         expect(screen.getByLabelText('2.2 Arbeidsgiver for denne sykmeldingen')).toHaveDisplayValue(
-            fullOppgave.papirSmRegistering.arbeidsgiver.navn,
+            'Langtvekkistan politidistrikt',
         )
-        expect(screen.getByLabelText('2.3 Yrke/stilling for dette arbeidsforholdet')).toHaveDisplayValue(
-            fullOppgave.papirSmRegistering.arbeidsgiver.yrkesbetegnelse,
-        )
-        expect(screen.getByLabelText('2.4 Stillingsprosent')).toHaveDisplayValue(
-            fullOppgave.papirSmRegistering.arbeidsgiver.stillingsprosent.toString(),
-        )
+        expect(screen.getByLabelText('2.3 Yrke/stilling for dette arbeidsforholdet')).toHaveDisplayValue('Politi')
+        expect(screen.getByLabelText('2.4 Stillingsprosent')).toHaveDisplayValue('100')
 
         // 3 Diagnose
         expect(screen.getAllByDisplayValue('ICD10')).toHaveLength(2)
-        expect(screen.getAllByDisplayValue('ICPC2')).toHaveLength(1)
         expect(
-            screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.hovedDiagnose.kode),
-        ).toBeInTheDocument()
-        expect(
-            screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[0].kode),
-        ).toBeInTheDocument()
-        expect(
-            screen.getByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[1].kode),
-        ).toBeInTheDocument()
-        expect(
-            within(screen.getByRole('region', { name: '3.1 Hoveddiagnose' })).getAllByText(
-                fullOppgave.papirSmRegistering.medisinskVurdering.hovedDiagnose.tekst,
-            ),
-            // Two occurences means it has been picked, since JSDOM still sees hidden elements
-        ).toHaveLength(2)
+            within(screen.getByRole('region', { name: '3.1 Hoveddiagnose' })).getAllByText('Main diagnosis text'),
+        ).toHaveLength(1)
 
         const bidiagnoseSection = within(screen.getByRole('region', { name: '3.2 Bidiagnose' }))
-        expect(
-            bidiagnoseSection.getAllByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[0].tekst),
-            // Two occurences means it has been picked, since JSDOM still sees hidden elements
-        ).toHaveLength(2)
-        expect(
-            bidiagnoseSection.getAllByText(fullOppgave.papirSmRegistering.medisinskVurdering.biDiagnoser[1].tekst),
-            // Two occurences means it has been picked, since JSDOM still sees hidden elements
-        ).toHaveLength(2)
+        expect(bidiagnoseSection.getAllByText('Secondary diagnosis text')).toHaveLength(1)
         expect(screen.getByRole('checkbox', { name: /Annen lovfestet fraværsgrunn/ })).toBeChecked()
         expect(screen.getByRole('checkbox', { name: /Når vedkommende er under behandling/ })).toBeChecked()
         expect(
             screen.getByRole('checkbox', { name: /Når vedkommende er til nødvendig kontrollundersøkelse/ }),
         ).toBeChecked()
         expect(screen.getByRole('checkbox', { name: /Når vedkommende er under behandling/ })).toBeChecked()
-        expect(screen.getByLabelText('3.3.2 Beskriv fravær (valgfritt)')).toHaveDisplayValue(
-            fullOppgave.papirSmRegistering.medisinskVurdering.annenFraversArsak.beskrivelse,
-        )
+        expect(screen.getByLabelText('3.3.2 Beskriv fravær (valgfritt)')).toHaveDisplayValue('Dette er årsaken')
         expect(screen.getByRole('checkbox', { name: /Sykdommen er svangerskapsrelatert/ })).toBeChecked()
         expect(screen.getByRole('checkbox', { name: /Sykmeldingen kan skyldes en yrkesskade/ })).toBeChecked()
-        expect(
-            screen.getByText(formatsmregDate(fullOppgave.papirSmRegistering.medisinskVurdering.yrkesskadeDato)),
-        ).toBeInTheDocument()
-        expect(screen.getByRole('checkbox', { name: /nødvendig å skjerme pasienten/ })).toBeChecked()
+        expect(screen.getByText(formatsmregDate('2020-03-05'))).toBeInTheDocument()
+        expect(screen.getByRole('checkbox', { name: /nødvendig å skjerme pasienten/ })).not.toBeChecked()
 
         // 4 Mulighet for arbeid
         expect(screen.getByDisplayValue('4.1 Avventende sykmelding')).toBeInTheDocument()
-        expect(
-            screen.getByDisplayValue(formatsmregDateShorthand(fullOppgave.papirSmRegistering.perioder[0].fom)),
-        ).toBeInTheDocument()
-        expect(
-            screen.getByDisplayValue(formatsmregDateShorthand(fullOppgave.papirSmRegistering.perioder[0].tom)),
-        ).toBeInTheDocument()
-        expect(screen.getByLabelText('Andre innspill til arbeidsgiver')).toHaveDisplayValue(
-            fullOppgave.papirSmRegistering.perioder[0].avventendeInnspillTilArbeidsgiver!,
-        )
+        expect(screen.getByDisplayValue(formatsmregDateShorthand('2025-01-01'))).toBeInTheDocument()
+        expect(screen.getByDisplayValue(formatsmregDateShorthand('2025-01-15'))).toBeInTheDocument()
+        expect(screen.getByLabelText('Andre innspill til arbeidsgiver')).toHaveDisplayValue('Må avvente')
 
         expect(screen.getByDisplayValue('4.2 Gradert sykmelding')).toBeInTheDocument()
-        expect(
-            screen.getByDisplayValue(formatsmregDateShorthand(fullOppgave.papirSmRegistering.perioder[1].fom)),
-        ).toBeInTheDocument()
-        expect(
-            screen.getByDisplayValue(formatsmregDateShorthand(fullOppgave.papirSmRegistering.perioder[1].tom)),
-        ).toBeInTheDocument()
+        expect(screen.getByDisplayValue(formatsmregDateShorthand('2025-01-16'))).toBeInTheDocument()
+        expect(screen.getByDisplayValue(formatsmregDateShorthand('2025-01-30'))).toBeInTheDocument()
         expect(screen.getByLabelText('Oppgi grad')).toHaveDisplayValue('80')
         expect(screen.getByRole('checkbox', { name: /Pasienten kan være delvis i arbeid/ })).toBeChecked()
 
         expect(screen.getByDisplayValue('4.3 100% sykmelding')).toBeInTheDocument()
-        expect(
-            screen.getByDisplayValue(formatsmregDateShorthand(fullOppgave.papirSmRegistering.perioder[2].fom)),
-        ).toBeInTheDocument()
-        expect(
-            screen.getByDisplayValue(formatsmregDateShorthand(fullOppgave.papirSmRegistering.perioder[2].tom)),
-        ).toBeInTheDocument()
+        expect(screen.getByDisplayValue(formatsmregDateShorthand('2025-02-01'))).toBeInTheDocument()
+        expect(screen.getByDisplayValue(formatsmregDateShorthand('2025-02-15'))).toBeInTheDocument()
         expect(screen.getByRole('checkbox', { name: /Det er medisinske årsaker/ })).toBeChecked()
-        expect(fullOppgave.papirSmRegistering.perioder[2].aktivitetIkkeMulig?.medisinskArsak.arsak).toHaveLength(2)
-        fullOppgave.papirSmRegistering.perioder[2].aktivitetIkkeMulig?.medisinskArsak.arsak.forEach((arsak) => {
+        expect(nasjonalOppgave.nasjonalSykmelding.perioder[2].aktivitetIkkeMulig?.medisinskArsak?.arsak).toHaveLength(1)
+        nasjonalOppgave.nasjonalSykmelding.perioder[2].aktivitetIkkeMulig?.medisinskArsak?.arsak.forEach((arsak) => {
             expect(
                 screen.getByRole('checkbox', { name: MedisinskArsakTypeValues[arsak as MedisinskArsakType] }),
             ).toBeChecked()
         })
         expect(screen.getByDisplayValue('Dette er beskrivelsen på den medisinske årsaken')).toBeInTheDocument()
-        expect(fullOppgave.papirSmRegistering.perioder[2].aktivitetIkkeMulig?.arbeidsrelatertArsak.arsak).toHaveLength(
-            1,
+        expect(
+            nasjonalOppgave.nasjonalSykmelding.perioder[2].aktivitetIkkeMulig?.arbeidsrelatertArsak?.arsak,
+        ).toHaveLength(1)
+        nasjonalOppgave.nasjonalSykmelding.perioder[2].aktivitetIkkeMulig?.arbeidsrelatertArsak?.arsak.forEach(
+            (arsak) => {
+                expect(
+                    screen.getByRole('checkbox', {
+                        name: ArbeidsrelatertArsakTypeValues[arsak as ArbeidsrelatertArsakType],
+                    }),
+                ).toBeChecked()
+            },
         )
-        fullOppgave.papirSmRegistering.perioder[2].aktivitetIkkeMulig?.arbeidsrelatertArsak.arsak.forEach((arsak) => {
-            expect(
-                screen.getByRole('checkbox', {
-                    name: ArbeidsrelatertArsakTypeValues[arsak as ArbeidsrelatertArsakType],
-                }),
-            ).toBeChecked()
-        })
         expect(screen.getByDisplayValue('Dette er beskrivelsen på den arbeidsrelaterte årsaken')).toBeInTheDocument()
 
         expect(screen.getByDisplayValue('4.4 Behandlingsdager')).toBeInTheDocument()
-        expect(
-            screen.getByDisplayValue(formatsmregDateShorthand(fullOppgave.papirSmRegistering.perioder[3].fom)),
-        ).toBeInTheDocument()
-        expect(
-            screen.getByDisplayValue(formatsmregDateShorthand(fullOppgave.papirSmRegistering.perioder[3].tom)),
-        ).toBeInTheDocument()
-        expect(screen.getByLabelText('Oppgi antall dager i perioden')).toHaveDisplayValue(
-            `${fullOppgave.papirSmRegistering.perioder[3].behandlingsdager}`,
-        )
+        expect(screen.getByDisplayValue(formatsmregDateShorthand('2025-02-16'))).toBeInTheDocument()
+        expect(screen.getByDisplayValue(formatsmregDateShorthand('2025-02-28'))).toBeInTheDocument()
+        expect(screen.getByLabelText('Oppgi antall dager i perioden')).toHaveDisplayValue('13')
 
         expect(screen.getByDisplayValue('4.5 Reisetilskudd')).toBeInTheDocument()
-        expect(
-            screen.getByDisplayValue(formatsmregDateShorthand(fullOppgave.papirSmRegistering.perioder[4].fom)),
-        ).toBeInTheDocument()
-        expect(
-            screen.getByDisplayValue(formatsmregDateShorthand(fullOppgave.papirSmRegistering.perioder[4].tom)),
-        ).toBeInTheDocument()
+        expect(screen.getByDisplayValue(formatsmregDateShorthand('2025-03-01'))).toBeInTheDocument()
+        expect(screen.getByDisplayValue(formatsmregDateShorthand('2025-03-15'))).toBeInTheDocument()
 
         // 6 Utdypende opplysninger
         expect(screen.getByRole('checkbox', { name: /Sykmeldingen har utdypende opplysninger/ })).not.toBeChecked()
 
         // 8 Melding til NAV
         expect(screen.getByRole('checkbox', { name: /Ønskes bistand fra NAV nå?/ })).toBeChecked()
-        expect(screen.getByLabelText('Begrunn nærmere')).toHaveDisplayValue(
-            fullOppgave.papirSmRegistering.meldingTilNAV.beskrivBistand,
-        )
+        expect(screen.getByLabelText('Begrunn nærmere')).toHaveDisplayValue('Dette er en beskrivelse av bistand')
 
         // 9 Melding til arbeidsgiveren
         expect(screen.getByLabelText('9.1 Andre innspill til arbeidsgiveren')).toHaveDisplayValue(
-            fullOppgave.papirSmRegistering.meldingTilArbeidsgiver,
+            'Melding til arbeidsgiver',
         )
 
         // 10 Tilbakedatering
         expect(screen.getByRole('checkbox', { name: /Er sykmeldingen tilbakedatert?/ })).toBeChecked()
         expect(screen.getByLabelText('Oppgi dato for dokumenterbar kontakt med pasienten')).toHaveDisplayValue(
-            formatsmregDateShorthand(fullOppgave.papirSmRegistering.kontaktMedPasient.kontaktDato),
+            formatsmregDateShorthand('2025-01-10'),
         )
         expect(
             screen.getByRole('checkbox', { name: /Pasienten har ikke kunnet ivareta egne interesser/ }),
         ).toBeChecked()
-        expect(screen.getByLabelText('Begrunn')).toHaveDisplayValue(
-            fullOppgave.papirSmRegistering.kontaktMedPasient.begrunnelseIkkeKontakt,
-        )
+        expect(screen.getByLabelText('Begrunn')).toHaveDisplayValue('Pasienten kunne ikke bevege seg')
 
         // 12 Behandler
-        expect(screen.getByLabelText('12.1 Behandletdato')).toHaveDisplayValue(
-            formatsmregDateShorthand(fullOppgave.papirSmRegistering.behandletTidspunkt),
-        )
-
-        expect(screen.getByDisplayValue(fullOppgave.papirSmRegistering.behandler.hpr)).toBeInTheDocument() // Can not getByLabelText before fixing label
-        expect(screen.getByLabelText('12.5 Telefon')).toHaveDisplayValue(fullOppgave.papirSmRegistering.behandler.tlf)
+        expect(screen.getByLabelText('12.1 Behandletdato')).toHaveDisplayValue(formatsmregDateShorthand('2025-01-14'))
     }, 20000)
 
-    it('Should not map any field when "oppgave.papirSmRegistrering" is null', async () => {
-        server.use(http.get(apiUrl(`/proxy/oppgave/${emptyOppgave.oppgaveid}`), () => HttpResponse.json(emptyOppgave)))
+    describe('NasjonalOppgaveStatus', () => {
+        it('Should show status for nasjonalOppgave AVVIST', async () => {
+            const nasjonalOppgaveStatus: NasjonalOppgaveStatusFragment = createNasjonalOppgaveStatus({
+                oppgaveId: 'Avvist',
+                status: NasjonalOppgaveStatusEnum.Avvist,
+            })
+            const mocks = createMock({
+                request: { query: NasjonalOppgaveByIdDocument, variables: { oppgaveId: 'Avvist' } },
+                result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgaveStatus } },
+            })
 
-        render(<NasjonalOppgaveView oppgaveId={`${emptyOppgave.oppgaveid}`} layout={undefined} />, {
-            useRestLink: true,
+            render(<NasjonalOppgaveView oppgaveId={nasjonalOppgaveStatus.oppgaveId} layout={undefined} />, {
+                mocks: [mocks],
+            })
+
+            expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
+            expect(await screen.findByRole('heading', { name: 'Oppgaven er avvist' })).toBeInTheDocument()
+
+            expect(screen.queryByRole('botton', { name: 'Registrer sykmeldingen' })).not.toBeInTheDocument()
         })
 
-        expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
-        expect(screen.getByText('Vennligst legg inn opplysningene fra papirsykmeldingen')).toBeInTheDocument()
+        it('Should show status for nasjonalOppgave FERDIGSTILT', async () => {
+            const nasjonalOppgaveStatus: NasjonalOppgaveStatusFragment = createNasjonalOppgaveStatus({
+                oppgaveId: 'ferdigstilt',
+                status: NasjonalOppgaveStatusEnum.Ferdigstilt,
+            })
+            const mocks = createMock({
+                request: { query: NasjonalOppgaveByIdDocument, variables: { oppgaveId: 'ferdigstilt' } },
+                result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgaveStatus } },
+            })
 
-        // 1 Pasientopplysninger
-        expect(screen.getByLabelText('1.2 Fødselsnummer (11 siffer)')).toHaveDisplayValue('')
+            render(<NasjonalOppgaveView oppgaveId={nasjonalOppgaveStatus.oppgaveId} layout={undefined} />, {
+                mocks: [mocks],
+            })
 
-        // 2 Arbeidsgiver
-        expect(screen.getByLabelText('2.1 Pasienten har')).toHaveDisplayValue('Velg')
-        expect(screen.getByLabelText('2.2 Arbeidsgiver for denne sykmeldingen')).toHaveDisplayValue('')
-        expect(screen.getByLabelText('2.3 Yrke/stilling for dette arbeidsforholdet')).toHaveDisplayValue('')
-        expect(screen.getByLabelText('2.4 Stillingsprosent')).toHaveDisplayValue('')
+            expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
+            expect(await screen.findByRole('heading', { name: 'Oppgaven er allerede ferdigstilt' })).toBeInTheDocument()
 
-        // 3 Diagnose
-        expect(screen.getByLabelText('3.1.2 Kode')).toHaveDisplayValue('')
-        expect(screen.queryByLabelText('3.2.2 Kode')).not.toBeInTheDocument()
-        expect(
-            screen.getByRole('checkbox', { name: 'Annen lovfestet fraværsgrunn § 8-4, 3. ledd oppgis hvis relevant' }),
-        ).not.toBeChecked()
-        expect(screen.getByRole('checkbox', { name: 'Sykdommen er svangerskapsrelatert' })).not.toBeChecked()
-        expect(
-            screen.getByRole('checkbox', { name: 'Sykmeldingen kan skyldes en yrkesskade / yrkessykdom' }),
-        ).not.toBeChecked()
-        expect(
-            screen.getByRole('checkbox', {
-                name: 'Det er påtrengende nødvendig å skjerme pasienten for medisinske opplysninger, jf. pasient- og brukerrettighetsloven §§ 3-2 og 5-1',
-            }),
-        ).not.toBeChecked()
+            expect(screen.queryByRole('botton', { name: 'Registrer sykmeldingen' })).not.toBeInTheDocument()
+        })
 
-        // 4 Mulighet for arbeid
-        expect(await screen.findAllByLabelText('Periodetype')).toHaveLength(1)
-        expect(screen.getByLabelText('Periodetype')).toHaveDisplayValue('4.3 100% sykmelding')
-        expect(
-            screen.getByRole('checkbox', { name: 'Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet' }),
-        ).not.toBeChecked()
-        expect(
-            screen.getByRole('checkbox', { name: 'Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet' }),
-        ).not.toBeChecked()
+        it('Should show status for nasjonalOppgave IKKE_EN_SYKMELDING', async () => {
+            const nasjonalOppgaveStatus: NasjonalOppgaveStatusFragment = createNasjonalOppgaveStatus({
+                oppgaveId: 'ikkeensykmelding',
+                status: NasjonalOppgaveStatusEnum.IkkeEnSykmelding,
+            })
+            const mocks = createMock({
+                request: { query: NasjonalOppgaveByIdDocument, variables: { oppgaveId: 'ikkeensykmelding' } },
+                result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgaveStatus } },
+            })
 
-        // 6 Utdypende opplysninger
-        expect(screen.getByRole('checkbox', { name: 'Sykmeldingen har utdypende opplysninger' })).not.toBeChecked()
+            render(<NasjonalOppgaveView oppgaveId={nasjonalOppgaveStatus.oppgaveId} layout={undefined} />, {
+                mocks: [mocks],
+            })
 
-        // 8 Utdypende opplysninger
-        expect(screen.getByRole('checkbox', { name: 'Ønskes bistand fra NAV nå?' })).not.toBeChecked()
+            expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
+            expect(
+                await screen.findByRole('heading', {
+                    name: 'Oppgaven har blitt sendt tilbake til Gosys fordi det ikke var en sykmelding',
+                }),
+            ).toBeInTheDocument()
 
-        // 9 Utdypende opplysninger
-        expect(screen.getByLabelText('9.1 Andre innspill til arbeidsgiveren')).toHaveDisplayValue('')
+            expect(screen.queryByRole('botton', { name: 'Registrer sykmeldingen' })).not.toBeInTheDocument()
+        })
 
-        // 10 Tilbakedatering
-        expect(screen.getByRole('checkbox', { name: 'Er sykmeldingen tilbakedatert?' })).not.toBeChecked()
-        expect(
-            screen.getByRole('checkbox', { name: 'Pasienten har ikke kunnet ivareta egne interesser' }),
-        ).not.toBeChecked()
+        it('Should show status for nasjonalOppgave FINNES_IKKE', async () => {
+            const nasjonalOppgaveStatus: NasjonalOppgaveStatusFragment = createNasjonalOppgaveStatus({
+                oppgaveId: 'FinnesIkke',
+                status: NasjonalOppgaveStatusEnum.FinnesIkke,
+            })
+            const mocks = createMock({
+                request: { query: NasjonalOppgaveByIdDocument, variables: { oppgaveId: 'FinnesIkke' } },
+                result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgaveStatus } },
+            })
 
-        // 12 Behandler
-        expect(screen.getByLabelText('12.1 Behandletdato')).toHaveDisplayValue('')
-        expect(screen.getByRole('textbox', { name: /12.4 HPR-nummer/ })).toHaveDisplayValue('')
-        expect(screen.getByLabelText('12.5 Telefon')).toHaveDisplayValue('')
+            render(<NasjonalOppgaveView oppgaveId={nasjonalOppgaveStatus.oppgaveId} layout={undefined} />, {
+                mocks: [mocks],
+            })
+
+            expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
+            expect(await screen.findByRole('heading', { name: 'Vi klarte ikke å finne oppgaven' })).toBeInTheDocument()
+
+            expect(screen.queryByRole('botton', { name: 'Registrer sykmeldingen' })).not.toBeInTheDocument()
+        })
     })
 })

@@ -3,13 +3,13 @@ import { Nullable } from '../../../utils/tsUtils'
 import { Periode } from '../schema/sykmelding/Periode'
 import { toDateString } from '../../../utils/dateUtils'
 import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
-import { RegistrertSykmelding, RegistrertSykmeldingSchema } from '../schema/sykmelding/RegistrertSykmelding'
-import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
 import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { NasjonalSykmeldingFragment } from '../../../graphql/queries/graphql.generated'
+import { RegistrertSykmelding, RegistrertSykmeldingSchema } from '../schema/sykmelding/RegistrertSykmelding'
 
 export function mapFormValueToSmregRegistrertSykmelding(
     values: NasjonalFormValues,
-    sykmelding: Papirsykmelding | null,
+    sykmelding: NasjonalSykmeldingFragment | null,
 ): RegistrertSykmelding {
     return RegistrertSykmeldingSchema.parse({
         pasientFnr: values.pasientopplysninger.fnr,
@@ -22,12 +22,12 @@ export function mapFormValueToSmregRegistrertSykmelding(
                 ? toDateString(values.medisinskVurdering.yrkesskadeDato)
                 : null,
             hovedDiagnose: {
-                system: diagnoseSystemToWeirdString(values.medisinskVurdering.hoveddiagnose.system),
+                system: diagnoseSystemToAbbrevation(values.medisinskVurdering.hoveddiagnose.system),
                 kode: values.medisinskVurdering.hoveddiagnose.code,
                 tekst: values.medisinskVurdering.hoveddiagnose.text,
             },
             biDiagnoser: values.medisinskVurdering.bidiagnoser.map((it) => ({
-                system: diagnoseSystemToWeirdString(it.system),
+                system: diagnoseSystemToAbbrevation(it.system),
                 kode: it.code,
                 tekst: it.text,
             })),
@@ -49,7 +49,7 @@ export function mapFormValueToSmregRegistrertSykmelding(
         behandler: {
             hpr: values.behandler.hpr,
             // TODO: Lol why are all these values here?
-            adresse: sykmelding?.behandler?.adresse ?? {
+            adresse: {
                 gate: null,
                 postnummer: null,
                 kommune: null,
@@ -157,7 +157,7 @@ export function mapFormPeriodToRegistrertPeriod(periode: MulighetForArbeid): Nul
     }
 }
 
-function diagnoseSystemToWeirdString(system: DiagnoseSystem): string {
+function diagnoseSystemToAbbrevation(system: DiagnoseSystem): string {
     switch (system) {
         case 'ICD10':
             return DiagnosekodeSystem.ICD10
