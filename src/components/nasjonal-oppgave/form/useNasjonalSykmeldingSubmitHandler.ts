@@ -8,6 +8,7 @@ import { useModiaContext } from '../../../modia/modia-context'
 import { redirectTilGosys } from '../../../utils/gosys'
 import { raise } from '../../../utils/tsUtils'
 import { NasjonalSykmeldingFragment } from '../../../graphql/queries/graphql.generated'
+import { redirectTilModia } from '../../../utils/modia'
 
 import { NasjonalFormValues } from './NasjonalSykmeldingFormTypes'
 
@@ -44,6 +45,8 @@ export function useNasjonalSykmeldingSubmitHandler(
                 if (data.ruleHits == null) {
                     if (params?.get('source') === 'registrer-sykmelding') {
                         router.push('/registrer-sykmelding')
+                    } else if ('ferdigstilt' in oppgaveMeta) {
+                        redirectTilModia()
                     } else {
                         redirectTilGosys()
                     }
