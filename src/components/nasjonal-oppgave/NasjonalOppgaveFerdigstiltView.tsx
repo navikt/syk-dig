@@ -1,25 +1,28 @@
 'use client'
 
 import React, { ReactElement } from 'react'
+import { useQuery } from '@apollo/client'
 
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
+import { NasjonalFerdigstiltOppgaveBySykmeldingIdDocument } from '../../graphql/queries/graphql.generated'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
-import { useFerdigstiltNasjonalOppgave } from './useNasjonalOppgave'
 import {
     NasjonalOppgaveFerdigstiltDocuments,
     NasjonalOppgaveError,
     NasjonalOppgaveSkeleton,
 } from './NasjonalOppgaveStates'
+import NasjonalFerdigstiltOppgaveStatus from './status/NasjonalFerdigstiltOppgaveStatus'
 
 type Props = PaneView & {
     sykmeldingId: string
 }
 
 function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactElement {
-    const query = useFerdigstiltNasjonalOppgave(sykmeldingId)
-
+    const query = useQuery(NasjonalFerdigstiltOppgaveBySykmeldingIdDocument, {
+        variables: { sykmeldingId },
+    })
     return (
         <SplitDocumentView
             title="Korrigering av registrert papirsykmelding"
@@ -29,12 +32,16 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactE
             defaultLayout={layout}
         >
             {query.loading && <NasjonalOppgaveSkeleton />}
-            {query.data && (
+            {query.data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgave' ? (
                 <NasjonalSykmeldingForm
-                    sykmelding={query.data.oppgave.papirSmRegistering}
+                    sykmelding={query.data.nasjonalFerdigstiltOppgave.nasjonalSykmelding}
                     sykmeldingId={sykmeldingId}
                     ferdigstilt
                 />
+            ) : (
+                query.data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalSykmeldingStatus' && (
+                    <NasjonalFerdigstiltOppgaveStatus oppgave={query.data.nasjonalFerdigstiltOppgave} />
+                )
             )}
             {query.error && (
                 <NasjonalOppgaveError error={query.error}>

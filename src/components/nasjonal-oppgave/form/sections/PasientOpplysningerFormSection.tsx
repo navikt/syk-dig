@@ -60,7 +60,7 @@ function PersonDisplay(): ReactElement {
         <div className="navds-form-field navds-form-field--medium grow">
             <Label>Navn</Label>
             {!loading && data?.person && (
-                <BodyLong className="">
+                <BodyLong>
                     {data?.person.fornavn} {data?.person?.mellomnavn} {data?.person.etternavn}
                 </BodyLong>
             )}
