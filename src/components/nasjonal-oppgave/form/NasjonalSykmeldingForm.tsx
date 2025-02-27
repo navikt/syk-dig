@@ -6,7 +6,7 @@ import { DevTool } from '@hookform/devtools'
 
 import { sections } from '../sections'
 import Errors, { useErrorSection } from '../../Errors/Errors'
-import { Papirsykmelding } from '../schema/sykmelding/Papirsykmelding'
+import { NasjonalSykmeldingFragment } from '../../../graphql/queries/graphql.generated'
 
 import BehandlerSection from './sections/behandler/BehandlerSection'
 import DiagnoseFormSection from './sections/diagnose/DiagnoseFormSection'
@@ -32,7 +32,7 @@ type OppgaveOrFerdigstilt =
           sykmeldingId: string
       }
 
-type Props = { sykmelding: Papirsykmelding | null } & OppgaveOrFerdigstilt
+type Props = { sykmelding: NasjonalSykmeldingFragment | null } & OppgaveOrFerdigstilt
 
 function NasjonalSykmeldingForm({ sykmelding, ...props }: Props): ReactElement {
     const [hasParseError, setHasParseError] = useState(false)

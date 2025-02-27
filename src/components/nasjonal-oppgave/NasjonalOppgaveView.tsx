@@ -1,24 +1,27 @@
 'use client'
 
 import React, { ReactElement } from 'react'
+import { useQuery } from '@apollo/client'
 
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
 import { useModiaContext } from '../../modia/modia-context'
 import ModiaAlert from '../../modia/ModiaAlert'
+import { NasjonalOppgaveByIdDocument } from '../../graphql/queries/graphql.generated'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
-import { useNasjonalOppgave } from './useNasjonalOppgave'
 import { NasjonalOppgaveDocuments, NasjonalOppgaveError, NasjonalOppgaveSkeleton } from './NasjonalOppgaveStates'
+import NasjonalOppgaveStatus from './status/NasjonalOppgaveStatus'
 
 type Props = PaneView & {
     oppgaveId: string
 }
 
 function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
-    const query = useNasjonalOppgave(oppgaveId)
     const modiaContext = useModiaContext()
-
+    const query = useQuery(NasjonalOppgaveByIdDocument, {
+        variables: { oppgaveId },
+    })
     return (
         <SplitDocumentView
             title="Nasjonal papirsykmelding"
@@ -29,12 +32,16 @@ function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
         >
             {'errorType' in modiaContext.modia && <ModiaAlert error={modiaContext.modia} />}
             {query.loading && <NasjonalOppgaveSkeleton />}
-            {query.data && (
+            {query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgave' ? (
                 <NasjonalSykmeldingForm
-                    oppgaveId={oppgaveId}
-                    sykmelding={query.data.oppgave.papirSmRegistering}
+                    oppgaveId={query.data.nasjonalOppgave.oppgaveId}
+                    sykmelding={query.data.nasjonalOppgave.nasjonalSykmelding}
                     ferdigstilt={false}
                 />
+            ) : (
+                query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgaveStatus' && (
+                    <NasjonalOppgaveStatus oppgave={query.data.nasjonalOppgave} />
+                )
             )}
             {query.error && (
                 <NasjonalOppgaveError error={query.error}>
