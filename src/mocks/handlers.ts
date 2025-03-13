@@ -10,6 +10,7 @@ import {
     JournalpostByIdDocument,
     JournalpostByIdQuery,
     JournalpostStatusEnum,
+    LagreNasjonalOppgaveStatusEnum,
     NasjonalFerdigstiltOppgaveBySykmeldingIdDocument,
     NasjonalOppgaveByIdDocument,
     NasjonalOppgaveFragment,
@@ -23,6 +24,9 @@ import {
     PeriodeInput,
     SaveOppgaveDocument,
     SaveOppgaveMutation,
+    SaveOppgaveNasjonalDocument,
+    SaveOppgaveNasjonalMutation,
+    Status,
     SykmeldingByIdDocument,
     SykmeldingFraJournalpostDocument,
     SykmeldingFraJournalpostMutation,
@@ -265,6 +269,51 @@ export const handlers = [
 
         await delay()
         return HttpResponse.json({ data: { __typename: 'Query', nasjonalFerdigstiltOppgave } })
+    }),
+    graphql.mutation(SaveOppgaveNasjonalDocument, async ({ variables }) => {
+        const shouldRuleHit = false
+        if (shouldRuleHit) {
+            return HttpResponse.json({
+                data: {
+                    __typename: 'Mutation',
+                    lagreNasjonalOppgave: {
+                        __typename: 'ValidationResult',
+                        validationStatus: Status.Invalid,
+                        ruleHits: [
+                            {
+                                __typename: 'RuleInfo',
+                                ruleName: 'RULE_NUMBER_ONE',
+                                ruleStatus: Status.Invalid,
+                                messageForSender: 'Dont break the rules, please',
+                                messageForUser: 'message for user',
+                            },
+                        ],
+                    },
+                } satisfies SaveOppgaveNasjonalMutation,
+            })
+        }
+
+        if (
+            variables.sykmeldingStatus === SykmeldingUnderArbeidStatus.Ferdigstilt ||
+            variables.sykmeldingStatus === SykmeldingUnderArbeidStatus.UnderArbeid
+        ) {
+            await delay()
+
+            const status: LagreNasjonalOppgaveStatusEnum =
+                variables.sykmeldingStatus === SykmeldingUnderArbeidStatus.UnderArbeid
+                    ? LagreNasjonalOppgaveStatusEnum.Ferdigstilt
+                    : LagreNasjonalOppgaveStatusEnum.Oppdatert
+            return HttpResponse.json({
+                data: {
+                    __typename: 'Mutation',
+                    lagreNasjonalOppgave: {
+                        __typename: 'LagreNasjonalOppgaveStatus',
+                        oppgaveId: variables.oppgaveId,
+                        status: status,
+                    },
+                } satisfies SaveOppgaveNasjonalMutation,
+            })
+        }
     }),
 ]
 

@@ -1,0 +1,25 @@
+mutation SaveOppgaveNasjonal(
+    $oppgaveId: String!
+    $sykmeldingValues: NasjonalSykmeldingValues!
+    $sykmeldingStatus: SykmeldingUnderArbeidStatus!
+    $navEnhet: String!
+) {
+    lagreNasjonalOppgave(
+        oppgaveId: $oppgaveId
+        sykmeldingValues: $sykmeldingValues
+        status: $sykmeldingStatus
+        navEnhet: $navEnhet
+    ) {
+        ...LagreOppgaveResult
+    }
+}
+
+fragment LagreNasjonalOppgaveStatus on LagreNasjonalOppgaveStatus {
+    oppgaveId
+    status
+}
+
+fragment LagreOppgaveResult on LagreOppgaveResult {
+    ...LagreNasjonalOppgaveStatus
+    ...ValidationResult
+}

@@ -7,7 +7,7 @@ import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
 import { useModiaContext } from '../../modia/modia-context'
 import ModiaAlert from '../../modia/ModiaAlert'
-import { NasjonalOppgaveByIdDocument } from '../../graphql/queries/graphql.generated'
+import { NasjonalOppgaveByIdDocument, SykmeldingUnderArbeidStatus } from '../../graphql/queries/graphql.generated'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import { NasjonalOppgaveDocuments, NasjonalOppgaveError, NasjonalOppgaveSkeleton } from './NasjonalOppgaveStates'
@@ -36,7 +36,7 @@ function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
                 <NasjonalSykmeldingForm
                     oppgaveId={query.data.nasjonalOppgave.oppgaveId}
                     sykmelding={query.data.nasjonalOppgave.nasjonalSykmelding}
-                    ferdigstilt={false}
+                    status={SykmeldingUnderArbeidStatus.UnderArbeid}
                 />
             ) : (
                 query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgaveStatus' && (

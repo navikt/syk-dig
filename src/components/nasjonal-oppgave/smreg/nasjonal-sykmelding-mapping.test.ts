@@ -7,12 +7,12 @@ import {
     ArbeidsrelatertArsakType,
     HarArbeidsgiver,
     MedisinskArsakType,
+    NasjonalSykmeldingValues,
 } from '../../../graphql/queries/graphql.generated'
 import { Periode } from '../schema/sykmelding/Periode'
-import { RegistrertSykmelding } from '../schema/sykmelding/RegistrertSykmelding'
 import { createNasjonalOppgave } from '../__tests__/testData/dataCreators'
 
-import { mapFormPeriodToRegistrertPeriod, mapFormValueToSmregRegistrertSykmelding } from './smreg-mapping'
+import { mapFormPeriodToRegistrertPeriod, mapFormValueToNasjonalSykmelding } from './nasjonal-sykmelding-mapping'
 
 /**
  * These tests are from the old smreg registrertSykmeldingUtils.test.ts file.
@@ -20,7 +20,7 @@ import { mapFormPeriodToRegistrertPeriod, mapFormValueToSmregRegistrertSykmeldin
  * Adapted to the new mapping functions.
  */
 
-describe('smreg-mapping', () => {
+describe('nasjonal sykmelding mapping', () => {
     describe('Perioder', () => {
         describe('Avventende', () => {
             it('Returns avventende sykmelding', () => {
@@ -191,7 +191,7 @@ describe('smreg-mapping', () => {
                     type: 'gradert',
                     fom: toDate('2020-10-01'),
                     tom: toDate('2020-10-02'),
-                    grad: null,
+                    grad: 20,
                     reisetilskudd: true,
                 },
                 {
@@ -325,7 +325,7 @@ describe('smreg-mapping', () => {
                 },
             }
 
-            const expected: RegistrertSykmelding = {
+            const expected: NasjonalSykmeldingValues = {
                 pasientFnr: '12345678910',
                 sykmelderFnr: '',
                 perioder: [
@@ -425,37 +425,22 @@ describe('smreg-mapping', () => {
                 behandletDato: '2021-02-02',
                 skjermesForPasient: true,
                 behandler: {
-                    fornavn: '',
-                    mellomnavn: null,
-                    etternavn: '',
-                    aktoerId: '',
-                    fnr: '',
                     hpr: '12345',
-                    her: null,
-                    adresse: {
-                        gate: null,
-                        postnummer: null,
-                        kommune: null,
-                        postboks: null,
-                        land: null,
-                    },
                     tlf: '12345678',
                 },
                 kontaktMedPasient: {
                     kontaktDato: '2020-02-01',
                     begrunnelseIkkeKontakt: 'Pasienten hadde omgangssjuke',
                 },
-                syketilfelleStartDato: null,
                 meldingTilNAV: {
                     bistandUmiddelbart: true,
                     beskrivBistand: 'Melding til NAV',
                 },
                 meldingTilArbeidsgiver: 'Melding til arbeidsgiver',
                 harUtdypendeOpplysninger: true,
-                navnFastlege: null,
             }
 
-            expect(mapFormValueToSmregRegistrertSykmelding(schema, createNasjonalOppgave().nasjonalSykmelding)).toEqual(
+            expect(mapFormValueToNasjonalSykmelding(schema, createNasjonalOppgave().nasjonalSykmelding)).toEqual(
                 expected,
             )
         })

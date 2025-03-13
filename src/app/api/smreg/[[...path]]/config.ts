@@ -3,8 +3,6 @@ export const allowedAPIs = [
     'GET /api/v1/proxy/sykmelder/[id|hpr]',
     'POST /api/v1/proxy/oppgave/[id|hpr]/tilgosys',
     'POST /api/v1/proxy/oppgave/[id|hpr]/avvis',
-    'POST /api/v1/proxy/oppgave/[id|hpr]/send',
-    'POST /api/v1/proxy/sykmelding/[uuid]',
     'GET /api/v1/proxy/pdf/[id|hpr]/[id|hpr]',
 ]
 
