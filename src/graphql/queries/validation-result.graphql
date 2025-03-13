@@ -1,0 +1,13 @@
+fragment ValidationResult on ValidationResult {
+    validationStatus: status
+    ruleHits {
+        ...RuleInfo
+    }
+}
+
+fragment RuleInfo on RuleInfo {
+    messageForSender
+    messageForUser
+    ruleName
+    ruleStatus
+}

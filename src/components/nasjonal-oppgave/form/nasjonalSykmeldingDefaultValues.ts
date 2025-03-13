@@ -5,7 +5,11 @@ import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
 import { notNull, raise } from '../../../utils/tsUtils'
 import { safeToDate, toDate } from '../../../utils/dateUtils'
 import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
-import { NasjonalPeriodeFragment, NasjonalSykmeldingFragment } from '../../../graphql/queries/graphql.generated'
+import {
+    HarArbeidsgiver,
+    NasjonalPeriodeFragment,
+    NasjonalSykmeldingFragment,
+} from '../../../graphql/queries/graphql.generated'
 
 import {
     AktivitetIkkeMuligPeriode,
@@ -23,7 +27,7 @@ export function createDefaultValues(sykmelding: NasjonalSykmeldingFragment | nul
             fnr: sykmelding?.fnr ?? null,
         },
         arbeidsgiver: {
-            harArbeidsgiver: sykmelding?.arbeidsgiver?.harArbeidsgiver ?? null,
+            harArbeidsgiver: sykmelding?.arbeidsgiver?.harArbeidsgiver ?? HarArbeidsgiver.IngenArbeidsgiver,
             arbeidsgiverNavn: sykmelding?.arbeidsgiver?.navn ?? null,
             yrkesbetegnelse: sykmelding?.arbeidsgiver?.yrkesbetegnelse ?? null,
             stillingsprosent: sykmelding?.arbeidsgiver?.stillingsprosent ?? null,

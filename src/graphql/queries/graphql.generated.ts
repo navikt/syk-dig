@@ -26,6 +26,11 @@ export type AktivitetIkkeMulig = {
     medisinskArsak?: Maybe<MedisinskArsak>
 }
 
+export type AktivitetIkkeMuligValues = {
+    arbeidsrelatertArsak?: InputMaybe<ArbeidsrelatertArsakValues>
+    medisinskArsak?: InputMaybe<MedisinskArsakValues>
+}
+
 export type AnnenFraversArsak = {
     __typename: 'AnnenFraversArsak'
     beskrivelse?: Maybe<Scalars['String']['output']>
@@ -45,12 +50,24 @@ export enum AnnenFraversArsakGrunn {
     UforGrunnetBarnloshet = 'UFOR_GRUNNET_BARNLOSHET',
 }
 
+export type AnnenFraversArsakValues = {
+    beskrivelse?: InputMaybe<Scalars['String']['input']>
+    grunn: Array<AnnenFraversArsakGrunn>
+}
+
 export type Arbeidsgiver = {
     __typename: 'Arbeidsgiver'
     harArbeidsgiver?: Maybe<HarArbeidsgiver>
     navn?: Maybe<Scalars['String']['output']>
     stillingsprosent?: Maybe<Scalars['Int']['output']>
     yrkesbetegnelse?: Maybe<Scalars['String']['output']>
+}
+
+export type ArbeidsgiverValues = {
+    harArbeidsgiver: HarArbeidsgiver
+    navn?: InputMaybe<Scalars['String']['input']>
+    stillingsprosent?: InputMaybe<Scalars['Int']['input']>
+    yrkesbetegnelse?: InputMaybe<Scalars['String']['input']>
 }
 
 export type ArbeidsrelatertArsak = {
@@ -62,6 +79,11 @@ export type ArbeidsrelatertArsak = {
 export enum ArbeidsrelatertArsakType {
     Annet = 'ANNET',
     ManglendeTilrettelegging = 'MANGLENDE_TILRETTELEGGING',
+}
+
+export type ArbeidsrelatertArsakValues = {
+    arsak: Array<ArbeidsrelatertArsakType>
+    beskrivelse?: InputMaybe<Scalars['String']['input']>
 }
 
 export enum Avvisingsgrunn {
@@ -90,6 +112,11 @@ export type Behandler = {
     tlf?: Maybe<Scalars['String']['output']>
 }
 
+export type BehandlerValues = {
+    hpr?: InputMaybe<Scalars['String']['input']>
+    tlf?: InputMaybe<Scalars['String']['input']>
+}
+
 export type Bostedsadresse = Matrikkeladresse | UkjentBosted | UtenlandskAdresse | Vegadresse
 
 export type DiagnoseInput = {
@@ -109,6 +136,12 @@ export type DiagnoseValue = {
     kode: Scalars['String']['output']
     system: Scalars['String']['output']
     tekst?: Maybe<Scalars['String']['output']>
+}
+
+export type DiagnoseValues = {
+    kode: Scalars['String']['input']
+    system: Scalars['String']['input']
+    tekst?: InputMaybe<Scalars['String']['input']>
 }
 
 export type Digitaliseringsoppgave = {
@@ -398,10 +431,21 @@ export type Gradert = {
     reisetilskudd: Scalars['Boolean']['output']
 }
 
+export type GradertValues = {
+    grad: Scalars['Int']['input']
+    reisetilskudd: Scalars['Boolean']['input']
+}
+
 export enum HarArbeidsgiver {
     EnArbeidsgiver = 'EN_ARBEIDSGIVER',
     FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
     IngenArbeidsgiver = 'INGEN_ARBEIDSGIVER',
+}
+
+export type HarArbeidsgiverInfo = {
+    codeValue: Scalars['String']['input']
+    text: Scalars['String']['input']
+    value: HarArbeidsgiver
 }
 
 export type Journalpost = {
@@ -435,6 +479,28 @@ export type KontaktMedPasient = {
     kontaktDato?: Maybe<Scalars['String']['output']>
 }
 
+export type KontaktMedPasientValues = {
+    begrunnelseIkkeKontakt?: InputMaybe<Scalars['String']['input']>
+    kontaktDato?: InputMaybe<Scalars['Date']['input']>
+}
+
+export type LagreNasjonalOppgaveStatus = {
+    __typename: 'LagreNasjonalOppgaveStatus'
+    oppgaveId: Scalars['String']['output']
+    status: LagreNasjonalOppgaveStatusEnum
+}
+
+export enum LagreNasjonalOppgaveStatusEnum {
+    Avvist = 'AVVIST',
+    Ferdigstilt = 'FERDIGSTILT',
+    FinnesIkke = 'FINNES_IKKE',
+    IkkeEnSykmelding = 'IKKE_EN_SYKMELDING',
+    IkkeFerdigstilt = 'IKKE_FERDIGSTILT',
+    Oppdatert = 'OPPDATERT',
+}
+
+export type LagreOppgaveResult = LagreNasjonalOppgaveStatus | ValidationResult
+
 export type Matrikkeladresse = {
     __typename: 'Matrikkeladresse'
     bruksenhetsnummer?: Maybe<Scalars['String']['output']>
@@ -456,6 +522,11 @@ export enum MedisinskArsakType {
     TilstandHindrerAktivitet = 'TILSTAND_HINDRER_AKTIVITET',
 }
 
+export type MedisinskArsakValues = {
+    arsak: Array<MedisinskArsakType>
+    beskrivelse?: InputMaybe<Scalars['String']['input']>
+}
+
 export type MedisinskVurdering = {
     __typename: 'MedisinskVurdering'
     annenFraversArsak?: Maybe<AnnenFraversArsak>
@@ -466,10 +537,24 @@ export type MedisinskVurdering = {
     yrkesskadeDato?: Maybe<Scalars['String']['output']>
 }
 
+export type MedisinskVurderingValues = {
+    annenFraversArsak?: InputMaybe<AnnenFraversArsakValues>
+    biDiagnoser: Array<DiagnoseValues>
+    hovedDiagnose?: InputMaybe<DiagnoseValues>
+    svangerskap: Scalars['Boolean']['input']
+    yrkesskade: Scalars['Boolean']['input']
+    yrkesskadeDato?: InputMaybe<Scalars['Date']['input']>
+}
+
 export type MeldingTilNav = {
     __typename: 'MeldingTilNAV'
     beskrivBistand?: Maybe<Scalars['String']['output']>
     bistandUmiddelbart: Scalars['Boolean']['output']
+}
+
+export type MeldingTilNavValues = {
+    beskrivBistand?: InputMaybe<Scalars['String']['input']>
+    bistandUmiddelbart: Scalars['Boolean']['input']
 }
 
 export type Mutation = {
@@ -477,6 +562,7 @@ export type Mutation = {
     avvis?: Maybe<DigitaliseringsoppgaveStatus>
     dokument?: Maybe<Document>
     lagre?: Maybe<DigitaliseringsoppgaveResult>
+    lagreNasjonalOppgave?: Maybe<LagreOppgaveResult>
     oppdaterDigitalisertSykmelding?: Maybe<OppdatertSykmeldingStatus>
     oppgaveTilbakeTilGosys?: Maybe<DigitaliseringsoppgaveStatus>
     sykmeldingFraJournalpost: JournalpostStatus
@@ -500,6 +586,13 @@ export type MutationLagreArgs = {
     oppgaveId: Scalars['String']['input']
     status: SykmeldingUnderArbeidStatus
     values: SykmeldingUnderArbeidValues
+}
+
+export type MutationLagreNasjonalOppgaveArgs = {
+    navEnhet: Scalars['String']['input']
+    oppgaveId: Scalars['String']['input']
+    status?: InputMaybe<SykmeldingUnderArbeidStatus>
+    sykmeldingValues: NasjonalSykmeldingValues
 }
 
 export type MutationOppdaterDigitalisertSykmeldingArgs = {
@@ -572,8 +665,23 @@ export type NasjonalSykmeldingResult = NasjonalOppgave | NasjonalSykmeldingStatu
 
 export type NasjonalSykmeldingStatus = {
     __typename: 'NasjonalSykmeldingStatus'
-    status?: Maybe<NasjonalOppdatertSykmeldingStatusEnum>
-    sykmeldingId?: Maybe<Scalars['String']['output']>
+    status: NasjonalOppdatertSykmeldingStatusEnum
+    sykmeldingId: Scalars['String']['output']
+}
+
+export type NasjonalSykmeldingValues = {
+    arbeidsgiver: ArbeidsgiverValues
+    behandler: BehandlerValues
+    behandletDato: Scalars['Date']['input']
+    harUtdypendeOpplysninger: Scalars['Boolean']['input']
+    kontaktMedPasient: KontaktMedPasientValues
+    medisinskVurdering: MedisinskVurderingValues
+    meldingTilArbeidsgiver?: InputMaybe<Scalars['String']['input']>
+    meldingTilNAV?: InputMaybe<MeldingTilNavValues>
+    pasientFnr: Scalars['String']['input']
+    perioder: Array<PeriodeValues>
+    skjermesForPasient: Scalars['Boolean']['input']
+    sykmelderFnr: Scalars['String']['input']
 }
 
 export type Navn = {
@@ -649,6 +757,16 @@ export type PeriodeValue = {
     type: PeriodeType
 }
 
+export type PeriodeValues = {
+    aktivitetIkkeMulig?: InputMaybe<AktivitetIkkeMuligValues>
+    avventendeInnspillTilArbeidsgiver?: InputMaybe<Scalars['String']['input']>
+    behandlingsdager?: InputMaybe<Scalars['Int']['input']>
+    fom: Scalars['Date']['input']
+    gradert?: InputMaybe<GradertValues>
+    reisetilskudd?: InputMaybe<Scalars['Boolean']['input']>
+    tom: Scalars['Date']['input']
+}
+
 export type Person = {
     __typename: 'Person'
     bostedsadresse?: Maybe<Bostedsadresse>
@@ -686,6 +804,26 @@ export type QueryOppgaveArgs = {
     oppgaveId: Scalars['String']['input']
 }
 
+export type RuleInfo = {
+    __typename: 'RuleInfo'
+    messageForSender: Scalars['String']['output']
+    messageForUser: Scalars['String']['output']
+    ruleName: Scalars['String']['output']
+    ruleStatus: Status
+}
+
+export enum Status {
+    Invalid = 'INVALID',
+    ManualProcessing = 'MANUAL_PROCESSING',
+    Ok = 'OK',
+}
+
+export type SykmeldingStatus = {
+    __typename: 'SykmeldingStatus'
+    oppgaveId: Scalars['String']['output']
+    status: DigitaliseringsoppgaveStatusEnum
+}
+
 export enum SykmeldingUnderArbeidStatus {
     Ferdigstilt = 'FERDIGSTILT',
     UnderArbeid = 'UNDER_ARBEID',
@@ -720,6 +858,12 @@ export type UtenlandskAdresse = {
     landkode: Scalars['String']['output']
     postboksNummerNavn?: Maybe<Scalars['String']['output']>
     postkode?: Maybe<Scalars['String']['output']>
+}
+
+export type ValidationResult = {
+    __typename: 'ValidationResult'
+    ruleHits: Array<RuleInfo>
+    status: Status
 }
 
 export type Vegadresse = {
@@ -1073,8 +1217,8 @@ export type NasjonalSykmeldingResult_NasjonalOppgave_Fragment = {
 
 export type NasjonalSykmeldingResult_NasjonalSykmeldingStatus_Fragment = {
     __typename: 'NasjonalSykmeldingStatus'
-    sykmeldingId?: string | null
-    status?: NasjonalOppdatertSykmeldingStatusEnum | null
+    sykmeldingId: string
+    status: NasjonalOppdatertSykmeldingStatusEnum
 }
 
 export type NasjonalSykmeldingResultFragment =
@@ -1083,8 +1227,8 @@ export type NasjonalSykmeldingResultFragment =
 
 export type NasjonalSykmeldingStatusFragment = {
     __typename: 'NasjonalSykmeldingStatus'
-    sykmeldingId?: string | null
-    status?: NasjonalOppdatertSykmeldingStatusEnum | null
+    sykmeldingId: string
+    status: NasjonalOppdatertSykmeldingStatusEnum
 }
 
 export type NasjonalSykmeldingFragment = {
@@ -1483,8 +1627,8 @@ export type NasjonalFerdigstiltOppgaveBySykmeldingIdQuery = {
           }
         | {
               __typename: 'NasjonalSykmeldingStatus'
-              sykmeldingId?: string | null
-              status?: NasjonalOppdatertSykmeldingStatusEnum | null
+              sykmeldingId: string
+              status: NasjonalOppdatertSykmeldingStatusEnum
           }
         | null
 }
@@ -2170,6 +2314,59 @@ export type SykmeldingByIdQuery = {
         | null
 }
 
+export type SaveOppgaveNasjonalMutationVariables = Exact<{
+    oppgaveId: Scalars['String']['input']
+    sykmeldingValues: NasjonalSykmeldingValues
+    sykmeldingStatus: SykmeldingUnderArbeidStatus
+    navEnhet: Scalars['String']['input']
+}>
+
+export type SaveOppgaveNasjonalMutation = {
+    __typename: 'Mutation'
+    lagreNasjonalOppgave?:
+        | { __typename: 'LagreNasjonalOppgaveStatus'; oppgaveId: string; status: LagreNasjonalOppgaveStatusEnum }
+        | {
+              __typename: 'ValidationResult'
+              validationStatus: Status
+              ruleHits: Array<{
+                  __typename: 'RuleInfo'
+                  messageForSender: string
+                  messageForUser: string
+                  ruleName: string
+                  ruleStatus: Status
+              }>
+          }
+        | null
+}
+
+export type LagreNasjonalOppgaveStatusFragment = {
+    __typename: 'LagreNasjonalOppgaveStatus'
+    oppgaveId: string
+    status: LagreNasjonalOppgaveStatusEnum
+}
+
+export type LagreOppgaveResult_LagreNasjonalOppgaveStatus_Fragment = {
+    __typename: 'LagreNasjonalOppgaveStatus'
+    oppgaveId: string
+    status: LagreNasjonalOppgaveStatusEnum
+}
+
+export type LagreOppgaveResult_ValidationResult_Fragment = {
+    __typename: 'ValidationResult'
+    validationStatus: Status
+    ruleHits: Array<{
+        __typename: 'RuleInfo'
+        messageForSender: string
+        messageForUser: string
+        ruleName: string
+        ruleStatus: Status
+    }>
+}
+
+export type LagreOppgaveResultFragment =
+    | LagreOppgaveResult_LagreNasjonalOppgaveStatus_Fragment
+    | LagreOppgaveResult_ValidationResult_Fragment
+
 export type SaveOppgaveMutationVariables = Exact<{
     id: Scalars['String']['input']
     values: SykmeldingUnderArbeidValues
@@ -2325,6 +2522,26 @@ export type UpdateDigitalisertSykmeldingMutation = {
         sykmeldingId: string
         status?: OppdatertSykmeldingStatusEnum | null
     } | null
+}
+
+export type ValidationResultFragment = {
+    __typename: 'ValidationResult'
+    validationStatus: Status
+    ruleHits: Array<{
+        __typename: 'RuleInfo'
+        messageForSender: string
+        messageForUser: string
+        ruleName: string
+        ruleStatus: Status
+    }>
+}
+
+export type RuleInfoFragment = {
+    __typename: 'RuleInfo'
+    messageForSender: string
+    messageForUser: string
+    ruleName: string
+    ruleStatus: Status
 }
 
 export const JournalpostFragmentDoc = {
@@ -5820,6 +6037,150 @@ export const DigitalisertSykmeldingResultFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<DigitalisertSykmeldingResultFragment, unknown>
+export const LagreNasjonalOppgaveStatusFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<LagreNasjonalOppgaveStatusFragment, unknown>
+export const RuleInfoFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'RuleInfo' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RuleInfo' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'messageForSender' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'messageForUser' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ruleName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ruleStatus' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<RuleInfoFragment, unknown>
+export const ValidationResultFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ValidationResult' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ValidationResult' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        alias: { kind: 'Name', value: 'validationStatus' },
+                        name: { kind: 'Name', value: 'status' },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'ruleHits' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'RuleInfo' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'RuleInfo' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RuleInfo' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'messageForSender' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'messageForUser' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ruleName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ruleStatus' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<ValidationResultFragment, unknown>
+export const LagreOppgaveResultFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'LagreOppgaveResult' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagreOppgaveResult' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' } },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ValidationResult' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'RuleInfo' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RuleInfo' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'messageForSender' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'messageForUser' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ruleName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ruleStatus' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ValidationResult' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ValidationResult' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        alias: { kind: 'Name', value: 'validationStatus' },
+                        name: { kind: 'Name', value: 'status' },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'ruleHits' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'RuleInfo' } }],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<LagreOppgaveResultFragment, unknown>
 export const JournalpostByIdDocument = {
     kind: 'Document',
     definitions: [
@@ -7454,6 +7815,142 @@ export const SykmeldingByIdDocument = {
         },
     ],
 } as unknown as DocumentNode<SykmeldingByIdQuery, SykmeldingByIdQueryVariables>
+export const SaveOppgaveNasjonalDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'SaveOppgaveNasjonal' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'sykmeldingValues' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'NasjonalSykmeldingValues' } },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'sykmeldingStatus' } },
+                    type: {
+                        kind: 'NonNullType',
+                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'SykmeldingUnderArbeidStatus' } },
+                    },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'navEnhet' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'lagreNasjonalOppgave' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'sykmeldingValues' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'sykmeldingValues' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'status' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'sykmeldingStatus' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'navEnhet' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'navEnhet' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'LagreOppgaveResult' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'RuleInfo' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RuleInfo' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'messageForSender' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'messageForUser' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ruleName' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'ruleStatus' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'ValidationResult' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'ValidationResult' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        alias: { kind: 'Name', value: 'validationStatus' },
+                        name: { kind: 'Name', value: 'status' },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'ruleHits' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'RuleInfo' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'LagreOppgaveResult' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagreOppgaveResult' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' } },
+                    { kind: 'FragmentSpread', name: { kind: 'Name', value: 'ValidationResult' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SaveOppgaveNasjonalMutation, SaveOppgaveNasjonalMutationVariables>
 export const SaveOppgaveDocument = {
     kind: 'Document',
     definitions: [

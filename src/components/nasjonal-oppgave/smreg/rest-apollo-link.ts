@@ -3,7 +3,6 @@ import { RestLink } from 'apollo-link-rest'
 import { logger } from '@navikt/next-logger'
 
 import { PasientNavnSchema } from '../schema/Pasient'
-import { RuleHitErrorsSchema } from '../schema/RuleHitErrors'
 import { SykmelderSchema } from '../schema/Sykmelder'
 
 export class OppgaveAlreadySolvedError extends Error {}
@@ -18,7 +17,6 @@ const smregRestLink = new RestLink({
     uri: '/api/smreg/api/v1/',
     typePatcher: {
         Pasient: (data) => PasientNavnSchema.parse(data),
-        RuleHits: (data) => RuleHitErrorsSchema.nullable().parse(data),
         Sykmelder: (data) => SykmelderSchema.parse(data),
     },
     customFetch: async (input, init) => {

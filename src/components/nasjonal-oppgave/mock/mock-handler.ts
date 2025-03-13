@@ -10,29 +10,6 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
     logger.info(`Mocking path: ${path}`)
 
     switch (path) {
-        case 'POST /api/v1/proxy/oppgave/[id|hpr]/send':
-            verifyHasEnhet(request)
-
-            const shouldRuleHit = false
-            if (shouldRuleHit) {
-                return Response.json({
-                    status: 'INVALID',
-                    ruleHits: [
-                        {
-                            ruleName: 'RULE_NUMBER_ONE',
-                            ruleStatus: 'INVALID',
-                            messageForSender: 'Dont break the rules, please',
-                            messageForUser: 'message for user',
-                        },
-                    ],
-                })
-            }
-
-            return new Response(null, { status: 204 })
-        case 'POST /api/v1/proxy/sykmelding/[uuid]':
-            verifyHasEnhet(request)
-
-            return new Response(null, { status: 204 })
         case 'POST /api/v1/proxy/oppgave/[id|hpr]/avvis':
             verifyHasEnhet(request)
 

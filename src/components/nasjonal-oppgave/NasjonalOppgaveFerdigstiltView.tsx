@@ -5,7 +5,10 @@ import { useQuery } from '@apollo/client'
 
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
-import { NasjonalFerdigstiltOppgaveBySykmeldingIdDocument } from '../../graphql/queries/graphql.generated'
+import {
+    NasjonalFerdigstiltOppgaveBySykmeldingIdDocument,
+    SykmeldingUnderArbeidStatus,
+} from '../../graphql/queries/graphql.generated'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import {
@@ -35,8 +38,8 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactE
             {query.data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalOppgave' ? (
                 <NasjonalSykmeldingForm
                     sykmelding={query.data.nasjonalFerdigstiltOppgave.nasjonalSykmelding}
-                    sykmeldingId={sykmeldingId}
-                    ferdigstilt
+                    oppgaveId={query.data.nasjonalFerdigstiltOppgave.oppgaveId}
+                    status={SykmeldingUnderArbeidStatus.Ferdigstilt}
                 />
             ) : (
                 query.data?.nasjonalFerdigstiltOppgave?.__typename === 'NasjonalSykmeldingStatus' && (
