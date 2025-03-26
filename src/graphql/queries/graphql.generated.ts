@@ -556,6 +556,7 @@ export type NasjonalSykmelding = {
     behandletTidspunkt?: Maybe<Scalars['Date']['output']>
     datoOpprettet?: Maybe<Scalars['String']['output']>
     fnr?: Maybe<Scalars['String']['output']>
+    harUtdypendeOpplysninger?: Maybe<Scalars['Boolean']['output']>
     journalpostId: Scalars['String']['output']
     kontaktMedPasient?: Maybe<KontaktMedPasient>
     medisinskVurdering?: Maybe<MedisinskVurdering>
@@ -801,6 +802,7 @@ export type NasjonalOppgaveFragment = {
         behandletTidspunkt?: string | null
         skjermesForPasient?: boolean | null
         meldingTilArbeidsgiver?: string | null
+        harUtdypendeOpplysninger?: boolean | null
         arbeidsgiver?: {
             __typename: 'Arbeidsgiver'
             navn?: string | null
@@ -889,6 +891,7 @@ export type NasjonalOppgaveResult_NasjonalOppgave_Fragment = {
         behandletTidspunkt?: string | null
         skjermesForPasient?: boolean | null
         meldingTilArbeidsgiver?: string | null
+        harUtdypendeOpplysninger?: boolean | null
         arbeidsgiver?: {
             __typename: 'Arbeidsgiver'
             navn?: string | null
@@ -993,6 +996,7 @@ export type NasjonalSykmeldingResult_NasjonalOppgave_Fragment = {
         behandletTidspunkt?: string | null
         skjermesForPasient?: boolean | null
         meldingTilArbeidsgiver?: string | null
+        harUtdypendeOpplysninger?: boolean | null
         arbeidsgiver?: {
             __typename: 'Arbeidsgiver'
             navn?: string | null
@@ -1093,6 +1097,7 @@ export type NasjonalSykmeldingFragment = {
     behandletTidspunkt?: string | null
     skjermesForPasient?: boolean | null
     meldingTilArbeidsgiver?: string | null
+    harUtdypendeOpplysninger?: boolean | null
     arbeidsgiver?: {
         __typename: 'Arbeidsgiver'
         navn?: string | null
@@ -1303,6 +1308,7 @@ export type NasjonalOppgaveByIdQuery = {
                   behandletTidspunkt?: string | null
                   skjermesForPasient?: boolean | null
                   meldingTilArbeidsgiver?: string | null
+                  harUtdypendeOpplysninger?: boolean | null
                   arbeidsgiver?: {
                       __typename: 'Arbeidsgiver'
                       navn?: string | null
@@ -1401,6 +1407,7 @@ export type NasjonalFerdigstiltOppgaveBySykmeldingIdQuery = {
                   behandletTidspunkt?: string | null
                   skjermesForPasient?: boolean | null
                   meldingTilArbeidsgiver?: string | null
+                  harUtdypendeOpplysninger?: boolean | null
                   arbeidsgiver?: {
                       __typename: 'Arbeidsgiver'
                       navn?: string | null
@@ -2842,6 +2849,7 @@ export const NasjonalSykmeldingFragmentDoc = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harUtdypendeOpplysninger' } },
                 ],
             },
         },
@@ -3388,6 +3396,7 @@ export const NasjonalOppgaveFragmentDoc = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harUtdypendeOpplysninger' } },
                 ],
             },
         },
@@ -3719,6 +3728,7 @@ export const NasjonalOppgaveResultFragmentDoc = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harUtdypendeOpplysninger' } },
                 ],
             },
         },
@@ -4091,6 +4101,7 @@ export const NasjonalSykmeldingResultFragmentDoc = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harUtdypendeOpplysninger' } },
                 ],
             },
         },
@@ -6282,6 +6293,7 @@ export const NasjonalOppgaveByIdDocument = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harUtdypendeOpplysninger' } },
                 ],
             },
         },
@@ -6671,6 +6683,7 @@ export const NasjonalFerdigstiltOppgaveBySykmeldingIdDocument = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'harUtdypendeOpplysninger' } },
                 ],
             },
         },

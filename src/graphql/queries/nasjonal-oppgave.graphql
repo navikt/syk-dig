@@ -55,6 +55,7 @@ fragment NasjonalSykmelding on NasjonalSykmelding {
     kontaktMedPasient {
         ...KontaktMedPasient
     }
+    harUtdypendeOpplysninger
 }
 
 fragment NasjonalDocument on Document {

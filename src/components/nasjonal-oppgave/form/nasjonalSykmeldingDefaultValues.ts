@@ -48,7 +48,7 @@ export function createDefaultValues(sykmelding: NasjonalSykmeldingFragment | nul
             yrkesskade: sykmelding?.medisinskVurdering?.yrkesskade ?? false,
             yrkesskadeDato: safeToDate(sykmelding?.medisinskVurdering?.yrkesskadeDato),
         },
-        harUtdypendeOpplysninger: false,
+        harUtdypendeOpplysninger: sykmelding?.harUtdypendeOpplysninger ?? false,
         skjermesForPasient: sykmelding?.skjermesForPasient ?? false,
         mulighetForArbeid:
             (sykmelding?.perioder?.length ?? 0) === 0
