@@ -145,6 +145,7 @@ export function createNasjonalOppgave(overrides?: Partial<NasjonalOppgaveFragmen
                     reisetilskudd: true,
                 },
             ],
+            harUtdypendeOpplysninger: false,
         },
         documents: [
             {
@@ -177,6 +178,7 @@ export function emptyNasjonalOppgave(overrides?: Partial<NasjonalOppgaveFragment
             behandletTidspunkt: null,
             behandler: null,
             perioder: [],
+            harUtdypendeOpplysninger: false,
         },
         documents: [
             {
