@@ -8,38 +8,35 @@ import { MutationResultFeedback } from '../../Sykmelding/ActionSection/MutationF
 import FeedbackModal from '../../Sykmelding/ActionSection/FeedbackModal'
 import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
 import { redirectTilGosys } from '../../../utils/gosys'
-import { RuleHitErrors } from '../schema/RuleHitErrors'
+import { SykmeldingUnderArbeidStatus, ValidationResult } from '../../../graphql/queries/graphql.generated'
 
 import { useAvvisSykmeldingSmreg, useTilbakeTilGosysSmreg } from './useOtherSykmeldingActions'
 import SendToGosysButton from './SendToGosysButton'
 import AvvisButton from './AvvisButton'
 
-type Props = { submitResult: MutationResult } & (
-    | {
-          ferdigstilt: false
-          oppgaveId: string
-      }
-    | {
-          ferdigstilt: true
-      }
-)
+type Props = {
+    submitResult: MutationResult
+    status: SykmeldingUnderArbeidStatus
+    oppgaveId: string
+}
 
-function ActionSection({ submitResult, ...props }: Props): ReactElement {
+function ActionSection({ submitResult, status, oppgaveId }: Props): ReactElement {
     const [everythingGood, setEverythingGood] = useState(false)
 
-    const isActualOppgave = !props.ferdigstilt
+    const isActualOppgave = status === SykmeldingUnderArbeidStatus.UnderArbeid
+    const isFerdigstilt = status === SykmeldingUnderArbeidStatus.Ferdigstilt
     // These two mutations can only be used when the task is an actual oppgave (not ferdigstilt), so they don't
     // need to handle redirect to Modia
     const [tilbakeTilGosys, tilbakeTilGosysResult] = useTilbakeTilGosysSmreg({
         onCompleted: () => {
-            logger.info(`Tilbake til gosys OK (${JSON.stringify(props)})`)
+            logger.info(`Tilbake til gosys OK (status: ${status}, oppgaveId: ${oppgaveId})`)
 
             redirectTilGosys()
         },
     })
     const [avvisSykmelding, avvisSykmeldingResult] = useAvvisSykmeldingSmreg({
         onCompleted: () => {
-            logger.info(`Avvis sykmleding OK (${JSON.stringify(props)})`)
+            logger.info(`Avvis sykmleding OK (status: ${status}, oppgaveId: ${oppgaveId})`)
 
             redirectTilGosys()
         },
@@ -50,7 +47,7 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
             <OtherMutationsResult
                 tilbakeTilGosysResult={tilbakeTilGosysResult}
                 avvisSykmeldingResult={avvisSykmeldingResult}
-                tilbakeTil={props.ferdigstilt ? 'Modia' : 'Gosys'}
+                tilbakeTil={isFerdigstilt ? 'Modia' : 'Gosys'}
             />
             <SubmitResult submitResult={submitResult} />
             <div className="flex flex-col gap-4">
@@ -67,7 +64,7 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
                         disabled={!everythingGood || submitResult.loading}
                         loading={submitResult.loading}
                     >
-                        {props.ferdigstilt ? 'Korriger' : 'Registrer'} sykmeldingen
+                        {isFerdigstilt ? 'Korriger' : 'Registrer'} sykmeldingen
                     </Button>
                 </div>
             </div>
@@ -79,20 +76,20 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
                     <div className="grid grid-cols-2 gap-3">
                         <SendToGosysButton
                             tilbakeTilGosys={async () => {
-                                logger.info(`Tilbake til gosys (${JSON.stringify(props)})`)
+                                logger.info(`Tilbake til gosys (status: ${status}, oppgaveId: ${oppgaveId})`)
 
                                 await tilbakeTilGosys({
-                                    variables: { oppgaveId: props.oppgaveId },
+                                    variables: { oppgaveId: oppgaveId },
                                 })
                             }}
                             tilbakeTilGosysResult={tilbakeTilGosysResult}
                         />
                         <AvvisButton
                             avvis={async (reason) => {
-                                logger.info(`Avvis sykmelding (${JSON.stringify(props)})`)
+                                logger.info(`Avvis sykmelding (status: ${status}, oppgaveId: ${oppgaveId})`)
 
                                 await avvisSykmelding({
-                                    variables: { oppgaveId: props.oppgaveId, input: { reason } },
+                                    variables: { oppgaveId: oppgaveId, input: { reason } },
                                 })
                             }}
                             avvisResult={avvisSykmeldingResult}
@@ -105,10 +102,10 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
                     size="small"
                     variant="tertiary"
                     as="a"
-                    href={props.ferdigstilt ? bundledEnv.NEXT_PUBLIC_MODIA_URL : bundledEnv.NEXT_PUBLIC_GOSYS_URL}
+                    href={isFerdigstilt ? bundledEnv.NEXT_PUBLIC_MODIA_URL : bundledEnv.NEXT_PUBLIC_GOSYS_URL}
                     icon={<ArrowLeftIcon />}
                 >
-                    Tilbake til {props.ferdigstilt ? 'Modia' : 'Gosys'}
+                    Tilbake til {isFerdigstilt ? 'Modia' : 'Gosys'}
                 </Button>
             </div>
         </div>
@@ -118,9 +115,9 @@ function ActionSection({ submitResult, ...props }: Props): ReactElement {
 function SubmitResult({
     submitResult,
 }: {
-    submitResult: MutationResult<{ ruleHits: RuleHitErrors | null }>
+    submitResult: MutationResult<{ lagreNasjonalOppgave: ValidationResult | null }>
 }): ReactElement | null {
-    const hasRuleHitErrors = submitResult.data?.ruleHits != null
+    const hasRuleHitErrors = submitResult.data?.lagreNasjonalOppgave?.ruleHits != null
 
     if (submitResult.error) {
         return (
@@ -138,7 +135,7 @@ function SubmitResult({
                     sykmeldingen på nytt.
                 </BodyShort>
                 <List>
-                    {submitResult.data?.ruleHits?.ruleHits.map((ruleHit) => (
+                    {submitResult.data?.lagreNasjonalOppgave?.ruleHits.map((ruleHit) => (
                         <List.Item key={ruleHit.ruleName}>{ruleHit.messageForSender}</List.Item>
                     ))}
                 </List>

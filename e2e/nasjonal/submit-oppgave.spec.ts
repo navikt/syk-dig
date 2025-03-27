@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-import { clickAndWait, waitForREST } from '../utils/request'
+import { clickAndWait, waitForGraphQL } from '../utils/request'
 
 import {
     fillArbeidsgiverSection,
@@ -64,126 +64,114 @@ test('should be able to submit oppgave', async ({ page }) => {
 
     const request = await clickAndWait(
         page.getByRole('button', { name: 'Registrer sykmeldingen' }).click(),
-        waitForREST(page)('/api/smreg/api/v1/proxy/oppgave/000000000/send', 'POST'),
+        waitForGraphQL(page),
     )
 
     await expect(page.getByText(/Oppgaven ble registrert/)).toBeVisible()
 
-    expect((await request.response())?.status()).toBe(204)
-
-    expect(request.postDataJSON()).toEqual({
-        pasientFnr: '12345678910',
-        sykmelderFnr: '',
-        perioder: [
-            {
-                aktivitetIkkeMulig: null,
-                avventendeInnspillTilArbeidsgiver: 'Innspill til arbeidsgiver',
-                behandlingsdager: null,
-                fom: '2020-01-01',
-                gradert: null,
-                reisetilskudd: false,
-                tom: '2020-01-03',
-            },
-            {
-                aktivitetIkkeMulig: null,
-                avventendeInnspillTilArbeidsgiver: null,
-                behandlingsdager: null,
-                fom: '2020-02-01',
-                gradert: { reisetilskudd: true, grad: 80 },
-                reisetilskudd: false,
-                tom: '2020-02-03',
-            },
-            {
-                aktivitetIkkeMulig: {
-                    medisinskArsak: {
-                        arsak: ['TILSTAND_HINDRER_AKTIVITET'],
-                        beskrivelse: 'Medisinsk beskrivelse',
-                    },
-                    arbeidsrelatertArsak: {
-                        arsak: ['MANGLENDE_TILRETTELEGGING'],
-                        beskrivelse: 'Arbeidsrelatert beskrivelse',
-                    },
-                },
-                avventendeInnspillTilArbeidsgiver: null,
-                behandlingsdager: null,
-                fom: '2020-03-01',
-                gradert: null,
-                reisetilskudd: false,
-                tom: '2020-03-03',
-            },
-            {
-                aktivitetIkkeMulig: null,
-                avventendeInnspillTilArbeidsgiver: null,
-                behandlingsdager: 1,
-                fom: '2020-04-01',
-                gradert: null,
-                reisetilskudd: false,
-                tom: '2020-04-03',
-            },
-            {
-                aktivitetIkkeMulig: null,
-                avventendeInnspillTilArbeidsgiver: null,
-                behandlingsdager: null,
-                fom: '2020-05-01',
-                gradert: null,
-                reisetilskudd: true,
-                tom: '2020-05-03',
-            },
-        ].sort((a: { fom: string }, b: { fom: string }) => a.fom.localeCompare(b.fom)),
-        medisinskVurdering: {
-            svangerskap: true,
-            yrkesskade: true,
-            yrkesskadeDato: '2020-01-01',
-            hovedDiagnose: {
-                system: '2.16.578.1.12.4.1.1.7110',
-                kode: 'L811',
-                tekst: 'Kloasme',
-            },
-            biDiagnoser: [
+    expect(request.postDataJSON().variables).toEqual({
+        oppgaveId: '000000000',
+        sykmeldingValues: {
+            pasientFnr: '12345678910',
+            sykmelderFnr: '',
+            perioder: [
                 {
-                    system: '2.16.578.1.12.4.1.1.7170',
-                    kode: 'H02',
-                    tekst: 'Hørsel symptomer/plager',
+                    aktivitetIkkeMulig: null,
+                    avventendeInnspillTilArbeidsgiver: 'Innspill til arbeidsgiver',
+                    behandlingsdager: null,
+                    fom: '2020-01-01',
+                    gradert: null,
+                    reisetilskudd: false,
+                    tom: '2020-01-03',
                 },
-            ],
-            annenFraversArsak: {
-                grunn: ['GODKJENT_HELSEINSTITUSJON'],
-                beskrivelse: 'Dette er en beskrivelse av fraværet',
+                {
+                    aktivitetIkkeMulig: null,
+                    avventendeInnspillTilArbeidsgiver: null,
+                    behandlingsdager: null,
+                    fom: '2020-02-01',
+                    gradert: { reisetilskudd: true, grad: 80 },
+                    reisetilskudd: false,
+                    tom: '2020-02-03',
+                },
+                {
+                    aktivitetIkkeMulig: {
+                        medisinskArsak: {
+                            arsak: ['TILSTAND_HINDRER_AKTIVITET'],
+                            beskrivelse: 'Medisinsk beskrivelse',
+                        },
+                        arbeidsrelatertArsak: {
+                            arsak: ['MANGLENDE_TILRETTELEGGING'],
+                            beskrivelse: 'Arbeidsrelatert beskrivelse',
+                        },
+                    },
+                    avventendeInnspillTilArbeidsgiver: null,
+                    behandlingsdager: null,
+                    fom: '2020-03-01',
+                    gradert: null,
+                    reisetilskudd: false,
+                    tom: '2020-03-03',
+                },
+                {
+                    aktivitetIkkeMulig: null,
+                    avventendeInnspillTilArbeidsgiver: null,
+                    behandlingsdager: 1,
+                    fom: '2020-04-01',
+                    gradert: null,
+                    reisetilskudd: false,
+                    tom: '2020-04-03',
+                },
+                {
+                    aktivitetIkkeMulig: null,
+                    avventendeInnspillTilArbeidsgiver: null,
+                    behandlingsdager: null,
+                    fom: '2020-05-01',
+                    gradert: null,
+                    reisetilskudd: true,
+                    tom: '2020-05-03',
+                },
+            ].sort((a: { fom: string }, b: { fom: string }) => a.fom.localeCompare(b.fom)),
+            medisinskVurdering: {
+                svangerskap: true,
+                yrkesskade: true,
+                yrkesskadeDato: '2020-01-01',
+                hovedDiagnose: {
+                    system: '2.16.578.1.12.4.1.1.7110',
+                    kode: 'L811',
+                    tekst: 'Kloasme',
+                },
+                biDiagnoser: [
+                    {
+                        system: '2.16.578.1.12.4.1.1.7170',
+                        kode: 'H02',
+                        tekst: 'Hørsel symptomer/plager',
+                    },
+                ],
+                annenFraversArsak: {
+                    grunn: ['GODKJENT_HELSEINSTITUSJON'],
+                    beskrivelse: 'Dette er en beskrivelse av fraværet',
+                },
             },
-        },
-        arbeidsgiver: {
-            harArbeidsgiver: 'EN_ARBEIDSGIVER',
-            navn: 'Politiet',
-            yrkesbetegnelse: 'Politibetjent',
-            stillingsprosent: 25,
-        },
-        behandletDato: '2020-02-01',
-        skjermesForPasient: true,
-        behandler: {
-            fnr: '',
-            fornavn: '',
-            mellomnavn: null,
-            etternavn: '',
-            hpr: '1234567',
-            her: null,
-            aktoerId: '',
-            adresse: {
-                gate: null,
-                postnummer: null,
-                kommune: null,
-                postboks: null,
-                land: null,
+            arbeidsgiver: {
+                harArbeidsgiver: 'EN_ARBEIDSGIVER',
+                navn: 'Politiet',
+                yrkesbetegnelse: 'Politibetjent',
+                stillingsprosent: 25,
             },
-            tlf: '12345678',
+            behandletDato: '2020-02-01',
+            skjermesForPasient: true,
+            behandler: {
+                tlf: '12345678',
+                hpr: '1234567',
+            },
+            kontaktMedPasient: {
+                kontaktDato: '2020-10-15',
+                begrunnelseIkkeKontakt: 'Hadde omgangssyke',
+            },
+            meldingTilNAV: { bistandUmiddelbart: true, beskrivBistand: 'Melding til NAV' },
+            meldingTilArbeidsgiver: 'Melding til arbeidsgiver',
+            harUtdypendeOpplysninger: true,
         },
-        harUtdypendeOpplysninger: true,
-        meldingTilArbeidsgiver: 'Melding til arbeidsgiver',
-        meldingTilNAV: { bistandUmiddelbart: true, beskrivBistand: 'Melding til NAV' },
-        kontaktMedPasient: {
-            kontaktDato: '2020-10-15',
-            begrunnelseIkkeKontakt: 'Hadde omgangssyke',
-        },
-        syketilfelleStartDato: null,
-        navnFastlege: null,
+        sykmeldingStatus: 'UNDER_ARBEID',
+        navEnhet: '0312',
     })
 })
