@@ -16,10 +16,12 @@ import {
     NasjonalOppgaveFragment,
     NasjonalOppgaveStatusFragment,
     NasjonalSykmeldingStatusFragment,
+    Navn,
     NavngiDokumentDocument,
     NavngiDokumentMutation,
     OppdatertSykmeldingStatusEnum,
     OppgaveByIdDocument,
+    PasientDocument,
     PeriodeFragment,
     PeriodeInput,
     SaveOppgaveDocument,
@@ -314,6 +316,17 @@ export const handlers = [
                 } satisfies SaveOppgaveNasjonalMutation,
             })
         }
+    }),
+    graphql.query(PasientDocument, async (ctx) => {
+        const fnr = ctx.request.headers.get('X-Pasient-Fnr')
+        const pasientNavn: Navn = getNasjonalMockDb().getPasientNavn()
+
+        if (fnr && fnr.length > 11) {
+            throw new Error(`En feil oppsto ved henting av pasient info.`)
+        }
+
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Query', pasientNavn } })
     }),
 ]
 

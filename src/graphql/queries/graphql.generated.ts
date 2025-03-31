@@ -782,6 +782,7 @@ export type Query = {
     nasjonalFerdigstiltOppgave?: Maybe<NasjonalSykmeldingResult>
     nasjonalOppgave?: Maybe<NasjonalOppgaveResult>
     oppgave?: Maybe<DigitaliseringsoppgaveResult>
+    pasientNavn?: Maybe<Navn>
 }
 
 export type QueryDigitalisertSykmeldingArgs = {
@@ -1632,6 +1633,15 @@ export type NasjonalFerdigstiltOppgaveBySykmeldingIdQuery = {
           }
         | null
 }
+
+export type PasientQueryVariables = Exact<{ [key: string]: never }>
+
+export type PasientQuery = {
+    __typename: 'Query'
+    pasientNavn?: { __typename: 'Navn'; fornavn: string; mellomnavn?: string | null; etternavn: string } | null
+}
+
+export type NavnFragment = { __typename: 'Navn'; fornavn: string; mellomnavn?: string | null; etternavn: string }
 
 export type PeriodeFragment = {
     __typename: 'PeriodeValue'
@@ -4365,6 +4375,24 @@ export const NasjonalSykmeldingResultFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<NasjonalSykmeldingResultFragment, unknown>
+export const NavnFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Navn' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Navn' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<NavnFragment, unknown>
 export const DocumentFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -7106,6 +7134,42 @@ export const NasjonalFerdigstiltOppgaveBySykmeldingIdDocument = {
     NasjonalFerdigstiltOppgaveBySykmeldingIdQuery,
     NasjonalFerdigstiltOppgaveBySykmeldingIdQueryVariables
 >
+export const PasientDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'Pasient' },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'pasientNavn' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Navn' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Navn' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Navn' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<PasientQuery, PasientQueryVariables>
 export const OppgaveByIdDocument = {
     kind: 'Document',
     definitions: [

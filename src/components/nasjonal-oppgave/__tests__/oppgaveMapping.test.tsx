@@ -9,33 +9,40 @@ import {
     NasjonalOppgaveFragment,
     NasjonalOppgaveStatusEnum,
     NasjonalOppgaveStatusFragment,
+    Navn,
+    PasientDocument,
 } from '../../../graphql/queries/graphql.generated'
 import { formatsmregDate, formatsmregDateShorthand } from '../smregDateUtils'
 import { ArbeidsrelatertArsakTypeValues, MedisinskArsakTypeValues } from '../schema/sykmelding/Periode'
 import { createMock } from '../../../utils/test/apolloTestUtils'
 
-import { mockBehandlerinfo, mockPasientinfo } from './smregTestUtils'
-import { createNasjonalOppgave, createNasjonalOppgaveStatus } from './testData/dataCreators'
+import { mockBehandlerinfo } from './smregTestUtils'
+import { createNasjonalOppgave, createNasjonalOppgaveStatus, createPasientNavn } from './testData/dataCreators'
 
 describe('Mapping opppgave fetched from API', async () => {
     it('Should map all fields when "nasjonalOppgave.nasjonalSykmelding" is completely filled out', async () => {
-        mockPasientinfo()
         mockBehandlerinfo()
 
         const nasjonalOppgave: NasjonalOppgaveFragment = createNasjonalOppgave({ oppgaveId: '123456789' })
-        const mocks = createMock({
+        const oppgaveMock = createMock({
             request: { query: NasjonalOppgaveByIdDocument, variables: { oppgaveId: '123456789' } },
             result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgave } },
         })
+        const pasientNavn: Navn = createPasientNavn()
+        const pasientNavnMock = createMock({
+            request: { query: PasientDocument },
+            result: { data: { __typename: 'Query', pasientNavn: pasientNavn } },
+        })
 
         render(<NasjonalOppgaveView oppgaveId={nasjonalOppgave.oppgaveId} layout={undefined} />, {
-            mocks: [mocks],
+            mocks: [oppgaveMock, pasientNavnMock],
         })
 
         expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
 
         // 1 Pasientopplysninger
         expect(await screen.findByLabelText('1.2 Fødselsnummer (11 siffer)')).toHaveDisplayValue('20026900817')
+        expect(await screen.findByText('Per Anders Persson')).toBeInTheDocument()
 
         // 2 Arbeidsgiver
         expect(screen.getByLabelText('2.1 Pasienten har')).toHaveDisplayValue('Én arbeidsgiver')

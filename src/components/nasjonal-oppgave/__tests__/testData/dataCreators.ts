@@ -6,6 +6,8 @@ import {
     NasjonalOppgaveFragment,
     NasjonalOppgaveStatusEnum,
     NasjonalOppgaveStatusFragment,
+    Navn,
+    NavnFragment,
 } from '../../../../graphql/queries/graphql.generated'
 
 export function createNasjonalOppgave(overrides?: Partial<NasjonalOppgaveFragment>): NasjonalOppgaveFragment {
@@ -198,6 +200,16 @@ export function createNasjonalOppgaveStatus(
         __typename: 'NasjonalOppgaveStatus',
         oppgaveId: '1234',
         status: NasjonalOppgaveStatusEnum.Ferdigstilt,
+        ...overrides,
+    }
+}
+
+export function createPasientNavn(overrides?: Partial<NavnFragment>): Navn {
+    return {
+        __typename: 'Navn',
+        fornavn: 'Per',
+        mellomnavn: 'Anders',
+        etternavn: 'Persson',
         ...overrides,
     }
 }

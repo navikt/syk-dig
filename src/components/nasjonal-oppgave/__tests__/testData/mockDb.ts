@@ -4,9 +4,10 @@ import {
     NasjonalOppgaveStatusEnum,
     NasjonalOppgaveStatusFragment,
     NasjonalSykmeldingStatusFragment,
+    Navn,
 } from '../../../../graphql/queries/graphql.generated'
 
-import { createNasjonalOppgave, emptyNasjonalOppgave } from './dataCreators'
+import { createNasjonalOppgave, emptyNasjonalOppgave, createPasientNavn } from './dataCreators'
 
 /**
  * Fake data singleton used for local development and testing.
@@ -139,5 +140,9 @@ export class FakeNasjonalMockDB {
             return nasjonalOppgave
         }
         return null
+    }
+
+    public getPasientNavn(): Navn {
+        return createPasientNavn()
     }
 }
