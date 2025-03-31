@@ -1,17 +1,19 @@
 import { test, expect } from '@playwright/test'
 
-import { clickAndWait, waitForREST } from '../utils/request'
-
 import { fillPasientOpplysningerSection } from './user-actions'
 
 test('should search for name of pasient when typing 11 digits in pasientFnr input field', async ({ page }) => {
     await page.goto('/nasjonal/000000000')
 
-    const request = await clickAndWait(
-        fillPasientOpplysningerSection(page)('12345678910'),
-        waitForREST(page)('/api/v1/proxy/pasient', 'GET'),
-    )
+    await fillPasientOpplysningerSection(page)('12345678910')
 
     await expect(page.getByText('Per Anders Persson')).toBeVisible()
-    expect((await request.response())?.status()).toBe(200)
+})
+
+test('should not show name of pasient if fnr is longer than 11 digits', async ({ page }) => {
+    await page.goto('/nasjonal/000000000')
+
+    await fillPasientOpplysningerSection(page)('12345678910000')
+
+    await expect(page.getByText('Per Anders Persson')).not.toBeVisible()
 })

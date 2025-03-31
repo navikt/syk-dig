@@ -164,3 +164,15 @@ query NasjonalFerdigstiltOppgaveBySykmeldingId($sykmeldingId: String!) {
         ...NasjonalSykmeldingResult
     }
 }
+
+query Pasient {
+    pasientNavn {
+        ...Navn
+    }
+}
+
+fragment Navn on Navn {
+    fornavn
+    mellomnavn
+    etternavn
+}
