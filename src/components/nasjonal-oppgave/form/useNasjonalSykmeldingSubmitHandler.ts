@@ -56,6 +56,17 @@ export function useSubmitNasjonalSykmelding({ oppgaveId, sykmelding, status }: U
                     }
                 }
             },
+            onError: (error) => {
+                if (error.networkError) {
+                    if ('response' in error.networkError) {
+                        logger.info(
+                            `Server responded with ${error.networkError.statusCode} (save nasjonal sykmelding, oppgaveId: ${oppgaveId}, status: ${status}), squelching error log`,
+                        )
+                        return
+                    }
+                    throw error
+                }
+            },
         })
     }
 
