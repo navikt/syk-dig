@@ -29,6 +29,8 @@ import {
     SaveOppgaveNasjonalDocument,
     SaveOppgaveNasjonalMutation,
     Status,
+    Sykmelder,
+    SykmelderDocument,
     SykmeldingByIdDocument,
     SykmeldingFraJournalpostDocument,
     SykmeldingFraJournalpostMutation,
@@ -327,6 +329,17 @@ export const handlers = [
 
         await delay()
         return HttpResponse.json({ data: { __typename: 'Query', pasientNavn } })
+    }),
+    graphql.query(SykmelderDocument, async ({ variables }) => {
+        const hprNummer = variables.hprNummer
+        const sykmelder: Sykmelder = getNasjonalMockDb().getSykmelder()
+
+        if (!hprNummer) {
+            throw new Error(`Hprnummer mangler for å kunne hente sykmelder.`)
+        }
+
+        await delay()
+        return HttpResponse.json({ data: { __typename: 'Query', sykmelder } })
     }),
 ]
 

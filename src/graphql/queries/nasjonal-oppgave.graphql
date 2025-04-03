@@ -176,3 +176,37 @@ fragment Navn on Navn {
     mellomnavn
     etternavn
 }
+
+query Sykmelder($hprNummer: String!) {
+    sykmelder(hprNummer: $hprNummer) {
+        ...Sykmelder
+    }
+}
+
+fragment Sykmelder on Sykmelder {
+    hprNummer
+    aktorId
+    fnr
+    fornavn
+    mellomnavn
+    etternavn
+    fornavn
+    godkjenninger {
+        ...Godkjenning
+    }
+}
+
+fragment Godkjenning on Godkjenning {
+    autorisasjon {
+        ...Kode
+    }
+    helsepersonellkategori {
+        ...Kode
+    }
+}
+
+fragment Kode on Kode {
+    aktiv
+    oid
+    verdi
+}

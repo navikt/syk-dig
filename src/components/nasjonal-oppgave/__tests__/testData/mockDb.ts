@@ -5,9 +5,10 @@ import {
     NasjonalOppgaveStatusFragment,
     NasjonalSykmeldingStatusFragment,
     Navn,
+    Sykmelder,
 } from '../../../../graphql/queries/graphql.generated'
 
-import { createNasjonalOppgave, emptyNasjonalOppgave, createPasientNavn } from './dataCreators'
+import { createNasjonalOppgave, emptyNasjonalOppgave, createPasientNavn, createSykmelder } from './dataCreators'
 
 /**
  * Fake data singleton used for local development and testing.
@@ -144,5 +145,9 @@ export class FakeNasjonalMockDB {
 
     public getPasientNavn(): Navn {
         return createPasientNavn()
+    }
+
+    public getSykmelder(): Sykmelder {
+        return createSykmelder()
     }
 }

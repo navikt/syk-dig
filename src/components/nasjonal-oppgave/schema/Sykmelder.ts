@@ -41,7 +41,7 @@ export const HelsepersonellkategoriSchema = z.enum([
 
 type Helsepersonellkategori = z.infer<typeof HelsepersonellkategoriSchema>
 
-export const HelsepersonellkategoriValues: Record<Helsepersonellkategori, string> = {
+export const HelsepersonellkategoriValues: Record<Helsepersonellkategori, string> & { [key: string]: string } = {
     AA: 'Ambulansearbeider',
     AT: 'ApotekteknikerA',
     AU: 'udiograf',
@@ -107,7 +107,7 @@ export const AutorisasjonSchema = z.enum([
 ])
 type Autorisasjon = z.infer<typeof AutorisasjonSchema>
 
-export const AutorisasjonValues: Record<Autorisasjon, string> = {
+export const AutorisasjonValues: Record<Autorisasjon, string> & { [key: string]: string } = {
     '1': 'Autorisasjon',
     '17': 'Autorisasjon med vilkår',
     '4': 'Lisens',
