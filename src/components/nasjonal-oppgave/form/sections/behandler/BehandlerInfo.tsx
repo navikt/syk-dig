@@ -1,20 +1,21 @@
 import React, { ReactElement } from 'react'
-import { gql, QueryResult, useQuery } from '@apollo/client'
+import { QueryResult, useQuery } from '@apollo/client'
 import { logger } from '@navikt/next-logger'
 import { Alert, Heading, HelpText, Loader, Table, Tag } from '@navikt/ds-react'
 
 import FormInfo from '../../../../form-layout/FormInfo'
-import { AutorisasjonValues, HelsepersonellkategoriValues, Sykmelder } from '../../../schema/Sykmelder'
-import { BehandlerFragment } from '../../../../../graphql/queries/graphql.generated'
+import { AutorisasjonValues, HelsepersonellkategoriValues } from '../../../schema/Sykmelder'
+import {
+    BehandlerFragment,
+    SykmelderDocument,
+    SykmelderQuery,
+    SykmelderQueryVariables,
+} from '../../../../../graphql/queries/graphql.generated'
 
 type Props = {
     behandlerInfo: BehandlerFragment | null
     hpr: string
     isValidHpr: RegExpMatchArray
-}
-
-type BehandlerResult = {
-    sykmelder: Sykmelder
 }
 
 function BehandlerInfo({ behandlerInfo, hpr, isValidHpr }: Props): ReactElement | null {
@@ -93,7 +94,7 @@ function BehandlerInfo({ behandlerInfo, hpr, isValidHpr }: Props): ReactElement 
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            {sykmelder.godkjenninger.map((godkjenning, index) => {
+                            {sykmelder.godkjenninger?.map((godkjenning, index) => {
                                 if (godkjenning.helsepersonellkategori?.verdi && godkjenning.autorisasjon?.verdi) {
                                     return (
                                         <Table.Row key={index}>
@@ -125,28 +126,17 @@ function BehandlerInfo({ behandlerInfo, hpr, isValidHpr }: Props): ReactElement 
     )
 }
 
-export function useBehandler(hpr: string, isValidHpr: false | RegExpMatchArray | null): QueryResult<BehandlerResult> {
-    return useQuery<BehandlerResult>(
-        gql`
-            query Behandler($hpr: String!) {
-                sykmelder(hpr: $hpr) @rest(type: "Sykmelder", path: "proxy/sykmelder/{args.hpr}") {
-                    hprNummer
-                    fnr
-                    fornavn
-                    mellomnavn
-                    etternavn
-                    godkjenninger
-                }
-            }
-        `,
-        {
-            variables: { hpr },
-            fetchPolicy: 'network-only',
-            notifyOnNetworkStatusChange: true,
-            skip: !isValidHpr,
-            onError: (e) => logger.error(e),
-        },
-    )
+export function useBehandler(
+    hprNummer: string,
+    isValidHpr: false | RegExpMatchArray | null,
+): QueryResult<SykmelderQuery, SykmelderQueryVariables> {
+    return useQuery(SykmelderDocument, {
+        variables: { hprNummer },
+        fetchPolicy: 'network-only',
+        notifyOnNetworkStatusChange: true,
+        skip: !isValidHpr,
+        onError: (e) => logger.error(e),
+    })
 }
 
 export default BehandlerInfo

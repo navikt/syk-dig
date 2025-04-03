@@ -425,6 +425,12 @@ export enum ErrorType {
     Unknown = 'UNKNOWN',
 }
 
+export type Godkjenning = {
+    __typename: 'Godkjenning'
+    autorisasjon?: Maybe<Kode>
+    helsepersonellkategori?: Maybe<Kode>
+}
+
 export type Gradert = {
     __typename: 'Gradert'
     grad?: Maybe<Scalars['Int']['output']>
@@ -471,6 +477,13 @@ export enum JournalpostStatusEnum {
     ManglendeJournalpost = 'MANGLENDE_JOURNALPOST',
     ManglerFnr = 'MANGLER_FNR',
     Opprettet = 'OPPRETTET',
+}
+
+export type Kode = {
+    __typename: 'Kode'
+    aktiv: Scalars['Boolean']['output']
+    oid: Scalars['Int']['output']
+    verdi?: Maybe<Scalars['String']['output']>
 }
 
 export type KontaktMedPasient = {
@@ -783,6 +796,7 @@ export type Query = {
     nasjonalOppgave?: Maybe<NasjonalOppgaveResult>
     oppgave?: Maybe<DigitaliseringsoppgaveResult>
     pasientNavn?: Maybe<Navn>
+    sykmelder?: Maybe<Sykmelder>
 }
 
 export type QueryDigitalisertSykmeldingArgs = {
@@ -805,6 +819,10 @@ export type QueryOppgaveArgs = {
     oppgaveId: Scalars['String']['input']
 }
 
+export type QuerySykmelderArgs = {
+    hprNummer: Scalars['String']['input']
+}
+
 export type RuleInfo = {
     __typename: 'RuleInfo'
     messageForSender: Scalars['String']['output']
@@ -817,6 +835,17 @@ export enum Status {
     Invalid = 'INVALID',
     ManualProcessing = 'MANUAL_PROCESSING',
     Ok = 'OK',
+}
+
+export type Sykmelder = {
+    __typename: 'Sykmelder'
+    aktorId?: Maybe<Scalars['String']['output']>
+    etternavn?: Maybe<Scalars['String']['output']>
+    fnr?: Maybe<Scalars['String']['output']>
+    fornavn?: Maybe<Scalars['String']['output']>
+    godkjenninger?: Maybe<Array<Godkjenning>>
+    hprNummer?: Maybe<Scalars['String']['output']>
+    mellomnavn?: Maybe<Scalars['String']['output']>
 }
 
 export type SykmeldingStatus = {
@@ -1642,6 +1671,51 @@ export type PasientQuery = {
 }
 
 export type NavnFragment = { __typename: 'Navn'; fornavn: string; mellomnavn?: string | null; etternavn: string }
+
+export type SykmelderQueryVariables = Exact<{
+    hprNummer: Scalars['String']['input']
+}>
+
+export type SykmelderQuery = {
+    __typename: 'Query'
+    sykmelder?: {
+        __typename: 'Sykmelder'
+        hprNummer?: string | null
+        aktorId?: string | null
+        fnr?: string | null
+        fornavn?: string | null
+        mellomnavn?: string | null
+        etternavn?: string | null
+        godkjenninger?: Array<{
+            __typename: 'Godkjenning'
+            autorisasjon?: { __typename: 'Kode'; aktiv: boolean; oid: number; verdi?: string | null } | null
+            helsepersonellkategori?: { __typename: 'Kode'; aktiv: boolean; oid: number; verdi?: string | null } | null
+        }> | null
+    } | null
+}
+
+export type SykmelderFragment = {
+    __typename: 'Sykmelder'
+    hprNummer?: string | null
+    aktorId?: string | null
+    fnr?: string | null
+    fornavn?: string | null
+    mellomnavn?: string | null
+    etternavn?: string | null
+    godkjenninger?: Array<{
+        __typename: 'Godkjenning'
+        autorisasjon?: { __typename: 'Kode'; aktiv: boolean; oid: number; verdi?: string | null } | null
+        helsepersonellkategori?: { __typename: 'Kode'; aktiv: boolean; oid: number; verdi?: string | null } | null
+    }> | null
+}
+
+export type GodkjenningFragment = {
+    __typename: 'Godkjenning'
+    autorisasjon?: { __typename: 'Kode'; aktiv: boolean; oid: number; verdi?: string | null } | null
+    helsepersonellkategori?: { __typename: 'Kode'; aktiv: boolean; oid: number; verdi?: string | null } | null
+}
+
+export type KodeFragment = { __typename: 'Kode'; aktiv: boolean; oid: number; verdi?: string | null }
 
 export type PeriodeFragment = {
     __typename: 'PeriodeValue'
@@ -4393,6 +4467,137 @@ export const NavnFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<NavnFragment, unknown>
+export const KodeFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Kode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'aktiv' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'verdi' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<KodeFragment, unknown>
+export const GodkjenningFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Godkjenning' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Godkjenning' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'autorisasjon' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Kode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'helsepersonellkategori' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Kode' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Kode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'aktiv' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'verdi' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<GodkjenningFragment, unknown>
+export const SykmelderFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Sykmelder' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sykmelder' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'hprNummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'godkjenninger' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Godkjenning' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Kode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'aktiv' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'verdi' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Godkjenning' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Godkjenning' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'autorisasjon' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Kode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'helsepersonellkategori' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Kode' } }],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SykmelderFragment, unknown>
 export const DocumentFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -7170,6 +7375,107 @@ export const PasientDocument = {
         },
     ],
 } as unknown as DocumentNode<PasientQuery, PasientQueryVariables>
+export const SykmelderDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'query',
+            name: { kind: 'Name', value: 'Sykmelder' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'hprNummer' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'sykmelder' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'hprNummer' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'hprNummer' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Sykmelder' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Kode' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kode' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'aktiv' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'verdi' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Godkjenning' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Godkjenning' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'autorisasjon' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Kode' } }],
+                        },
+                    },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'helsepersonellkategori' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Kode' } }],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'Sykmelder' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Sykmelder' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'hprNummer' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fnr' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'godkjenninger' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'Godkjenning' } }],
+                        },
+                    },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<SykmelderQuery, SykmelderQueryVariables>
 export const OppgaveByIdDocument = {
     kind: 'Document',
     definitions: [

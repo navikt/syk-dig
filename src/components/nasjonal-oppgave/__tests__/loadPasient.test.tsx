@@ -1,30 +1,32 @@
 import { describe, it, expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { http, HttpResponse } from 'msw'
+import { GraphQLError } from 'graphql/index'
 
-import { apiUrl } from '../smreg/api'
-import { server } from '../../../mocks/server'
 import { render, screen } from '../../../utils/testUtils'
 import NasjonalOppgaveView from '../NasjonalOppgaveView'
-import { NasjonalOppgaveByIdDocument, NasjonalOppgaveFragment } from '../../../graphql/queries/graphql.generated'
+import {
+    NasjonalOppgaveByIdDocument,
+    NasjonalOppgaveFragment,
+    PasientDocument,
+} from '../../../graphql/queries/graphql.generated'
 import { createMock } from '../../../utils/test/apolloTestUtils'
 
 import { emptyNasjonalOppgave } from './testData/dataCreators'
 
 describe('Load pasientinfo', async () => {
     it('Should display error when request fails', async () => {
-        server.use(
-            http.get(apiUrl('/proxy/pasient'), () => HttpResponse.text('Internal server error', { status: 500 })),
-        )
-
+        const pasientNavnMock = createMock({
+            request: { query: PasientDocument },
+            result: { errors: [new GraphQLError('Internal server error')] },
+        })
         const nasjonalOppgave: NasjonalOppgaveFragment = emptyNasjonalOppgave({ oppgaveId: '000000000' })
-        const mocks = createMock({
+        const nasjonalOppgaveMock = createMock({
             request: { query: NasjonalOppgaveByIdDocument, variables: { oppgaveId: '000000000' } },
             result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgave } },
         })
 
         render(<NasjonalOppgaveView oppgaveId={nasjonalOppgave.oppgaveId} layout={undefined} />, {
-            mocks: [mocks],
+            mocks: [nasjonalOppgaveMock, pasientNavnMock],
         })
 
         expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()

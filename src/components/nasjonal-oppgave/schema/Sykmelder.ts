@@ -41,10 +41,10 @@ export const HelsepersonellkategoriSchema = z.enum([
 
 type Helsepersonellkategori = z.infer<typeof HelsepersonellkategoriSchema>
 
-export const HelsepersonellkategoriValues: Record<Helsepersonellkategori, string> = {
+export const HelsepersonellkategoriValues: Record<Helsepersonellkategori, string> & { [key: string]: string } = {
     AA: 'Ambulansearbeider',
-    AT: 'ApotekteknikerA',
-    AU: 'udiograf',
+    AT: 'Apotektekniker',
+    AU: 'Audiograf',
     BI: 'Bioingeniør',
     ET: 'Ergoterapeut',
     FA1: 'Provisorfarmasøyt',
@@ -107,7 +107,7 @@ export const AutorisasjonSchema = z.enum([
 ])
 type Autorisasjon = z.infer<typeof AutorisasjonSchema>
 
-export const AutorisasjonValues: Record<Autorisasjon, string> = {
+export const AutorisasjonValues: Record<Autorisasjon, string> & { [key: string]: string } = {
     '1': 'Autorisasjon',
     '17': 'Autorisasjon med vilkår',
     '4': 'Lisens',
@@ -118,8 +118,8 @@ export const AutorisasjonValues: Record<Autorisasjon, string> = {
     '7': 'Autorisasjon og allmennlege under veiled (inaktivt, utgått)',
     '8': 'Autorisasjon og godkjent allmennlege (inaktivt, utgått)',
     '9': 'Autorisasjon med godkj. innen implantp. (inaktivt, utgått)',
-    '10': 'Autorisasjon,videreutd i manuell terapi (inaktivt, utgått)',
-    '11': 'Turnuslisens,videreutd i manuell terapi (inaktivt, utgått)',
+    '10': 'Autorisasjon, videreutd. i manuell terapi (inaktivt, utgått)',
+    '11': 'Turnuslisens, videreutd. i manuell terapi (inaktivt, utgått)',
     '12': 'Lisens med godkj. innen implantp. (inaktivt, utgått)',
     '13': 'Godkjenning fra Mattilsynet (inaktivt, utgått)',
     '16': 'Godkjenning for privat praksis (inaktivt, utgått)',
