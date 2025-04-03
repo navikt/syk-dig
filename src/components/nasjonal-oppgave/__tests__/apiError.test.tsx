@@ -1,40 +1,39 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
-import { http, HttpResponse } from 'msw'
+import { GraphQLError } from 'graphql'
 
 import { render, screen } from '../../../utils/testUtils'
 import { createMock } from '../../../utils/test/apolloTestUtils'
-import { NasjonalOppgaveByIdDocument, NasjonalOppgaveFragment } from '../../../graphql/queries/graphql.generated'
-import { server } from '../../../mocks/server'
-import { apiUrl } from '../smreg/api'
+import {
+    SaveOppgaveNasjonalDocument,
+    Status,
+    SykmeldingUnderArbeidStatus,
+} from '../../../graphql/queries/graphql.generated'
 import NasjonalOppgaveView from '../NasjonalOppgaveView'
 
-import { mockBehandlerinfo, mockPasientinfo } from './smregTestUtils'
-import { createNasjonalOppgave } from './testData/dataCreators'
+import { createSykmeldingValues } from './testData/dataCreators'
+import { oppgaveMock, pasientNavnMock, sykmelderMock } from './testUtils'
 
-//TODO: fix tests
 describe('Registration api errors', async () => {
-    beforeEach(() => {
-        mockPasientinfo()
-        mockBehandlerinfo()
-    })
-
-    const nasjonalOppgave: NasjonalOppgaveFragment = createNasjonalOppgave({ oppgaveId: '123456789' })
-    const mocks = createMock({
-        request: { query: NasjonalOppgaveByIdDocument, variables: { oppgaveId: '123456789' } },
-        result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgave } },
-    })
-
-    it.skip('Should show received body error message when status code is 400', async () => {
-        server.use(
-            http.post(apiUrl(`/proxy/oppgave/123456789/send`), () =>
-                HttpResponse.text('This is an error', { status: 400 }),
-            ),
-        )
-
-        render(<NasjonalOppgaveView oppgaveId={nasjonalOppgave.oppgaveId} layout={undefined} />, {
-            mocks: [mocks],
+    it('Should show error if save oppgave fails', async () => {
+        const saveOppgaveMock = createMock({
+            request: {
+                query: SaveOppgaveNasjonalDocument,
+                variables: {
+                    oppgaveId: '123456789',
+                    sykmeldingValues: createSykmeldingValues(),
+                    sykmeldingStatus: SykmeldingUnderArbeidStatus.UnderArbeid,
+                    navEnhet: 'B17',
+                },
+            },
+            result: { errors: [new GraphQLError('This is an error')] },
         })
+        render(<NasjonalOppgaveView oppgaveId="123456789" layout={undefined} />, {
+            mocks: [oppgaveMock, pasientNavnMock, saveOppgaveMock, sykmelderMock],
+        })
+
+        expect(await screen.findByText('Nasjonal papirsykmelding')).toBeInTheDocument()
+        expect(await screen.findByText(/Feltene stemmer overens/)).toBeInTheDocument()
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 
@@ -47,55 +46,45 @@ describe('Registration api errors', async () => {
         expect(
             await screen.findByText('Det oppsto dessverre en feil i baksystemet. Vennligst prøv igjen senere.'),
         ).toBeInTheDocument()
-    }, 10_000)
+    }, 10000)
 
-    it.skip('Should show generic error message when status code is 500', async () => {
-        server.use(
-            http.post(apiUrl(`/proxy/oppgave/123456789/send`), () =>
-                HttpResponse.text('This is an error', { status: 400 }),
-            ),
-        )
-
-        render(<NasjonalOppgaveView oppgaveId={nasjonalOppgave.oppgaveId} layout={undefined} />, {
-            mocks: [mocks],
-        })
-
-        await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
-
-        const registerButton = await screen.findByRole('button', {
-            name: 'Registrer sykmeldingen',
-        })
-        expect(registerButton).not.toBeDisabled()
-        await userEvent.click(registerButton)
-
-        expect(
-            await screen.findByText('Det oppsto dessverre en feil i baksystemet. Vennligst prøv igjen senere.'),
-        ).toBeInTheDocument()
-    })
-
-    it.skip('Should show list of validation rulehits when content-type is application/json and status code is 400', async () => {
-        server.use(
-            http.post(apiUrl(`/proxy/oppgave/123456789/send`), () =>
-                HttpResponse.json(
-                    {
-                        status: 'INVALID',
+    it('Should show list of validation rulehits', async () => {
+        const saveOppgaveMock = createMock({
+            request: {
+                query: SaveOppgaveNasjonalDocument,
+                variables: {
+                    oppgaveId: '123456789',
+                    sykmeldingValues: createSykmeldingValues(),
+                    sykmeldingStatus: SykmeldingUnderArbeidStatus.UnderArbeid,
+                    navEnhet: 'B17',
+                },
+            },
+            result: {
+                data: {
+                    __typename: 'Mutation',
+                    lagreNasjonalOppgave: {
+                        __typename: 'ValidationResult',
+                        validationStatus: Status.Invalid,
                         ruleHits: [
                             {
+                                __typename: 'RuleInfo',
                                 ruleName: 'RULE_NUMBER_ONE',
-                                ruleStatus: 'INVALID',
+                                ruleStatus: Status.Invalid,
                                 messageForSender: 'Dont break the rules, please',
                                 messageForUser: 'message for user',
                             },
                         ],
                     },
-                    { status: 400 },
-                ),
-            ),
-        )
-
-        render(<NasjonalOppgaveView oppgaveId={nasjonalOppgave.oppgaveId} layout={undefined} />, {
-            mocks: [mocks],
+                },
+            },
         })
+
+        render(<NasjonalOppgaveView oppgaveId="123456789" layout={undefined} />, {
+            mocks: [oppgaveMock, pasientNavnMock, saveOppgaveMock, sykmelderMock],
+        })
+
+        expect(await screen.findByText('Nasjonal papirsykmelding')).toBeInTheDocument()
+        expect(await screen.findByText(/Feltene stemmer overens/)).toBeInTheDocument()
 
         await userEvent.click(await screen.findByText(/Feltene stemmer overens/))
 
