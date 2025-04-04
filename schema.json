@@ -1188,6 +1188,33 @@
                 },
                 {
                     "kind": "OBJECT",
+                    "name": "Godkjenning",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "helsepersonellkategori",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "Kode", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "autorisasjon",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "OBJECT", "name": "Kode", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
                     "name": "Gradert",
                     "description": null,
                     "fields": [
@@ -1485,6 +1512,49 @@
                             "deprecationReason": null
                         }
                     ],
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "Kode",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "aktiv",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Boolean", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "oid",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "NON_NULL",
+                                "name": null,
+                                "ofType": { "kind": "SCALAR", "name": "Int", "ofType": null }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "verdi",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
+                    "enumValues": null,
                     "possibleTypes": null
                 },
                 {
@@ -3541,6 +3611,27 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "sykmelder",
+                            "description": null,
+                            "args": [
+                                {
+                                    "name": "hprNummer",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                }
+                            ],
+                            "type": { "kind": "OBJECT", "name": "Sykmelder", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "_service",
                             "description": null,
                             "args": [],
@@ -3643,6 +3734,81 @@
                     "fields": null,
                     "inputFields": null,
                     "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "OBJECT",
+                    "name": "Sykmelder",
+                    "description": null,
+                    "fields": [
+                        {
+                            "name": "hprNummer",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "fnr",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "aktorId",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "fornavn",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "mellomnavn",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "etternavn",
+                            "description": null,
+                            "args": [],
+                            "type": { "kind": "SCALAR", "name": "String", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "godkjenninger",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "NON_NULL",
+                                    "name": null,
+                                    "ofType": { "kind": "OBJECT", "name": "Godkjenning", "ofType": null }
+                                }
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        }
+                    ],
+                    "inputFields": null,
+                    "interfaces": [],
                     "enumValues": null,
                     "possibleTypes": null
                 },

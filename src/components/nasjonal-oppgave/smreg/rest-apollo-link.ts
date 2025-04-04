@@ -2,9 +2,6 @@ import { throwServerError } from '@apollo/client'
 import { RestLink } from 'apollo-link-rest'
 import { logger } from '@navikt/next-logger'
 
-import { PasientNavnSchema } from '../schema/Pasient'
-import { SykmelderSchema } from '../schema/Sykmelder'
-
 export class OppgaveAlreadySolvedError extends Error {}
 
 export class BadRequestError extends Error {}
@@ -15,10 +12,6 @@ export class UnauthorizedError extends Error {}
 
 const smregRestLink = new RestLink({
     uri: '/api/smreg/api/v1/',
-    typePatcher: {
-        Pasient: (data) => PasientNavnSchema.parse(data),
-        Sykmelder: (data) => SykmelderSchema.parse(data),
-    },
     customFetch: async (input, init) => {
         logger.info(`Fetching smreg (${input})`)
 

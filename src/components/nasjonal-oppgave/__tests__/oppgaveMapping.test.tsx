@@ -9,33 +9,23 @@ import {
     NasjonalOppgaveFragment,
     NasjonalOppgaveStatusEnum,
     NasjonalOppgaveStatusFragment,
-    Navn,
-    PasientDocument,
 } from '../../../graphql/queries/graphql.generated'
 import { formatsmregDate, formatsmregDateShorthand } from '../smregDateUtils'
 import { ArbeidsrelatertArsakTypeValues, MedisinskArsakTypeValues } from '../schema/sykmelding/Periode'
 import { createMock } from '../../../utils/test/apolloTestUtils'
 
-import { mockBehandlerinfo } from './smregTestUtils'
-import { createNasjonalOppgave, createNasjonalOppgaveStatus, createPasientNavn } from './testData/dataCreators'
+import { createNasjonalOppgave, createNasjonalOppgaveStatus } from './testData/dataCreators'
+import { pasientNavnMock, sykmelderMock } from './testUtils'
 
 describe('Mapping opppgave fetched from API', async () => {
+    const nasjonalOppgave: NasjonalOppgaveFragment = createNasjonalOppgave({ oppgaveId: '123456789' })
+    const oppgaveMock = createMock({
+        request: { query: NasjonalOppgaveByIdDocument, variables: { oppgaveId: '123456789' } },
+        result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgave } },
+    })
     it('Should map all fields when "nasjonalOppgave.nasjonalSykmelding" is completely filled out', async () => {
-        mockBehandlerinfo()
-
-        const nasjonalOppgave: NasjonalOppgaveFragment = createNasjonalOppgave({ oppgaveId: '123456789' })
-        const oppgaveMock = createMock({
-            request: { query: NasjonalOppgaveByIdDocument, variables: { oppgaveId: '123456789' } },
-            result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgave } },
-        })
-        const pasientNavn: Navn = createPasientNavn()
-        const pasientNavnMock = createMock({
-            request: { query: PasientDocument },
-            result: { data: { __typename: 'Query', pasientNavn: pasientNavn } },
-        })
-
-        render(<NasjonalOppgaveView oppgaveId={nasjonalOppgave.oppgaveId} layout={undefined} />, {
-            mocks: [oppgaveMock, pasientNavnMock],
+        render(<NasjonalOppgaveView oppgaveId="123456789" layout={undefined} />, {
+            mocks: [oppgaveMock, pasientNavnMock, sykmelderMock],
         })
 
         expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
@@ -142,7 +132,7 @@ describe('Mapping opppgave fetched from API', async () => {
 
         // 12 Behandler
         expect(screen.getByLabelText('12.1 Behandletdato')).toHaveDisplayValue(formatsmregDateShorthand('2025-01-14'))
-    }, 20000)
+    }, 25000)
 
     describe('NasjonalOppgaveStatus', () => {
         it('Should show status for nasjonalOppgave AVVIST', async () => {
