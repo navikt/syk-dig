@@ -10,7 +10,7 @@ import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
 import { redirectTilGosys } from '../../../utils/gosys'
 import { SykmeldingUnderArbeidStatus, ValidationResult } from '../../../graphql/queries/graphql.generated'
 
-import { useAvvisSykmeldingSmreg, useTilbakeTilGosysSmreg } from './useOtherSykmeldingActions'
+import { useAvvisSykmeldingSmreg, useTilbakeTilGosysNasjonal } from './useOtherSykmeldingActions'
 import SendToGosysButton from './SendToGosysButton'
 import AvvisButton from './AvvisButton'
 
@@ -27,9 +27,9 @@ function ActionSection({ submitResult, status, oppgaveId }: Props): ReactElement
     const isFerdigstilt = status === SykmeldingUnderArbeidStatus.Ferdigstilt
     // These two mutations can only be used when the task is an actual oppgave (not ferdigstilt), so they don't
     // need to handle redirect to Modia
-    const [tilbakeTilGosys, tilbakeTilGosysResult] = useTilbakeTilGosysSmreg({
+    const [tilbakeTilGosys, tilbakeTilGosysResult] = useTilbakeTilGosysNasjonal({
         onCompleted: () => {
-            logger.info(`Tilbake til gosys OK (status: ${status}, oppgaveId: ${oppgaveId})`)
+            logger.info(`Tilbake til gosys OK (oppgaveId: ${oppgaveId})`)
 
             redirectTilGosys()
         },

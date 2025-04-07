@@ -578,6 +578,7 @@ export type Mutation = {
     lagreNasjonalOppgave?: Maybe<LagreOppgaveResult>
     oppdaterDigitalisertSykmelding?: Maybe<OppdatertSykmeldingStatus>
     oppgaveTilbakeTilGosys?: Maybe<DigitaliseringsoppgaveStatus>
+    oppgaveTilbakeTilGosysNasjonal?: Maybe<LagreNasjonalOppgaveStatus>
     sykmeldingFraJournalpost: JournalpostStatus
 }
 
@@ -615,6 +616,10 @@ export type MutationOppdaterDigitalisertSykmeldingArgs = {
 }
 
 export type MutationOppgaveTilbakeTilGosysArgs = {
+    oppgaveId: Scalars['String']['input']
+}
+
+export type MutationOppgaveTilbakeTilGosysNasjonalArgs = {
     oppgaveId: Scalars['String']['input']
 }
 
@@ -2450,6 +2455,19 @@ export type LagreOppgaveResult_ValidationResult_Fragment = {
 export type LagreOppgaveResultFragment =
     | LagreOppgaveResult_LagreNasjonalOppgaveStatus_Fragment
     | LagreOppgaveResult_ValidationResult_Fragment
+
+export type TilbakeTilGosysNasjonalMutationVariables = Exact<{
+    oppgaveId: Scalars['String']['input']
+}>
+
+export type TilbakeTilGosysNasjonalMutation = {
+    __typename: 'Mutation'
+    oppgaveTilbakeTilGosysNasjonal?: {
+        __typename: 'LagreNasjonalOppgaveStatus'
+        oppgaveId: string
+        status: LagreNasjonalOppgaveStatusEnum
+    } | null
+}
 
 export type SaveOppgaveMutationVariables = Exact<{
     id: Scalars['String']['input']
@@ -8321,6 +8339,57 @@ export const SaveOppgaveNasjonalDocument = {
         },
     ],
 } as unknown as DocumentNode<SaveOppgaveNasjonalMutation, SaveOppgaveNasjonalMutationVariables>
+export const TilbakeTilGosysNasjonalDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'TilbakeTilGosysNasjonal' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'oppgaveTilbakeTilGosysNasjonal' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<TilbakeTilGosysNasjonalMutation, TilbakeTilGosysNasjonalMutationVariables>
 export const SaveOppgaveDocument = {
     kind: 'Document',
     definitions: [
