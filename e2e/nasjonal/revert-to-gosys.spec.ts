@@ -1,6 +1,6 @@
 import test, { expect } from '@playwright/test'
 
-import { clickAndWait, waitForREST } from '../utils/request'
+import { clickAndWait, waitForGraphQL } from '../utils/request'
 
 test('Should display modal when clicking "Send til Gosys"', async ({ page }) => {
     await page.goto('/nasjonal/123456789')
@@ -12,7 +12,7 @@ test('Should display modal when clicking "Send til Gosys"', async ({ page }) => 
 
     const request = await clickAndWait(
         dialog.getByRole('button', { name: 'Send til Gosys' }).click(),
-        waitForREST(page)('/api/smreg/api/v1/proxy/oppgave/123456789/tilgosys', 'POST'),
+        waitForGraphQL(page),
     )
 
     const confirmationDialog = page.getByRole('dialog', { name: 'Oppgaven ble sendt tilbake til Gosys.' })
@@ -20,5 +20,5 @@ test('Should display modal when clicking "Send til Gosys"', async ({ page }) => 
         confirmationDialog.getByRole('button', { name: 'Klikk her dersom du ikke blir videresendt...' }),
     ).toBeVisible()
 
-    expect((await request.response())?.status()).toBe(204)
+    expect((await request.response())?.status()).toBe(200)
 })

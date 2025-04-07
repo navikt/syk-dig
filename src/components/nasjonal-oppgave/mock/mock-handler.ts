@@ -11,8 +11,6 @@ export async function mockedSmregData(request: Request, path: string): Promise<R
             verifyHasEnhet(request)
 
             return new Response(null, { status: 204 })
-        case 'POST /api/v1/proxy/oppgave/[id|hpr]/tilgosys':
-            return new Response(null, { status: 204 })
         case 'GET /api/v1/proxy/pdf/[id|hpr]/[id|hpr]':
             return new Response(Buffer.from(pdf, 'base64'), {
                 headers: { 'Content-Type': 'application/pdf' },

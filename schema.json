@@ -2398,6 +2398,27 @@
                             "type": { "kind": "UNION", "name": "LagreOppgaveResult", "ofType": null },
                             "isDeprecated": false,
                             "deprecationReason": null
+                        },
+                        {
+                            "name": "oppgaveTilbakeTilGosysNasjonal",
+                            "description": null,
+                            "args": [
+                                {
+                                    "name": "oppgaveId",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": { "kind": "SCALAR", "name": "String", "ofType": null }
+                                    },
+                                    "defaultValue": null,
+                                    "isDeprecated": false,
+                                    "deprecationReason": null
+                                }
+                            ],
+                            "type": { "kind": "OBJECT", "name": "LagreNasjonalOppgaveStatus", "ofType": null },
+                            "isDeprecated": false,
+                            "deprecationReason": null
                         }
                     ],
                     "inputFields": null,

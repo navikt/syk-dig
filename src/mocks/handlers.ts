@@ -37,6 +37,8 @@ import {
     SykmeldingUnderArbeidStatus,
     TilbakeTilGosysDocument,
     TilbakeTilGosysMutation,
+    TilbakeTilGosysNasjonalDocument,
+    TilbakeTilGosysNasjonalMutation,
     UpdateDigitalisertSykmeldingDocument,
     UpdateDigitalisertSykmeldingMutation,
 } from '../graphql/queries/graphql.generated'
@@ -340,6 +342,19 @@ export const handlers = [
 
         await delay()
         return HttpResponse.json({ data: { __typename: 'Query', sykmelder } })
+    }),
+    graphql.mutation(TilbakeTilGosysNasjonalDocument, async ({ variables }) => {
+        await delay()
+        return HttpResponse.json({
+            data: {
+                __typename: 'Mutation',
+                oppgaveTilbakeTilGosysNasjonal: {
+                    __typename: 'LagreNasjonalOppgaveStatus',
+                    oppgaveId: variables.oppgaveId,
+                    status: LagreNasjonalOppgaveStatusEnum.IkkeEnSykmelding,
+                },
+            } satisfies TilbakeTilGosysNasjonalMutation,
+        })
     }),
 ]
 
