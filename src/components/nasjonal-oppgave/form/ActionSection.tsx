@@ -9,8 +9,10 @@ import FeedbackModal from '../../Sykmelding/ActionSection/FeedbackModal'
 import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
 import { redirectTilGosys } from '../../../utils/gosys'
 import { SykmeldingUnderArbeidStatus, ValidationResult } from '../../../graphql/queries/graphql.generated'
+import { useModiaContext } from '../../../modia/modia-context'
+import { raise } from '../../../utils/tsUtils'
 
-import { useAvvisSykmeldingSmreg, useTilbakeTilGosysNasjonal } from './useOtherSykmeldingActions'
+import { useAvvisSykmeldingNasjonal, useTilbakeTilGosysNasjonal } from './useOtherSykmeldingActions'
 import SendToGosysButton from './SendToGosysButton'
 import AvvisButton from './AvvisButton'
 
@@ -22,6 +24,7 @@ type Props = {
 
 function ActionSection({ submitResult, status, oppgaveId }: Props): ReactElement {
     const [everythingGood, setEverythingGood] = useState(false)
+    const { selectedEnhetId } = useModiaContext()
 
     const isActualOppgave = status === SykmeldingUnderArbeidStatus.UnderArbeid
     const isFerdigstilt = status === SykmeldingUnderArbeidStatus.Ferdigstilt
@@ -34,9 +37,9 @@ function ActionSection({ submitResult, status, oppgaveId }: Props): ReactElement
             redirectTilGosys()
         },
     })
-    const [avvisSykmelding, avvisSykmeldingResult] = useAvvisSykmeldingSmreg({
+    const [avvisSykmelding, avvisSykmeldingResult] = useAvvisSykmeldingNasjonal({
         onCompleted: () => {
-            logger.info(`Avvis sykmleding OK (status: ${status}, oppgaveId: ${oppgaveId})`)
+            logger.info(`Avvis sykmleding OK (oppgaveId: ${oppgaveId})`)
 
             redirectTilGosys()
         },
@@ -89,7 +92,11 @@ function ActionSection({ submitResult, status, oppgaveId }: Props): ReactElement
                                 logger.info(`Avvis sykmelding (status: ${status}, oppgaveId: ${oppgaveId})`)
 
                                 await avvisSykmelding({
-                                    variables: { oppgaveId: oppgaveId, input: { reason } },
+                                    variables: {
+                                        oppgaveId: oppgaveId,
+                                        avvisningsgrunn: reason,
+                                        navEnhet: selectedEnhetId ?? raise('Oppgave kan ikke avvises uten valgt enhet'),
+                                    },
                                 })
                             }}
                             avvisResult={avvisSykmeldingResult}

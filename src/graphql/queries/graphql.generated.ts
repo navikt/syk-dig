@@ -573,6 +573,7 @@ export type MeldingTilNavValues = {
 export type Mutation = {
     __typename: 'Mutation'
     avvis?: Maybe<DigitaliseringsoppgaveStatus>
+    avvisNasjonalOppgave?: Maybe<LagreNasjonalOppgaveStatus>
     dokument?: Maybe<Document>
     lagre?: Maybe<DigitaliseringsoppgaveResult>
     lagreNasjonalOppgave?: Maybe<LagreOppgaveResult>
@@ -586,6 +587,12 @@ export type MutationAvvisArgs = {
     avvisningsgrunn: Avvisingsgrunn
     avvisningsgrunnAnnet?: InputMaybe<Scalars['String']['input']>
     enhetId: Scalars['String']['input']
+    oppgaveId: Scalars['String']['input']
+}
+
+export type MutationAvvisNasjonalOppgaveArgs = {
+    avvisningsgrunn?: InputMaybe<Scalars['String']['input']>
+    navEnhet: Scalars['String']['input']
     oppgaveId: Scalars['String']['input']
 }
 
@@ -2463,6 +2470,21 @@ export type TilbakeTilGosysNasjonalMutationVariables = Exact<{
 export type TilbakeTilGosysNasjonalMutation = {
     __typename: 'Mutation'
     oppgaveTilbakeTilGosysNasjonal?: {
+        __typename: 'LagreNasjonalOppgaveStatus'
+        oppgaveId: string
+        status: LagreNasjonalOppgaveStatusEnum
+    } | null
+}
+
+export type AvvisNasjonalOppgaveMutationVariables = Exact<{
+    oppgaveId: Scalars['String']['input']
+    avvisningsgrunn?: InputMaybe<Scalars['String']['input']>
+    navEnhet: Scalars['String']['input']
+}>
+
+export type AvvisNasjonalOppgaveMutation = {
+    __typename: 'Mutation'
+    avvisNasjonalOppgave?: {
         __typename: 'LagreNasjonalOppgaveStatus'
         oppgaveId: string
         status: LagreNasjonalOppgaveStatusEnum
@@ -8390,6 +8412,77 @@ export const TilbakeTilGosysNasjonalDocument = {
         },
     ],
 } as unknown as DocumentNode<TilbakeTilGosysNasjonalMutation, TilbakeTilGosysNasjonalMutationVariables>
+export const AvvisNasjonalOppgaveDocument = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'OperationDefinition',
+            operation: 'mutation',
+            name: { kind: 'Name', value: 'AvvisNasjonalOppgave' },
+            variableDefinitions: [
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'avvisningsgrunn' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'navEnhet' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
+                },
+            ],
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'avvisNasjonalOppgave' },
+                        arguments: [
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'oppgaveId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'avvisningsgrunn' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'avvisningsgrunn' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'navEnhet' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'navEnhet' } },
+                            },
+                        ],
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' } },
+                            ],
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagreNasjonalOppgaveStatus' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'oppgaveId' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'status' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<AvvisNasjonalOppgaveMutation, AvvisNasjonalOppgaveMutationVariables>
 export const SaveOppgaveDocument = {
     kind: 'Document',
     definitions: [
