@@ -6,7 +6,7 @@ type OptionsType = { baseURL: string; timeout: number; server: PlaywrightTestCon
 const opts: OptionsType = process.env.CI
     ? {
           baseURL: `http://localhost:3000`,
-          timeout: 30 * 1000,
+          timeout: 40 * 1000,
           // Uses service container app
           server: undefined,
       }

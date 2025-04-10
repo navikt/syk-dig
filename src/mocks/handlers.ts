@@ -1,6 +1,9 @@
 import { delay, graphql, HttpResponse, RequestHandler } from 'msw'
+import { GraphQLError } from 'graphql'
 
 import {
+    AvvisNasjonalOppgaveDocument,
+    AvvisNasjonalOppgaveMutation,
     AvvisOppgaveDocument,
     AvvisOppgaveMutation,
     DiagnoseFragment,
@@ -354,6 +357,26 @@ export const handlers = [
                     status: LagreNasjonalOppgaveStatusEnum.IkkeEnSykmelding,
                 },
             } satisfies TilbakeTilGosysNasjonalMutation,
+        })
+    }),
+    graphql.mutation(AvvisNasjonalOppgaveDocument, async ({ variables }) => {
+        await delay()
+        const isOppgaveMissing = false
+        if (isOppgaveMissing) {
+            return HttpResponse.json({
+                errors: [new GraphQLError('Kunne ikke finne oppgave')],
+            })
+        }
+
+        return HttpResponse.json({
+            data: {
+                __typename: 'Mutation',
+                avvisNasjonalOppgave: {
+                    __typename: 'LagreNasjonalOppgaveStatus',
+                    oppgaveId: variables.oppgaveId,
+                    status: LagreNasjonalOppgaveStatusEnum.Avvist,
+                },
+            } satisfies AvvisNasjonalOppgaveMutation,
         })
     }),
 ]

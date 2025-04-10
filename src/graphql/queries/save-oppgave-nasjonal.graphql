@@ -29,3 +29,9 @@ mutation TilbakeTilGosysNasjonal($oppgaveId: String!) {
         ...LagreNasjonalOppgaveStatus
     }
 }
+
+mutation AvvisNasjonalOppgave($oppgaveId: String!, $avvisningsgrunn: String, $navEnhet: String!) {
+    avvisNasjonalOppgave(oppgaveId: $oppgaveId, avvisningsgrunn: $avvisningsgrunn, navEnhet: $navEnhet) {
+        ...LagreNasjonalOppgaveStatus
+    }
+}
