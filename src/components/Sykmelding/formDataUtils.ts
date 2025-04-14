@@ -1,4 +1,4 @@
-import { DefaultValues } from 'react-hook-form/dist/types/form'
+import { DefaultValues } from 'react-hook-form'
 
 import { DiagnoseFragment, OppgaveValuesFragment, PeriodeType } from '../../graphql/queries/graphql.generated'
 import { toDate } from '../../utils/dateUtils'
