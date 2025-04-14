@@ -1,5 +1,4 @@
 import { delay, graphql, HttpResponse, RequestHandler } from 'msw'
-import { GraphQLError } from 'graphql'
 
 import {
     AvvisNasjonalOppgaveDocument,
@@ -262,8 +261,6 @@ export const handlers = [
             },
         })
     }),
-    ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
-
     // NASJONAL
     graphql.query(NasjonalOppgaveByIdDocument, async ({ variables }) => {
         const nasjonalOppgave: NasjonalOppgaveFragment | NasjonalOppgaveStatusFragment =
@@ -329,7 +326,9 @@ export const handlers = [
         const pasientNavn: Navn = getNasjonalMockDb().getPasientNavn()
 
         if (fnr && fnr.length > 11) {
-            throw new Error(`En feil oppsto ved henting av pasient info.`)
+            return HttpResponse.json({
+                errors: [{ message: 'En feil oppsto ved henting av pasient info.' }],
+            })
         }
 
         await delay()
@@ -340,7 +339,9 @@ export const handlers = [
         const sykmelder: Sykmelder = getNasjonalMockDb().getSykmelder()
 
         if (!hprNummer) {
-            throw new Error(`Hprnummer mangler for å kunne hente sykmelder.`)
+            return HttpResponse.json({
+                errors: [{ message: 'Hprnummer mangler for å kunne hente sykmelder.' }],
+            })
         }
 
         await delay()
@@ -364,7 +365,7 @@ export const handlers = [
         const isOppgaveMissing = false
         if (isOppgaveMissing) {
             return HttpResponse.json({
-                errors: [new GraphQLError('Kunne ikke finne oppgave')],
+                errors: [{ message: 'Kunne ikke finne oppgave' }],
             })
         }
 
@@ -379,6 +380,7 @@ export const handlers = [
             } satisfies AvvisNasjonalOppgaveMutation,
         })
     }),
+    ...(process.env.NODE_ENV === 'test' ? testHandlers : []),
 ]
 
 function mapInputDiagnoseToOppgaveDiagnose(
