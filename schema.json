@@ -1510,7 +1510,8 @@
                             "description": null,
                             "isDeprecated": false,
                             "deprecationReason": null
-                        }
+                        },
+                        { "name": "FEIL_TYPE", "description": null, "isDeprecated": false, "deprecationReason": null }
                     ],
                     "possibleTypes": null
                 },
