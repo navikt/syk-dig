@@ -477,6 +477,7 @@ export enum JournalpostStatusEnum {
     ManglendeJournalpost = 'MANGLENDE_JOURNALPOST',
     ManglerFnr = 'MANGLER_FNR',
     Opprettet = 'OPPRETTET',
+    FeilType = 'FEIL_TYPE',
 }
 
 export type Kode = {
