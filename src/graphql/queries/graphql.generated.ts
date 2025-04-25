@@ -474,10 +474,10 @@ export type JournalpostStatus = {
 export enum JournalpostStatusEnum {
     FeilKanal = 'FEIL_KANAL',
     FeilTema = 'FEIL_TEMA',
+    FeilType = 'FEIL_TYPE',
     ManglendeJournalpost = 'MANGLENDE_JOURNALPOST',
     ManglerFnr = 'MANGLER_FNR',
     Opprettet = 'OPPRETTET',
-    FeilType = 'FEIL_TYPE',
 }
 
 export type Kode = {
