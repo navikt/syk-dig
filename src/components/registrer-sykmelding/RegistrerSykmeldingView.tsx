@@ -121,6 +121,8 @@ function createStatusMelding(status: JournalpostStatusEnum): string {
             return 'Mangler fødselsnummer'
         case JournalpostStatusEnum.Opprettet:
             return 'Sykmelding er allerede opprettet'
+        case JournalpostStatusEnum.FeilType:
+            return 'Journalposttype er av type notat'
     }
 }
 
