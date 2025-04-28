@@ -1,15 +1,16 @@
 import { logger } from '@navikt/next-logger'
 
-import { MulighetForArbeid, NasjonalFormValues } from '../form/NasjonalSykmeldingFormTypes'
-import { raise } from '../../../utils/tsUtils'
-import { toDateString } from '../../../utils/dateUtils'
-import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
-import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { raise } from '../../utils/tsUtils'
+import { toDateString } from '../../utils/dateUtils'
+import { DiagnoseSystem } from '../FormComponents/DiagnosePicker/diagnose-combobox/types'
 import {
     NasjonalSykmeldingFragment,
     NasjonalSykmeldingValues,
     PeriodeValues,
-} from '../../../graphql/queries/graphql.generated'
+} from '../../graphql/queries/graphql.generated'
+
+import { DiagnosekodeSystem } from './schema/diagnosekoder/Diagnosekoder'
+import { MulighetForArbeid, NasjonalFormValues } from './form/NasjonalSykmeldingFormTypes'
 
 export function mapFormValueToNasjonalSykmelding(
     values: NasjonalFormValues,
