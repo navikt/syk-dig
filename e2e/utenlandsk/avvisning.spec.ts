@@ -10,7 +10,7 @@ test('should allow avvising sykmelding', async ({ page }) => {
 
     const request = await clickAndWait(
         avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }).click(),
-        waitForGraphQL(page),
+        waitForGraphQL(page, 'AvvisOppgave'),
     )
     await expect(page.getByRole('dialog', { name: /Sykmeldingen er avvist/ })).toBeVisible()
     expect(request.postDataJSON().variables).toEqual({
@@ -31,7 +31,7 @@ test('should allow avvising sykmelding with avvisningsgrunn Annet and require de
 
     const request = await clickAndWait(
         avvisDialog.getByRole('button', { name: 'Ja, avvis sykmeldingen' }).click(),
-        waitForGraphQL(page),
+        waitForGraphQL(page, 'AvvisOppgave'),
     )
     await expect(page.getByRole('dialog', { name: /Sykmeldingen er avvist/ })).toBeVisible()
     expect(request.postDataJSON().variables).toEqual({

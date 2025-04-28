@@ -10,7 +10,7 @@ test('should display modal with confirmation when clicking "avvis sykmeldingen"'
 
     const request = await clickAndWait(
         page.getByRole('button', { name: 'Avvis sykmelding', exact: true }).click(),
-        waitForGraphQL(page),
+        waitForGraphQL(page, 'AvvisNasjonalOppgave'),
     )
 
     const dialog = page.getByRole('dialog', { name: 'Oppgaven ble ferdigstilt.' })

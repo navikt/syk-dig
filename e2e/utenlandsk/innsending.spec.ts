@@ -18,7 +18,7 @@ test('oppgave should be able to be saved for later', async ({ page }) => {
 
     const request = await clickAndWait(
         page.getByRole('button', { name: 'Lagre og lukk' }).click(),
-        waitForGraphQL(page),
+        waitForGraphQL(page, 'SaveOppgave'),
     )
 
     await expect(page.getByText(/Oppgaven ble lagret/)).toBeVisible()
@@ -79,7 +79,7 @@ test('oppgave should be able to be filled out from empty state', async ({ page }
     await expect(confirmationDialog).toBeVisible()
     const request = await clickAndWait(
         confirmationDialog.getByRole('button', { name: 'Ja, jeg er sikker' }).click(),
-        waitForGraphQL(page),
+        waitForGraphQL(page, 'SaveOppgave'),
     )
 
     await expect(page.getByRole('dialog', { name: /Sykmeldingen er registrert/ })).toBeVisible()

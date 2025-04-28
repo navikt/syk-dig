@@ -12,7 +12,7 @@ test('Should display modal when clicking "Send til Gosys"', async ({ page }) => 
 
     const request = await clickAndWait(
         dialog.getByRole('button', { name: 'Send til Gosys' }).click(),
-        waitForGraphQL(page),
+        waitForGraphQL(page, 'TilbakeTilGosysNasjonal'),
     )
 
     const confirmationDialog = page.getByRole('dialog', { name: 'Oppgaven ble sendt tilbake til Gosys.' })
