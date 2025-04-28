@@ -63,8 +63,8 @@ test('should be able to submit oppgave', async ({ page }) => {
     await page.getByText('Feltene stemmer overens med').click()
 
     const request = await clickAndWait(
-        page.getByRole('button', { name: 'Registrer sykmeldingen' }).click({ timeout: 60000 }),
-        waitForGraphQL(page),
+        page.getByRole('button', { name: 'Registrer sykmeldingen' }).click(),
+        waitForGraphQL(page, 'SaveOppgaveNasjonal'),
     )
 
     await expect(page.getByText(/Oppgaven ble registrert/)).toBeVisible()

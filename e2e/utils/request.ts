@@ -1,8 +1,13 @@
 import { Page, Request } from '@playwright/test'
 
-export async function waitForGraphQL(page: Page): Promise<Request> {
+export async function waitForGraphQL(page: Page, operationName: string): Promise<Request> {
     return await page.waitForRequest((req) => {
-        return req.url().includes('api/graphql') && req.method() === 'POST'
+        if (req.url().includes('api/graphql') && req.method() === 'POST') {
+            const postData = req.postDataJSON()
+            if (!postData) return false
+            return postData.operationName === operationName
+        }
+        return false
     })
 }
 

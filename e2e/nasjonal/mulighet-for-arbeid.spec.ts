@@ -31,7 +31,7 @@ test('should be able to delete periode without messing up other periods', async 
 
     const request = await clickAndWait(
         page.getByRole('button', { name: 'Registrer sykmeldingen' }).click(),
-        waitForGraphQL(page),
+        waitForGraphQL(page, 'SaveOppgaveNasjonal'),
     )
 
     await expect(page.getByText(/Oppgaven ble registrert/)).toBeVisible()
