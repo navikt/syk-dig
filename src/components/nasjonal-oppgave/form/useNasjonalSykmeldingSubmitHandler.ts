@@ -3,7 +3,7 @@ import { logger } from '@navikt/next-logger'
 import { SubmitHandler } from 'react-hook-form'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-import { mapFormValueToNasjonalSykmelding } from '../smreg/nasjonal-sykmelding-mapping'
+import { mapFormValueToNasjonalSykmelding } from '../nasjonal-sykmelding-mapping'
 import { useModiaContext } from '../../../modia/modia-context'
 import { raise } from '../../../utils/tsUtils'
 import {
