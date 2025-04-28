@@ -19,7 +19,7 @@ type DocumentOppgaveVariant =
     | {
           edit: false
           oppgaveId: string
-          smreg: true
+          nasjonal: true
       }
 
 type Props = {
@@ -61,12 +61,11 @@ function DocumentsViewer({ documents, className, edit, ...props }: Props): React
 }
 
 function getPdfUrl(
-    id: { oppgaveId: string } | { journalpostId: string } | { oppgaveId: string; smreg: true },
+    id: { oppgaveId: string } | { journalpostId: string } | { oppgaveId: string; nasjonal: true },
     documentId: string,
 ): string {
-    if ('smreg' in id) {
-        /* Until syk-dig-backend starts reading smregs oppgave-types, we have to proxy this PDF through smreg. */
-        return `/api/smreg/api/v1/proxy/pdf/${id.oppgaveId}/${documentId}`
+    if ('nasjonal' in id) {
+        return `/api/document/nasjonal/${id.oppgaveId}/${documentId}`
     }
 
     if ('oppgaveId' in id) {
