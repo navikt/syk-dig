@@ -9,7 +9,10 @@ import {
     fillPasientOpplysningerSection,
 } from './user-actions'
 
-test('should be able to submit oppgave', async ({ page }) => {
+test('should be able to submit oppgave', async ({ page, browserName }) => {
+    //TODO: temporarily skip because of a bug with msw and chrome having high processing duration on save
+    test.skip(browserName === 'chromium', 'Skip on Chrome/Chromium')
+
     await page.goto('/nasjonal/000000000')
 
     await fillPasientOpplysningerSection(page)('12345678910')
