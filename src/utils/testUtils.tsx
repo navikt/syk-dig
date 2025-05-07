@@ -1,11 +1,10 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing'
 import { PropsWithChildren, ReactElement } from 'react'
 import { RenderOptions, render, Screen } from '@testing-library/react'
-import { Cache, from, InMemoryCache } from '@apollo/client'
+import { Cache, InMemoryCache } from '@apollo/client'
 import open from 'open'
 
 import { cacheConfig } from '../graphql/apollo'
-import smregRestLink from '../components/nasjonal-oppgave/smreg/rest-apollo-link'
 import { ModiaProvider } from '../modia/modia-context'
 
 type ProviderProps = {
@@ -14,12 +13,7 @@ type ProviderProps = {
     readonly useRestLink?: boolean
 }
 
-function AllTheProviders({
-    children,
-    initialState,
-    mocks,
-    useRestLink,
-}: PropsWithChildren<ProviderProps>): ReactElement {
+function AllTheProviders({ children, initialState, mocks }: PropsWithChildren<ProviderProps>): ReactElement {
     const cache = new InMemoryCache(cacheConfig)
 
     initialState?.forEach((it) => cache.writeQuery(it))
@@ -37,17 +31,7 @@ function AllTheProviders({
                 ],
             }}
         >
-            <MockedProvider
-                mocks={mocks}
-                cache={cache}
-                link={
-                    useRestLink
-                        ? /* Using the restLink allows the actual HTTP-requests to go through, so the
-                         tests can use MSW for data while still piping the data through Apollo */
-                          from([smregRestLink])
-                        : undefined
-                }
-            >
+            <MockedProvider mocks={mocks} cache={cache}>
                 {children}
             </MockedProvider>
         </ModiaProvider>
