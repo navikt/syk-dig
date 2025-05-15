@@ -110,7 +110,7 @@ function ActionSection({ submitResult, status, oppgaveId }: Props): ReactElement
                     variant="tertiary"
                     as="a"
                     href={isFerdigstilt ? bundledEnv.NEXT_PUBLIC_MODIA_URL : bundledEnv.NEXT_PUBLIC_GOSYS_URL}
-                    icon={<ArrowLeftIcon />}
+                    icon={<ArrowLeftIcon aria-hidden />}
                 >
                     Tilbake til {isFerdigstilt ? 'Modia' : 'Gosys'}
                 </Button>
