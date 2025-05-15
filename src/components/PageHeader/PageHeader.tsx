@@ -19,9 +19,10 @@ function PageHeader({ children }: PropsWithChildren): ReactElement {
                     <InternalHeader.User name="Feil under lasting" description="Klarte ikke å laste enhet" />
                 ) : (
                     <>
-                        <div data-theme="dark">
+                        <div data-theme="dark" className="flex items-center">
                             <Select
-                                label=""
+                                label="Velg enhet"
+                                hideLabel
                                 size="small"
                                 value={modiaContext.selectedEnhetId ?? ''}
                                 onChange={(event) => {

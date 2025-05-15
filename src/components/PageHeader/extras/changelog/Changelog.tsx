@@ -24,7 +24,7 @@ function Changelog({ defaultChangelogKey }: Props): ReactElement {
             <Button
                 ref={buttonRef}
                 variant="tertiary-neutral"
-                icon={<NewspaperIcon />}
+                icon={<NewspaperIcon aria-hidden />}
                 data-theme="dark"
                 className="text-white hover:text-gray-300 grow-0 relative"
                 size="small"

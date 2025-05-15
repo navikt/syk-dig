@@ -41,24 +41,31 @@ function BehandlerInfo({ behandlerInfo, hpr, isValidHpr }: Props): ReactElement 
 
     return (
         <div className="p-4 bg-surface-subtle">
-            <Heading level="3" size="medium" className="flex gap-3 items-center" spacing>
-                Informasjon om behandleren
-                <HelpText title="Detaljer om behandleren">
+            <div className="flex">
+                <Heading level="3" size="medium" spacing>
+                    Informasjon om behandleren
+                </Heading>
+                <HelpText title="Detaljer om behandleren" className="pl-3 pt-1">
                     Informasjon om behandler er hentet fra HPR, basert på HPR-nummeret som ble lest ut fra
                     papirsykmeldingen. Her kan det skje tolkningsfeil, pass på at informasjonen stemmer med
                     informasjonen i papirsykmeldingen.
                 </HelpText>
-            </Heading>
+            </div>
             <div className="grid grid-cols-2 gap-8">
-                <FormInfo title="Navn">
+                <FormInfo title="Navn" headingLeave="4">
                     {sykmelder.fornavn} {sykmelder.mellomnavn} {sykmelder.etternavn}
                 </FormInfo>
-                <FormInfo title="Fødselsnummer">{sykmelder.fnr}</FormInfo>
+                <FormInfo title="Fødselsnummer" headingLeave="4">
+                    {sykmelder.fnr}
+                </FormInfo>
                 <FormInfo
                     className="col-span-2"
+                    headingLeave="4"
                     title={
                         <div className="inline-flex gap-3">
-                            Navn fra papirsykmeldingen
+                            <Heading level="4" size="xsmall">
+                                Navn fra papirsykmeldingen
+                            </Heading>
                             <HelpText title="HPR-nummer info">
                                 Dette er informasjon lest ut fra den skannede papirsykmeldingen. Hvis navnet ikke
                                 samsvarer med navnet over kan det tyde på at HPR-nummer har blitt tolket feil.
@@ -76,9 +83,12 @@ function BehandlerInfo({ behandlerInfo, hpr, isValidHpr }: Props): ReactElement 
                 </FormInfo>
                 <FormInfo
                     className="col-span-2"
+                    headingLeave="4"
                     title={
                         <div className="inline-flex gap-3">
-                            Autorisasjoner
+                            <Heading level="4" size="xsmall">
+                                Autorisasjoner
+                            </Heading>
                             <HelpText title="HPR-nummer info">
                                 Viser behandlers lisenser og autorisasjoner fra Helsedirektoratet.
                             </HelpText>

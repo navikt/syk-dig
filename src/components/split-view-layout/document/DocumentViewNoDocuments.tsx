@@ -15,7 +15,7 @@ function DocumentsViewerNoDocuments({ className, text }: { className?: string; t
                 Dokumenter som er mottatt
             </Heading>
             <div className="flex grow flex-col items-center justify-center p-4 text-gray-300">
-                <FileXMarkIcon className="h-64 w-64" />
+                <FileXMarkIcon className="h-64 w-64" aria-hidden />
                 <BodyShort>{text}</BodyShort>
             </div>
         </div>
