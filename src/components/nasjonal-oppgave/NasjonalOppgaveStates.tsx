@@ -16,8 +16,6 @@ import {
     NasjonalOppgaveByIdQueryVariables,
 } from '../../graphql/queries/graphql.generated'
 
-import { OppgaveAlreadySolvedError } from './smreg/rest-apollo-link'
-
 export function NasjonalOppgaveSkeleton(): ReactElement {
     return (
         <>
@@ -39,7 +37,7 @@ export function NasjonalOppgaveSkeleton(): ReactElement {
 }
 
 export function NasjonalOppgaveError({ error, children }: PropsWithChildren<{ error: ApolloError }>): ReactElement {
-    if (error.cause instanceof OppgaveAlreadySolvedError) {
+    if (error) {
         return (
             <Alert variant="warning" className="m-4">
                 <Heading size="small" spacing>
@@ -84,7 +82,9 @@ export function NasjonalOppgaveDocuments({
     } else if (error) {
         return <DocumentsViewerNoDocuments text="Oppgaven ble ikke lastet" />
     } else if (data?.nasjonalOppgave?.__typename === 'NasjonalOppgave') {
-        return <DocumentsViewer documents={data?.nasjonalOppgave.documents} oppgaveId={oppgaveId} edit={false} smreg />
+        return (
+            <DocumentsViewer documents={data?.nasjonalOppgave.documents} oppgaveId={oppgaveId} edit={false} nasjonal />
+        )
     } else {
         raise(new Error('Illegal state: Non loading, non error oppgave that is null'))
     }

@@ -1,17 +1,17 @@
 import { describe, it, expect } from 'vitest'
 
-import { toDate } from '../../../utils/dateUtils'
-import { NasjonalFormValues } from '../form/NasjonalSykmeldingFormTypes'
+import { toDate } from '../../utils/dateUtils'
 import {
     AnnenFraversArsakGrunn,
     ArbeidsrelatertArsakType,
     HarArbeidsgiver,
     MedisinskArsakType,
     NasjonalSykmeldingValues,
-} from '../../../graphql/queries/graphql.generated'
-import { Periode } from '../schema/sykmelding/Periode'
-import { createNasjonalOppgave } from '../__tests__/testData/dataCreators'
+} from '../../graphql/queries/graphql.generated'
 
+import { NasjonalFormValues } from './form/NasjonalSykmeldingFormTypes'
+import { Periode } from './schema/sykmelding/Periode'
+import { createNasjonalOppgave } from './__tests__/testData/dataCreators'
 import { mapFormPeriodToRegistrertPeriod, mapFormValueToNasjonalSykmelding } from './nasjonal-sykmelding-mapping'
 
 /**

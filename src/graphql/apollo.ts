@@ -3,8 +3,6 @@ import { onError } from '@apollo/client/link/error'
 import { RetryLink } from '@apollo/client/link/retry'
 import { logger } from '@navikt/next-logger'
 
-import smregRestLink from '../components/nasjonal-oppgave/smreg/rest-apollo-link'
-
 import possibleTypesGenerated from './queries/possible-types.generated'
 
 export const cacheConfig: Pick<InMemoryCacheConfig, 'possibleTypes' | 'typePolicies'> = {
@@ -30,7 +28,6 @@ export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
         ssrMode: typeof window === 'undefined',
         cache,
         link: from([
-            smregRestLink,
             errorLink,
             new RetryLink({
                 attempts: { max: 5 },
