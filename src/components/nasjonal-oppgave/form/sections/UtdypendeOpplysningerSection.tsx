@@ -13,7 +13,7 @@ function UtdypendeOpplysningerSection(): ReactElement {
 
     return (
         <FormSection id="utdypendeopplysninger-section" title={getSectionTitle(sections.UTDYPENDE_OPPLYSNINGER)}>
-            <SoloCheckbox {...field} legend="" hideLegend>
+            <SoloCheckbox {...field} legend="Utdypende opplysninger" hideLegend>
                 Sykmeldingen har utdypende opplysninger
             </SoloCheckbox>
         </FormSection>
