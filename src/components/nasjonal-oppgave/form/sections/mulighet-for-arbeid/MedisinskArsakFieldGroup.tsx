@@ -26,7 +26,7 @@ function MedisinskArsakFieldGroup({ parent }: Props): ReactElement {
 
     return (
         <div className="flex flex-col gap-4">
-            <SoloCheckbox {...field} hideLegend legend="">
+            <SoloCheckbox {...field} hideLegend legend="Medisinske årsaker">
                 Det er medisinske årsaker som hindrer arbeidsrelatert aktivitet
             </SoloCheckbox>
             {field.value && (

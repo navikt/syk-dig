@@ -125,7 +125,7 @@ function GradertFieldGroup({ parent }: { parent: `mulighetForArbeid.${number}` }
                 id={`${parent}.grad`}
             />
             <FomTomPicker parent={parent} />
-            <SoloCheckbox {...reisetilskuddField} hideLegend legend="">
+            <SoloCheckbox {...reisetilskuddField} hideLegend legend="Delvis i arbeid">
                 Pasienten kan være delvis i arbeid ved bruk av reisetilskudd
             </SoloCheckbox>
         </div>
