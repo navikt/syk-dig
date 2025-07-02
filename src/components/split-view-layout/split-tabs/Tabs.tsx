@@ -28,8 +28,20 @@ function SplitTabs({ open, value, onTabChange }: OppgaveViewTabsProps): ReactEle
             }}
         >
             <Tabs.List>
-                <Tabs.Tab value="form" label="Skjema" icon={<TasklistStartIcon aria-hidden />} />
-                <Tabs.Tab value="pdf" label="Dokument" icon={<FilePdfIcon aria-hidden />} />
+                <Tabs.Tab
+                    id="form-tab"
+                    value="form"
+                    label="Skjema"
+                    icon={<TasklistStartIcon aria-hidden />}
+                    aria-controls="form-panel"
+                />
+                <Tabs.Tab
+                    id="pdf-tab"
+                    value="pdf"
+                    label="Dokument"
+                    icon={<FilePdfIcon aria-hidden />}
+                    aria-controls="pdf-panel"
+                />
             </Tabs.List>
         </Tabs>
     )
