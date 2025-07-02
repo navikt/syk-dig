@@ -13,7 +13,7 @@ function PageHeader({ children }: PropsWithChildren): ReactElement {
     return (
         <InternalHeader className="justify-between">
             <HeaderText />
-            <div className="flex gap-3">
+            <div className="flex flex-wrap items-center">
                 {children}
                 {'errorType' in modiaContext.modia ? (
                     <InternalHeader.User name="Feil under lasting" description="Klarte ikke å laste enhet" />

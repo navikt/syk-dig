@@ -49,7 +49,7 @@ function ConfirmButton({
                 onClose={closeModal}
                 className="max-w-lg"
             >
-                <Modal.Body>
+                <Modal.Body className="min-h-[fit-content]">
                     {confirmation.body.map((paragraph) =>
                         typeof paragraph === 'string' ? (
                             <BodyShort key={paragraph} spacing>

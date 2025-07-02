@@ -1,6 +1,4 @@
 .periodeRow {
-    display: flex;
-    justify-content: space-between;
     border-top: 2px solid var(--a-border-divider);
     margin-bottom: var(--a-spacing-2);
     padding-top: var(--a-spacing-2);
@@ -11,25 +9,10 @@
     border: none;
 }
 
-.periode {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 0;
-    max-width: calc(var(--a-spacing-32) * 3);
-}
-
 .periodeGradWrapper {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--a-spacing-8);
-}
-
-.periodeGradWrapper > div {
-    flex: 0 0 auto;
-}
-
-.periodeGradWrapper > div:first-child {
-    flex: 1 0 auto;
 }
 
 .leggTilButton {

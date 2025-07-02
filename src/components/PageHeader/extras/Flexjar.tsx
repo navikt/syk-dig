@@ -38,7 +38,7 @@ function Flexjar(): ReactElement {
                 Tilbakemelding
             </Button>
             <Modal ref={ref} header={{ heading: 'Tilbakemelding' }} data-theme="light">
-                <Modal.Body className="max-w-md flex flex-col gap-3">
+                <Modal.Body className="max-w-md flex flex-col gap-3 min-h-[fit-content]">
                     <BodyLong>Hvordan opplever du digitalisering av sykmeldinger i dag?</BodyLong>
                     <div className="flex justify-center">
                         <div className="grid grid-cols-3 gap-3">

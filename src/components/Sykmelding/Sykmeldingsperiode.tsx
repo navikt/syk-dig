@@ -35,7 +35,7 @@ function Sykmeldingsperiode(): ReactElement {
         <FormSection id="sykmeldingsperiode-seksjon" title="Sykmeldingsperiode">
             {fields.map((field, index) => (
                 <div id={`periode${index}`} key={field.id} className={styles.periodeRow}>
-                    <div className={styles.periode}>
+                    <div>
                         <div className={styles.periodeGradWrapper}>
                             <PeriodeSelect name={`periode.${index}.sykmeldingstype`} index={index} />
                             {watchFieldArray?.[index]?.sykmeldingstype === PeriodeType.Gradert && (
