@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { BodyLong, Label, Skeleton, TextField } from '@navikt/ds-react'
+import { BodyLong, Heading, Skeleton, TextField } from '@navikt/ds-react'
 import { useController, useFormContext } from 'react-hook-form'
 import { QueryResult, useQuery } from '@apollo/client'
 import { logger } from '@navikt/next-logger'
@@ -58,7 +58,9 @@ function PersonDisplay(): ReactElement {
 
     return (
         <div className="navds-form-field navds-form-field--medium grow">
-            <Label>Navn</Label>
+            <Heading level="2" size="xsmall">
+                Navn
+            </Heading>
             {!loading && data?.pasientNavn?.__typename === 'Navn' ? (
                 <BodyLong>
                     {data?.pasientNavn.fornavn} {data?.pasientNavn.mellomnavn} {data?.pasientNavn.etternavn}
