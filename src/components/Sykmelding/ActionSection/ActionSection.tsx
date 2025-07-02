@@ -35,7 +35,7 @@ function ActionSection({ fnr, registerResult, focusErrorSection, disableUnsavedW
     })
 
     return (
-        <div className={styles.actionSection}>
+        <div>
             <MutationFeedbackSection
                 registerResult={registerResult}
                 saveResult={saveResult}

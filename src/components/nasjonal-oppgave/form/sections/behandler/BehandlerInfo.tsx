@@ -82,7 +82,7 @@ function BehandlerInfo({ behandlerInfo, hpr, isValidHpr }: Props): ReactElement 
                     )}
                 </FormInfo>
                 <FormInfo
-                    className="col-span-2"
+                    className="overflow-x-auto col-span-2"
                     headingLeave="4"
                     title={
                         <div className="inline-flex gap-3">

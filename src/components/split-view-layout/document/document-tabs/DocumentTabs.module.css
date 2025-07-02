@@ -1,3 +1,4 @@
 .tabsRoot :global(.navds-tabs__tablist) {
     flex-wrap: wrap;
+    min-width: fit-content;
 }

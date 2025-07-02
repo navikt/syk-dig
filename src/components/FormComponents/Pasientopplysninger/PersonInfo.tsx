@@ -14,19 +14,23 @@ type PersonInfoProps = {
 function PersonInfo({ fnr, person }: PersonInfoProps): ReactElement {
     return (
         <>
-            <div className="grid grid-cols-2 gap-8 mr-32 mb-16">
-                <FormInfo title="Fødselsnummer">{fnr}</FormInfo>
-                <FormInfo title="Navn">{person.navn}</FormInfo>
-                {person.bostedsadresse && (
-                    <FormInfo title="Bostedsadresse">
-                        <Bostedsadresse bostedsadresse={person.bostedsadresse} />
-                    </FormInfo>
-                )}
-                {person.oppholdsadresse && (
-                    <FormInfo title="Oppholdsadresse">
-                        <Oppholdsadresse oppholdsadresse={person.oppholdsadresse} />
-                    </FormInfo>
-                )}
+            <div className="mr-32 mb-16">
+                <div className="flex flex-wrap gap-10 mb-8">
+                    <FormInfo title="Fødselsnummer">{fnr}</FormInfo>
+                    <FormInfo title="Navn">{person.navn}</FormInfo>
+                </div>
+                <div className="flex flex-wrap gap-10">
+                    {person.bostedsadresse && (
+                        <FormInfo title="Bostedsadresse">
+                            <Bostedsadresse bostedsadresse={person.bostedsadresse} />
+                        </FormInfo>
+                    )}
+                    {person.oppholdsadresse && (
+                        <FormInfo title="Oppholdsadresse">
+                            <Oppholdsadresse oppholdsadresse={person.oppholdsadresse} />
+                        </FormInfo>
+                    )}
+                </div>
             </div>
         </>
     )

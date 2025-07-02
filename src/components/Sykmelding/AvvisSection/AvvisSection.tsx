@@ -84,7 +84,7 @@ function AvvisSection({ disableUnsavedWarning }: Props): ReactElement {
                 }}
                 className="w-[32rem]"
             >
-                <Modal.Body>
+                <Modal.Body className="min-h-[fit-content]">
                     <BodyShort spacing>
                         Oppgaven vil sendes til benken for de som innhenter opplysningene som mangler.
                     </BodyShort>

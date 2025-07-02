@@ -32,7 +32,7 @@ function AvvisButton({ avvis, avvisResult }: PropsWithChildren<Props>): ReactEle
                 onClose={closeModal}
                 className="max-w-lg"
             >
-                <Modal.Body>
+                <Modal.Body className="min-h-[fit-content]">
                     <BodyShort spacing>
                         Dette vil ferdigstille oppgaven. Sykmeldingen blir ikke registrert i infotrygd. Behandler og
                         pasient blir ikke varslet.

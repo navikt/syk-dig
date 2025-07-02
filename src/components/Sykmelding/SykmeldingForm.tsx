@@ -72,7 +72,7 @@ function SykmeldingForm({ values, person }: Props): ReactElement {
                 <AndreOpplysninger />
                 <MangelfullSykmelding />
                 <Errors ref={errorRef} />
-                <div className="sticky bottom-0 z-10 border-t-2 border-border-default bg-bg-default p-4">
+                <div className="bottom-0 z-10 border-t-2 border-border-default bg-bg-default p-4">
                     {shouldShowAvvisActions ? (
                         <AvvisSection disableUnsavedWarning={() => setDisableWarnUnsaved(true)} />
                     ) : (

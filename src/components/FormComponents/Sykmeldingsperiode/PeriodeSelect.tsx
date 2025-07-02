@@ -6,8 +6,6 @@ import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
 import { PeriodeType } from '../../../graphql/queries/graphql.generated'
 
-import styles from './PeriodeSelect.module.css'
-
 type FormName = `periode.${number}.sykmeldingstype`
 
 interface Props {
@@ -23,8 +21,8 @@ function PeriodeSelect({ name, index }: Props): ReactElement {
         },
     })
     return (
-        <div className={styles.periodeSelect}>
-            <Select id={name} label={`Periode ${index + 1}`} {...field}>
+        <div>
+            <Select id={name} label={`Periode ${index + 1}`} {...field} className="w-56">
                 <option value={PeriodeType.AktivitetIkkeMulig}>100% sykmeldt</option>
                 <option value={PeriodeType.Gradert}>Gradert sykmelding</option>
             </Select>

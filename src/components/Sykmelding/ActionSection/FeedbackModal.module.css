@@ -1,4 +1,4 @@
 .modalRoot {
-    min-width: 380px;
     max-width: 480px;
+    min-width: fit-content;
 }

@@ -34,7 +34,7 @@ function DocumentsViewer({ documents, className, edit, ...props }: Props): React
     return (
         <section
             id="pdf-panel"
-            className={cn('h-full', styles.sectionRoot, className)}
+            className={cn('h-full overflow-auto', styles.sectionRoot, className)}
             aria-labelledby="pdf-tab"
             role="tabpanel"
         >
