@@ -1,6 +1,6 @@
 import { ReactElement, useCallback } from 'react'
 import { useController } from 'react-hook-form'
-import { BodyShort, Button, Label, Select } from '@navikt/ds-react'
+import { BodyShort, Button, Heading, Select } from '@navikt/ds-react'
 import cn from 'clsx'
 import { XMarkIcon } from '@navikt/aksel-icons'
 
@@ -120,7 +120,9 @@ function DiagnoseDescription({
 }): ReactElement {
     return (
         <div className={cn(className, 'navds-form-field navds-form-field--medium')}>
-            <Label>{label}</Label>
+            <Heading level="3" size="xsmall">
+                {label}
+            </Heading>
             <BodyShort className={cn('h-12 flex items-start')}>{text ?? '-'}</BodyShort>
         </div>
     )
