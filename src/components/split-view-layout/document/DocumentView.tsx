@@ -32,8 +32,13 @@ function DocumentsViewer({ documents, className, edit, ...props }: Props): React
     const [renderedDocuments, setRenderedDocuments] = useState<string[]>([documents[0].dokumentInfoId])
 
     return (
-        <section className={cn('h-full', styles.sectionRoot, className)} aria-labelledby="pdf-viewer-section-heading">
-            <Heading id="pdf-viewer-section-heading" level="2" size="xsmall" className={styles.heading}>
+        <section
+            id="pdf-panel"
+            className={cn('h-full', styles.sectionRoot, className)}
+            aria-labelledby="pdf-tab"
+            role="tabpanel"
+        >
+            <Heading level="2" size="xsmall" className={styles.heading}>
                 Dokumenter som er mottatt
             </Heading>
             <DocumentTabs

@@ -14,7 +14,7 @@ export function SelectedDate({ date, format = 'smreg' }: SelectedDateProps): Rea
 
     return (
         <div className="ml-4 flex items-center gap-1 -mt-2">
-            <ArrowDownRightIcon />
+            <ArrowDownRightIcon aria-hidden />
             <BodyShort>{formatDate(date, format)}</BodyShort>
         </div>
     )
@@ -35,7 +35,7 @@ export function SelectedRange({ range, format = 'smreg' }: SelectedRangeProps): 
 
     return (
         <div className="ml-4 flex items-center gap-1 -mt-2">
-            <ArrowDownRightIcon />
+            <ArrowDownRightIcon aria-hidden />
             <BodyShort>
                 {range.from ? (
                     <span>{formatDate(range.from, format)}</span>

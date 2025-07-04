@@ -26,7 +26,7 @@ function ForholdArbeidsplassenFieldGroup({ parent }: Props): ReactElement {
 
     return (
         <div className="flex flex-col gap-4">
-            <SoloCheckbox {...field} hideLegend legend="">
+            <SoloCheckbox {...field} hideLegend legend="Forhold på arbeidsplassen">
                 Forhold på arbeidsplassen vanskeliggjør arbeidsrelatert aktivitet
             </SoloCheckbox>
             {field.value && (

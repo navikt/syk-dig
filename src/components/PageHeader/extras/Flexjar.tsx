@@ -29,7 +29,7 @@ function Flexjar(): ReactElement {
         <div>
             <Button
                 variant="tertiary-neutral"
-                icon={feedbackState.completed ? <CheckmarkIcon /> : <FaceSmileIcon />}
+                icon={feedbackState.completed ? <CheckmarkIcon aria-hidden /> : <FaceSmileIcon aria-hidden />}
                 data-theme="dark"
                 className="text-white hover:text-gray-300 grow-0"
                 size="small"
@@ -165,6 +165,7 @@ function FeedbackButton({
                 className={cn('rounded-full', {
                     'bg-surface-selected': selected,
                 })}
+                aria-hidden
             />
             {text}
         </button>

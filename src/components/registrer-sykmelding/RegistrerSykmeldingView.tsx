@@ -32,7 +32,7 @@ function RegistrerSykmeldingView({ layout }: PaneView): ReactElement {
             defaultLayout={layout}
         >
             <div className="container p-4 mx-auto">
-                <div className="flex items-end gap-3">
+                <div className="flex flex-wrap items-end gap-3">
                     <TextField
                         className="grow"
                         label="JournalpostId"
@@ -75,10 +75,10 @@ function RegistrerSykmeldingView({ layout }: PaneView): ReactElement {
 function Journalpost({ journalpost }: { journalpost: JournalpostFragment }): ReactElement {
     return (
         <div className="mt-8">
-            <Heading size="medium" spacing>
+            <Heading level="2" size="medium" spacing>
                 Journalpostdetaljer
             </Heading>
-            <div className="flex gap-3 mb-8">
+            <div className="flex flex-wrap gap-3 mb-8">
                 <div className="p-4 bg-bg-subtle">
                     <Detail>ID</Detail>
                     <BodyShort>{journalpost.journalpostId}</BodyShort>
@@ -92,10 +92,10 @@ function Journalpost({ journalpost }: { journalpost: JournalpostFragment }): Rea
                     <BodyShort>{journalpost.fnr}</BodyShort>
                 </div>
             </div>
-            <Heading size="medium" spacing>
+            <Heading level="2" size="medium" spacing>
                 Dokumenter
             </Heading>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3">
                 {journalpost.dokumenter.map((value, index) => (
                     <div key={value.dokumentInfoId} className="bg-bg-subtle p-4">
                         <Detail>Dokument {index + 1}</Detail>
@@ -149,7 +149,7 @@ function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): Rea
         createResult.data?.sykmeldingFraJournalpost.status ?? null
     return (
         <div className="mt-8">
-            <Heading size="medium" spacing>
+            <Heading level="2" size="medium" spacing>
                 Opprett sykmelding
             </Heading>
             <RadioGroup

@@ -60,7 +60,7 @@ function SplitDocumentView({
                         if (initialMountComplete) analytics.splitViewToggled('pdf collapse', true)
                     }}
                 >
-                    <section aria-labelledby="oppgave-header" className={styles.section}>
+                    <section id="form-panel" aria-labelledby="form-tab" className={styles.section} role="tabpanel">
                         <SplitDocumentViewTitle
                             title={title}
                             ingress={ingress}
@@ -113,7 +113,6 @@ function SplitDocumentViewTitle({
 }: SplitDocumentViewTitleProps): ReactElement {
     return (
         <PageTitle
-            titleId="oppgave-header"
             title={title}
             ingress={ingress}
             titleActions={
