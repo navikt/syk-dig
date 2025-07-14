@@ -14,8 +14,9 @@ type Props = {
 
 function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
     const hpr = useWatch({ name: 'behandler.hpr' })
+    const hrpWithoutStartingZeros = hpr?.replace(/^0+/, '')
     const isValidHpr: false | RegExpMatchArray | null =
-        hpr?.length >= 7 && hpr?.length <= 9 && hpr.match('^\\+?[- _0-9]+$')
+        hrpWithoutStartingZeros?.length >= 7 && hpr?.length <= 9 && hrpWithoutStartingZeros.match('^\\+?[- _0-9]+$')
     const { data } = useBehandler(hpr, isValidHpr)
     const { field: hprField, fieldState: hprState } = useController<NasjonalFormValues, 'behandler.hpr'>({
         name: 'behandler.hpr',
