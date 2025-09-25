@@ -17,7 +17,7 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
     const hrpWithoutStartingZeros = hpr?.replace(/^0+/, '')
     const isValidHpr: false | RegExpMatchArray | null =
         hrpWithoutStartingZeros?.length >= 7 && hpr?.length <= 9 && hrpWithoutStartingZeros.match('^\\+?[- _0-9]+$')
-    const { data } = useBehandler(hpr, isValidHpr)
+    const { data, loading, error, called } = useBehandler(hpr, isValidHpr)
     const { field: hprField, fieldState: hprState } = useController<NasjonalFormValues, 'behandler.hpr'>({
         name: 'behandler.hpr',
         rules: {
@@ -29,7 +29,7 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
                 } else if (!value.match('^\\+?[- _0-9]+$')) {
                     return 'Behandlers HPR-nummer er ikke på et gyldig format'
                 } else if (!data?.sykmelder) {
-                    return 'Vi klarte ikke å laste behandleren.'
+                    return 'Kan ikke registrere sykmelding uten behandler.'
                 }
             },
         },
@@ -63,12 +63,18 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
                     label="12.5 Telefon"
                 />
             </div>
-            {!isValidHpr ? (
-                <Alert variant="error">HPR-nummeret er ikke gyldig.</Alert>
-            ) : (
-                hprField.value != null && (
-                    <BehandlerInfo hpr={hprField.value} behandlerInfo={behandlerInfo} isValidHpr={isValidHpr} />
-                )
+            {!isValidHpr && <Alert variant="error">HPR-nummeret er ikke gyldig.</Alert>}
+            {isValidHpr && hprField.value && data?.sykmelder && (
+                <BehandlerInfo behandlerInfo={behandlerInfo} sykmelder={data.sykmelder} />
+            )}
+            {called && data && data.sykmelder == null && (
+                <Alert variant="warning">Fant ikke behandler for HPR-nr {hpr}</Alert>
+            )}
+            {!loading && error && (
+                <Alert variant="error">
+                    Vi klarte ikke å laste behandleren akkurat nå. Du kan prøve igjen senere. Dersom problemet vedvarer,
+                    ta kontakt med brukerstøtte.
+                </Alert>
             )}
         </div>
     )

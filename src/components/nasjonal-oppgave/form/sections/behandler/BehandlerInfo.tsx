@@ -1,44 +1,24 @@
 import React, { ReactElement } from 'react'
 import { QueryResult, useQuery } from '@apollo/client'
 import { logger } from '@navikt/next-logger'
-import { Alert, Heading, HelpText, Loader, Table, Tag } from '@navikt/ds-react'
+import { Heading, HelpText, Table, Tag } from '@navikt/ds-react'
 
 import FormInfo from '../../../../form-layout/FormInfo'
 import { AutorisasjonValues, HelsepersonellkategoriValues } from '../../../schema/Sykmelder'
 import {
     BehandlerFragment,
     SykmelderDocument,
+    SykmelderFragment,
     SykmelderQuery,
     SykmelderQueryVariables,
 } from '../../../../../graphql/queries/graphql.generated'
 
 type Props = {
     behandlerInfo: BehandlerFragment | null
-    hpr: string
-    isValidHpr: RegExpMatchArray
+    sykmelder: SykmelderFragment
 }
 
-function BehandlerInfo({ behandlerInfo, hpr, isValidHpr }: Props): ReactElement | null {
-    const { data, loading } = useBehandler(hpr, isValidHpr)
-    const sykmelder = data?.sykmelder
-
-    if (loading) {
-        return (
-            <div className="p-4 bg-surface-subtle flex justify-center items-center">
-                <Loader size="2xlarge" />
-            </div>
-        )
-    }
-
-    if (!sykmelder) {
-        return (
-            <Alert variant="error">
-                Vi klarte ikke å laste behandleren akkurat nå. Du kan prøve igjen senere. Dersom problemet vedvarer, ta
-                kontakt med brukerstøtte.
-            </Alert>
-        )
-    }
-
+function BehandlerInfo({ behandlerInfo, sykmelder }: Props): ReactElement | null {
     return (
         <div className="p-4 bg-surface-subtle">
             <div className="flex">

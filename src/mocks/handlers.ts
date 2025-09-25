@@ -336,6 +336,9 @@ export const handlers = [
     }),
     graphql.query(SykmelderDocument, async ({ variables }) => {
         const hprNummer = variables.hprNummer
+        if (hprNummer === '1234567') {
+            return HttpResponse.json({ data: { __typename: 'Query', sykmelder: null } })
+        }
         const sykmelder: Sykmelder = getNasjonalMockDb().getSykmelder()
 
         if (!hprNummer) {
