@@ -60,13 +60,14 @@ test('should be able to submit oppgave', async ({ page, browserName }) => {
 
     // 12 Behandler
     await page.getByLabel('12.1 Behandletdato').fill('010220')
-    await page.getByRole('textbox', { name: /12.4 HPR-nummer/ }).fill('1234567')
+    await page.getByRole('textbox', { name: /12.4 HPR-nummer/ }).fill('12345678')
     await page.getByRole('textbox', { name: '12.5 Telefon' }).fill('12345678')
 
     await page.getByText('Feltene stemmer overens med').click()
-
+    page.screenshot({ path: 'screenshot.png' })
     const request = await clickAndWait(
         page.getByRole('button', { name: 'Registrer sykmeldingen' }).click(),
+
         waitForGraphQL(page, 'SaveOppgaveNasjonal'),
     )
 
@@ -164,7 +165,7 @@ test('should be able to submit oppgave', async ({ page, browserName }) => {
             skjermesForPasient: true,
             behandler: {
                 tlf: '12345678',
-                hpr: '1234567',
+                hpr: '12345678',
             },
             kontaktMedPasient: {
                 kontaktDato: '2020-10-15',
