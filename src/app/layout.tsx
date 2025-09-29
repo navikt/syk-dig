@@ -4,7 +4,6 @@ import { Metadata } from 'next'
 
 import { getToggles } from '../toggles/rsc'
 import { getModiaData } from '../modia/ModiaService'
-import { verifyUserLoggedIn } from '../auth/rsc'
 import PageHeader from '../components/PageHeader/PageHeader'
 
 import Providers from './_providers'
@@ -16,8 +15,7 @@ export const metadata: Metadata = {
 }
 
 export default async function RootLayout({ children }: PropsWithChildren): Promise<ReactElement> {
-    const userToken = await verifyUserLoggedIn()
-    const [toggles, modiaContext] = await Promise.all([getToggles(), getModiaData(userToken.accessToken)])
+    const [toggles, modiaContext] = await Promise.all([getToggles(), getModiaData()])
 
     return (
         <html lang="nb">

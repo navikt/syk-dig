@@ -25,9 +25,6 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
         },
     })
 
-    const url: URL = new URL(req.url)
-    res.headers.set('x-path', url.pathname + url.search)
-
     const existingCookie = req.cookies.get(UNLEASH_COOKIE_NAME)
     if (existingCookie == null) {
         res.cookies.set(UNLEASH_COOKIE_NAME, randomSessionId())
@@ -58,6 +55,7 @@ function createCsp(): [string, string] {
 }
 
 export const config = {
+    runtime: 'nodejs',
     matcher: [
         /*
          * Match all request paths except for the ones starting with:

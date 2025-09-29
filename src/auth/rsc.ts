@@ -1,11 +1,9 @@
-import { logger } from '@navikt/next-logger'
 import { headers } from 'next/headers'
-import { redirect } from 'next/navigation'
 import { getToken, validateToken } from '@navikt/oasis'
 
 import { isLocalOrDemo } from '../utils/env'
 
-export async function isUserLoggedIn(): Promise<boolean> {
+export async function isValidToken(): Promise<boolean> {
     if (isLocalOrDemo) return true
 
     const requestHeaders = await headers()
@@ -16,47 +14,4 @@ export async function isUserLoggedIn(): Promise<boolean> {
 
     const validationResult = await validateToken(token)
     return validationResult.ok
-}
-
-export async function verifyUserLoggedIn(): Promise<{
-    accessToken: string
-}> {
-    const requestHeaders = await headers()
-
-    if (isLocalOrDemo) {
-        logger.warn('Is running locally, skipping RSC auth')
-        return {
-            accessToken: 'fake-local-token',
-        }
-    }
-
-    const redirectPath = requestHeaders.get('x-path')
-    if (!redirectPath == null) {
-        logger.warn("Missing 'x-path' header, is middleware middlewaring?")
-    }
-    logger.info(`Redirect path is ${redirectPath}`)
-
-    const token = getToken(requestHeaders)
-    if (!token) {
-        logger.info('Found no token, redirecting to login')
-        redirect(`/oauth2/login?redirect=${redirectPath}`)
-    }
-
-    const validationResult = await validateToken(token)
-    if (!validationResult.ok) {
-        if (validationResult.errorType !== 'token expired') {
-            logger.error(
-                new Error(
-                    `Invalid JWT token found (cause: ${validationResult.errorType} ${validationResult.error.message}, redirecting to login.`,
-                    { cause: validationResult.error },
-                ),
-            )
-        }
-
-        redirect(`/oauth2/login?redirect=${redirectPath}`)
-    }
-
-    return {
-        accessToken: token,
-    }
 }

@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { logger } from '@navikt/next-logger'
-import { requestOboToken } from '@navikt/oasis'
+import { getToken, requestOboToken } from '@navikt/oasis'
+import { headers } from 'next/headers'
 
 import { getServerEnv, isLocalOrDemo } from '../utils/env'
 
@@ -15,7 +16,7 @@ export type ModiaData = Veileder & AktivEnhet
 
 export type ModiaDataError = ClientError<'MODIA_ERROR' | 'PARSE_ERROR' | 'FETCH_ERROR' | 'UNKNOWN_ERROR'>
 
-export async function getModiaData(userAccessToken: string): Promise<ModiaData | ModiaDataError> {
+export async function getModiaData(): Promise<ModiaData | ModiaDataError> {
     if (isLocalOrDemo) {
         logger.warn('Using mocked modia context for local development (or demo)')
         return {
@@ -30,7 +31,17 @@ export async function getModiaData(userAccessToken: string): Promise<ModiaData |
         }
     }
 
-    const modiaOboResult = await requestOboToken(userAccessToken, getServerEnv().MODIACONTEXTHOLDER_SCOPE)
+    const requestHeaders = await headers()
+    const token = getToken(requestHeaders)
+    if (!token) {
+        logger.error('No access token found in request when fetching modia context')
+        return {
+            errorType: 'FETCH_ERROR',
+            message: 'Klarte ikke å hente veileder',
+        }
+    }
+
+    const modiaOboResult = await requestOboToken(token, getServerEnv().MODIACONTEXTHOLDER_SCOPE)
     if (!modiaOboResult.ok) {
         logger.error(
             new Error(`Unable to get modia obo token: ${modiaOboResult.error.message}`, {
