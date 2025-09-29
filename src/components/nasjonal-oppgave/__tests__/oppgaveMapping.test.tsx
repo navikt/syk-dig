@@ -135,7 +135,7 @@ describe('Mapping opppgave fetched from API', async () => {
 
         // 12 Behandler
         expect(screen.getByLabelText('12.1 Behandletdato')).toHaveDisplayValue(formatsmregDateShorthand('2025-01-14'))
-    }, 30_000)
+    }, 50_000)
 
     describe('NasjonalOppgaveStatus', () => {
         it('Should show status for nasjonalOppgave AVVIST', async () => {

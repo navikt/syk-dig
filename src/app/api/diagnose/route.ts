@@ -2,12 +2,12 @@ import { logger } from '@navikt/next-logger'
 import { NextRequest } from 'next/server'
 
 import { DiagnoseSystem } from '../../../components/FormComponents/DiagnosePicker/diagnose-combobox/types'
-import { isUserLoggedIn } from '../../../auth/rsc'
+import { isValidToken } from '../../../auth/rsc'
 
 import { searchSystem } from './search-system'
 
 export async function GET(request: NextRequest): Promise<Response> {
-    const userLoggedIn = await isUserLoggedIn()
+    const userLoggedIn = await isValidToken()
     if (!userLoggedIn) {
         return Response.json({ reason: 'Not logged in' }, { status: 401 })
     }

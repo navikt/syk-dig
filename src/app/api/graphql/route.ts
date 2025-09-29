@@ -3,9 +3,15 @@ import { logger } from '@navikt/next-logger'
 import { getToken, requestOboToken } from '@navikt/oasis'
 
 import { getServerEnv, isLocalOrDemo } from '../../../utils/env'
+import { isValidToken } from '../../../auth/rsc'
 
 export async function POST(request: Request): Promise<Response> {
     logger.info('Proxying request to syk-dig GraphQL API')
+
+    const userLoggedIn = await isValidToken()
+    if (!userLoggedIn) {
+        return Response.json({ reason: 'Not logged in' }, { status: 401 })
+    }
 
     if (isLocalOrDemo) {
         return Response.json({ message: 'Not supported in local or demo, why are you not mocking?' }, { status: 418 })

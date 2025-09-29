@@ -17,6 +17,6 @@ export async function getPersistentPaneLayout(): Promise<PersistentPaneLayout> {
         return sizes as [number, number]
     }
 
-    logger.warn('Invalid layout found in cookie, defaulting to undefined', layout)
+    logger.warn(`Invalid layout found in cookie, defaulting to undefined, cookie value: ${layout.value}`)
     return undefined
 }
