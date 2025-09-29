@@ -36,7 +36,7 @@ function ForholdArbeidsplassenFieldGroup({ parent }: Props): ReactElement {
                         value={typeField.value ? typeField.value : []}
                         legend="Arbeidsrelaterte årsaker"
                     >
-                        {R.values(ArbeidsrelatertArsakTypeSchema.Enum).map((it) => (
+                        {R.values(ArbeidsrelatertArsakTypeSchema.enum).map((it) => (
                             <Checkbox key={it} value={it}>
                                 {ArbeidsrelatertArsakTypeValues[it as ArbeidsrelatertArsakType]}
                             </Checkbox>

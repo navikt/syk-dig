@@ -8,12 +8,12 @@ if [ ! -f ".env.production" ]; then
 
   echo -e "\e[33mWarning: .env.production does not exist. This is required to build the application locally.\e[0m"
 
-  echo -e "\e[34m\n  Do you want to copy nais/envs/.env.dev to .env.production? (y/N):\n \e[0m"
+  echo -e "\e[34m\n  Do you want to copy .nais/envs/.env.dev to .env.production? (y/N):\n \e[0m"
   read -r response
 
 
   if [[ "$response" == "y" || "$response" == "Y" ]]; then
-    cp nais/envs/.env.dev .env.production
+    cp .nais/envs/.env.dev .env.production
     runtimeEnv=$(grep "^NEXT_PUBLIC_RUNTIME_ENV=" .env.production | cut -d '=' -f2)
     echo -e "\e[32m  👍 .env.production has been created. Building application as \e[44;97m $runtimeEnv \e[32m\e[0m"
   else

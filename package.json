@@ -28,8 +28,8 @@
         "workerDirectory": "public"
     },
     "dependencies": {
-        "@apollo/client": "^3.13.8",
-        "@ariakit/react": "^0.4.17",
+        "@apollo/client": "^3.14.0",
+        "@ariakit/react": "^0.4.18",
         "@graphql-typed-document-node/core": "^3.2.0",
         "@hookform/error-message": "^2.0.1",
         "@navikt/aksel-icons": "^7.31.0",
@@ -55,12 +55,12 @@
         "qs": "^6.14.0",
         "react": "19.1.1",
         "react-dom": "19.1.1",
-        "react-hook-form": "^7.56.1",
+        "react-hook-form": "^7.63.0",
         "react-resizable-panels": "^2.1.9",
-        "remeda": "^2.21.3",
-        "swr": "^2.3.3",
+        "remeda": "^2.32.0",
+        "swr": "^2.3.6",
         "tailwind-merge": "^2.6.0",
-        "zod": "^3.25.76"
+        "zod": "^4.1.11"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3.3.1",

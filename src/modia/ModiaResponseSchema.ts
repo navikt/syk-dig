@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import * as z from 'zod'
 
 export type Veileder = z.infer<typeof VeilederSchema>
 export const VeilederSchema = z.object({

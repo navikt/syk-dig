@@ -39,7 +39,7 @@ function AnnenLovfestetFravaersgrunnField(): ReactElement {
                         error={reasonEnumState.error?.message}
                         id="medisinskVurdering.annenFraversArsakGrunn"
                     >
-                        {R.values(AnnenFraverGrunnSchema.Enum).map((it) => (
+                        {R.values(AnnenFraverGrunnSchema.enum).map((it) => (
                             <Checkbox key={it} value={it}>
                                 {AnnenFraverGrunnValues[it]}
                             </Checkbox>

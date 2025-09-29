@@ -36,7 +36,7 @@ function MedisinskArsakFieldGroup({ parent }: Props): ReactElement {
                         value={typeField.value ? typeField.value : []}
                         legend="Medisinske årsaker"
                     >
-                        {R.values(MedisinskArsakTypeSchema.Enum).map((it) => (
+                        {R.values(MedisinskArsakTypeSchema.enum).map((it) => (
                             <Checkbox key={it} value={it}>
                                 {MedisinskArsakTypeValues[it as MedisinskArsakType]}
                             </Checkbox>
