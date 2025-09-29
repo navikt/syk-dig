@@ -45,15 +45,15 @@ function FomTomPicker({ parent }: Props): ReactElement {
             // There are some strange timing issues when form has validated, and value changes from invalid → valid
             // Deferring the change to the next frame seems to fix it
             requestAnimationFrame(() => {
-                range?.from && fomField.onChange(range.from)
-                range?.to && tomField.onChange(range.to)
+                if (range?.from) fomField.onChange(range.from)
+                if (range?.to) tomField.onChange(range.to)
             })
         },
         onValidate: (range) => {
             setRangeError(range)
 
-            !range.from.isValidDate && fomField.onChange(null)
-            !range.to.isValidDate && tomField.onChange(null)
+            if (!range.from.isValidDate) fomField.onChange(null)
+            if (!range.to.isValidDate) tomField.onChange(null)
         },
         inputFormat: SMREG_SHORTHAND_FORMAT,
     })
