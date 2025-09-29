@@ -1,12 +1,10 @@
 import {
-    DigitaliseringsoppgaveStatusEnum,
-    DigitaliseringsoppgaveStatusFragment,
-    DigitalisertSykmeldingResultFragment,
-    OppgaveFragment,
-    PeriodeType,
-} from '../../graphql/queries/graphql.generated'
+    Digitaliseringsoppgave,
+    DigitaliseringsoppgaveStatus,
+    DigitalisertSykmeldingResult,
+} from '../mock-resolvers.generated'
 
-import { createOppgave } from './dataCreators'
+import { createDigitaliseringsoppgave } from './dataCreators'
 
 /**
  * Fake data singleton used for local development and testing.
@@ -14,9 +12,9 @@ import { createOppgave } from './dataCreators'
  * Allows for mutation of data, even when nextjs hot-reloads.
  */
 export class FakeMockDB {
-    private _oppgaver: Record<string, OppgaveFragment> = {
-        blank: createOppgave({ oppgaveId: 'blank-id' }),
-        eksisterende: createOppgave({
+    private _oppgaver: Record<string, Digitaliseringsoppgave> = {
+        blank: createDigitaliseringsoppgave({ oppgaveId: 'blank-id' }),
+        eksisterende: createDigitaliseringsoppgave({
             documents: [
                 {
                     __typename: 'Document',
@@ -36,7 +34,7 @@ export class FakeMockDB {
                 perioder: [
                     {
                         __typename: 'PeriodeValue',
-                        type: PeriodeType.AktivitetIkkeMulig,
+                        type: 'AKTIVITET_IKKE_MULIG',
                         fom: '2020-01-01',
                         tom: '2020-01-15',
                         grad: null,
@@ -69,26 +67,26 @@ export class FakeMockDB {
             },
         }),
     }
-    private _status: Record<string, DigitaliseringsoppgaveStatusFragment> = {
+    private _status: Record<string, DigitaliseringsoppgaveStatus> = {
         ferdigstilt: {
             __typename: 'DigitaliseringsoppgaveStatus',
             oppgaveId: 'ferdigstilt',
-            status: DigitaliseringsoppgaveStatusEnum.Ferdigstilt,
+            status: 'FERDIGSTILT',
         },
         finnesikke: {
             __typename: 'DigitaliseringsoppgaveStatus',
             oppgaveId: 'finnesikke',
-            status: DigitaliseringsoppgaveStatusEnum.FinnesIkke,
+            status: 'FINNES_IKKE',
         },
         avvist: {
             __typename: 'DigitaliseringsoppgaveStatus',
             oppgaveId: 'avvist',
-            status: DigitaliseringsoppgaveStatusEnum.Avvist,
+            status: 'AVVIST',
         },
         ikkeensykmelding: {
             __typename: 'DigitaliseringsoppgaveStatus',
             oppgaveId: 'ikkeensykmelding',
-            status: DigitaliseringsoppgaveStatusEnum.IkkeEnSykmelding,
+            status: 'IKKE_EN_SYKMELDING',
         },
     }
 
@@ -104,7 +102,7 @@ export class FakeMockDB {
         this._oppgaver[oppgaveId.toLowerCase()] = oppgave
     }
 
-    public getOppgaveOrStatus(oppgaveId: string): OppgaveFragment | DigitaliseringsoppgaveStatusFragment {
+    public getOppgaveOrStatus(oppgaveId: string): Digitaliseringsoppgave | DigitaliseringsoppgaveStatus {
         const oppgave = this._oppgaver[oppgaveId.toLowerCase()]
         if (oppgave) {
             return oppgave
@@ -118,7 +116,7 @@ export class FakeMockDB {
         throw new Error(`No oppgave or status found with id ${oppgaveId}`)
     }
 
-    public getOppgave(oppgaveId: string): OppgaveFragment {
+    public getOppgave(oppgaveId: string): Digitaliseringsoppgave {
         const oppgave = this._oppgaver[oppgaveId.toLowerCase()]
         if (!oppgave) {
             throw new Error(`No oppgave found with id ${oppgaveId}`)
@@ -126,13 +124,14 @@ export class FakeMockDB {
         return oppgave
     }
 
-    public getDigitalisertSykmelding(sykmeldingId: string): DigitalisertSykmeldingResultFragment {
+    public getDigitalisertSykmelding(sykmeldingId: string): DigitalisertSykmeldingResult {
         const oppgave = this._oppgaver[sykmeldingId.toLowerCase()]
         if (!oppgave) {
             throw new Error(`No sykmelding found with id ${sykmeldingId}`)
         }
         return {
             __typename: 'DigitalisertSykmelding',
+            type: 'INNENLANDS',
             documents: oppgave.documents,
             values: oppgave.values,
             person: oppgave.person,

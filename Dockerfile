@@ -4,7 +4,6 @@ WORKDIR /app
 
 COPY next-logger.config.js /app/
 COPY .next/standalone /app/
-COPY public /app/public/
 
 EXPOSE 3000
 

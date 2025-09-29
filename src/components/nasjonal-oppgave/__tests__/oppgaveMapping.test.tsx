@@ -13,7 +13,7 @@ import {
 import { formatsmregDate, formatsmregDateShorthand } from '../smregDateUtils'
 import { ArbeidsrelatertArsakTypeValues, MedisinskArsakTypeValues } from '../schema/sykmelding/Periode'
 import { createMock } from '../../../utils/test/apolloTestUtils'
-import { mockDiagnoseEndpointReal } from '../../../utils/test/mswTestUtils'
+import { mockDiagnoseEndpoint } from '../../../utils/test/restTestUtils'
 
 import { createNasjonalOppgave, createNasjonalOppgaveStatus } from './testData/dataCreators'
 import { pasientNavnMock, sykmelderMock } from './testUtils'
@@ -25,7 +25,7 @@ describe('Mapping opppgave fetched from API', async () => {
         result: { data: { __typename: 'Query', nasjonalOppgave: nasjonalOppgave } },
     })
     it('Should map all fields when "nasjonalOppgave.nasjonalSykmelding" is completely filled out', async () => {
-        mockDiagnoseEndpointReal()
+        mockDiagnoseEndpoint()
 
         render(<NasjonalOppgaveView oppgaveId="123456789" layout={undefined} />, {
             mocks: [oppgaveMock, pasientNavnMock, sykmelderMock],

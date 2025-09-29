@@ -2,22 +2,17 @@ import 'vitest-axe/extend-expect'
 import 'vitest-dom/extend-expect'
 import * as matchers from 'vitest-dom/matchers'
 import * as vitestAxeMatchers from 'vitest-axe/matchers'
-import { vi, beforeAll, afterEach, afterAll, expect } from 'vitest'
+import { vi, expect, afterEach } from 'vitest'
 import * as mockRouter from 'next-router-mock'
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes'
 import { cleanup } from '@testing-library/react'
 
-import { server } from './src/mocks/server'
-
 expect.extend(matchers)
 expect.extend(vitestAxeMatchers)
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 afterEach(() => {
-    server.resetHandlers()
     cleanup()
 })
-afterAll(() => server.close())
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const dirtyGlobal = global as any
