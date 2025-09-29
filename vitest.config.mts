@@ -5,6 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 dotenv.config({
     path: '.env.test',
+    quiet: true,
 })
 
 export default defineConfig({

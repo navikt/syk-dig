@@ -10,12 +10,15 @@ import {
     SykmeldingUnderArbeidStatus,
 } from '../../../graphql/queries/graphql.generated'
 import NasjonalOppgaveView from '../NasjonalOppgaveView'
+import { mockDiagnoseEndpointReal } from '../../../utils/test/mswTestUtils'
 
 import { createSykmeldingValues } from './testData/dataCreators'
 import { oppgaveMock, pasientNavnMock, sykmelderMock } from './testUtils'
 
 describe('Registration api errors', async () => {
     it('Should show error if save oppgave fails', async () => {
+        mockDiagnoseEndpointReal()
+
         const saveOppgaveMock = createMock({
             request: {
                 query: SaveOppgaveNasjonalDocument,
@@ -49,6 +52,8 @@ describe('Registration api errors', async () => {
     }, 10000)
 
     it('Should show list of validation rulehits', async () => {
+        mockDiagnoseEndpointReal()
+
         const saveOppgaveMock = createMock({
             request: {
                 query: SaveOppgaveNasjonalDocument,
@@ -96,5 +101,5 @@ describe('Registration api errors', async () => {
 
         expect(await screen.findByText(/Baksystemet fant ytterligere feil som må behandles/)).toBeInTheDocument()
         expect(await screen.findByText('Dont break the rules, please')).toBeInTheDocument()
-    })
+    }, 10_000)
 })
