@@ -1,12 +1,32 @@
-import { describe, it, vi, expect } from 'vitest'
+import { describe, it, vi, expect, beforeEach } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'vitest-axe'
+import { http, HttpResponse } from 'msw'
 
 import { render, screen } from '../../../../utils/testUtils'
+import { server } from '../../../../mocks/server'
+import { searchSystem } from '../../../../app/api/diagnose/search-system'
 
 import DiagnoseCombobox from './DiagnoseCombobox'
+import { DiagnoseSystem } from './types'
 
 describe('DiagnosePicker', () => {
+    beforeEach(() => {
+        server.use(
+            http.get(
+                '/api/diagnose',
+                async ({ request }) => {
+                    const url = new URL(request.url)
+                    const system = url.searchParams.get('system')?.toLowerCase() as Lowercase<DiagnoseSystem>
+                    const value = url.searchParams.get('value') as string
+
+                    return HttpResponse.json({ suggestions: searchSystem(system, value) }, { status: 200 })
+                },
+                { once: false },
+            ),
+        )
+    })
+
     it('should have no a11y issues', async () => {
         const onSelectMock = vi.fn()
         const { container } = render(

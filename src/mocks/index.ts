@@ -1,6 +1,14 @@
 import { StartOptions } from 'msw/browser'
 
-const whitelistRequests = ['/_next/', '/__nextjs', '/api/logger', '/teamsykmelding/syk-dig/_next', '/aksel/fonts']
+const whitelistRequests = [
+    '/_next/',
+    '/__nextjs',
+    '/api/logger',
+    '/api/diagnose',
+    '/teamsykmelding/syk-dig/_next',
+    '/aksel/fonts',
+    '/favicon.ico',
+]
 
 const onUnhandledRequest: StartOptions['onUnhandledRequest'] = (req, print): void => {
     const url: URL = new URL(req.url)
