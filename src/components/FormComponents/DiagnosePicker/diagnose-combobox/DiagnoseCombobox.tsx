@@ -18,7 +18,6 @@ import {
 import { PossiblePickerFormNames } from '../DiagnosePicker'
 
 import { DiagnoseSuggestion, DiagnoseSystem } from './types'
-import { getDiagnoseSuggestionsAction } from './actions'
 
 interface Props {
     id?: string
@@ -44,7 +43,8 @@ function useSuggestions(
             if (value.trim() === '') return null
             return [system, value]
         },
-        ([system, value]) => getDiagnoseSuggestionsAction(system, value),
+        ([system, value]): Promise<{ suggestions: DiagnoseSuggestion[] } | { reason: string }> =>
+            fetch(`/api/diagnose?system=${system}&value=${encodeURIComponent(value)}`).then((it) => it.json()),
         {
             keepPreviousData: true,
             onError: (err) => {
