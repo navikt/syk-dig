@@ -1,34 +1,30 @@
 import React, { ReactElement } from 'react'
 import { Alert, HelpText, TextField } from '@navikt/ds-react'
-import { useController, useWatch } from 'react-hook-form'
+import { useController } from 'react-hook-form'
 
 import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 import { BehandlerFragment } from '../../../../../graphql/queries/graphql.generated'
 
 import styles from './BehandlerFieldGroup.module.css'
 import BehandlerInfo, { useBehandler } from './BehandlerInfo'
+import { hprCorrectLength, hprOnlyNumbers } from './behandler-utils'
 
 type Props = {
     behandlerInfo: BehandlerFragment | null
 }
 
 function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
-    const hpr = useWatch({ name: 'behandler.hpr' })
-    const hrpWithoutStartingZeros = hpr?.replace(/^0+/, '')
-    const isValidHpr: false | RegExpMatchArray | null =
-        hrpWithoutStartingZeros?.length >= 7 && hpr?.length <= 9 && hrpWithoutStartingZeros.match('^\\+?[- _0-9]+$')
-    const { data, loading, error, called } = useBehandler(hpr, isValidHpr)
     const { field: hprField, fieldState: hprState } = useController<NasjonalFormValues, 'behandler.hpr'>({
         name: 'behandler.hpr',
         rules: {
             validate: (value) => {
                 if (!value) {
                     return 'Behandlers HPR-nummer må være definert'
-                } else if (value.length < 7 || value.length > 9) {
+                } else if (!hprCorrectLength(value)) {
                     return 'Behandlers HPR-nummer må være mellom 7 og 9 siffer'
-                } else if (!value.match('^\\+?[- _0-9]+$')) {
+                } else if (!hprOnlyNumbers(value)) {
                     return 'Behandlers HPR-nummer er ikke på et gyldig format'
-                } else if (!data?.sykmelder) {
+                } else if (data?.sykmelder == null) {
                     return 'Kan ikke registrere sykmelding uten behandler.'
                 }
             },
@@ -37,6 +33,9 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
     const { field: telefonField } = useController<NasjonalFormValues, 'behandler.tlf'>({
         name: 'behandler.tlf',
     })
+
+    const isValidHpr = hprField.value && hprCorrectLength(hprField.value) && hprOnlyNumbers(hprField.value)
+    const { data, loading, error, called } = useBehandler(hprField.value ?? '', !isValidHpr)
 
     return (
         <div className="flex flex-col gap-4">
@@ -68,7 +67,7 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
                 <BehandlerInfo behandlerInfo={behandlerInfo} sykmelder={data.sykmelder} />
             )}
             {called && data && data.sykmelder == null && (
-                <Alert variant="warning">Fant ikke behandler for HPR-nr {hpr}</Alert>
+                <Alert variant="warning">Fant ikke behandler for HPR-nr {hprField.value}</Alert>
             )}
             {!loading && error && (
                 <Alert variant="error">

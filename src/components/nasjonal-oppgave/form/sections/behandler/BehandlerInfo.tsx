@@ -116,15 +116,12 @@ function BehandlerInfo({ behandlerInfo, sykmelder }: Props): ReactElement | null
     )
 }
 
-export function useBehandler(
-    hprNummer: string,
-    isValidHpr: false | RegExpMatchArray | null,
-): QueryResult<SykmelderQuery, SykmelderQueryVariables> {
+export function useBehandler(hprNummer: string, skip: boolean): QueryResult<SykmelderQuery, SykmelderQueryVariables> {
     return useQuery(SykmelderDocument, {
         variables: { hprNummer },
         fetchPolicy: 'network-only',
         notifyOnNetworkStatusChange: true,
-        skip: !isValidHpr,
+        skip: skip,
         onError: (e) => logger.error(e),
     })
 }
