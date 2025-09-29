@@ -2,7 +2,7 @@ FROM gcr.io/distroless/nodejs22-debian12@sha256:1c202268224281bd3a8ee94c7bcb4a25
 
 WORKDIR /app
 
-COPY next-logger.config.mjs /app/
+COPY next-logger.config.js /app/
 COPY .next/standalone /app/
 COPY public /app/public/
 
