@@ -4,8 +4,7 @@ import { GraphQLError } from 'graphql'
 
 import { render, screen, within } from '../../utils/testUtils'
 import { createMock } from '../../utils/test/apolloTestUtils'
-import { OppgaveByIdDocument } from '../../graphql/queries/graphql.generated'
-import { createOppgave } from '../../mocks/data/dataCreators'
+import { OppgaveByIdDocument, OppgaveFragment } from '../../graphql/queries/graphql.generated'
 
 import UtenlandskOppgaveView from './UtenlandskOppgaveView'
 
@@ -17,7 +16,9 @@ describe('Utenlandsk page', () => {
     it('should load form and PDF', async () => {
         const mock = createMock({
             request: { query: OppgaveByIdDocument, variables: { oppgaveId: '987654321' } },
-            result: { data: { __typename: 'Query', oppgave: createOppgave({ oppgaveId: '987654321' }) } },
+            result: {
+                data: { __typename: 'Query', oppgave: createOppgaveFragment({ oppgaveId: '987654321' }) },
+            },
         })
         render(<UtenlandskOppgaveView oppgaveId="987654321" layout={undefined} />, {
             mocks: [mock],
@@ -43,3 +44,54 @@ describe('Utenlandsk page', () => {
         expect(await screen.findByRole('heading', { name: 'En uventet feil oppsto' })).toBeInTheDocument()
     })
 })
+
+export function createOppgaveFragment(overrides?: Partial<OppgaveFragment>): OppgaveFragment {
+    return {
+        __typename: 'Digitaliseringsoppgave',
+        oppgaveId: '987654321',
+        documents: [
+            {
+                __typename: 'Document',
+                tittel: 'annet_dokument.pdf',
+                dokumentInfoId: `some-doc`,
+            },
+            {
+                __typename: 'Document',
+                tittel: 'more-doc.pdf',
+                dokumentInfoId: 'more-doc.pdf',
+            },
+        ],
+        person: {
+            __typename: 'Person',
+            navn: 'Ola Nordmann',
+            bostedsadresse: {
+                __typename: 'Vegadresse',
+                adressenavn: 'Kirkegata',
+                husbokstav: 'B',
+                husnummer: '12',
+                postnummer: '1234',
+                poststed: 'Oslo',
+            },
+            oppholdsadresse: {
+                __typename: 'UtenlandskAdresse',
+                adressenavnNummer: null,
+                bySted: 'Haworth',
+                landkode: 'SWE',
+                postboksNummerNavn: 'P.O.Box 1234 Place',
+                postkode: 'SE-12345',
+            },
+        },
+        values: {
+            __typename: 'OppgaveValues',
+            fnrPasient: 'fnr-pasient',
+            hoveddiagnose: null,
+            biDiagnoser: null,
+            behandletTidspunkt: null,
+            skrevetLand: null,
+            perioder: null,
+            folkeRegistertAdresseErBrakkeEllerTilsvarende: null,
+            erAdresseUtland: null,
+        },
+        ...overrides,
+    }
+}

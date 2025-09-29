@@ -1,9 +1,10 @@
-import { OppgaveFragment } from '../../graphql/queries/graphql.generated'
+import { Digitaliseringsoppgave } from '../mock-resolvers.generated'
 
-export function createOppgave(overrides?: Partial<OppgaveFragment>): OppgaveFragment {
+export function createDigitaliseringsoppgave(overrides?: Partial<Digitaliseringsoppgave>): Digitaliseringsoppgave {
     return {
         __typename: 'Digitaliseringsoppgave',
         oppgaveId: '987654321',
+        type: 'INNENLANDS',
         documents: [
             {
                 __typename: 'Document',

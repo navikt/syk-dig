@@ -1,5 +1,7 @@
 import { CodegenConfig } from '@graphql-codegen/cli'
 
+const eslintDisabler = { add: { content: '/* eslint-disable */' } }
+
 const config: CodegenConfig = {
     overwrite: true,
     schema: ['schema.json', './src/**/*.graphqls'],
@@ -27,6 +29,14 @@ const config: CodegenConfig = {
                 exportFragmentSpreadSubTypes: true,
                 scalars: { Date: 'string', DateTime: 'string' },
                 dedupeFragments: true,
+                nonOptionalTypename: true,
+            },
+        },
+        './src/mocks/mock-resolvers.generated.ts': {
+            plugins: ['typescript', 'typescript-resolvers', eslintDisabler],
+            config: {
+                enumsAsTypes: true,
+                scalars: { DateTime: 'string', DateOnly: 'string', JSON: 'unknown' },
                 nonOptionalTypename: true,
             },
         },

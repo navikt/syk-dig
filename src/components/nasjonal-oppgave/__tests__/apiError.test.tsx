@@ -10,14 +10,14 @@ import {
     SykmeldingUnderArbeidStatus,
 } from '../../../graphql/queries/graphql.generated'
 import NasjonalOppgaveView from '../NasjonalOppgaveView'
-import { mockDiagnoseEndpointReal } from '../../../utils/test/mswTestUtils'
+import { mockDiagnoseEndpoint } from '../../../utils/test/restTestUtils'
 
 import { createSykmeldingValues } from './testData/dataCreators'
 import { oppgaveMock, pasientNavnMock, sykmelderMock } from './testUtils'
 
 describe('Registration api errors', async () => {
     it('Should show error if save oppgave fails', async () => {
-        mockDiagnoseEndpointReal()
+        mockDiagnoseEndpoint()
 
         const saveOppgaveMock = createMock({
             request: {
@@ -52,7 +52,7 @@ describe('Registration api errors', async () => {
     }, 10000)
 
     it('Should show list of validation rulehits', async () => {
-        mockDiagnoseEndpointReal()
+        mockDiagnoseEndpoint()
 
         const saveOppgaveMock = createMock({
             request: {

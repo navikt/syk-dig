@@ -3,13 +3,13 @@ import userEvent from '@testing-library/user-event'
 import { axe } from 'vitest-axe'
 
 import { render, screen } from '../../../../utils/testUtils'
-import { mockDiagnoseEndpointReal } from '../../../../utils/test/mswTestUtils'
+import { mockDiagnoseEndpoint } from '../../../../utils/test/restTestUtils'
 
 import DiagnoseCombobox from './DiagnoseCombobox'
 
 describe('DiagnosePicker', () => {
     beforeEach(() => {
-        mockDiagnoseEndpointReal()
+        mockDiagnoseEndpoint()
     })
 
     it('should have no a11y issues', async () => {
@@ -27,7 +27,7 @@ describe('DiagnosePicker', () => {
 
         const combobox = screen.getByRole('combobox', { name: 'Diagnosekode' })
         await userEvent.type(combobox, 'L81')
-        await userEvent.click(screen.getByRole('option', { name: /L815/ }))
+        await userEvent.click(await screen.findByRole('option', { name: /L815/ }))
 
         expect(await axe(container)).toHaveNoViolations()
     }, 10000)
@@ -47,7 +47,7 @@ describe('DiagnosePicker', () => {
 
         const combobox = screen.getByRole('combobox', { name: 'Diagnosekode' })
         await userEvent.type(combobox, 'L81')
-        await userEvent.click(screen.getByRole('option', { name: /L815/ }))
+        await userEvent.click(await screen.findByRole('option', { name: /L815/ }))
 
         expect(combobox).toHaveValue('L815')
         expect(onSelectMock).toHaveBeenCalledWith({
@@ -73,6 +73,6 @@ describe('DiagnosePicker', () => {
         await userEvent.type(combobox, 'XYZ')
 
         expect(onSelectMock).not.toHaveBeenCalled()
-        expect(screen.getByText('Fant ingen diagnose med kode eller beskrivelse "XYZ"')).toBeInTheDocument()
+        expect(await screen.findByText('Fant ingen diagnose med kode eller beskrivelse "XYZ"')).toBeInTheDocument()
     })
 })
