@@ -21,7 +21,7 @@ export function createMockGraphQLHandler(): (request: Request, ctx: NextContext)
     const { handleRequest } = createYoga<NextContext>({
         schema,
         logging: logger,
-        graphqlEndpoint: '/api/graphql',
+        graphqlEndpoint: '/api/graphql-mock',
         fetchAPI: { Response },
     })
 

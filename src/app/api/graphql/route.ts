@@ -1,23 +1,11 @@
 import { proxyRouteHandler } from '@navikt/next-api-proxy'
 import { logger } from '@navikt/next-logger'
 import { getToken, requestOboToken } from '@navikt/oasis'
-import { notFound } from 'next/navigation'
 
-import { getServerEnv, isLocalOrDemo } from '../../../utils/env'
+import { getServerEnv } from '../../../utils/env'
 import { isValidToken } from '../../../auth/rsc'
-import { createMockGraphQLHandler } from '../../../mocks/graphql-yoga'
 
-interface NextContext {
-    params: Promise<Record<string, string>>
-}
-
-export async function POST(request: Request, ctx: NextContext): Promise<Response> {
-    if (isLocalOrDemo) {
-        const mockGraphQLHandler = createMockGraphQLHandler()
-
-        return mockGraphQLHandler(request, ctx)
-    }
-
+export async function POST(request: Request): Promise<Response> {
     logger.info('Proxying request to syk-dig GraphQL API')
 
     const userLoggedIn = await isValidToken()
@@ -49,14 +37,4 @@ export async function POST(request: Request, ctx: NextContext): Promise<Response
         logger.error(error)
         return Response.json({ message: 'Unable to proxy request' }, { status: 500 })
     }
-}
-
-export async function GET(request: Request, ctx: NextContext): Promise<Response> {
-    if (isLocalOrDemo) {
-        const mockGraphQLHandler = createMockGraphQLHandler()
-
-        return mockGraphQLHandler(request, ctx)
-    }
-
-    notFound()
 }
