@@ -34,8 +34,9 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
         name: 'behandler.tlf',
     })
 
-    const isValidHpr = hprField.value && hprCorrectLength(hprField.value) && hprOnlyNumbers(hprField.value)
-    const { data, loading, error, called } = useBehandler(hprField.value ?? '', !isValidHpr)
+    const currentHpr = hprField.value?.trim() ?? ''
+    const isValidHpr = currentHpr && hprCorrectLength(currentHpr) && hprOnlyNumbers(currentHpr)
+    const { data, loading, error, called } = useBehandler(currentHpr ?? '', !isValidHpr)
 
     return (
         <div className="flex flex-col gap-4">
@@ -63,11 +64,11 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
                 />
             </div>
             {!isValidHpr && <Alert variant="error">HPR-nummeret er ikke gyldig.</Alert>}
-            {isValidHpr && hprField.value && data?.sykmelder && (
+            {isValidHpr && data?.sykmelder && (
                 <BehandlerInfo behandlerInfo={behandlerInfo} sykmelder={data.sykmelder} />
             )}
             {called && data && data.sykmelder == null && (
-                <Alert variant="warning">Fant ikke behandler for HPR-nr {hprField.value}</Alert>
+                <Alert variant="warning">Fant ikke behandler for HPR-nr {currentHpr}</Alert>
             )}
             {!loading && error && (
                 <Alert variant="error">
