@@ -13,7 +13,6 @@ import { UNLEASH_COOKIE_NAME } from './cookie'
 
 export async function getToggles(): Promise<{ toggles: IToggle[] }> {
     if ((EXPECTED_TOGGLES as readonly string[]).length === 0) {
-        logger.info('Currently no expected toggles defined, not fetching toggles from unleash')
         return { toggles: [] }
     }
 
@@ -26,7 +25,7 @@ export async function getToggles(): Promise<{ toggles: IToggle[] }> {
         const sessionId = await getUnleashSessionId()
         const definitions = await getAndValidateDefinitions()
         const userId = (await getAzureUser())?.toLowerCase()
-        logger.info(`Found user ID: ${userId}`)
+
         return evaluateFlags(definitions, {
             sessionId,
             environment: getUnleashEnvironment(),
@@ -62,9 +61,7 @@ async function getAndValidateDefinitions(): Promise<Awaited<ReturnType<typeof ge
         }
     }
 
-    const definitions = await getDefinitions({
-        appName: 'sykmeldinger',
-    })
+    const definitions = await getDefinitions({ appName: 'syk-dig' })
     unleashCache.set('toggles', definitions)
 
     const diff = R.difference(

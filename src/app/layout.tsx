@@ -6,7 +6,6 @@ import { getToggles } from '../toggles/rsc'
 import { getModiaData } from '../modia/ModiaService'
 import { verifyUserLoggedIn } from '../auth/rsc'
 import PageHeader from '../components/PageHeader/PageHeader'
-import Extras from '../components/PageHeader/extras/Extras'
 
 import Providers from './_providers'
 import Preload from './_preload'
@@ -25,9 +24,7 @@ export default async function RootLayout({ children }: PropsWithChildren): Promi
             <Preload />
             <body>
                 <Providers modiaContext={modiaContext} toggles={toggles.toggles}>
-                    <PageHeader>
-                        <Extras />
-                    </PageHeader>
+                    <PageHeader />
                     <main>{children}</main>
                 </Providers>
             </body>
