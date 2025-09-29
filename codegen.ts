@@ -19,8 +19,7 @@ const config: CodegenConfig = {
                 {
                     add: {
                         placement: 'prepend',
-                        content:
-                            '/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */',
+                        content: '/* eslint-disable @typescript-eslint/no-explicit-any */',
                     },
                 },
             ],

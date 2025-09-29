@@ -9,12 +9,6 @@ import { ModiaData, ModiaDataError } from '../modia/ModiaService'
 import { createApolloClient } from '../graphql/apollo'
 import { FlagProvider } from '../toggles/context'
 import { ModiaProvider } from '../modia/modia-context'
-import { isLocalOrDemo } from '../utils/env'
-
-if (isLocalOrDemo) {
-    logger.info('Setting up MSW for local or demo')
-    require('../mocks')
-}
 
 type Props = {
     modiaContext: ModiaData | ModiaDataError
