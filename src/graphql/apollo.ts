@@ -3,6 +3,8 @@ import { onError } from '@apollo/client/link/error'
 import { RetryLink } from '@apollo/client/link/retry'
 import { logger } from '@navikt/next-logger'
 
+import { isLocalOrDemo } from '../utils/env'
+
 import possibleTypesGenerated from './queries/possible-types.generated'
 
 export const cacheConfig: Pick<InMemoryCacheConfig, 'possibleTypes' | 'typePolicies'> = {
@@ -20,7 +22,7 @@ export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
     const cache = new InMemoryCache(cacheConfig)
 
     const httpLink = new HttpLink({
-        uri: `/api/graphql`,
+        uri: !isLocalOrDemo ? `/api/graphql` : `/api/graphql-mock`,
     })
 
     return new ApolloClient({
