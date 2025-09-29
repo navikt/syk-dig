@@ -1,4 +1,4 @@
-import { z, ZodError } from 'zod'
+import * as z from 'zod'
 
 export type BundledEnv = z.infer<typeof bundledEnvSchema>
 const bundledEnvSchema = z.object({
@@ -60,23 +60,7 @@ const getRawServerConfig = (): Partial<unknown> =>
  * Server envs are lazy loaded and verified using Zod.
  */
 export function getServerEnv(): ServerEnv & BundledEnv {
-    try {
-        return { ...serverEnvSchema.parse(getRawServerConfig()), ...bundledEnvSchema.parse(bundledEnv) }
-    } catch (e) {
-        if (e instanceof ZodError) {
-            throw new Error(
-                `The following envs are missing: ${
-                    e.errors
-                        .filter((it) => it.message === 'Required')
-                        .map((it) => it.path.join('.'))
-                        .join(', ') || 'None are missing, but zod is not happy. Look at cause'
-                }`,
-                { cause: e },
-            )
-        } else {
-            throw e
-        }
-    }
+    return { ...serverEnvSchema.parse(getRawServerConfig()), ...bundledEnvSchema.parse(bundledEnv) }
 }
 
 export const isLocalOrDemo = process.env.NODE_ENV !== 'production' || bundledEnv.NEXT_PUBLIC_RUNTIME_ENV === 'demo'

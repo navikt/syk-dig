@@ -104,7 +104,7 @@ async function getAzureUser(): Promise<string | undefined> {
     if (parseResult.ok) {
         return parseResult.NAVident
     } else {
-        logger.warn("Tried to get NAVident from Azure token, but it wasn't valid", { error: parseResult.error.message })
+        logger.warn(Error("Tried to get NAVident from Azure token, but it wasn't valid", { cause: parseResult.error }))
         return undefined
     }
 }

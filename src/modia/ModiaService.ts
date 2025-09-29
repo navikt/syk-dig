@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import * as z from 'zod'
 import { logger } from '@navikt/next-logger'
 import { getToken, requestOboToken } from '@navikt/oasis'
 import { headers } from 'next/headers'

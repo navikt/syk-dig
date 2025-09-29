@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import * as z from 'zod'
 
 export const MedisinskArsakTypeSchema = z.enum([
     'TILSTAND_HINDRER_AKTIVITET',

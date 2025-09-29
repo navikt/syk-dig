@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import * as z from 'zod'
 
 export const HarArbeidsgiverSchema = z.enum(['EN_ARBEIDSGIVER', 'FLERE_ARBEIDSGIVERE', 'INGEN_ARBEIDSGIVER'])
 export type HarArbeidsgiver = z.infer<typeof HarArbeidsgiverSchema>
