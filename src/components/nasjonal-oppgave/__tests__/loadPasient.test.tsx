@@ -26,7 +26,7 @@ describe('Load pasientinfo', async () => {
         })
 
         render(<NasjonalOppgaveView oppgaveId={nasjonalOppgave.oppgaveId} layout={undefined} />, {
-            mocks: [nasjonalOppgaveMock, pasientNavnMock],
+            mocks: [nasjonalOppgaveMock, pasientNavnMock, pasientNavnMock],
         })
 
         expect(await screen.findByRole('heading', { name: 'Nasjonal papirsykmelding' })).toBeInTheDocument()
