@@ -11,7 +11,7 @@ import {
     NavnFragment,
     Sykmelder,
     SykmelderFragment,
-} from '../../../../graphql/queries/graphql.generated'
+} from '../../graphql/queries/graphql.generated'
 
 export function createNasjonalOppgave(overrides?: Partial<NasjonalOppgaveFragment>): NasjonalOppgaveFragment {
     return {

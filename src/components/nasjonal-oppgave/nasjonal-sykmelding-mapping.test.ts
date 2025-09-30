@@ -8,10 +8,10 @@ import {
     MedisinskArsakType,
     NasjonalSykmeldingValues,
 } from '../../graphql/queries/graphql.generated'
+import { createNasjonalOppgave } from '../../mocks/nasjonal/nasjonal-data-creators'
 
 import { NasjonalFormValues } from './form/NasjonalSykmeldingFormTypes'
 import { Periode } from './schema/sykmelding/Periode'
-import { createNasjonalOppgave } from './__tests__/testData/dataCreators'
 import { mapFormPeriodToRegistrertPeriod, mapFormValueToNasjonalSykmelding } from './nasjonal-sykmelding-mapping'
 
 /**

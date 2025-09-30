@@ -10,8 +10,7 @@ import {
     PasientDocument,
 } from '../../../graphql/queries/graphql.generated'
 import { createMock } from '../../../utils/test/apolloTestUtils'
-
-import { emptyNasjonalOppgave } from './testData/dataCreators'
+import { emptyNasjonalOppgave } from '../../../mocks/nasjonal/nasjonal-data-creators'
 
 describe('Load pasientinfo', async () => {
     it('Should display error when request fails', async () => {

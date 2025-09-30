@@ -4,14 +4,9 @@ import {
     DigitalisertSykmeldingResult,
 } from '../mock-resolvers.generated'
 
-import { createDigitaliseringsoppgave } from './dataCreators'
+import { createDigitaliseringsoppgave } from './utenlandsk-data-creators'
 
-/**
- * Fake data singleton used for local development and testing.
- *
- * Allows for mutation of data, even when nextjs hot-reloads.
- */
-export class FakeMockDB {
+export class UtenlanskMock {
     private _oppgaver: Record<string, Digitaliseringsoppgave> = {
         blank: createDigitaliseringsoppgave({ oppgaveId: 'blank-id' }),
         eksisterende: createDigitaliseringsoppgave({

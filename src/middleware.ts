@@ -3,6 +3,7 @@ import { randomSessionId } from '@unleash/nextjs'
 
 import { isLocalOrDemo } from './utils/env'
 import { UNLEASH_COOKIE_NAME } from './toggles/cookie'
+import { setSessionCookieIfUnset } from './mocks/session'
 
 /**
  * Middleware is run on every document request, it handles CSP,
@@ -24,6 +25,11 @@ export default async function middleware(req: NextRequest): Promise<NextResponse
             headers: requestHeaders,
         },
     })
+
+    if (isLocalOrDemo) {
+        // Set a session cookie we can use for mock engine
+        setSessionCookieIfUnset(req, res)
+    }
 
     const existingCookie = req.cookies.get(UNLEASH_COOKIE_NAME)
     if (existingCookie == null) {
