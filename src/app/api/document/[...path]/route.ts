@@ -3,7 +3,7 @@ import { getToken, requestOboToken } from '@navikt/oasis'
 import { proxyRouteHandler } from '@navikt/next-api-proxy'
 
 import { getServerEnv, isLocalOrDemo } from '../../../../utils/env'
-import { alternativeDocumentPdf, pdf } from '../../../../mocks/data/examplePdfbase64'
+import { alternativeDocumentPdf, pdf } from '../../../../mocks/utenlendsk/utenlandsk-example-pdf'
 
 type RouteParams = {
     params: Promise<{ path: string[] }>

@@ -2,7 +2,6 @@ import { headers } from 'next/headers'
 import { GraphQLError } from 'graphql'
 
 import { notNull } from '../utils/tsUtils'
-import getNasjonalMockDb from '../components/nasjonal-oppgave/__tests__/testData'
 
 import {
     DiagnoseInput,
@@ -19,17 +18,20 @@ import {
     Sykmelder,
     ValidationResult,
 } from './mock-resolvers.generated'
-import getMockDb from './data'
+
+import { mockEngineForSession } from './'
 
 export const mockResolvers: Resolvers = {
     Query: {
-        oppgave: (_, args) => {
-            const oppgave = getMockDb().getOppgaveOrStatus(args.oppgaveId)
+        oppgave: async (_, args) => {
+            const mock = await mockEngineForSession()
+            const oppgave = mock.utenlandsk.getOppgaveOrStatus(args.oppgaveId)
 
             return oppgave
         },
-        digitalisertSykmelding: (_, args) => {
-            const digitalisertSykmelding = getMockDb().getDigitalisertSykmelding(args.sykmeldingId)
+        digitalisertSykmelding: async (_, args) => {
+            const mock = await mockEngineForSession()
+            const digitalisertSykmelding = mock.utenlandsk.getDigitalisertSykmelding(args.sykmeldingId)
 
             return digitalisertSykmelding
         },
@@ -90,34 +92,38 @@ export const mockResolvers: Resolvers = {
                 }
             }
         },
-        nasjonalOppgave: (_, args) => {
+        nasjonalOppgave: async (_, args) => {
+            const mock = await mockEngineForSession()
             const nasjonalOppgave: NasjonalOppgave | NasjonalOppgaveStatus =
-                getNasjonalMockDb().getNasjonalOppgaveOrStatusByOppgaveId(args.oppgaveId)
+                mock.nasjonal.getNasjonalOppgaveOrStatusByOppgaveId(args.oppgaveId)
 
             return nasjonalOppgave
         },
-        nasjonalFerdigstiltOppgave: (_, args) => {
+        nasjonalFerdigstiltOppgave: async (_, args) => {
+            const mock = await mockEngineForSession()
             const nasjonalFerdigstiltOppgave: NasjonalOppgave | NasjonalSykmeldingStatus =
-                getNasjonalMockDb().getNasjonalOppgaveOrStatusBySykmeldingId(args.sykmeldingId)
+                mock.nasjonal.getNasjonalOppgaveOrStatusBySykmeldingId(args.sykmeldingId)
 
             return nasjonalFerdigstiltOppgave
         },
         pasientNavn: async () => {
+            const mock = await mockEngineForSession()
             const headersStore = await headers()
             const fnr = headersStore.get('X-Pasient-Fnr')
-            const pasientNavn: Navn = getNasjonalMockDb().getPasientNavn()
+            const pasientNavn: Navn = mock.nasjonal.getPasientNavn()
             if (fnr && fnr.length > 11) {
                 throw new GraphQLError('En feil oppsto ved henting av pasient info.')
             }
 
             return pasientNavn
         },
-        sykmelder: (_, args) => {
+        sykmelder: async (_, args) => {
+            const mock = await mockEngineForSession()
             const hprNummer = args.hprNummer
             if (hprNummer === '1234567') {
                 return null
             }
-            const sykmelder: Sykmelder = getNasjonalMockDb().getSykmelder()
+            const sykmelder: Sykmelder = mock.nasjonal.getSykmelder()
             if (!hprNummer) {
                 throw new GraphQLError('Hprnummer mangler for å kunne hente sykmelder.')
             }
@@ -126,8 +132,9 @@ export const mockResolvers: Resolvers = {
         },
     },
     Mutation: {
-        lagre: (_, args) => {
-            const oppgave = getMockDb().getOppgave(args.oppgaveId)
+        lagre: async (_, args) => {
+            const mock = await mockEngineForSession()
+            const oppgave = mock.utenlandsk.getOppgave(args.oppgaveId)
             const values = args.values
             if (args.status === 'FERDIGSTILT') {
                 return {
@@ -168,8 +175,9 @@ export const mockResolvers: Resolvers = {
                 status: 'AVVIST',
             }
         },
-        dokument: (_, args) => {
-            getMockDb().saveDocument(args.oppgaveId, args.dokumentInfoId, args.tittel)
+        dokument: async (_, args) => {
+            const mock = await mockEngineForSession()
+            mock.utenlandsk.saveDocument(args.oppgaveId, args.dokumentInfoId, args.tittel)
 
             return {
                 __typename: 'Document',

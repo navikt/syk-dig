@@ -11,8 +11,8 @@ import {
 } from '../../../graphql/queries/graphql.generated'
 import NasjonalOppgaveView from '../NasjonalOppgaveView'
 import { mockDiagnoseEndpoint } from '../../../utils/test/restTestUtils'
+import { createSykmeldingValues } from '../../../mocks/nasjonal/nasjonal-data-creators'
 
-import { createSykmeldingValues } from './testData/dataCreators'
 import { oppgaveMock, pasientNavnMock, sykmelderMock } from './testUtils'
 
 describe('Registration api errors', async () => {

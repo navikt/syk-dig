@@ -14,8 +14,8 @@ import { formatsmregDate, formatsmregDateShorthand } from '../smregDateUtils'
 import { ArbeidsrelatertArsakTypeValues, MedisinskArsakTypeValues } from '../schema/sykmelding/Periode'
 import { createMock } from '../../../utils/test/apolloTestUtils'
 import { mockDiagnoseEndpoint } from '../../../utils/test/restTestUtils'
+import { createNasjonalOppgave, createNasjonalOppgaveStatus } from '../../../mocks/nasjonal/nasjonal-data-creators'
 
-import { createNasjonalOppgave, createNasjonalOppgaveStatus } from './testData/dataCreators'
 import { pasientNavnMock, sykmelderMock } from './testUtils'
 
 describe('Mapping opppgave fetched from API', async () => {

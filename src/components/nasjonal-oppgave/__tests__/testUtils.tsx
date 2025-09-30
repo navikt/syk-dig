@@ -7,8 +7,11 @@ import {
     SykmelderDocument,
 } from '../../../graphql/queries/graphql.generated'
 import { createMock } from '../../../utils/test/apolloTestUtils'
-
-import { createNasjonalOppgave, createPasientNavn, createSykmelder } from './testData/dataCreators'
+import {
+    createNasjonalOppgave,
+    createPasientNavn,
+    createSykmelder,
+} from '../../../mocks/nasjonal/nasjonal-data-creators'
 
 const nasjonalOppgave: NasjonalOppgaveFragment = createNasjonalOppgave({ oppgaveId: '123456789' })
 export const oppgaveMock = createMock({

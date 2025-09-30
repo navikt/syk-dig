@@ -6,16 +6,21 @@ import {
     NasjonalSykmeldingStatusFragment,
     Navn,
     Sykmelder,
-} from '../../../../graphql/queries/graphql.generated'
+} from '../../graphql/queries/graphql.generated'
 
-import { createNasjonalOppgave, emptyNasjonalOppgave, createPasientNavn, createSykmelder } from './dataCreators'
+import {
+    createNasjonalOppgave,
+    emptyNasjonalOppgave,
+    createPasientNavn,
+    createSykmelder,
+} from './nasjonal-data-creators'
 
 /**
  * Fake data singleton used for local development and testing.
  *
  * Allows for mutation of data, even when nextjs hot-reloads.
  */
-export class FakeNasjonalMockDB {
+export class NasjonalMock {
     private _nasjonal_oppgaver: Record<string, NasjonalOppgaveFragment> = {
         tomOppgave: emptyNasjonalOppgave({
             oppgaveId: '000000000',
@@ -65,7 +70,6 @@ export class FakeNasjonalMockDB {
             status: NasjonalOppgaveStatusEnum.IkkeEnSykmelding,
         },
     }
-
     private _status_ferdigstilt: Record<string, NasjonalSykmeldingStatusFragment> = {
         finnesikke: {
             __typename: 'NasjonalSykmeldingStatus',
