@@ -4,7 +4,7 @@ import { Heading, Alert } from '@navikt/ds-react'
 
 function DevScenarios(): ReactElement {
     return (
-        <div className="border rounded max-w-prose mt-16 mb-8">
+        <div className="border rounded-sm max-w-prose mt-16 mb-8">
             <Alert variant="info" className="m-4 max-w-prose">
                 <Heading size="medium">Demo-scenarioer (vises ikke i prod)</Heading>
             </Alert>

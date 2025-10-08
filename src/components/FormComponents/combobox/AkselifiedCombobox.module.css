@@ -1,3 +1,5 @@
+@reference 'tailwindcss'
+
 .disclosure {
     position: absolute;
     top: 0.5rem;

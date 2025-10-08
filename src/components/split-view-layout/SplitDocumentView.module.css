@@ -1,3 +1,5 @@
+@reference 'tailwindcss'
+
 .root {
     --content-height: calc(100vh - 48px);
 }
