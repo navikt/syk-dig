@@ -66,7 +66,7 @@ function PersonDisplay(): ReactElement {
                     {data?.pasientNavn.fornavn} {data?.pasientNavn.mellomnavn} {data?.pasientNavn.etternavn}
                 </BodyLong>
             ) : loading ? (
-                <Skeleton width="67%" variant="rounded-sm" />
+                <Skeleton width="67%" variant="rounded" />
             ) : (
                 error && (
                     <BodyLong className="text-red-500">
