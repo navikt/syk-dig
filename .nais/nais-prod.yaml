@@ -26,6 +26,9 @@ spec:
       destinations:
         - id: loki
         - id: elastic
+  prometheus:
+    enabled: true
+    path: /api/internal/metrics
   resources:
     limits:
       memory: 1Gi
