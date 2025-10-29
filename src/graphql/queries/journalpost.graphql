@@ -21,8 +21,8 @@ query JournalpostById($id: String!) {
     }
 }
 
-mutation SykmeldingFraJournalpost($id: String!, $norsk: Boolean!) {
-    sykmeldingFraJournalpost(journalpostId: $id, norsk: $norsk) {
+mutation SykmeldingFraJournalpost($id: String!, $norsk: Boolean!, $navEnhet: String) {
+    sykmeldingFraJournalpost(journalpostId: $id, norsk: $norsk, navEnhet: $navEnhet) {
         ...JournalpostStatus
     }
 }

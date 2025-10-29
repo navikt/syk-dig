@@ -607,15 +607,18 @@ export type MutationOppdaterDigitalisertSykmeldingArgs = {
 }
 
 export type MutationOppgaveTilbakeTilGosysArgs = {
+    navEnhet?: InputMaybe<Scalars['String']['input']>
     oppgaveId: Scalars['String']['input']
 }
 
 export type MutationOppgaveTilbakeTilGosysNasjonalArgs = {
+    navEnhet?: InputMaybe<Scalars['String']['input']>
     oppgaveId: Scalars['String']['input']
 }
 
 export type MutationSykmeldingFraJournalpostArgs = {
     journalpostId: Scalars['String']['input']
+    navEnhet?: InputMaybe<Scalars['String']['input']>
     norsk: Scalars['Boolean']['input']
 }
 

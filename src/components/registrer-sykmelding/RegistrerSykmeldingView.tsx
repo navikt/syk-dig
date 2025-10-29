@@ -13,6 +13,8 @@ import {
 } from '../../graphql/queries/graphql.generated'
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
+import { useModiaContext } from '../../modia/modia-context'
+import { raise } from '../../utils/tsUtils'
 
 import RegistrerSykmeldingDocuments from './RegistrerSykmeldingDocuments'
 
@@ -144,6 +146,7 @@ function JournalpostStatus({ status }: { status: JournalpostStatusEnum }): React
 function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): ReactElement {
     const [sykmeldingType, setSykmeldingType] = useState<string | null>(null)
     const [create, createResult] = useMutation(SykmeldingFraJournalpostDocument)
+    const { selectedEnhetId } = useModiaContext()
     const createdOppgaveId: string | null = createResult.data?.sykmeldingFraJournalpost.oppgaveId ?? null
     const opprettetSykmeldingStatus: JournalpostStatusEnum | null =
         createResult.data?.sykmeldingFraJournalpost.status ?? null
@@ -168,7 +171,15 @@ function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): Rea
                     variant="secondary"
                     loading={createResult.loading}
                     disabled={createResult.data != null || sykmeldingType == null}
-                    onClick={() => create({ variables: { id: journalpostId, norsk: sykmeldingType === 'norsk' } })}
+                    onClick={() =>
+                        create({
+                            variables: {
+                                id: journalpostId,
+                                norsk: sykmeldingType === 'norsk',
+                                navEnhet: selectedEnhetId ?? raise('Sykmelding kan ikke opprettes uten valgt enhet'),
+                            },
+                        })
+                    }
                 >
                     Opprett sykmelding
                 </Button>

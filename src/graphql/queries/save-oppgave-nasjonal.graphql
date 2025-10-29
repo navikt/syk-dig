@@ -24,8 +24,8 @@ fragment LagreOppgaveResult on LagreOppgaveResult {
     ...ValidationResult
 }
 
-mutation TilbakeTilGosysNasjonal($oppgaveId: String!) {
-    oppgaveTilbakeTilGosysNasjonal(oppgaveId: $oppgaveId) {
+mutation TilbakeTilGosysNasjonal($oppgaveId: String!, $navEnhet: String) {
+    oppgaveTilbakeTilGosysNasjonal(oppgaveId: $oppgaveId, navEnhet: $navEnhet) {
         ...LagreNasjonalOppgaveStatus
     }
 }
