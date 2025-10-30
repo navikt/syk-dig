@@ -624,15 +624,18 @@ export type MutationOppdaterDigitalisertSykmeldingArgs = {
 }
 
 export type MutationOppgaveTilbakeTilGosysArgs = {
+    navEnhet?: InputMaybe<Scalars['String']['input']>
     oppgaveId: Scalars['String']['input']
 }
 
 export type MutationOppgaveTilbakeTilGosysNasjonalArgs = {
+    navEnhet?: InputMaybe<Scalars['String']['input']>
     oppgaveId: Scalars['String']['input']
 }
 
 export type MutationSykmeldingFraJournalpostArgs = {
     journalpostId: Scalars['String']['input']
+    navEnhet?: InputMaybe<Scalars['String']['input']>
     norsk: Scalars['Boolean']['input']
 }
 
@@ -963,6 +966,7 @@ export type JournalpostByIdQuery = {
 export type SykmeldingFraJournalpostMutationVariables = Exact<{
     id: Scalars['String']['input']
     norsk: Scalars['Boolean']['input']
+    navEnhet?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type SykmeldingFraJournalpostMutation = {
@@ -2466,6 +2470,7 @@ export type LagreOppgaveResultFragment =
 
 export type TilbakeTilGosysNasjonalMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input']
+    navEnhet?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type TilbakeTilGosysNasjonalMutation = {
@@ -2596,6 +2601,7 @@ export type SaveOppgaveMutation = {
 
 export type TilbakeTilGosysMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input']
+    navEnhet?: InputMaybe<Scalars['String']['input']>
 }>
 
 export type TilbakeTilGosysMutation = {
@@ -6553,6 +6559,11 @@ export const SykmeldingFraJournalpostDocument = {
                         type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
                     },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'navEnhet' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -6570,6 +6581,11 @@ export const SykmeldingFraJournalpostDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'norsk' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'norsk' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'navEnhet' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'navEnhet' } },
                             },
                         ],
                         selectionSet: {
@@ -8375,6 +8391,11 @@ export const TilbakeTilGosysNasjonalDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'navEnhet' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -8387,6 +8408,11 @@ export const TilbakeTilGosysNasjonalDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'oppgaveId' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'navEnhet' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'navEnhet' } },
                             },
                         ],
                         selectionSet: {
@@ -8887,6 +8913,11 @@ export const TilbakeTilGosysDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
                     type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'navEnhet' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -8899,6 +8930,11 @@ export const TilbakeTilGosysDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'oppgaveId' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'navEnhet' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'navEnhet' } },
                             },
                         ],
                         selectionSet: {

@@ -9,8 +9,8 @@ mutation SaveOppgave(
     }
 }
 
-mutation TilbakeTilGosys($oppgaveId: String!) {
-    oppgaveTilbakeTilGosys(oppgaveId: $oppgaveId) {
+mutation TilbakeTilGosys($oppgaveId: String!, $navEnhet: String) {
+    oppgaveTilbakeTilGosys(oppgaveId: $oppgaveId, navEnhet: $navEnhet) {
         ...DigitaliseringsoppgaveStatus
     }
 }

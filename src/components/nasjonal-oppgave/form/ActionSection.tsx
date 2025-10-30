@@ -82,7 +82,12 @@ function ActionSection({ submitResult, status, oppgaveId }: Props): ReactElement
                                 logger.info(`Tilbake til gosys (status: ${status}, oppgaveId: ${oppgaveId})`)
 
                                 await tilbakeTilGosys({
-                                    variables: { oppgaveId: oppgaveId },
+                                    variables: {
+                                        oppgaveId: oppgaveId,
+                                        navEnhet:
+                                            selectedEnhetId ??
+                                            raise('Oppgave kan ikke sendes tilbake uten valgt enhet'),
+                                    },
                                 })
                             }}
                             tilbakeTilGosysResult={tilbakeTilGosysResult}
