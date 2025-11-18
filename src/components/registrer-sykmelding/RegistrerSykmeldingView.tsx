@@ -114,7 +114,7 @@ function Journalpost({ journalpost }: { journalpost: JournalpostFragment }): Rea
 function createStatusMelding(status: JournalpostStatusEnum): string {
     switch (status) {
         case JournalpostStatusEnum.FeilKanal:
-            return 'Feil kanal'
+            return 'Sykmeldingen/journalposten er digital og skal ikke registreres på nytt'
         case JournalpostStatusEnum.FeilTema:
             return 'Har ikke tema "SYM"'
         case JournalpostStatusEnum.ManglendeJournalpost:
