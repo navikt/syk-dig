@@ -7,9 +7,8 @@
         "node": "24"
     },
     "scripts": {
-        "dev": "yarn start",
-        "start": "concurrently -n next,codegen \"yarn start:watch\" \"yarn gen:watch\"",
-        "start:watch": "next dev | pino-pretty --messageKey=message",
+        "dev": "concurrently --names 'next,gen'  --prefix-colors 'blue,magenta' 'yarn dev:next' 'yarn gen:watch'",
+        "dev:next": "next dev | pino-pretty --messageKey=message",
         "start:e2e": "NEXT_PUBLIC_ASSET_PREFIX= node .next/standalone/server.js | pino-pretty --messageKey=message",
         "build": "./scripts/pre-build.sh && next build",
         "build:e2e": "./scripts/build-e2e.sh",
@@ -18,8 +17,8 @@
         "e2e": "playwright test",
         "e2e:dev": "yarn e2e --ui",
         "e2e:fast": "FAST=true yarn e2e --ui",
-        "gen": "graphql-codegen --config codegen.ts",
-        "gen:watch": "graphql-codegen --watch --config codegen.ts",
+        "gen": "graphql-codegen",
+        "gen:watch": "graphql-codegen --watch",
         "pull-schema": "wget https://syk-dig-backend.intern.dev.nav.no/schema.json -O ./schema.json && prettier -w schema.json",
         "update-schema": "yarn pull-schema && yarn gen",
         "prepare": "husky"
