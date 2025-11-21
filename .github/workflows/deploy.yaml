@@ -38,6 +38,7 @@ jobs:
           salsa: false
     outputs:
       image: ${{ steps.next-build.outputs.image }}
+      digest: ${{ steps.next-build.outputs.digest }}
 
   build-demo:
     if: github.ref_name == 'main' || startsWith(github.ref_name, 'demo')
@@ -54,6 +55,7 @@ jobs:
           salsa: false
     outputs:
       image: ${{ steps.next-build.outputs.image }}
+      digest: ${{ steps.next-build.outputs.digest }}
 
   build-prod:
     name: Build for prod
@@ -69,6 +71,7 @@ jobs:
           salsa: false
     outputs:
       image: ${{ steps.next-build.outputs.image }}
+      digest: ${{ steps.next-build.outputs.digest }}
 
   sbom-dev:
     name: Upload SBOM for dev build
@@ -79,7 +82,7 @@ jobs:
         with:
           image: ${{ needs.build-dev.outputs.image }}
           digest: ${{ needs.build-dev.outputs.digest }}
-          team: tsm
+          team: teamsykmelding
 
   sbom-demo:
     name: Upload SBOM for demo build
@@ -90,7 +93,7 @@ jobs:
         with:
           image: ${{ needs.build-demo.outputs.image }}
           digest: ${{ needs.build-demo.outputs.digest }}
-          team: tsm
+          team: teamsykmelding
 
   sbom-prod:
     name: Upload SBOM for prod build
@@ -101,7 +104,7 @@ jobs:
         with:
           image: ${{ needs.build-prod.outputs.image }}
           digest: ${{ needs.build-prod.outputs.digest }}
-          team: tsm
+          team: teamsykmelding
 
   deploy-dev-main:
     name: Deploy main to dev
