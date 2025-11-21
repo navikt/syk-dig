@@ -169,8 +169,9 @@ jobs:
           shardIndex: ${{ matrix.shardIndex }}
           shardTotal: ${{ matrix.shardTotal }}
 
-  merge-reports:
+  playwright-report:
     if: ${{ !cancelled() }}
+    name: Playwright Report
     needs: [run-playwright]
     runs-on: ubuntu-latest
     steps:
