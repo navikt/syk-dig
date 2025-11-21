@@ -5,11 +5,7 @@ import { proxyRouteHandler } from '@navikt/next-api-proxy'
 import { getServerEnv, isLocalOrDemo } from '../../../../utils/env'
 import { alternativeDocumentPdf, pdf } from '../../../../mocks/utenlendsk/utenlandsk-example-pdf'
 
-type RouteParams = {
-    params: Promise<{ path: string[] }>
-}
-
-export async function GET(request: Request, { params }: RouteParams): Promise<Response> {
+export async function GET(request: Request, { params }: RouteContext<'/api/document/[...path]'>): Promise<Response> {
     const path = (await params).path
     const serverEnv = getServerEnv()
 

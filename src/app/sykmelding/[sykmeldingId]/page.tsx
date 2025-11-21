@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: 'Rediger mangler i utenlandsk sykmelding',
 }
 
-async function Page({ params }: { params: Promise<{ sykmeldingId: string }> }): Promise<ReactElement> {
+async function Page({ params }: PageProps<'/sykmelding/[sykmeldingId]'>): Promise<ReactElement> {
     const { sykmeldingId } = await params
 
     return <UtenlandskSykmelding sykmeldingId={sykmeldingId} layout={await getPersistentPaneLayout()} />
