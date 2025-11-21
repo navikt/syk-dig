@@ -110,6 +110,10 @@ export const mockResolvers: Resolvers = {
             const mock = await mockEngineForSession()
             const headersStore = await headers()
             const fnr = headersStore.get('X-Pasient-Fnr')
+            if (fnr === 'should-fail') {
+                throw new GraphQLError(`Intentional fail, fnr is: ${fnr}`)
+            }
+
             const pasientNavn: Navn = mock.nasjonal.getPasientNavn()
             if (fnr && fnr.length > 11) {
                 throw new GraphQLError('En feil oppsto ved henting av pasient info.')
