@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, ReactElement } from 'react'
 import * as Combobox from '@ariakit/react/combobox'
 import { Label, Loader } from '@navikt/ds-react'
-import cn from 'clsx'
+
+import { cn } from '../../../utils/tw-utils'
 
 import styles from './AkselifiedCombobox.module.css'
 
@@ -53,10 +54,15 @@ export function AkselifiedComboboxDisclosure({ loading }: { loading?: boolean })
 export function AkselifiedCombobox({
     className,
     children,
+    error,
     ...props
-}: PropsWithChildren<Combobox.ComboboxProps>): ReactElement {
+}: PropsWithChildren<Combobox.ComboboxProps & { error?: string | undefined }>): ReactElement {
     return (
-        <div className="navds-select__container">
+        <div
+            className={cn('navds-select__container', {
+                'navds-text-field--error': error != null,
+            })}
+        >
             {children}
             <Combobox.Combobox
                 {...props}
@@ -75,7 +81,13 @@ export function AkselifiedComboboxPopover({
     ...props
 }: PropsWithChildren<Combobox.ComboboxPopoverProps>): ReactElement {
     return (
-        <Combobox.ComboboxPopover gutter={8} sameWidth className="navds-combobox__list" {...props}>
+        <Combobox.ComboboxPopover
+            gutter={8}
+            sameWidth
+            className="navds-combobox__list"
+            render={<div className="z-popover" />}
+            {...props}
+        >
             {children}
         </Combobox.ComboboxPopover>
     )
