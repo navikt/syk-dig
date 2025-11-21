@@ -207,8 +207,11 @@ export const mockResolvers: Resolvers = {
             }
         },
         lagreNasjonalOppgave: (_, args) => {
-            const shouldRuleHit = false
-            if (shouldRuleHit) {
+            if (args.oppgaveId === 'should-fail-submit') {
+                throw new GraphQLError('Intentionally failed submit')
+            }
+
+            if (args.oppgaveId === 'should-rule-hit-submit') {
                 return {
                     __typename: 'ValidationResult',
                     status: 'INVALID',

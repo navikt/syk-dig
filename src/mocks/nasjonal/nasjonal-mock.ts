@@ -47,6 +47,12 @@ export class NasjonalMock {
                 ],
             },
         }),
+        'should-fail-submit': createNasjonalOppgave({
+            oppgaveId: 'should-fail-submit',
+        }),
+        'should-rule-hit-submit': createNasjonalOppgave({
+            oppgaveId: 'should-rule-hit-submit',
+        }),
     }
     private _status_oppgave: Record<string, NasjonalOppgaveStatusFragment> = {
         ferdigstilt: {
