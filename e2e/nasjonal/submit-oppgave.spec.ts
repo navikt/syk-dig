@@ -13,19 +13,16 @@ test('should be able to submit oppgave', async ({ page }) => {
     await page.goto('/nasjonal/000000000')
 
     await fillPasientOpplysningerSection(page)('12345678910')
-
     await fillArbeidsgiverSection(page)({
         pasientenHar: 'EN_ARBEIDSGIVER',
         arbeidsgiver: 'Politiet',
         yrke: 'Politibetjent',
         stillingsprosent: '25',
     })
-
     await fillDiagnoseSection(page)([
         { system: 'ICD10', search: 'L81', click: /L811/ },
         { system: 'ICPC2', search: 'H0', click: /H02/ },
     ])
-
     await fillMulighetForArbeidSection(page)([
         {
             periodeType: '4.1 Avventende sykmelding',
@@ -174,4 +171,63 @@ test('should be able to submit oppgave', async ({ page }) => {
         sykmeldingStatus: 'UNDER_ARBEID',
         navEnhet: '0312',
     })
+})
+
+test('should show error when submit request fails', async ({ page }) => {
+    await page.goto('/nasjonal/should-fail-submit')
+
+    await fillDiagnoseSection(page)([{ system: 'ICD10', search: 'L81', click: /L811/ }])
+    await fillMulighetForArbeidSection(page)([
+        {
+            periodeType: '4.1 Avventende sykmelding',
+            fom: '010120',
+            tom: '030120',
+            innspill: 'Innspill til arbeidsgiver',
+        },
+    ])
+
+    // 12 Behandler
+    await page.getByLabel('12.1 Behandletdato').fill('010220')
+    await page.getByRole('textbox', { name: /12.4 HPR-nummer/ }).fill('12345678')
+    await page.getByRole('textbox', { name: '12.5 Telefon' }).fill('12345678')
+
+    await page.getByText('Feltene stemmer overens med').click()
+    await clickAndWait(
+        page.getByRole('button', { name: 'Registrer sykmeldingen' }).click(),
+
+        waitForGraphQL(page, 'SaveOppgaveNasjonal'),
+    )
+
+    await expect(
+        page.getByText(/Det oppsto dessverre en feil i baksystemet. Vennligst prøv igjen senere./),
+    ).toBeVisible()
+})
+
+test('should show list of validation rulehits', async ({ page }) => {
+    await page.goto('/nasjonal/should-rule-hit-submit')
+
+    await fillDiagnoseSection(page)([{ system: 'ICD10', search: 'L81', click: /L811/ }])
+    await fillMulighetForArbeidSection(page)([
+        {
+            periodeType: '4.1 Avventende sykmelding',
+            fom: '010120',
+            tom: '030120',
+            innspill: 'Innspill til arbeidsgiver',
+        },
+    ])
+
+    // 12 Behandler
+    await page.getByLabel('12.1 Behandletdato').fill('010220')
+    await page.getByRole('textbox', { name: /12.4 HPR-nummer/ }).fill('12345678')
+    await page.getByRole('textbox', { name: '12.5 Telefon' }).fill('12345678')
+
+    await page.getByText('Feltene stemmer overens med').click()
+    await clickAndWait(
+        page.getByRole('button', { name: 'Registrer sykmeldingen' }).click(),
+
+        waitForGraphQL(page, 'SaveOppgaveNasjonal'),
+    )
+
+    await expect(page.getByText(/Baksystemet fant ytterligere feil som må behandles/)).toBeVisible()
+    await expect(page.getByText('Dont break the rules, please')).toBeVisible()
 })
