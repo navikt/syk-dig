@@ -9,10 +9,7 @@ import {
     fillPasientOpplysningerSection,
 } from './user-actions'
 
-test('should be able to submit oppgave', async ({ page, browserName }) => {
-    //TODO: temporarily skip because of a bug with msw and chrome having high processing duration on save
-    test.skip(browserName === 'chromium', 'Skip on Chrome/Chromium')
-
+test('should be able to submit oppgave', async ({ page }) => {
     await page.goto('/nasjonal/000000000')
 
     await fillPasientOpplysningerSection(page)('12345678910')
@@ -64,7 +61,6 @@ test('should be able to submit oppgave', async ({ page, browserName }) => {
     await page.getByRole('textbox', { name: '12.5 Telefon' }).fill('12345678')
 
     await page.getByText('Feltene stemmer overens med').click()
-    page.screenshot({ path: 'screenshot.png' })
     const request = await clickAndWait(
         page.getByRole('button', { name: 'Registrer sykmeldingen' }).click(),
 

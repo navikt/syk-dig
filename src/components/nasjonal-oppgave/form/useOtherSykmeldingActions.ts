@@ -1,5 +1,6 @@
-import { MutationTuple, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { logger } from '@navikt/next-logger'
+import { ServerError } from '@apollo/client'
 
 import {
     AvvisNasjonalOppgaveDocument,
@@ -14,7 +15,7 @@ export function useTilbakeTilGosysNasjonal({
     onCompleted,
 }: {
     onCompleted?: () => void
-}): MutationTuple<TilbakeTilGosysNasjonalMutation, TilbakeTilGosysNasjonalMutationVariables> {
+}): useMutation.ResultTuple<TilbakeTilGosysNasjonalMutation, TilbakeTilGosysNasjonalMutationVariables> {
     return useMutation<TilbakeTilGosysNasjonalMutation, TilbakeTilGosysNasjonalMutationVariables>(
         TilbakeTilGosysNasjonalDocument,
         {
@@ -22,15 +23,13 @@ export function useTilbakeTilGosysNasjonal({
                 onCompleted?.()
             },
             onError: (error, opts) => {
-                if (error.networkError) {
-                    if ('response' in error.networkError) {
-                        logger.info(
-                            `Server responded with ${error.networkError.statusCode} (tilbake til gosys, ${opts?.variables?.oppgaveId}), squelching error log`,
-                        )
-                        return
-                    }
-                    throw error
+                if (ServerError.is(error)) {
+                    logger.info(
+                        `Server responded with ${error.statusCode} (tilbake til gosys, ${opts?.variables?.oppgaveId}), squelching error log`,
+                    )
+                    return
                 }
+                throw error
             },
         },
     )
@@ -40,7 +39,7 @@ export function useAvvisSykmeldingNasjonal({
     onCompleted,
 }: {
     onCompleted?: () => void
-}): MutationTuple<AvvisNasjonalOppgaveMutation, AvvisNasjonalOppgaveMutationVariables> {
+}): useMutation.ResultTuple<AvvisNasjonalOppgaveMutation, AvvisNasjonalOppgaveMutationVariables> {
     return useMutation<AvvisNasjonalOppgaveMutation, AvvisNasjonalOppgaveMutationVariables>(
         AvvisNasjonalOppgaveDocument,
         {
@@ -48,15 +47,13 @@ export function useAvvisSykmeldingNasjonal({
                 onCompleted?.()
             },
             onError: (error, opts) => {
-                if (error.networkError) {
-                    if ('response' in error.networkError) {
-                        logger.info(
-                            `Server responded with ${error.networkError.statusCode} (avvis sykmelding, ${opts?.variables?.oppgaveId}), squelching error log`,
-                        )
-                        return
-                    }
-                    throw error
+                if (ServerError.is(error)) {
+                    logger.info(
+                        `Server responded with ${error.statusCode} (avvis sykmelding, ${opts?.variables?.oppgaveId}), squelching error log`,
+                    )
+                    return
                 }
+                throw error
             },
         },
     )

@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 import { Alert, Button } from '@navikt/ds-react'
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
-import { MutationResult } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { ArrowLeftIcon } from '@navikt/aksel-icons'
 
 import { OppgaveValues, Person } from '../../graphql/queries/graphql.generated'
@@ -59,10 +59,10 @@ export function UpdateSykmeldingForm({ values, person }: Props): ReactElement {
 }
 
 interface UpdateSykmeldingActionProps {
-    submitResult: MutationResult
+    submitResult: useMutation.Result
 }
 
-function isMutationSuccess(result: MutationResult): boolean {
+function isMutationSuccess(result: useMutation.Result): boolean {
     return result.called && !result.loading && !result.error
 }
 

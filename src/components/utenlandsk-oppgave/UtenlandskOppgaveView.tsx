@@ -1,15 +1,15 @@
 'use client'
 
-import { QueryResult, useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react'
 import React, { ReactElement } from 'react'
 import { range } from 'remeda'
+import { ErrorLike } from '@apollo/client'
 
 import {
     DigitaliseringOppgaveResultFragment,
     OppgaveByIdDocument,
     OppgaveByIdQuery,
-    OppgaveByIdQueryVariables,
 } from '../../graphql/queries/graphql.generated'
 import { raise } from '../../utils/tsUtils'
 import SykmeldingForm from '../Sykmelding/SykmeldingForm'
@@ -39,7 +39,9 @@ function UtenlandskOppgaveView({ oppgaveId, layout }: Props): ReactElement {
         <SplitDocumentView
             title="Utenlandsk sykmelding"
             ingress="Vennligst skriv inn opplysningene fra sykmeldingen under"
-            documentView={<OppgaveDocuments query={oppgaveQuery} />}
+            documentView={
+                <OppgaveDocuments loading={oppgaveQuery.loading} data={oppgaveQuery.data} error={oppgaveQuery.error} />
+            }
             closeReturnsTo="gosys"
             defaultLayout={layout}
         >
@@ -60,12 +62,15 @@ function DigitaliseringsOppgave({ oppgave }: { oppgave: DigitaliseringOppgaveRes
 }
 
 export function OppgaveDocuments({
-    query,
+    loading,
+    data,
+    error,
 }: {
-    query: QueryResult<OppgaveByIdQuery, OppgaveByIdQueryVariables>
+    loading: boolean
+    data: OppgaveByIdQuery | undefined
+    error: ErrorLike | undefined
 }): ReactElement {
-    const isStatus = query.data?.oppgave?.__typename === 'DigitaliseringsoppgaveStatus'
-    const { loading, error, data } = query
+    const isStatus = data?.oppgave?.__typename === 'DigitaliseringsoppgaveStatus'
     const oppgave = data?.oppgave
 
     if (loading) {

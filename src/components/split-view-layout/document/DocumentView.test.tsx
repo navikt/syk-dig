@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import { waitFor } from '@testing-library/react'
 
 import { createMock } from '../../../utils/test/apolloTestUtils'
 import { NavngiDokumentDocument } from '../../../graphql/queries/graphql.generated'
@@ -59,7 +60,8 @@ describe('DocumentView', () => {
 
         // Lagre
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }))
-        expect(mutationMock).toHaveBeenCalledTimes(1)
+
+        await waitFor(() => expect(mutationMock).toHaveBeenCalledTimes(1))
     })
 
     it('should load the second document (without unmounting the first) when second tab is clicked', async () => {

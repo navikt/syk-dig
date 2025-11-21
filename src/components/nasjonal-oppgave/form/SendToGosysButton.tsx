@@ -1,13 +1,13 @@
 import React, { ReactElement } from 'react'
 import { Alert } from '@navikt/ds-react'
-import { MutationResult } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 
 import { MutationResultFeedback } from '../../Sykmelding/ActionSection/MutationFeedbackSection'
 import ConfirmButton from '../../ConfirmButton/ConfirmButton'
 
 type Props = {
     tilbakeTilGosys: () => Promise<void>
-    tilbakeTilGosysResult: MutationResult
+    tilbakeTilGosysResult: useMutation.Result
 }
 
 function SendToGosysButton({ tilbakeTilGosys, tilbakeTilGosysResult }: Props): ReactElement {
@@ -57,7 +57,7 @@ function SendToGosysButton({ tilbakeTilGosys, tilbakeTilGosysResult }: Props): R
     )
 }
 
-function isMutationSuccess(result: MutationResult): boolean {
+function isMutationSuccess(result: useMutation.Result): boolean {
     return result.called && !result.loading && !result.error
 }
 

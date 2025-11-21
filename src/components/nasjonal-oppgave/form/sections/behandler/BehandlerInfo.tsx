@@ -1,16 +1,9 @@
 import React, { ReactElement } from 'react'
-import { QueryResult, useQuery } from '@apollo/client'
 import { Heading, HelpText, Table, Tag } from '@navikt/ds-react'
 
 import FormInfo from '../../../../form-layout/FormInfo'
 import { AutorisasjonValues, HelsepersonellkategoriValues } from '../../../schema/Sykmelder'
-import {
-    BehandlerFragment,
-    SykmelderDocument,
-    SykmelderFragment,
-    SykmelderQuery,
-    SykmelderQueryVariables,
-} from '../../../../../graphql/queries/graphql.generated'
+import { BehandlerFragment, SykmelderFragment } from '../../../../../graphql/queries/graphql.generated'
 
 type Props = {
     behandlerInfo: BehandlerFragment | null
@@ -113,15 +106,6 @@ function BehandlerInfo({ behandlerInfo, sykmelder }: Props): ReactElement | null
             </div>
         </div>
     )
-}
-
-export function useBehandler(hprNummer: string, skip: boolean): QueryResult<SykmelderQuery, SykmelderQueryVariables> {
-    return useQuery(SykmelderDocument, {
-        variables: { hprNummer },
-        fetchPolicy: 'network-only',
-        notifyOnNetworkStatusChange: true,
-        skip: skip,
-    })
 }
 
 export default BehandlerInfo

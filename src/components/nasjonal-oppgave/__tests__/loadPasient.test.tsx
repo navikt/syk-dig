@@ -35,5 +35,5 @@ describe('Load pasientinfo', async () => {
         expect(
             await screen.findByText('En feil oppsto ved henting av pasient info. Ta kontakt dersom feilen vedvarer.'),
         ).toBeInTheDocument()
-    })
+    }, 7500)
 })

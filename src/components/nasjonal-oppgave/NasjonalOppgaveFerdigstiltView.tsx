@@ -1,7 +1,7 @@
 'use client'
 
 import React, { ReactElement } from 'react'
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
@@ -30,7 +30,9 @@ function NasjonalOppgaveFerdigstiltView({ sykmeldingId, layout }: Props): ReactE
         <SplitDocumentView
             title="Korrigering av registrert papirsykmelding"
             ingress="Under kan du korrigere opplysningene i en allerede registrert papirsykmelding"
-            documentView={<NasjonalOppgaveFerdigstiltDocuments query={query} />}
+            documentView={
+                <NasjonalOppgaveFerdigstiltDocuments loading={query.loading} data={query.data} error={query.error} />
+            }
             closeReturnsTo="modia"
             defaultLayout={layout}
         >

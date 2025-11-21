@@ -1,7 +1,7 @@
 'use client'
 
 import React, { ReactElement } from 'react'
-import { useQuery } from '@apollo/client'
+import { useQuery } from '@apollo/client/react'
 
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 import { PaneView } from '../split-view-layout/persistent-layout'
@@ -26,7 +26,14 @@ function NasjonalOppgaveView({ oppgaveId, layout }: Props): ReactElement {
         <SplitDocumentView
             title="Nasjonal papirsykmelding"
             ingress="Vennligst legg inn opplysningene fra papirsykmeldingen"
-            documentView={<NasjonalOppgaveDocuments oppgaveId={oppgaveId} query={query} />}
+            documentView={
+                <NasjonalOppgaveDocuments
+                    oppgaveId={oppgaveId}
+                    loading={query.loading}
+                    data={query.data}
+                    error={query.error}
+                />
+            }
             closeReturnsTo="gosys"
             defaultLayout={layout}
         >

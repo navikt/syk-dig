@@ -1,5 +1,5 @@
 import { SubmitHandler } from 'react-hook-form'
-import { MutationResult, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { logger } from '@navikt/next-logger'
 
 import {
@@ -20,11 +20,11 @@ import { PeriodeFormValue } from '../../Sykmeldingsperiode'
 import { useModiaContext } from '../../../../modia/modia-context'
 import { DiagnoseFormValue } from '../../../FormComponents/DiagnosePicker/diagnose-combobox/types'
 
-type UseSave = [save: SubmitHandler<UtenlanskFormValues>, result: MutationResult<SaveOppgaveMutation>]
+type UseSave = [save: SubmitHandler<UtenlanskFormValues>, result: useMutation.Result<SaveOppgaveMutation>]
 type UseSaveOptions = { fnr: string; onCompleted?: () => void }
 type UseUpdate = [
     save: SubmitHandler<UtenlanskFormValues>,
-    result: MutationResult<UpdateDigitalisertSykmeldingMutation>,
+    result: useMutation.Result<UpdateDigitalisertSykmeldingMutation>,
 ]
 type UseUpdateOptions = { fnr: string; onCompleted?: () => void }
 export function useHandleSave({ fnr, onCompleted }: UseSaveOptions): UseSave {

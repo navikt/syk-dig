@@ -2,7 +2,7 @@
 
 import { PropsWithChildren, ReactElement, useState } from 'react'
 import { IToggle } from '@unleash/nextjs'
-import { ApolloProvider } from '@apollo/client'
+import { ApolloProvider } from '@apollo/client/react'
 
 import { ModiaData, ModiaDataError } from '../modia/ModiaService'
 import { createApolloClient } from '../graphql/apollo'
