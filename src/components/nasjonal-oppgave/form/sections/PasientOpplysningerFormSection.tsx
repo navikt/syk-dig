@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react'
 import { BodyLong, Heading, Skeleton, TextField } from '@navikt/ds-react'
 import { useController, useFormContext } from 'react-hook-form'
 import { QueryResult, useQuery } from '@apollo/client'
-import { logger } from '@navikt/next-logger'
 
 import { getSectionTitle, sections } from '../../sections'
 import FormSection from '../../../form-layout/FormSection'
@@ -84,7 +83,6 @@ function usePersonName(fnr: string | null): QueryResult<PasientQuery, PasientQue
         skip: fnr != null && fnr.length !== 11,
         notifyOnNetworkStatusChange: true,
         context: { headers: { 'X-Pasient-Fnr': fnr } },
-        onError: (e) => logger.error(e),
     })
 }
 

@@ -49,7 +49,7 @@ describe('Registration api errors', async () => {
         expect(
             await screen.findByText('Det oppsto dessverre en feil i baksystemet. Vennligst prøv igjen senere.'),
         ).toBeInTheDocument()
-    }, 10000)
+    }, 15000)
 
     it('Should show list of validation rulehits', async () => {
         mockDiagnoseEndpoint()

@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react'
 import { QueryResult, useQuery } from '@apollo/client'
-import { logger } from '@navikt/next-logger'
 import { Heading, HelpText, Table, Tag } from '@navikt/ds-react'
 
 import FormInfo from '../../../../form-layout/FormInfo'
@@ -122,7 +121,6 @@ export function useBehandler(hprNummer: string, skip: boolean): QueryResult<Sykm
         fetchPolicy: 'network-only',
         notifyOnNetworkStatusChange: true,
         skip: skip,
-        onError: (e) => logger.error(e),
     })
 }
 

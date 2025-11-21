@@ -14,24 +14,14 @@ afterEach(() => {
     cleanup()
 })
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const dirtyGlobal = global as any
-dirtyGlobal.TextEncoder = TextEncoder
-dirtyGlobal.TextDecoder = TextDecoder
-dirtyGlobal.ResizeObserver = vi.fn().mockImplementation(() => ({
-    disconnect: vi.fn(),
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-}))
-
-dirtyGlobal.HTMLCanvasElement.prototype.getContext = vi.fn()
+global.HTMLCanvasElement.prototype.getContext = vi.fn()
 
 const useRouter = mockRouter.useRouter
 
 export const MockNextNavigation = {
     ...mockRouter,
     notFound: vi.fn(),
-    redirect: vi.fn().mockImplementation((url: string) => {
+    redirect: vi.fn().mockImplementation(function (url: string) {
         mockRouter.memoryRouter.setCurrentUrl(url)
     }),
     usePathname: () => {
@@ -50,7 +40,9 @@ export const MockNextNavigation = {
     },
 }
 
-vi.mock('next/navigation', () => MockNextNavigation)
+vi.mock('next/navigation', function () {
+    return MockNextNavigation
+})
 
 mockRouter.memoryRouter.useParser(createDynamicRouteParser(['/oppgave/[oppgaveId]']))
 
