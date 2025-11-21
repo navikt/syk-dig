@@ -1,20 +1,19 @@
 'use client'
 
-import React, { PropsWithChildren, ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 import Link from 'next/link'
 import { Select, InternalHeader } from '@navikt/ds-react'
 
 import { bundledEnv } from '../../utils/env'
 import { useModiaContext } from '../../modia/modia-context'
 
-function PageHeader({ children }: PropsWithChildren): ReactElement {
+function PageHeader(): ReactElement {
     const modiaContext = useModiaContext()
 
     return (
         <InternalHeader className="justify-between">
             <HeaderText />
-            <div className="flex flex-wrap items-center">
-                {children}
+            <div className="flex flex-wrap gap-3 items-center">
                 {'errorType' in modiaContext.modia ? (
                     <InternalHeader.User name="Feil under lasting" description="Klarte ikke å laste enhet" />
                 ) : (

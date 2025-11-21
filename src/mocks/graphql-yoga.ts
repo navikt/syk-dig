@@ -1,7 +1,7 @@
 import { createYoga } from 'graphql-yoga'
 import { addResolversToSchema } from '@graphql-tools/schema'
 import { logger } from '@navikt/next-logger'
-import { buildClientSchema, IntrospectionQuery } from 'graphql/utilities'
+import { buildClientSchema, IntrospectionQuery } from 'graphql'
 
 import introspection from '../../schema.json'
 
