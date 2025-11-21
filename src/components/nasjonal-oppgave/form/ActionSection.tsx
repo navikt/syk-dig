@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from 'react'
 import { Alert, BodyShort, Button, ConfirmationPanel, Heading, List } from '@navikt/ds-react'
-import { MutationResult } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { ArrowLeftIcon } from '@navikt/aksel-icons'
 import { logger } from '@navikt/next-logger'
 
@@ -8,7 +8,7 @@ import { MutationResultFeedback } from '../../Sykmelding/ActionSection/MutationF
 import FeedbackModal from '../../Sykmelding/ActionSection/FeedbackModal'
 import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
 import { redirectTilGosys } from '../../../utils/gosys'
-import { SykmeldingUnderArbeidStatus, ValidationResult } from '../../../graphql/queries/graphql.generated'
+import { SaveOppgaveNasjonalMutation, SykmeldingUnderArbeidStatus } from '../../../graphql/queries/graphql.generated'
 import { useModiaContext } from '../../../modia/modia-context'
 import { raise } from '../../../utils/tsUtils'
 
@@ -17,7 +17,7 @@ import SendToGosysButton from './SendToGosysButton'
 import AvvisButton from './AvvisButton'
 
 type Props = {
-    submitResult: MutationResult
+    submitResult: useMutation.Result<SaveOppgaveNasjonalMutation>
     status: SykmeldingUnderArbeidStatus
     oppgaveId: string
 }
@@ -127,10 +127,8 @@ function ActionSection({ submitResult, status, oppgaveId }: Props): ReactElement
 function SubmitResult({
     submitResult,
 }: {
-    submitResult: MutationResult<{ lagreNasjonalOppgave: ValidationResult | null }>
+    submitResult: useMutation.Result<SaveOppgaveNasjonalMutation>
 }): ReactElement | null {
-    const hasRuleHitErrors = submitResult.data?.lagreNasjonalOppgave?.ruleHits != null
-
     if (submitResult.error) {
         return (
             <Alert variant="error">
@@ -139,7 +137,11 @@ function SubmitResult({
         )
     }
 
-    if (hasRuleHitErrors) {
+    if (
+        submitResult.data?.lagreNasjonalOppgave &&
+        submitResult.data.lagreNasjonalOppgave.__typename === 'ValidationResult' &&
+        submitResult.data.lagreNasjonalOppgave.ruleHits != null
+    ) {
         return (
             <Alert variant="warning">
                 <BodyShort>
@@ -181,8 +183,8 @@ function OtherMutationsResult({
     avvisSykmeldingResult,
     tilbakeTil,
 }: {
-    tilbakeTilGosysResult: MutationResult
-    avvisSykmeldingResult: MutationResult
+    tilbakeTilGosysResult: useMutation.Result
+    avvisSykmeldingResult: useMutation.Result
     tilbakeTil: 'Modia' | 'Gosys'
 }): ReactElement | null {
     const tilbakeUrl = tilbakeTil === 'Modia' ? bundledEnv.NEXT_PUBLIC_MODIA_URL : bundledEnv.NEXT_PUBLIC_GOSYS_URL

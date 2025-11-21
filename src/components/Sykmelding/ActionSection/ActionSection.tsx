@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 import { Button } from '@navikt/ds-react'
 import { useFormContext } from 'react-hook-form'
-import { MutationResult } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 
 import { UtenlanskFormValues } from '../SykmeldingForm'
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated'
@@ -15,7 +15,7 @@ import styles from './ActionSection.module.css'
 
 interface Props {
     fnr: string
-    registerResult: MutationResult<SaveOppgaveMutation>
+    registerResult: useMutation.Result<SaveOppgaveMutation>
     focusErrorSection: () => void
     disableUnsavedWarning: () => void
 }
@@ -125,7 +125,7 @@ function ActionSection({ fnr, registerResult, focusErrorSection, disableUnsavedW
     )
 }
 
-function isMutationSuccess(result: MutationResult): boolean {
+function isMutationSuccess(result: useMutation.Result): boolean {
     return result.called && !result.loading && !result.error
 }
 

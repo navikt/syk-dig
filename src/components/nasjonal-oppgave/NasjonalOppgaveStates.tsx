@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactElement } from 'react'
 import { range } from 'remeda'
 import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react'
-import { ApolloError, QueryResult } from '@apollo/client'
+import { ErrorLike } from '@apollo/client'
 
 import { raise } from '../../utils/tsUtils'
 import { FormSectionSkeleton } from '../form-layout/FormSection'
@@ -11,9 +11,7 @@ import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewS
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
 import {
     NasjonalFerdigstiltOppgaveBySykmeldingIdQuery,
-    NasjonalFerdigstiltOppgaveBySykmeldingIdQueryVariables,
     NasjonalOppgaveByIdQuery,
-    NasjonalOppgaveByIdQueryVariables,
 } from '../../graphql/queries/graphql.generated'
 
 export function NasjonalOppgaveSkeleton(): ReactElement {
@@ -36,7 +34,10 @@ export function NasjonalOppgaveSkeleton(): ReactElement {
     )
 }
 
-export function NasjonalOppgaveError({ error, children }: PropsWithChildren<{ error: ApolloError }>): ReactElement {
+export function NasjonalOppgaveError({
+    error,
+    children,
+}: PropsWithChildren<{ error: ErrorLike | undefined }>): ReactElement {
     if (error) {
         return (
             <Alert variant="warning" className="m-4">
@@ -68,13 +69,17 @@ export function NasjonalOppgaveError({ error, children }: PropsWithChildren<{ er
 
 export function NasjonalOppgaveDocuments({
     oppgaveId,
-    query,
+    data,
+    loading,
+    error,
 }: {
     oppgaveId: string
-    query: QueryResult<NasjonalOppgaveByIdQuery, NasjonalOppgaveByIdQueryVariables>
+    loading: boolean
+    data: NasjonalOppgaveByIdQuery | undefined
+    error: ErrorLike | undefined
 }): ReactElement {
-    const isStatus = query.data?.nasjonalOppgave?.__typename === 'NasjonalOppgaveStatus'
-    const { loading, data, error } = query
+    const isStatus = data?.nasjonalOppgave?.__typename === 'NasjonalOppgaveStatus'
+
     if (loading) {
         return <DocumentsViewerSkeleton />
     } else if (!loading && isStatus) {
@@ -91,15 +96,14 @@ export function NasjonalOppgaveDocuments({
 }
 
 export function NasjonalOppgaveFerdigstiltDocuments({
-    query,
+    loading,
+    data,
+    error,
 }: {
-    query: QueryResult<
-        NasjonalFerdigstiltOppgaveBySykmeldingIdQuery,
-        NasjonalFerdigstiltOppgaveBySykmeldingIdQueryVariables
-    >
+    loading: boolean
+    data: NasjonalFerdigstiltOppgaveBySykmeldingIdQuery | undefined
+    error: ErrorLike | undefined
 }): ReactElement {
-    const { loading, data, error } = query
-
     if (loading) {
         return <DocumentsViewerSkeleton />
     } else if (error) {

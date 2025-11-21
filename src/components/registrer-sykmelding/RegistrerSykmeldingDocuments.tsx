@@ -1,17 +1,18 @@
 import React, { ReactElement } from 'react'
-import { QueryResult } from '@apollo/client'
+import { ErrorLike } from '@apollo/client'
 
 import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
 import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
-import { JournalpostByIdQuery, JournalpostByIdQueryVariables } from '../../graphql/queries/graphql.generated'
+import { JournalpostByIdQuery } from '../../graphql/queries/graphql.generated'
 
 type Props = {
-    query: QueryResult<JournalpostByIdQuery, JournalpostByIdQueryVariables>
+    loading: boolean
+    data: JournalpostByIdQuery | undefined
+    error: ErrorLike | undefined
 }
 
-function RegistrerSykmeldingDocuments({ query }: Props): ReactElement {
-    const { loading, error, data } = query
+function RegistrerSykmeldingDocuments({ loading, data, error }: Props): ReactElement {
     const journalpost = data?.journalpost
 
     if (loading) {

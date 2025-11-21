@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react'
 import { BodyLong, Heading, Skeleton, TextField } from '@navikt/ds-react'
 import { useController, useFormContext } from 'react-hook-form'
-import { QueryResult, useQuery } from '@apollo/client'
+import { skipToken, useQuery } from '@apollo/client/react'
 
 import { getSectionTitle, sections } from '../../sections'
 import FormSection from '../../../form-layout/FormSection'
 import { NasjonalFormValues } from '../NasjonalSykmeldingFormTypes'
-import { PasientDocument, PasientQuery, PasientQueryVariables } from '../../../../graphql/queries/graphql.generated'
+import { PasientDocument } from '../../../../graphql/queries/graphql.generated'
 
 type Props = {
     ferdigstilt: boolean
@@ -53,7 +53,16 @@ function FodselsnummerField({ ferdigstilt }: Props): ReactElement {
 function PersonDisplay(): ReactElement {
     const { watch } = useFormContext<NasjonalFormValues>()
     const fnr = watch('pasientopplysninger.fnr')
-    const { data, error, loading } = usePersonName(fnr)
+    const { data, error, loading } = useQuery(
+        PasientDocument,
+        fnr != null && fnr.length === 11
+            ? {
+                  fetchPolicy: 'network-only',
+                  notifyOnNetworkStatusChange: true,
+                  context: { headers: { 'X-Pasient-Fnr': fnr } },
+              }
+            : skipToken,
+    )
 
     return (
         <div className="navds-form-field navds-form-field--medium grow">
@@ -75,15 +84,6 @@ function PersonDisplay(): ReactElement {
             )}
         </div>
     )
-}
-
-function usePersonName(fnr: string | null): QueryResult<PasientQuery, PasientQueryVariables> {
-    return useQuery(PasientDocument, {
-        fetchPolicy: 'network-only',
-        skip: fnr != null && fnr.length !== 11,
-        notifyOnNetworkStatusChange: true,
-        context: { headers: { 'X-Pasient-Fnr': fnr } },
-    })
 }
 
 export default PasientOpplysningerFormSection

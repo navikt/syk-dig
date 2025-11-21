@@ -1,5 +1,13 @@
-import { ApolloClient, from, HttpLink, InMemoryCache, InMemoryCacheConfig, NormalizedCacheObject } from '@apollo/client'
-import { onError } from '@apollo/client/link/error'
+import {
+    ApolloClient,
+    ApolloLink,
+    CombinedGraphQLErrors,
+    HttpLink,
+    InMemoryCache,
+    InMemoryCacheConfig,
+    ServerError,
+} from '@apollo/client'
+import { ErrorLink } from '@apollo/client/link/error'
 import { RetryLink } from '@apollo/client/link/retry'
 import { logger } from '@navikt/next-logger'
 
@@ -18,7 +26,7 @@ export const cacheConfig: Pick<InMemoryCacheConfig, 'possibleTypes' | 'typePolic
     },
 }
 
-export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
+export function createApolloClient(): ApolloClient {
     const cache = new InMemoryCache(cacheConfig)
 
     const httpLink = new HttpLink({
@@ -29,7 +37,7 @@ export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
         devtools: { enabled: true },
         ssrMode: typeof window === 'undefined',
         cache,
-        link: from([
+        link: ApolloLink.from([
             errorLink,
             new RetryLink({
                 attempts: { max: 5 },
@@ -43,13 +51,14 @@ export function createApolloClient(): ApolloClient<NormalizedCacheObject> {
     })
 }
 
-export const errorLink = onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors)
-        graphQLErrors.forEach(({ message, locations, path }) => {
-            logger.error(`[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`)
-        })
-
-    if (networkError) {
-        logger.error(`[Network error]: ${networkError}`)
+export const errorLink = new ErrorLink(({ error }) => {
+    if (CombinedGraphQLErrors.is(error)) {
+        error.errors.forEach(({ message, locations, path }) =>
+            logger.error(`[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`),
+        )
+    } else if (ServerError.is(error)) {
+        logger.error(new Error(`[Server error]: ${error.message}`, { cause: error }))
+    } else if (error) {
+        logger.error(new Error(`[Other error]: ${error.message}`, { cause: error }))
     }
 })

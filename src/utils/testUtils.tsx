@@ -1,14 +1,17 @@
-import { MockedProvider, MockedResponse } from '@apollo/client/testing'
+import { MockedProvider } from '@apollo/client/testing/react'
 import { PropsWithChildren, ReactElement } from 'react'
 import { RenderOptions, render } from '@testing-library/react'
-import { Cache, InMemoryCache } from '@apollo/client'
+import { ApolloLink, Cache, InMemoryCache } from '@apollo/client'
+import { MockLink } from '@apollo/client/testing'
+import { ErrorLink } from '@apollo/client/link/error'
+import { logger } from '@navikt/next-logger'
 
 import { cacheConfig } from '../graphql/apollo'
 import { ModiaProvider } from '../modia/modia-context'
 
 type ProviderProps = {
-    readonly initialState?: Cache.WriteQueryOptions<unknown, unknown>[]
-    readonly mocks?: MockedResponse[]
+    readonly initialState?: Cache.WriteQueryOptions<never, never>[]
+    readonly mocks?: MockLink.MockedResponse[]
     readonly useRestLink?: boolean
 }
 
@@ -16,6 +19,11 @@ function AllTheProviders({ children, initialState, mocks }: PropsWithChildren<Pr
     const cache = new InMemoryCache(cacheConfig)
 
     initialState?.forEach((it) => cache.writeQuery(it))
+
+    const mockLink = new MockLink(mocks ?? [], { showWarnings: true })
+    const errorLoggingLink = new ErrorLink(({ error }) => {
+        logger.warn(`GraphQL Error in test: ${error.message}`)
+    })
 
     return (
         <ModiaProvider
@@ -30,7 +38,7 @@ function AllTheProviders({ children, initialState, mocks }: PropsWithChildren<Pr
                 ],
             }}
         >
-            <MockedProvider mocks={mocks} cache={cache}>
+            <MockedProvider mocks={mocks} cache={cache} link={ApolloLink.from([errorLoggingLink, mockLink])}>
                 {children}
             </MockedProvider>
         </ModiaProvider>

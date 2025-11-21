@@ -1,8 +1,10 @@
 'use client'
-import { QueryResult, useQuery } from '@apollo/client'
+
+import { useQuery } from '@apollo/client/react'
 import React, { ReactElement } from 'react'
 import { range } from 'remeda'
 import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react'
+import { ErrorLike } from '@apollo/client'
 
 import { PaneView } from '../split-view-layout/persistent-layout'
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
@@ -10,7 +12,6 @@ import {
     DigitalisertSykmeldingResultFragment,
     SykmeldingByIdDocument,
     SykmeldingByIdQuery,
-    SykmeldingByIdQueryVariables,
 } from '../../graphql/queries/graphql.generated'
 import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
 import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
@@ -37,7 +38,13 @@ function UtenlandskSykmeldingView({ sykmeldingId, layout }: Props): ReactElement
         <SplitDocumentView
             title="Utenlandsk sykmelding"
             ingress="Under kan du korrigere opplysningene i en allerede registrert utenlandsk papirsykmelding"
-            documentView={<OppgaveDocuments query={sykmeldingQuery} />}
+            documentView={
+                <OppgaveDocuments
+                    loading={sykmeldingQuery.loading}
+                    data={sykmeldingQuery.data}
+                    error={sykmeldingQuery.error}
+                />
+            }
             closeReturnsTo="modia"
             defaultLayout={layout}
         >
@@ -96,11 +103,14 @@ function OppgaveSkeleton(): ReactElement {
 }
 
 function OppgaveDocuments({
-    query,
+    loading,
+    data,
+    error,
 }: {
-    query: QueryResult<SykmeldingByIdQuery, SykmeldingByIdQueryVariables>
+    loading: boolean
+    data: SykmeldingByIdQuery | undefined
+    error: ErrorLike | undefined
 }): ReactElement {
-    const { loading, error, data } = query
     const oppgave = data?.digitalisertSykmelding
 
     if (loading) {

@@ -1,4 +1,4 @@
-import { MutationResult } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { Alert, Button } from '@navikt/ds-react'
 import { PropsWithChildren, ReactElement } from 'react'
 
@@ -9,9 +9,9 @@ import FeedbackModal from './FeedbackModal'
 import styles from './MutationFeedbackSection.module.css'
 
 type Props = {
-    registerResult: MutationResult<SaveOppgaveMutation>
-    saveResult: MutationResult<SaveOppgaveMutation>
-    tilbakeTilGosysResult: MutationResult<TilbakeTilGosysMutation>
+    registerResult: useMutation.Result<SaveOppgaveMutation>
+    saveResult: useMutation.Result<SaveOppgaveMutation>
+    tilbakeTilGosysResult: useMutation.Result<TilbakeTilGosysMutation>
 }
 
 function MutationFeedbackSection({ registerResult, saveResult, tilbakeTilGosysResult }: Props): ReactElement {
@@ -72,7 +72,7 @@ export function MutationResultFeedback({
     children,
 }: PropsWithChildren<{
     what: 'lagre' | 'registrere' | 'sende tilbake' | 'avvise' | 'oppdatere'
-    result: MutationResult
+    result: useMutation.Result
 }>): ReactElement | null {
     if (!result.called || result.loading) return null
 

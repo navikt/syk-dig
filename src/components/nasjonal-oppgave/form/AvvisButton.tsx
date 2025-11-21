@@ -1,10 +1,10 @@
 import React, { PropsWithChildren, ReactElement, useState } from 'react'
 import { BodyShort, Button, Modal, Select } from '@navikt/ds-react'
-import { MutationResult } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 
 type Props = {
     avvis: (reason: string | null) => Promise<void>
-    avvisResult: MutationResult
+    avvisResult: useMutation.Result
 }
 
 function AvvisButton({ avvis, avvisResult }: PropsWithChildren<Props>): ReactElement {

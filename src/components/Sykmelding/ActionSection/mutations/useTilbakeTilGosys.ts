@@ -1,4 +1,4 @@
-import { MutationResult, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 
 import { TilbakeTilGosysDocument, TilbakeTilGosysMutation } from '../../../../graphql/queries/graphql.generated'
 import { Location, useOppgaveParam } from '../../../../utils/useOppgaveParam'
@@ -8,7 +8,7 @@ type UseHandleTilbakeTilGosysOptions = {
     onCompleted?: () => void
 }
 
-type UseHandleTilbakeTilGosys = [tilbakeTilGosys: () => void, result: MutationResult<TilbakeTilGosysMutation>]
+type UseHandleTilbakeTilGosys = [tilbakeTilGosys: () => void, result: useMutation.Result<TilbakeTilGosysMutation>]
 
 export function useHandleTilbakeTilGosys({ onCompleted }: UseHandleTilbakeTilGosysOptions): UseHandleTilbakeTilGosys {
     const modiaContext = useModiaContext()

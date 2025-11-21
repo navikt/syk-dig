@@ -1,7 +1,7 @@
 'use client'
 
 import React, { ReactElement, useState } from 'react'
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client/react'
 import Link from 'next/link'
 import { Alert, BodyShort, Button, Detail, Heading, Radio, RadioGroup, TextField } from '@navikt/ds-react'
 
@@ -29,7 +29,13 @@ function RegistrerSykmeldingView({ layout }: PaneView): ReactElement {
     return (
         <SplitDocumentView
             title="Registrer sykmelding"
-            documentView={<RegistrerSykmeldingDocuments query={registrerResult} />}
+            documentView={
+                <RegistrerSykmeldingDocuments
+                    loading={registrerResult.loading}
+                    data={registrerResult.data}
+                    error={registrerResult.error}
+                />
+            }
             closeReturnsTo="gosys"
             defaultLayout={layout}
         >

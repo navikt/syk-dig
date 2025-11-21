@@ -1,12 +1,13 @@
 import React, { ReactElement } from 'react'
 import { Alert, HelpText, TextField } from '@navikt/ds-react'
 import { useController } from 'react-hook-form'
+import { useQuery } from '@apollo/client/react'
 
 import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
-import { BehandlerFragment } from '../../../../../graphql/queries/graphql.generated'
+import { BehandlerFragment, SykmelderDocument } from '../../../../../graphql/queries/graphql.generated'
 
 import styles from './BehandlerFieldGroup.module.css'
-import BehandlerInfo, { useBehandler } from './BehandlerInfo'
+import BehandlerInfo from './BehandlerInfo'
 import { hprCorrectLength, hprOnlyNumbers } from './behandler-utils'
 
 type Props = {
@@ -36,7 +37,12 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
 
     const currentHpr = hprField.value?.trim() ?? ''
     const isValidHpr = currentHpr && hprCorrectLength(currentHpr) && hprOnlyNumbers(currentHpr)
-    const { data, loading, error, called } = useBehandler(currentHpr ?? '', !isValidHpr)
+    const { data, loading, error } = useQuery(SykmelderDocument, {
+        variables: { hprNummer: currentHpr },
+        fetchPolicy: 'network-only',
+        notifyOnNetworkStatusChange: true,
+        skip: !isValidHpr,
+    })
 
     return (
         <div className="flex flex-col gap-4">
@@ -67,7 +73,7 @@ function BehandlerFieldGroup({ behandlerInfo }: Props): ReactElement {
             {isValidHpr && data?.sykmelder && (
                 <BehandlerInfo behandlerInfo={behandlerInfo} sykmelder={data.sykmelder} />
             )}
-            {called && data && data.sykmelder == null && (
+            {isValidHpr && data && data.sykmelder == null && (
                 <Alert variant="warning">Fant ikke behandler for HPR-nr {currentHpr}</Alert>
             )}
             {!loading && error && (

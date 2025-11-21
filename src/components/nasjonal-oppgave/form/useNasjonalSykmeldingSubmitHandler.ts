@@ -1,7 +1,8 @@
-import { MutationResult, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { logger } from '@navikt/next-logger'
 import { SubmitHandler } from 'react-hook-form'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { ServerError } from '@apollo/client'
 
 import { mapFormValueToNasjonalSykmelding } from '../nasjonal-sykmelding-mapping'
 import { useModiaContext } from '../../../modia/modia-context'
@@ -17,7 +18,7 @@ import { redirectTilGosys } from '../../../utils/gosys'
 
 import { NasjonalFormValues } from './NasjonalSykmeldingFormTypes'
 
-type UseSave = [save: SubmitHandler<NasjonalFormValues>, result: MutationResult<SaveOppgaveNasjonalMutation>]
+type UseSave = [save: SubmitHandler<NasjonalFormValues>, result: useMutation.Result<SaveOppgaveNasjonalMutation>]
 type UseSaveOptions = {
     oppgaveId: string
     sykmelding: NasjonalSykmeldingFragment
@@ -57,15 +58,13 @@ export function useSubmitNasjonalSykmelding({ oppgaveId, sykmelding, status }: U
                 }
             },
             onError: (error) => {
-                if (error.networkError) {
-                    if ('response' in error.networkError) {
-                        logger.info(
-                            `Server responded with ${error.networkError.statusCode} (save nasjonal sykmelding, oppgaveId: ${oppgaveId}, status: ${status}), squelching error log`,
-                        )
-                        return
-                    }
-                    throw error
+                if (ServerError.is(error)) {
+                    logger.info(
+                        `Server responded with ${error.statusCode} (save nasjonal sykmelding, oppgaveId: ${oppgaveId}, status: ${status}), squelching error log`,
+                    )
+                    return
                 }
+                throw error
             },
         })
     }

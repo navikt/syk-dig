@@ -1,6 +1,6 @@
 import { ReactElement, useState } from 'react'
 import { Alert, BodyShort, Button, Modal, Select, Textarea } from '@navikt/ds-react'
-import { useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client/react'
 import { useFormContext } from 'react-hook-form'
 
 import { Avvisingsgrunn, AvvisOppgaveDocument } from '../../../graphql/queries/graphql.generated'
