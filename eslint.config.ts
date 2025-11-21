@@ -1,15 +1,30 @@
+import nextVitals from 'eslint-config-next/core-web-vitals'
+import nextTs from 'eslint-config-next/typescript'
 import { defineConfig } from 'eslint/config'
-import { FlatCompat } from '@eslint/eslintrc'
-
-const compat = new FlatCompat({
-    baseDirectory: import.meta.dirname,
-})
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
+import tsmEslintReact from '@navikt/tsm-eslint-react'
 
 const eslintConfig = defineConfig([
-    ...compat.extends('@navikt/teamsykmelding', 'next/core-web-vitals', 'next/typescript'),
+    ...nextVitals,
+    ...nextTs,
+    ...tsmEslintReact,
     {
-        files: ['e2e/**'],
-        rules: { 'testing-library/prefer-screen-queries': 'off', 'testing-library/no-node-access': 'off' },
+        extends: [eslintPluginPrettierRecommended],
+        rules: { 'prettier/prettier': 'warn' },
+    },
+    {
+        rules: {
+            // Look at enabling this, but it crashes with some react-hook-form internals atm
+            'react-hooks/refs': 'off',
+            // We dont even use react copmiler?!
+            'react-hooks/incompatible-library': 'off',
+        },
+    },
+    {
+        files: ['e2e/**/*.ts'],
+        rules: {
+            'import/no-extraneous-dependencies': 'off',
+        },
     },
 ])
 
