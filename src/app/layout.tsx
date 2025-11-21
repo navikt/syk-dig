@@ -1,5 +1,5 @@
 import '../style/global.css'
-import React, { PropsWithChildren, ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 import { Metadata } from 'next'
 
 import { getToggles } from '../toggles/rsc'
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: 'Intern applikasjon for digitalisering av sykmeldinger',
 }
 
-export default async function RootLayout({ children }: PropsWithChildren): Promise<ReactElement> {
+export default async function RootLayout({ children }: LayoutProps<'/'>): Promise<ReactElement> {
     const [toggles, modiaContext] = await Promise.all([getToggles(), getModiaData()])
 
     return (

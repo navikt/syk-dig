@@ -10,7 +10,7 @@ import { setSessionCookieIfUnset } from './mocks/session'
  * generates unleash session id, and gives the layout.tsx a
  * path to redirect on for auth
  */
-export default async function middleware(req: NextRequest): Promise<NextResponse> {
+export default async function proxy(req: NextRequest): Promise<NextResponse> {
     const requestHeaders = new Headers(req.headers)
 
     const [cspHeader, nonce] = createCsp()
@@ -61,7 +61,6 @@ function createCsp(): [string, string] {
 }
 
 export const config = {
-    runtime: 'nodejs',
     matcher: [
         /*
          * Match all request paths except for the ones starting with:
