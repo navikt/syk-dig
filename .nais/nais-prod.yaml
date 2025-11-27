@@ -34,7 +34,7 @@ spec:
       memory: 1Gi
     requests:
       cpu: 40m
-      memory: 300Mi
+      memory: 350Mi
   azure:
     application:
       enabled: true
