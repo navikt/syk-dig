@@ -25,7 +25,7 @@
     },
     "dependencies": {
         "@apollo/client": "^4.0.10",
-        "@ariakit/react": "^0.4.20",
+        "@ariakit/react": "^0.4.21",
         "@graphql-tools/schema": "^10.0.30",
         "@graphql-typed-document-node/core": "^3.2.0",
         "@hookform/error-message": "^2.0.1",
