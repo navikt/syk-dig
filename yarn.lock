@@ -88,36 +88,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ariakit/core@npm:0.4.17":
-  version: 0.4.17
-  resolution: "@ariakit/core@npm:0.4.17"
-  checksum: 10c0/44ee25835d5629b7107662c71b4f166820c9aa4552ae2e018ca3eb1dc823d79e9c438334e1a8bbf90806243979601904c533dd883a1a03a4f03a39bf50e823e7
+"@ariakit/core@npm:0.4.18":
+  version: 0.4.18
+  resolution: "@ariakit/core@npm:0.4.18"
+  checksum: 10c0/3c78b3679b52b289ed08653a51ccf165fc0372c864c5d08ca0186921ea1cde9fdad525f94fe1035399dbedaca247253183f6b9b01047f55ea5f6d042ee8f8e59
   languageName: node
   linkType: hard
 
-"@ariakit/react-core@npm:0.4.20":
-  version: 0.4.20
-  resolution: "@ariakit/react-core@npm:0.4.20"
+"@ariakit/react-core@npm:0.4.21":
+  version: 0.4.21
+  resolution: "@ariakit/react-core@npm:0.4.21"
   dependencies:
-    "@ariakit/core": "npm:0.4.17"
+    "@ariakit/core": "npm:0.4.18"
     "@floating-ui/dom": "npm:^1.0.0"
     use-sync-external-store: "npm:^1.2.0"
   peerDependencies:
     react: ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/0a8a76839f09a6fc9bd217fe9c1372788727a2ca193f3da4f65a309413598456a90f5eaeae89c513f9f3eb0b6c8d792cc3a1c3faa2d32b516c48bd3695adfd46
+  checksum: 10c0/6bc38183a9bc3811428f2722d5077f2db10266ce3d65ced6b5ca2ff67b5fbba178d0debbaddbaf5047048baf768980aa8277d917959cee7ce2e65ab8418d27ec
   languageName: node
   linkType: hard
 
-"@ariakit/react@npm:^0.4.20":
-  version: 0.4.20
-  resolution: "@ariakit/react@npm:0.4.20"
+"@ariakit/react@npm:^0.4.21":
+  version: 0.4.21
+  resolution: "@ariakit/react@npm:0.4.21"
   dependencies:
-    "@ariakit/react-core": "npm:0.4.20"
+    "@ariakit/react-core": "npm:0.4.21"
   peerDependencies:
     react: ^17.0.0 || ^18.0.0 || ^19.0.0
     react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/2244be878f7e95ffda4e98c3376c6a7206ce0f7b3e8476184319dfc665c8e9b45feb270a4b0aad40bd40eb4cb6759b68e4dcee6700a3eea229b4631c5095587e
+  checksum: 10c0/bfa68459ecf86a893cfdd4951753e47a34e8eca1c1df2f576250b5de1450e5723d7d7d3f28e6537b37512396f940fa929b8291d30927d0e9109a60f9c92753bb
   languageName: node
   linkType: hard
 
@@ -10706,7 +10706,7 @@ __metadata:
   resolution: "syk-dig@workspace:."
   dependencies:
     "@apollo/client": "npm:^4.0.10"
-    "@ariakit/react": "npm:^0.4.20"
+    "@ariakit/react": "npm:^0.4.21"
     "@graphql-codegen/add": "npm:^6.0.0"
     "@graphql-codegen/cli": "npm:^6.1.0"
     "@graphql-codegen/fragment-matcher": "npm:^6.0.0"
