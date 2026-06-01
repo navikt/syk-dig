@@ -31,6 +31,20 @@ const nextConfig: NextConfig = {
                 has: [{ type: 'query', key: 'sykmeldingid', value: '(?<sykmeldingId>.*)' }],
                 permanent: true,
             },
+            /**
+             * The old paths /oppgave/<oppgaveId> and /sykmelding/<sykmeldingId> need to temporarily
+             * redirect to the new /nasjonal/.. and /utenlandsk/.. paths.
+             */
+            {
+                source: '/oppgave/:oppgaveId',
+                destination: '/utenlandsk/:oppgaveId',
+                permanent: true,
+            },
+            {
+                source: '/sykmelding/:sykmeldingId',
+                destination: '/utenlandsk/ferdigstilt/:sykmeldingId',
+                permanent: true,
+            },
         ]
     },
 }

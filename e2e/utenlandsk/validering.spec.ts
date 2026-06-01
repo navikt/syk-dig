@@ -3,6 +3,7 @@ import test, { expect, Locator, Page } from '@playwright/test'
 import { fillAndreOpplysningerSection, fillPeriodeSection } from './user-actions'
 
 test.beforeEach(async ({ page }) => {
+    // TODO: These are the old paths, keep them to test redirects, but remove them once gosys is migrated
     await page.goto('/oppgave/blank')
 })
 
