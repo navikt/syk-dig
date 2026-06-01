@@ -4,6 +4,7 @@ import { clickAndWait, waitForGraphQL } from '../utils/request'
 import { Avvisingsgrunn } from '../../src/graphql/queries/graphql.generated'
 
 test('should allow avvising sykmelding', async ({ page }) => {
+    // TODO: These are the old paths, keep them to test redirects, but remove them once gosys is migrated
     await page.goto('/oppgave/eksisterende')
 
     const avvisDialog = await avvisSykmelding(page, 'Manglende periode eller slutt-dato')
@@ -22,6 +23,7 @@ test('should allow avvising sykmelding', async ({ page }) => {
 })
 
 test('should allow avvising sykmelding with avvisningsgrunn Annet and require description', async ({ page }) => {
+    // TODO: These are the old paths, keep them to test redirects, but remove them once gosys is migrated
     await page.goto('/oppgave/eksisterende')
 
     const avvisDialog = await avvisSykmelding(page, 'Annet')

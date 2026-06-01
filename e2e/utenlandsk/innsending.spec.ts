@@ -11,6 +11,7 @@ import {
 } from './user-actions'
 
 test('oppgave should be able to be saved for later', async ({ page }) => {
+    // TODO: These are the old paths, keep them to test redirects, but remove them once gosys is migrated
     await page.goto('/oppgave/eksisterende')
 
     await page.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }).fill('Pole')
@@ -50,6 +51,7 @@ test('oppgave should be able to be saved for later', async ({ page }) => {
 })
 
 test('oppgave should be able to be filled out from empty state', async ({ page }) => {
+    // TODO: These are the old paths, keep them to test redirects, but remove them once gosys is migrated
     await page.goto('/oppgave/blank')
 
     await fillPasientOpplysningerSection(page)({
@@ -110,6 +112,7 @@ test('oppgave should be able to be filled out from empty state', async ({ page }
 })
 
 test('should fill one empty default periode even when perioder is an empty list instead of null', async ({ page }) => {
+    // TODO: These are the old paths, keep them to test redirects, but remove them once gosys is migrated
     await page.goto('/oppgave/blank')
 
     const section = page.getByRole('region', { name: 'Sykmeldingsperiode' })

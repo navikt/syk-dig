@@ -1332,16 +1332,16 @@ export type DigitaliseringsoppgaveResolvers<
 
 export type DigitaliseringsoppgaveResultResolvers<
     ContextType = any,
-    ParentType extends
-        ResolversParentTypes['DigitaliseringsoppgaveResult'] = ResolversParentTypes['DigitaliseringsoppgaveResult'],
+    ParentType extends ResolversParentTypes['DigitaliseringsoppgaveResult'] =
+        ResolversParentTypes['DigitaliseringsoppgaveResult'],
 > = {
     __resolveType: TypeResolveFn<'Digitaliseringsoppgave' | 'DigitaliseringsoppgaveStatus', ParentType, ContextType>
 }
 
 export type DigitaliseringsoppgaveStatusResolvers<
     ContextType = any,
-    ParentType extends
-        ResolversParentTypes['DigitaliseringsoppgaveStatus'] = ResolversParentTypes['DigitaliseringsoppgaveStatus'],
+    ParentType extends ResolversParentTypes['DigitaliseringsoppgaveStatus'] =
+        ResolversParentTypes['DigitaliseringsoppgaveStatus'],
 > = {
     oppgaveId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     status?: Resolver<ResolversTypes['DigitaliseringsoppgaveStatusEnum'], ParentType, ContextType>
@@ -1363,8 +1363,8 @@ export type DigitalisertSykmeldingResolvers<
 
 export type DigitalisertSykmeldingResultResolvers<
     ContextType = any,
-    ParentType extends
-        ResolversParentTypes['DigitalisertSykmeldingResult'] = ResolversParentTypes['DigitalisertSykmeldingResult'],
+    ParentType extends ResolversParentTypes['DigitalisertSykmeldingResult'] =
+        ResolversParentTypes['DigitalisertSykmeldingResult'],
 > = {
     __resolveType: TypeResolveFn<'DigitalisertSykmelding' | 'OppdatertSykmeldingStatus', ParentType, ContextType>
 }
@@ -1440,8 +1440,8 @@ export type KontaktMedPasientResolvers<
 
 export type LagreNasjonalOppgaveStatusResolvers<
     ContextType = any,
-    ParentType extends
-        ResolversParentTypes['LagreNasjonalOppgaveStatus'] = ResolversParentTypes['LagreNasjonalOppgaveStatus'],
+    ParentType extends ResolversParentTypes['LagreNasjonalOppgaveStatus'] =
+        ResolversParentTypes['LagreNasjonalOppgaveStatus'],
 > = {
     oppgaveId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     status?: Resolver<ResolversTypes['LagreNasjonalOppgaveStatusEnum'], ParentType, ContextType>
@@ -1603,16 +1603,16 @@ export type NasjonalSykmeldingResolvers<
 
 export type NasjonalSykmeldingResultResolvers<
     ContextType = any,
-    ParentType extends
-        ResolversParentTypes['NasjonalSykmeldingResult'] = ResolversParentTypes['NasjonalSykmeldingResult'],
+    ParentType extends ResolversParentTypes['NasjonalSykmeldingResult'] =
+        ResolversParentTypes['NasjonalSykmeldingResult'],
 > = {
     __resolveType: TypeResolveFn<'NasjonalOppgave' | 'NasjonalSykmeldingStatus', ParentType, ContextType>
 }
 
 export type NasjonalSykmeldingStatusResolvers<
     ContextType = any,
-    ParentType extends
-        ResolversParentTypes['NasjonalSykmeldingStatus'] = ResolversParentTypes['NasjonalSykmeldingStatus'],
+    ParentType extends ResolversParentTypes['NasjonalSykmeldingStatus'] =
+        ResolversParentTypes['NasjonalSykmeldingStatus'],
 > = {
     status?: Resolver<ResolversTypes['NasjonalOppdatertSykmeldingStatusEnum'], ParentType, ContextType>
     sykmeldingId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
@@ -1630,8 +1630,8 @@ export type NavnResolvers<
 
 export type OppdatertSykmeldingStatusResolvers<
     ContextType = any,
-    ParentType extends
-        ResolversParentTypes['OppdatertSykmeldingStatus'] = ResolversParentTypes['OppdatertSykmeldingStatus'],
+    ParentType extends ResolversParentTypes['OppdatertSykmeldingStatus'] =
+        ResolversParentTypes['OppdatertSykmeldingStatus'],
 > = {
     status?: Resolver<Maybe<ResolversTypes['OppdatertSykmeldingStatusEnum']>, ParentType, ContextType>
     sykmeldingId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
