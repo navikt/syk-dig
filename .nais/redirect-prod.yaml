@@ -2,14 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: 'Ingress'
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: https://syk-dig.intern.nav.no/oppgave/$arg_oppgaveid?
+    haproxy.org/backend-config-snippet: |
+      http-request redirect location https://syk-dig.intern.nav.no/utenlandsk/%[url_param(oppgaveid)] code 302 if { path_reg ^/smd(/|$) }
+      http-request redirect location https://syk-dig.intern.nav.no/nasjonal/%[url_param(oppgaveid)] code 302 if { path_reg ^/smr(/|$) }
+      http-request redirect location https://syfosmmanuell.intern.nav.no/oppgave/%[url_param(oppgaveid)] code 302 if { path_reg ^/smm(/|$) }
   labels:
     app: syk-dig
     team: teamsykmelding
-  name: syk-dig-gosys-redirect
+  name: oppgaver-gosys-redirect
   namespace: teamsykmelding
 spec:
-  ingressClassName: nais-ingress
+  ingressClassName: internal-haproxy
   rules:
     - host: sykmelding-redirect.intern.nav.no
       http:
@@ -19,5 +22,19 @@ spec:
                 name: syk-dig
                 port:
                   number: 80
-            path: /smd(/|$)(.*)
-            pathType: ImplementationSpecific
+            path: /smd
+            pathType: Prefix
+          - backend:
+              service:
+                name: syk-dig
+                port:
+                  number: 80
+            path: /smr
+            pathType: Prefix
+          - backend:
+              service:
+                name: syk-dig
+                port:
+                  number: 80
+            path: /smm
+            pathType: Prefix
