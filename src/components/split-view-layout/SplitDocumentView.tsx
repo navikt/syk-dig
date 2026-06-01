@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react'
 import { Button, Tooltip } from '@navikt/ds-react'
 import { ExpandIcon, SidebarLeftIcon, XMarkIcon } from '@navikt/aksel-icons'
-import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
+import { Group, Panel, Separator } from 'react-resizable-panels'
 
 import { bundledEnv } from '../../utils/env'
 import analytics from '../../utils/analytics'
@@ -46,18 +46,25 @@ function SplitDocumentView({
                     setView(value)
                 }}
             />
-            <PanelGroup direction="horizontal" onLayout={onLayout}>
+            <Group orientation="horizontal" defaultLayout={defaultLayout ?? basisLayout} onLayoutChanged={onLayout}>
                 <Panel
-                    ref={refs.formPane}
-                    defaultSize={defaultLayout?.[0] ?? basisLayout[0]}
-                    minSize={30}
-                    order={1}
+                    id="left-form"
+                    panelRef={refs.formPane}
+                    minSize="30%"
                     collapsible
-                    onExpand={() => {
-                        if (initialMountComplete) analytics.splitViewToggled('pdf expand', true)
-                    }}
-                    onCollapse={() => {
-                        if (initialMountComplete) analytics.splitViewToggled('pdf collapse', true)
+                    onResize={(nextSize, _, prevSize) => {
+                        if (prevSize !== undefined && initialMountComplete) {
+                            const wasCollapsed = prevSize.asPercentage === 0
+                            const isCollapsed = nextSize.asPercentage === 0
+
+                            if (isCollapsed !== wasCollapsed) {
+                                if (wasCollapsed && !isCollapsed) {
+                                    analytics.splitViewToggled('form expand', true)
+                                } else if (!wasCollapsed && isCollapsed) {
+                                    analytics.splitViewToggled('form collapse', true)
+                                }
+                            }
+                        }
                     }}
                 >
                     <section id="form-panel" aria-labelledby="form-tab" className={styles.section} role="tabpanel">
@@ -75,23 +82,30 @@ function SplitDocumentView({
                         <div>{children}</div>
                     </section>
                 </Panel>
-                <PanelResizeHandle className="w-2 hover:bg-border-subtle-hover data-[resize-handle-state=drag]:bg-border-action" />
+                <Separator className="w-2 hover:bg-border-subtle-hover data-[resize-handle-state=drag]:bg-border-action" />
                 <Panel
-                    ref={refs.pdfPane}
-                    order={2}
-                    defaultSize={defaultLayout?.[1] ?? basisLayout[1]}
-                    minSize={20}
+                    id="right-pdf"
+                    panelRef={refs.pdfPane}
+                    minSize="20%"
                     collapsible
-                    onExpand={() => {
-                        if (initialMountComplete) analytics.splitViewToggled('pdf expand', true)
-                    }}
-                    onCollapse={() => {
-                        if (initialMountComplete) analytics.splitViewToggled('pdf collapse', true)
+                    onResize={(nextSize, _, prevSize) => {
+                        if (prevSize !== undefined && initialMountComplete) {
+                            const wasCollapsed = prevSize.asPercentage === 0
+                            const isCollapsed = nextSize.asPercentage === 0
+
+                            if (isCollapsed !== wasCollapsed) {
+                                if (wasCollapsed && !isCollapsed) {
+                                    analytics.splitViewToggled('pdf expand', true)
+                                } else if (!wasCollapsed && isCollapsed) {
+                                    analytics.splitViewToggled('pdf collapse', true)
+                                }
+                            }
+                        }
                     }}
                 >
                     <div className={styles.pdf}>{documentView}</div>
                 </Panel>
-            </PanelGroup>
+            </Group>
         </div>
     )
 }
