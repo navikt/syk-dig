@@ -26,6 +26,23 @@ function RegistrerSykmeldingView({ layout }: PaneView): ReactElement {
     })
     const journalpostResult = registrerResult.data?.journalpost ?? null
 
+    const isOnlyNumbers = /^\d+$/.test(journalpostId)
+    const isValidLength = journalpostId.length < 11
+    const isValidJournalpostId = isOnlyNumbers && isValidLength
+
+    const journalpostIdError =
+        journalpostId !== '' && !isOnlyNumbers
+            ? 'JournalpostId kan kun inneholde tall'
+            : journalpostId !== '' && !isValidLength
+              ? 'JournalpostId må være mindre enn 11 siffer'
+              : undefined
+
+    const hentJournalpost = (): void => {
+        if (isValidJournalpostId) {
+            registrer({ variables: { id: journalpostId } })
+        }
+    }
+
     return (
         <SplitDocumentView
             title="Registrer sykmelding"
@@ -49,7 +66,7 @@ function RegistrerSykmeldingView({ layout }: PaneView): ReactElement {
                         onChange={(event) => setJournalpostId(event.target.value.trim())}
                         onKeyUp={(event) => {
                             if (event.key === 'Enter') {
-                                registrer({ variables: { id: journalpostId } })
+                                hentJournalpost()
                             }
                         }}
                     />
@@ -57,12 +74,19 @@ function RegistrerSykmeldingView({ layout }: PaneView): ReactElement {
                         <Button
                             variant="secondary"
                             loading={registrerResult.loading}
-                            onClick={() => registrer({ variables: { id: journalpostId } })}
+                            disabled={!isValidJournalpostId}
+                            onClick={() => hentJournalpost()}
                         >
                             Hent journalpost
                         </Button>
                     </div>
                 </div>
+
+                {journalpostIdError && (
+                    <div className="mt-4">
+                        <Alert variant="error">{journalpostIdError}</Alert>
+                    </div>
+                )}
 
                 {registrerResult.error && (
                     <div className="mt-4">
