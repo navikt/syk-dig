@@ -51,11 +51,23 @@ export function createApolloClient(): ApolloClient {
     })
 }
 
+const warnOnlyErrorTypes = ['PERMISSION_DENIED', 'UNAUTHENTICATED']
+
 export const errorLink = new ErrorLink(({ error }) => {
     if (CombinedGraphQLErrors.is(error)) {
-        error.errors.forEach(({ message, locations, path }) =>
-            logger.error(`[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`),
-        )
+        error.errors.forEach(({ message, locations, path, extensions }) => {
+            const errorType = extensions?.errorType
+            if (typeof errorType === 'string' && warnOnlyErrorTypes.includes(errorType)) {
+                logger.warn(
+                    `[GraphQL ${errorType}]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`,
+                )
+                return
+            } else {
+                logger.error(
+                    `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`,
+                )
+            }
+        })
     } else if (ServerError.is(error)) {
         logger.error(new Error(`[Server error]: ${error.message}`, { cause: error }))
     } else if (error) {
