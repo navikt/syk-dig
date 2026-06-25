@@ -3,9 +3,9 @@ kind: 'Ingress'
 metadata:
   annotations:
     haproxy.org/backend-config-snippet: |
-      http-request redirect location https://syk-dig.intern.dev.nav.no/utenlandsk/%[url_param(oppgaveid)] code 302 if { path_reg ^/smd(/|$) }
-      http-request redirect location https://syk-dig.intern.dev.nav.no/nasjonal/%[url_param(oppgaveid)] code 302 if { path_reg ^/smr(/|$) }
-      http-request redirect location https://syfosmmanuell.intern.dev.nav.no/oppgave/%[url_param(oppgaveid)] code 302 if { path_reg ^/smm(/|$) }
+      http-request redirect location https://syk-dig.intern.dev.nav.no/utenlandsk/%[url_param(oppgaveid)] code 302 if { path_reg -i ^/smd(/|$) }
+      http-request redirect location https://syk-dig.intern.dev.nav.no/nasjonal/%[url_param(oppgaveid)] code 302 if { path_reg -i ^/smr(/|$) }
+      http-request redirect location https://syfosmmanuell.intern.dev.nav.no/oppgave/%[url_param(oppgaveid)] code 302 if { path_reg -i ^/smm(/|$) }
   labels:
     app: syk-dig
     team: teamsykmelding
@@ -22,19 +22,5 @@ spec:
                 name: syk-dig
                 port:
                   number: 80
-            path: /smd
-            pathType: Prefix
-          - backend:
-              service:
-                name: syk-dig
-                port:
-                  number: 80
-            path: /smr
-            pathType: Prefix
-          - backend:
-              service:
-                name: syk-dig
-                port:
-                  number: 80
-            path: /smm
+            path: /
             pathType: Prefix
