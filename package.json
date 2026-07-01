@@ -36,7 +36,7 @@
         "@navikt/next-api-proxy": "^5.0.5",
         "@navikt/next-logger": "^5.0.0",
         "@navikt/oasis": "^4.1.4",
-        "@unleash/nextjs": "^1.6.4",
+        "@unleash/nextjs": "^1.6.7",
         "clsx": "^2.1.1",
         "date-fns": "^4.4.0",
         "fuse.js": "^7.4.2",

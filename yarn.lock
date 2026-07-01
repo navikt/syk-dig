@@ -3194,9 +3194,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@unleash/nextjs@npm:^1.6.4":
-  version: 1.6.4
-  resolution: "@unleash/nextjs@npm:1.6.4"
+"@unleash/nextjs@npm:^1.6.7":
+  version: 1.6.7
+  resolution: "@unleash/nextjs@npm:1.6.7"
   dependencies:
     "@commander-js/extra-typings": "npm:12.1.0"
     "@next/env": "npm:14.2.13"
@@ -3212,7 +3212,7 @@ __metadata:
     react-dom: ">=17"
   bin:
     unleash: dist/cli/index.js
-  checksum: 10c0/c56b7e128283de188f209fb64cb1f1bce728dba522818552bf446b7b24f49fe0342fea27738054a06fe93aef442f1da5a2a869140499ed97af6123c28cf5b7d3
+  checksum: 10c0/d29008403d095e87541ff04474a9451bd4cf06c24cb533814fbdb576c0cfc180efa9dad9f8ff0f591ab126771ae5ea1757b4eeb64fc3f0e4ef4e8025476b85a0
   languageName: node
   linkType: hard
 
@@ -9140,7 +9140,7 @@ __metadata:
     "@types/pdfobject": "npm:^2.2.5"
     "@types/react": "npm:19.2.17"
     "@types/react-dom": "npm:19.2.3"
-    "@unleash/nextjs": "npm:^1.6.4"
+    "@unleash/nextjs": "npm:^1.6.7"
     "@vitejs/plugin-react": "npm:^6.0.2"
     clsx: "npm:^2.1.1"
     concurrently: "npm:^10.0.3"
