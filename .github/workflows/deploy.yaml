@@ -39,7 +39,6 @@ jobs:
           salsa: false
     outputs:
       image: ${{ steps.next-build.outputs.image }}
-      digest: ${{ steps.next-build.outputs.digest }}
 
   build-demo:
     if: github.ref_name == 'main'
@@ -57,7 +56,6 @@ jobs:
           salsa: false
     outputs:
       image: ${{ steps.next-build.outputs.image }}
-      digest: ${{ steps.next-build.outputs.digest }}
 
   build-prod:
     if: github.ref_name == 'main'
@@ -75,7 +73,6 @@ jobs:
           salsa: false
     outputs:
       image: ${{ steps.next-build.outputs.image }}
-      digest: ${{ steps.next-build.outputs.digest }}
 
   sbom-dev:
     name: Upload SBOM for dev build
@@ -84,8 +81,7 @@ jobs:
     steps:
       - uses: navikt/tsm-workflows/actions/attest-sign@main
         with:
-          image: ${{ needs.build-dev.outputs.image }}
-          digest: ${{ needs.build-dev.outputs.digest }}
+          image_ref: ${{ needs.build-dev.outputs.image }}
           team: teamsykmelding
 
   sbom-demo:
@@ -95,8 +91,7 @@ jobs:
     steps:
       - uses: navikt/tsm-workflows/actions/attest-sign@main
         with:
-          image: ${{ needs.build-demo.outputs.image }}
-          digest: ${{ needs.build-demo.outputs.digest }}
+          image_ref: ${{ needs.build-demo.outputs.image }}
           team: teamsykmelding
 
   sbom-prod:
@@ -106,8 +101,7 @@ jobs:
     steps:
       - uses: navikt/tsm-workflows/actions/attest-sign@main
         with:
-          image: ${{ needs.build-prod.outputs.image }}
-          digest: ${{ needs.build-prod.outputs.digest }}
+          image_ref: ${{ needs.build-prod.outputs.image }}
           team: teamsykmelding
 
   deploy-dev:
