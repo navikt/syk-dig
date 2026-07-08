@@ -13,10 +13,27 @@ const config: CodegenConfig = {
         './src/graphql/queries/possible-types.generated.ts': {
             plugins: ['fragment-matcher'],
         },
-        './src/graphql/queries/graphql.generated.ts': {
-            plugins: ['typescript', 'typescript-operations', 'typed-document-node', oxlintDisabler],
+        './src/graphql/queries/types.generated.ts': {
+            plugins: [oxlintDisabler, 'typescript'],
             config: {
+                enumsAsTypes: false,
+                avoidOptionals: true,
+                scalars: { Date: 'string', DateTime: 'string' },
+                nonOptionalTypename: true,
+            },
+        },
+        './src/graphql/queries/graphql.generated.ts': {
+            plugins: [
+                oxlintDisabler,
+                { add: { content: `export * from './types.generated'` } },
+                'typescript-operations',
+                'typed-document-node',
+            ],
+            config: {
+                enumType: 'native',
                 exportFragmentSpreadSubTypes: true,
+                importSchemaTypesFrom: './src/graphql/queries/types.generated.ts',
+                namespacedImportName: 'Types',
                 scalars: { Date: 'string', DateTime: 'string' },
                 dedupeFragments: true,
                 nonOptionalTypename: true,
@@ -26,7 +43,7 @@ const config: CodegenConfig = {
             plugins: ['typescript', 'typescript-resolvers', oxlintDisabler],
             config: {
                 enumsAsTypes: true,
-                scalars: { DateTime: 'string', DateOnly: 'string', JSON: 'unknown' },
+                scalars: { Date: 'string', DateTime: 'string' },
                 nonOptionalTypename: true,
             },
         },
