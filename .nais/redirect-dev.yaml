@@ -5,7 +5,7 @@ metadata:
     haproxy.org/backend-config-snippet: |
       http-request redirect location https://syk-dig.intern.dev.nav.no/utenlandsk/%[url_param(oppgaveid)] code 302 if { path_reg -i ^/smd(/|$) }
       http-request redirect location https://syk-dig.intern.dev.nav.no/nasjonal/%[url_param(oppgaveid)] code 302 if { path_reg -i ^/smr(/|$) }
-      http-request redirect location https://syfosmmanuell.intern.dev.nav.no/oppgave/%[url_param(oppgaveid)] code 302 if { path_reg -i ^/smm(/|$) }
+      http-request redirect location https://tsm-manuell.intern.dev.nav.no/oppgave/%[url_param(oppgaveid)] code 302 if { path_reg -i ^/smm(/|$) }
   labels:
     app: syk-dig
     team: teamsykmelding
