@@ -1,5 +1,10 @@
 name: Build & Deploy
-on: push
+on:
+  push:
+    paths-ignore:
+      - libs/**
+      - docs/**
+      - README.md
 
 env:
   APP: syk-dig
@@ -14,7 +19,7 @@ jobs:
     name: Test & verify
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: navikt/tsm-workflows/actions/yarn@main
         with:
           READER_TOKEN: ${{ secrets.READER_TOKEN }}
@@ -28,7 +33,7 @@ jobs:
     name: Build for dev
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: navikt/tsm-workflows/actions/next/build@main
         id: next-build
         with:
@@ -41,11 +46,11 @@ jobs:
       image: ${{ steps.next-build.outputs.image }}
 
   build-demo:
-    if: github.ref_name == 'main'
+    if: github.ref_name == 'main' || startsWith(github.ref_name, 'demo')
     name: Build for demo
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: navikt/tsm-workflows/actions/next/build@main
         id: next-build
         with:
@@ -62,7 +67,7 @@ jobs:
     name: Build for prod
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: navikt/tsm-workflows/actions/next/build@main
         id: next-build
         with:
@@ -113,16 +118,16 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-dev, test-and-verify]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais-dev.yaml
-          VAR: image=${{ needs.build-dev.outputs.image }}
+          WORKLOAD_IMAGE: ${{ needs.build-dev.outputs.image }}
           NAIS_DEPLOY_SUMMARY: false
 
   deploy-demo:
-    if: github.ref_name == 'main'
+    if: github.ref_name == 'main' || startsWith(github.ref_name, 'demo')
     name: Deploy main to demo
     environment:
       name: demo-main
@@ -130,36 +135,37 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-demo, test-and-verify]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais-demo.yaml
-          VAR: image=${{ needs.build-demo.outputs.image }},ingress=https://${{ env.APP }}.ekstern.dev.nav.no,appname=${{ env.APP }},replicas=1,branchState=alive
+          WORKLOAD_IMAGE: ${{ needs.build-demo.outputs.image }}
+          VAR: ingress=https://${{ env.APP }}.ekstern.dev.nav.no${{ env.BASE_PATH }},appname=${{ env.APP }}
           NAIS_DEPLOY_SUMMARY: false
 
   deploy-production:
-    if: github.ref_name == 'main'
     name: Deploy main to production
+    if: github.ref_name == 'main'
     environment:
       name: production
       url: https://syk-dig.intern.nav.no
     runs-on: ubuntu-latest
     needs: [deploy-dev, run-playwright, build-prod]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: prod-gcp
           RESOURCE: .nais/nais-prod.yaml
-          VAR: image=${{ needs.build-prod.outputs.image }}
+          WORKLOAD_IMAGE: ${{ needs.build-prod.outputs.image }}
           NAIS_DEPLOY_SUMMARY: false
 
   build-for-playwright:
     name: Build for playwright
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: navikt/tsm-workflows/actions/playwright/build@main
         id: playwright-build
         with:
@@ -181,22 +187,24 @@ jobs:
         shardIndex: [1, 2, 3, 4]
         shardTotal: [4]
     steps:
-      - uses: actions/checkout@v6
-      - uses: navikt/tsm-workflows/actions/yarn@main
+      - uses: actions/checkout@v7
+      - run: corepack enable
+      - uses: actions/setup-node@v6
+        id: setup-node
         with:
-          READER_TOKEN: ${{ secrets.READER_TOKEN }}
+          node-version: 24
       - uses: navikt/tsm-workflows/actions/playwright/run@main
         with:
           shardIndex: ${{ matrix.shardIndex }}
           shardTotal: ${{ matrix.shardTotal }}
 
   playwright-report:
+    name: Playwright report
     if: ${{ !cancelled() }}
-    name: Playwright Report
     needs: [run-playwright]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: navikt/tsm-workflows/actions/playwright/report@main
         with:
           team: 'teamsykmelding'

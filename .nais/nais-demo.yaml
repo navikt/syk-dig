@@ -1,19 +1,18 @@
 apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
-  name: {{appname}}-demo
+  name: '{{appname}}-demo'
   namespace: teamsykmelding
   labels:
     team: teamsykmelding
-    branchState: {{branchState}}
+    branchState: '{{branchState}}'
 spec:
-  image: {{image}}
   port: 3000
   ingresses:
-    - {{ingress}}
+    - '{{ingress}}'
   replicas:
-    min: {{replicas}}
-    max: {{replicas}}
+    min: 1
+    max: 1
   liveness:
     path: /api/internal/is_alive
     initialDelay: 10
