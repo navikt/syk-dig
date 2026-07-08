@@ -1,7 +1,7 @@
-import { ReactElement } from 'react'
-import cn from 'clsx'
-import { BodyShort, Heading } from '@navikt/ds-react'
 import { FileXMarkIcon } from '@navikt/aksel-icons'
+import { BodyShort, Heading } from '@navikt/ds-react'
+import cn from 'clsx'
+import { ReactElement } from 'react'
 
 function DocumentsViewerNoDocuments({ className, text }: { className?: string; text: string }): ReactElement {
     return (

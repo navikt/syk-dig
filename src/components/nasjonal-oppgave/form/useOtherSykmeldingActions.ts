@@ -1,6 +1,6 @@
+import { ServerError } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 import { logger } from '@navikt/next-logger'
-import { ServerError } from '@apollo/client'
 
 import {
     AvvisNasjonalOppgaveDocument,

@@ -1,13 +1,13 @@
 'use client'
 
-import React, { ReactElement } from 'react'
 import { useQuery } from '@apollo/client/react'
+import React, { ReactElement } from 'react'
 
-import SplitDocumentView from '../split-view-layout/SplitDocumentView'
-import { PaneView } from '../split-view-layout/persistent-layout'
+import { NasjonalOppgaveByIdDocument, SykmeldingUnderArbeidStatus } from '../../graphql/queries/graphql.generated'
 import { useModiaContext } from '../../modia/modia-context'
 import ModiaAlert from '../../modia/ModiaAlert'
-import { NasjonalOppgaveByIdDocument, SykmeldingUnderArbeidStatus } from '../../graphql/queries/graphql.generated'
+import { PaneView } from '../split-view-layout/persistent-layout'
+import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import { NasjonalOppgaveDocuments, NasjonalOppgaveError, NasjonalOppgaveSkeleton } from './NasjonalOppgaveStates'

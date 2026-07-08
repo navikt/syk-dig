@@ -1,5 +1,5 @@
-import { ReactElement } from 'react'
 import { Heading, BodyLong } from '@navikt/ds-react'
+import { ReactElement } from 'react'
 
 import styles from './PageTitle.module.css'
 

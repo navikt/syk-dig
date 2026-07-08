@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
 import { Button, Heading } from '@navikt/ds-react'
+import React, { ReactElement } from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 
 import DiagnosePicker from '../../../../FormComponents/DiagnosePicker/DiagnosePicker'

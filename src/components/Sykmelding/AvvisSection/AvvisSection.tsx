@@ -1,18 +1,18 @@
-import { ReactElement, useState } from 'react'
-import { Alert, BodyShort, Button, Modal, Select, Textarea } from '@navikt/ds-react'
 import { useMutation } from '@apollo/client/react'
+import { Alert, BodyShort, Button, Modal, Select, Textarea } from '@navikt/ds-react'
+import { ReactElement, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { Avvisingsgrunn, AvvisOppgaveDocument } from '../../../graphql/queries/graphql.generated'
-import { MutationResultFeedback } from '../ActionSection/MutationFeedbackSection'
-import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
-import styles from '../ActionSection/MutationFeedbackSection.module.css'
-import FeedbackModal from '../ActionSection/FeedbackModal'
-import { Location, useOppgaveParam } from '../../../utils/useOppgaveParam'
-import { UtenlanskFormValues } from '../SykmeldingForm'
-import { redirectTilGosys } from '../../../utils/gosys'
 import { useModiaContext } from '../../../modia/modia-context'
+import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
+import { redirectTilGosys } from '../../../utils/gosys'
 import { raise } from '../../../utils/tsUtils'
+import { Location, useOppgaveParam } from '../../../utils/useOppgaveParam'
+import FeedbackModal from '../ActionSection/FeedbackModal'
+import { MutationResultFeedback } from '../ActionSection/MutationFeedbackSection'
+import styles from '../ActionSection/MutationFeedbackSection.module.css'
+import { UtenlanskFormValues } from '../SykmeldingForm'
 
 type Props = {
     disableUnsavedWarning: () => void
@@ -167,7 +167,7 @@ function AvvisSection({ disableUnsavedWarning }: Props): ReactElement {
                                 reset(undefined, { keepValues: true })
                                 disableUnsavedWarning()
 
-                                avvis({
+                                void avvis({
                                     variables: {
                                         oppgaveId: params.oppgaveId,
                                         enhetId: selectedEnhetId ?? raise('Oppgave kan ikke lagres uten valgt enhet'),

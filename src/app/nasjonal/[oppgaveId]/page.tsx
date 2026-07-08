@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
 import { Metadata } from 'next'
+import React, { ReactElement } from 'react'
 
 import NasjonalOppgaveView from '../../../components/nasjonal-oppgave/NasjonalOppgaveView'
 import { getPersistentPaneLayout } from '../../../components/split-view-layout/persistent-layout'

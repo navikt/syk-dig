@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import { ReactElement } from 'react'
 import { GuidePanel } from '@navikt/ds-react'
 import { Metadata } from 'next'
+import Link from 'next/link'
+import { ReactElement } from 'react'
 
 import { isLocalOrDemo } from '../utils/env'
 

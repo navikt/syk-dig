@@ -1,21 +1,21 @@
-import { FormProvider, useForm } from 'react-hook-form'
-import { ReactElement, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { ReactElement, useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 
-import Errors, { useErrorSection } from '../Errors/Errors'
 import { OppgaveValues, Person } from '../../graphql/queries/graphql.generated'
 import useWarnUnsavedPopup from '../../hooks/useWarnUnsaved'
 import { redirectTilGosys } from '../../utils/gosys'
+import Errors, { useErrorSection } from '../Errors/Errors'
 
-import Pasientopplysninger from './Pasientopplysninger'
-import Sykmeldingsperiode, { PeriodeFormValue } from './Sykmeldingsperiode'
-import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSection'
-import { createDefaultValues } from './formDataUtils'
 import ActionSection from './ActionSection/ActionSection'
 import { useHandleRegister } from './ActionSection/mutations/useHandleSave'
 import AndreOpplysninger from './AndreOpplysninger'
-import MangelfullSykmelding from './MangelfullSykmelding'
 import AvvisSection from './AvvisSection/AvvisSection'
+import DiagnoseFormSection, { DiagnoseFormSectionValues } from './DiagnoseFormSection'
+import { createDefaultValues } from './formDataUtils'
+import MangelfullSykmelding from './MangelfullSykmelding'
+import Pasientopplysninger from './Pasientopplysninger'
+import Sykmeldingsperiode, { PeriodeFormValue } from './Sykmeldingsperiode'
 
 export interface UtenlanskFormValues {
     diagnoser: DiagnoseFormSectionValues

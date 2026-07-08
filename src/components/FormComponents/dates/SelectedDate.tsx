@@ -1,6 +1,6 @@
 import { ArrowDownRightIcon } from '@navikt/aksel-icons'
-import React, { ReactElement } from 'react'
 import { BodyShort } from '@navikt/ds-react'
+import React, { ReactElement } from 'react'
 
 import { formatsmregDate } from '../../nasjonal-oppgave/smregDateUtils'
 

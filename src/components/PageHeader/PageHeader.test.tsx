@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { PropsWithChildren, ReactElement } from 'react'
+import { describe, it, expect } from 'vitest'
 
-import { render, screen } from '../../utils/testUtils'
 import { ModiaProvider } from '../../modia/modia-context'
+import { render, screen } from '../../utils/testUtils'
 
 import PageHeader from './PageHeader'
 
@@ -15,8 +15,8 @@ describe('PageHeader', () => {
             </TestModiaContext>,
         )
 
-        expect(screen.getByText('Kari Testson'))
-        expect(screen.getByText('Enhet: 2345'))
+        expect(screen.getByText('Kari Testson')).toBeInTheDocument()
+        expect(screen.getByText('Enhet: 2345')).toBeInTheDocument()
     })
 
     it('should default to first enhet if no aktiveEnhet from modia', () => {
@@ -26,8 +26,8 @@ describe('PageHeader', () => {
             </TestModiaContext>,
         )
 
-        expect(screen.getByText('Kari Testson'))
-        expect(screen.getByText('Enhet: 1234'))
+        expect(screen.getByText('Kari Testson')).toBeInTheDocument()
+        expect(screen.getByText('Enhet: 1234')).toBeInTheDocument()
     })
 
     it('should change unit', async () => {
@@ -37,10 +37,10 @@ describe('PageHeader', () => {
             </TestModiaContext>,
         )
 
-        expect(screen.getByText('Enhet: 2345'))
+        expect(screen.getByText('Enhet: 2345')).toBeInTheDocument()
         await userEvent.selectOptions(screen.getByRole('combobox'), '1234')
 
-        expect(await screen.findByText('Enhet: 1234'))
+        expect(await screen.findByText('Enhet: 1234')).toBeInTheDocument()
     })
 })
 

@@ -1,8 +1,8 @@
 import { useMutation } from '@apollo/client/react'
 
 import { TilbakeTilGosysDocument, TilbakeTilGosysMutation } from '../../../../graphql/queries/graphql.generated'
-import { Location, useOppgaveParam } from '../../../../utils/useOppgaveParam'
 import { useModiaContext } from '../../../../modia/modia-context'
+import { Location, useOppgaveParam } from '../../../../utils/useOppgaveParam'
 
 type UseHandleTilbakeTilGosysOptions = {
     onCompleted?: () => void

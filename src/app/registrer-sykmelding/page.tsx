@@ -1,5 +1,5 @@
-import { ReactElement } from 'react'
 import { Metadata } from 'next'
+import { ReactElement } from 'react'
 
 import RegistrerSykmeldingView from '../../components/registrer-sykmelding/RegistrerSykmeldingView'
 import { getPersistentPaneLayout } from '../../components/split-view-layout/persistent-layout'

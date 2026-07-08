@@ -3,10 +3,10 @@ import { ReactElement } from 'react'
 
 import { OppholdsadresseFragment } from '../../../../graphql/queries/graphql.generated'
 
-import Vegadresse from './Vegadresse'
 import Matrikkeladresse from './Matrikkeladresse'
-import UtenlandskAdresse from './Utenlandskadresse'
 import OppholdAnnet from './OppholdAnnet'
+import UtenlandskAdresse from './Utenlandskadresse'
+import Vegadresse from './Vegadresse'
 
 type OppholdsadresseProps = {
     oppholdsadresse: OppholdsadresseFragment | null

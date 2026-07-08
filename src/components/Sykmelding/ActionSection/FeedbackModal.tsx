@@ -1,5 +1,5 @@
-import { PropsWithChildren, ReactElement } from 'react'
 import { Modal } from '@navikt/ds-react'
+import { PropsWithChildren, ReactElement } from 'react'
 
 import styles from './FeedbackModal.module.css'
 

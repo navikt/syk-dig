@@ -1,6 +1,6 @@
-import { SubmitHandler } from 'react-hook-form'
 import { useMutation } from '@apollo/client/react'
 import { logger } from '@navikt/next-logger'
+import { SubmitHandler } from 'react-hook-form'
 
 import {
     DiagnoseInput,
@@ -12,13 +12,13 @@ import {
     UpdateDigitalisertSykmeldingDocument,
     UpdateDigitalisertSykmeldingMutation,
 } from '../../../../graphql/queries/graphql.generated'
-import { Location, useOppgaveParam, useSykmeldingParam } from '../../../../utils/useOppgaveParam'
-import { UtenlanskFormValues } from '../../SykmeldingForm'
+import { useModiaContext } from '../../../../modia/modia-context'
 import { safeDate, safeString } from '../../../../utils/formUtils'
 import { notNull, raise } from '../../../../utils/tsUtils'
-import { PeriodeFormValue } from '../../Sykmeldingsperiode'
-import { useModiaContext } from '../../../../modia/modia-context'
+import { Location, useOppgaveParam, useSykmeldingParam } from '../../../../utils/useOppgaveParam'
 import { DiagnoseFormValue } from '../../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { UtenlanskFormValues } from '../../SykmeldingForm'
+import { PeriodeFormValue } from '../../Sykmeldingsperiode'
 
 type UseSave = [save: SubmitHandler<UtenlanskFormValues>, result: useMutation.Result<SaveOppgaveMutation>]
 type UseSaveOptions = { fnr: string; onCompleted?: () => void }

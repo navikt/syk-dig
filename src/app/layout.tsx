@@ -1,13 +1,13 @@
 import '../style/global.css'
-import React, { ReactElement } from 'react'
 import { Metadata } from 'next'
+import React, { ReactElement } from 'react'
 
-import { getToggles } from '../toggles/rsc'
-import { getModiaData } from '../modia/ModiaService'
 import PageHeader from '../components/PageHeader/PageHeader'
+import { getModiaData } from '../modia/ModiaService'
+import { getToggles } from '../toggles/rsc'
 
-import Providers from './_providers'
 import Preload from './_preload'
+import Providers from './_providers'
 
 export const metadata: Metadata = {
     title: 'Digitalisering av Sykmeldinger',

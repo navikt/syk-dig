@@ -1,9 +1,9 @@
-import React, { ReactElement } from 'react'
-import { Alert } from '@navikt/ds-react'
 import { useMutation } from '@apollo/client/react'
+import { Alert } from '@navikt/ds-react'
+import React, { ReactElement } from 'react'
 
-import { MutationResultFeedback } from '../../Sykmelding/ActionSection/MutationFeedbackSection'
 import ConfirmButton from '../../ConfirmButton/ConfirmButton'
+import { MutationResultFeedback } from '../../Sykmelding/ActionSection/MutationFeedbackSection'
 
 type Props = {
     tilbakeTilGosys: () => Promise<void>

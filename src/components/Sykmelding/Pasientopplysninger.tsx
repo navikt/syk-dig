@@ -1,9 +1,9 @@
 import { ReactElement } from 'react'
 
-import FormSection from '../form-layout/FormSection'
-import PersonInfo from '../FormComponents/Pasientopplysninger/PersonInfo'
-import CountryPicker from '../FormComponents/CountryPicker/CountryPicker'
 import { Person } from '../../graphql/queries/graphql.generated'
+import FormSection from '../form-layout/FormSection'
+import CountryPicker from '../FormComponents/CountryPicker/CountryPicker'
+import PersonInfo from '../FormComponents/Pasientopplysninger/PersonInfo'
 
 interface PasientopplysningerProps {
     fnr: string

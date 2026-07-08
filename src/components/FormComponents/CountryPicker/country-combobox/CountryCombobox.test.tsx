@@ -1,5 +1,5 @@
-import { describe, it, vi, expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import { describe, it, vi, expect } from 'vitest'
 import { axe } from 'vitest-axe'
 
 import { render, screen, waitFor } from '../../../../utils/testUtils'
@@ -8,7 +8,7 @@ import CountryCombobox from './CountryCombobox'
 
 describe('CountryTypeahead', () => {
     it('should have no a11y issues', async () => {
-        const mockSelect = vi.fn()
+        const mockSelect = vi.fn<never>()
         const { container } = render(
             <CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />,
         )
@@ -20,7 +20,7 @@ describe('CountryTypeahead', () => {
     })
 
     it('should search and select a country', async () => {
-        const mockSelect = vi.fn()
+        const mockSelect = vi.fn<never>()
         render(<CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />)
 
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'Zim')
@@ -30,7 +30,7 @@ describe('CountryTypeahead', () => {
     })
 
     it('should search and select a country with multiple hits', async () => {
-        const mockSelect = vi.fn()
+        const mockSelect = vi.fn<never>()
         render(<CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />)
 
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'No')
@@ -48,7 +48,7 @@ describe('CountryTypeahead', () => {
     })
 
     it('should correctly set initial value without invoking onSelect', async () => {
-        const mockSelect = vi.fn()
+        const mockSelect = vi.fn<never>()
         render(<CountryCombobox onSelect={mockSelect} initialValue="NOR" onChange={() => void 0} />)
 
         await waitFor(() =>
@@ -58,7 +58,7 @@ describe('CountryTypeahead', () => {
     })
 
     it('should display no results', async () => {
-        const mockSelect = vi.fn()
+        const mockSelect = vi.fn<never>()
         render(<CountryCombobox onSelect={mockSelect} initialValue={null} onChange={() => void 0} />)
 
         await userEvent.type(screen.getByRole('combobox', { name: 'Landet sykmeldingen ble skrevet' }), 'IkkeEtLand')

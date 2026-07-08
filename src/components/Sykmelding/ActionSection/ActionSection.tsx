@@ -1,17 +1,17 @@
-import { ReactElement } from 'react'
-import { Button } from '@navikt/ds-react'
-import { useFormContext } from 'react-hook-form'
 import { useMutation } from '@apollo/client/react'
+import { Button } from '@navikt/ds-react'
+import { ReactElement } from 'react'
+import { useFormContext } from 'react-hook-form'
 
-import { UtenlanskFormValues } from '../SykmeldingForm'
 import { SaveOppgaveMutation } from '../../../graphql/queries/graphql.generated'
-import ConfirmButton from '../../ConfirmButton/ConfirmButton'
 import { redirectTilGosys } from '../../../utils/gosys'
+import ConfirmButton from '../../ConfirmButton/ConfirmButton'
+import { UtenlanskFormValues } from '../SykmeldingForm'
 
+import styles from './ActionSection.module.css'
+import MutationFeedbackSection, { MutationResultFeedback } from './MutationFeedbackSection'
 import { useHandleSave } from './mutations/useHandleSave'
 import { useHandleTilbakeTilGosys } from './mutations/useTilbakeTilGosys'
-import MutationFeedbackSection, { MutationResultFeedback } from './MutationFeedbackSection'
-import styles from './ActionSection.module.css'
 
 interface Props {
     fnr: string

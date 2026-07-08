@@ -1,25 +1,25 @@
-import * as R from 'remeda'
+import { DevTool } from '@hookform/devtools'
 import React, { ReactElement } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { DevTool } from '@hookform/devtools'
+import * as R from 'remeda'
 
-import { sections } from '../sections'
-import Errors, { useErrorSection } from '../../Errors/Errors'
 import { NasjonalSykmeldingFragment, SykmeldingUnderArbeidStatus } from '../../../graphql/queries/graphql.generated'
+import Errors, { useErrorSection } from '../../Errors/Errors'
+import { sections } from '../sections'
 
+import ActionSection from './ActionSection'
+import { createDefaultValues } from './nasjonalSykmeldingDefaultValues'
+import { NasjonalFormValues } from './NasjonalSykmeldingFormTypes'
+import ArbeidsgiverFormSection from './sections/ArbeidsgiverFormSection'
 import BehandlerSection from './sections/behandler/BehandlerSection'
 import DiagnoseFormSection from './sections/diagnose/DiagnoseFormSection'
-import MeldingTilNavSection from './sections/MeldingTilNavSection'
-import TilbakedateringSection from './sections/tilbakedatering/TilbakedateringSection'
-import ArbeidsgiverFormSection from './sections/ArbeidsgiverFormSection'
-import MulighetForArbeidSection from './sections/mulighet-for-arbeid/MulighetForArbeidSection'
-import UtdypendeOpplysningerSection from './sections/UtdypendeOpplysningerSection'
 import MeldingTilArbeidsgiverSection from './sections/MeldingTilArbeidsgiverSection'
+import MeldingTilNavSection from './sections/MeldingTilNavSection'
+import MulighetForArbeidSection from './sections/mulighet-for-arbeid/MulighetForArbeidSection'
 import PasientOpplysningerFormSection from './sections/PasientOpplysningerFormSection'
-import { NasjonalFormValues } from './NasjonalSykmeldingFormTypes'
-import { createDefaultValues } from './nasjonalSykmeldingDefaultValues'
+import TilbakedateringSection from './sections/tilbakedatering/TilbakedateringSection'
+import UtdypendeOpplysningerSection from './sections/UtdypendeOpplysningerSection'
 import { useSubmitNasjonalSykmelding } from './useNasjonalSykmeldingSubmitHandler'
-import ActionSection from './ActionSection'
 
 type Props = {
     sykmelding: NasjonalSykmeldingFragment
@@ -43,6 +43,7 @@ function NasjonalSykmeldingForm({ sykmelding, status, oppgaveId }: Props): React
 
     return (
         <FormProvider {...form}>
+            {/* oxlint-disable-next-line jsx-a11y/no-noninteractive-element-interactions - hmm */}
             <form
                 onSubmit={form.handleSubmit(onSave, focusErrorSection)}
                 onKeyDown={(e) => {

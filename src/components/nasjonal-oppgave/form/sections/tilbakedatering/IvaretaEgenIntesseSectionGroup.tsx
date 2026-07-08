@@ -1,9 +1,9 @@
+import { Textarea } from '@navikt/ds-react'
 import React, { ReactElement } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
-import { Textarea } from '@navikt/ds-react'
 
-import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 import SoloCheckbox from '../../../../FormComponents/SingleCheckbox/SoloCheckbox'
+import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 
 function IvaretaEgenIntesseSectionGroup(): ReactElement {
     const { register } = useFormContext<NasjonalFormValues>()

@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
 import { Alert, BodyShort, Heading } from '@navikt/ds-react'
+import React, { ReactElement } from 'react'
 
 import { ModiaDataError } from './ModiaService'
 

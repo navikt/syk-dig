@@ -1,13 +1,13 @@
 'use client'
 
-import { PropsWithChildren, ReactElement, useState } from 'react'
-import { IToggle } from '@unleash/nextjs'
 import { ApolloProvider } from '@apollo/client/react'
+import { IToggle } from '@unleash/nextjs'
+import { PropsWithChildren, ReactElement, useState } from 'react'
 
-import { ModiaData, ModiaDataError } from '../modia/ModiaService'
 import { createApolloClient } from '../graphql/apollo'
-import { FlagProvider } from '../toggles/context'
 import { ModiaProvider } from '../modia/modia-context'
+import { ModiaData, ModiaDataError } from '../modia/ModiaService'
+import { FlagProvider } from '../toggles/context'
 
 type Props = {
     modiaContext: ModiaData | ModiaDataError

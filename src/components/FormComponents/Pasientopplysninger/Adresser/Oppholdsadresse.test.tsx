@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
 import { axe } from 'vitest-axe'
 
-import { render, screen } from '../../../../utils/testUtils'
 import { OppholdsadresseFragment } from '../../../../graphql/queries/graphql.generated'
+import { render, screen } from '../../../../utils/testUtils'
 
 import Oppholdsadresse from './Oppholdsadresse'
 

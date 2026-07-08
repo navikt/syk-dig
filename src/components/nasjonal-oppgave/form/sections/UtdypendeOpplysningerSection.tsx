@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react'
 import { useController } from 'react-hook-form'
 
 import FormSection from '../../../form-layout/FormSection'
-import { getSectionTitle, sections } from '../../sections'
 import SoloCheckbox from '../../../FormComponents/SingleCheckbox/SoloCheckbox'
+import { getSectionTitle, sections } from '../../sections'
 import { NasjonalFormValues } from '../NasjonalSykmeldingFormTypes'
 
 function UtdypendeOpplysningerSection(): ReactElement {

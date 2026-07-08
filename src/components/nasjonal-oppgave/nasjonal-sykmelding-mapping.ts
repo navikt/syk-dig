@@ -1,16 +1,16 @@
 import { logger } from '@navikt/next-logger'
 
-import { raise } from '../../utils/tsUtils'
-import { toDateString } from '../../utils/dateUtils'
-import { DiagnoseSystem } from '../FormComponents/DiagnosePicker/diagnose-combobox/types'
 import {
     NasjonalSykmeldingFragment,
     NasjonalSykmeldingValues,
     PeriodeValues,
 } from '../../graphql/queries/graphql.generated'
+import { toDateString } from '../../utils/dateUtils'
+import { raise } from '../../utils/tsUtils'
+import { DiagnoseSystem } from '../FormComponents/DiagnosePicker/diagnose-combobox/types'
 
-import { DiagnosekodeSystem } from './schema/diagnosekoder/Diagnosekoder'
 import { MulighetForArbeid, NasjonalFormValues } from './form/NasjonalSykmeldingFormTypes'
+import { DiagnosekodeSystem } from './schema/diagnosekoder/Diagnosekoder'
 
 export function mapFormValueToNasjonalSykmelding(
     values: NasjonalFormValues,
@@ -156,7 +156,7 @@ function diagnoseSystemToAbbrevation(system: DiagnoseSystem): string {
         case 'ICPC2':
             return DiagnosekodeSystem.ICPC2
         default:
-            logger.warn(`Unknown diagnosekode-string: ${system}, defaulting to ICD10`)
+            logger.warn(`Unknown diagnosekode-string: ${system as string}, defaulting to ICD10`)
             return 'ICD10'
     }
 }

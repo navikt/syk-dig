@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react'
 
+import { BehandlerFragment } from '../../../../../graphql/queries/graphql.generated'
 import FormSection from '../../../../form-layout/FormSection'
 import { getSectionTitle, sections } from '../../../sections'
-import { BehandlerFragment } from '../../../../../graphql/queries/graphql.generated'
 
-import BehandletDatoField from './BehandletDatoField'
 import BehandlerFieldGroup from './BehandlerFieldGroup'
+import BehandletDatoField from './BehandletDatoField'
 
 type Props = {
     behandlerInfo: BehandlerFragment | null

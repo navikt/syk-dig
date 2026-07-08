@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* oxlint-disable */
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql'
 export type Maybe<T> = T | null
 export type InputMaybe<T> = Maybe<T>
@@ -458,7 +458,12 @@ export type JournalpostStatus = {
 }
 
 export type JournalpostStatusEnum =
-    'FEIL_KANAL' | 'FEIL_TEMA' | 'FEIL_TYPE' | 'MANGLENDE_JOURNALPOST' | 'MANGLER_FNR' | 'OPPRETTET'
+    | 'FEIL_KANAL'
+    | 'FEIL_TEMA'
+    | 'FEIL_TYPE'
+    | 'MANGLENDE_JOURNALPOST'
+    | 'MANGLER_FNR'
+    | 'OPPRETTET'
 
 export type Kode = {
     __typename: 'Kode'
@@ -485,7 +490,12 @@ export type LagreNasjonalOppgaveStatus = {
 }
 
 export type LagreNasjonalOppgaveStatusEnum =
-    'AVVIST' | 'FERDIGSTILT' | 'FINNES_IKKE' | 'IKKE_EN_SYKMELDING' | 'IKKE_FERDIGSTILT' | 'OPPDATERT'
+    | 'AVVIST'
+    | 'FERDIGSTILT'
+    | 'FINNES_IKKE'
+    | 'IKKE_EN_SYKMELDING'
+    | 'IKKE_FERDIGSTILT'
+    | 'OPPDATERT'
 
 export type LagreOppgaveResult = LagreNasjonalOppgaveStatus | ValidationResult
 
@@ -504,7 +514,10 @@ export type MedisinskArsak = {
 }
 
 export type MedisinskArsakType =
-    'AKTIVITET_FORHINDRER_BEDRING' | 'AKTIVITET_FORVERRER_TILSTAND' | 'ANNET' | 'TILSTAND_HINDRER_AKTIVITET'
+    | 'AKTIVITET_FORHINDRER_BEDRING'
+    | 'AKTIVITET_FORVERRER_TILSTAND'
+    | 'ANNET'
+    | 'TILSTAND_HINDRER_AKTIVITET'
 
 export type MedisinskArsakValues = {
     arsak: Array<MedisinskArsakType>
@@ -610,7 +623,12 @@ export type MutationSykmeldingFraJournalpostArgs = {
 }
 
 export type NasjonalOppdatertSykmeldingStatusEnum =
-    'AVVIST' | 'FERDIGSTILT' | 'FINNES_IKKE' | 'IKKE_EN_SYKMELDING' | 'IKKE_FERDIGSTILT' | 'OPPDATERT'
+    | 'AVVIST'
+    | 'FERDIGSTILT'
+    | 'FINNES_IKKE'
+    | 'IKKE_EN_SYKMELDING'
+    | 'IKKE_FERDIGSTILT'
+    | 'OPPDATERT'
 
 export type NasjonalOppgave = {
     __typename: 'NasjonalOppgave'
@@ -628,7 +646,11 @@ export type NasjonalOppgaveStatus = {
 }
 
 export type NasjonalOppgaveStatusEnum =
-    'AVVIST' | 'FERDIGSTILT' | 'FINNES_IKKE' | 'IKKE_EN_SYKMELDING' | 'IKKE_FERDIGSTILT'
+    | 'AVVIST'
+    | 'FERDIGSTILT'
+    | 'FINNES_IKKE'
+    | 'IKKE_EN_SYKMELDING'
+    | 'IKKE_FERDIGSTILT'
 
 export type NasjonalSykmelding = {
     __typename: 'NasjonalSykmelding'
@@ -686,7 +708,12 @@ export type OppdatertSykmeldingStatus = {
 }
 
 export type OppdatertSykmeldingStatusEnum =
-    'AVVIST' | 'FERDIGSTILT' | 'FINNES_IKKE' | 'IKKE_EN_SYKMELDING' | 'IKKE_FERDIGSTILT' | 'OPPDATERT'
+    | 'AVVIST'
+    | 'FERDIGSTILT'
+    | 'FINNES_IKKE'
+    | 'IKKE_EN_SYKMELDING'
+    | 'IKKE_FERDIGSTILT'
+    | 'OPPDATERT'
 
 export type OppgaveValues = {
     __typename: 'OppgaveValues'
@@ -954,9 +981,11 @@ export type DirectiveResolverFn<
 export type ResolversUnionTypes<_RefType extends Record<string, unknown>> = {
     Bostedsadresse: Matrikkeladresse | UkjentBosted | UtenlandskAdresse | Vegadresse
     DigitaliseringsoppgaveResult:
-        (Omit<Digitaliseringsoppgave, 'person'> & { person: _RefType['Person'] }) | DigitaliseringsoppgaveStatus
+        | (Omit<Digitaliseringsoppgave, 'person'> & { person: _RefType['Person'] })
+        | DigitaliseringsoppgaveStatus
     DigitalisertSykmeldingResult:
-        (Omit<DigitalisertSykmelding, 'person'> & { person: _RefType['Person'] }) | OppdatertSykmeldingStatus
+        | (Omit<DigitalisertSykmelding, 'person'> & { person: _RefType['Person'] })
+        | OppdatertSykmeldingStatus
     JournalpostResult: Journalpost | JournalpostStatus
     LagreOppgaveResult: LagreNasjonalOppgaveStatus | ValidationResult
     NasjonalOppgaveResult: NasjonalOppgave | NasjonalOppgaveStatus

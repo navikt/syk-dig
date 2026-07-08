@@ -1,8 +1,8 @@
 import { logger } from '@navikt/next-logger'
 import { NextRequest } from 'next/server'
 
-import { DiagnoseSystem } from '../../../components/FormComponents/DiagnosePicker/diagnose-combobox/types'
 import { isValidToken } from '../../../auth/rsc'
+import { DiagnoseSystem } from '../../../components/FormComponents/DiagnosePicker/diagnose-combobox/types'
 
 import { searchSystem } from './search-system'
 

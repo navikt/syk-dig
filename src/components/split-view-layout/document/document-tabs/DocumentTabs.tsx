@@ -1,5 +1,5 @@
-import { ReactElement } from 'react'
 import { Tabs } from '@navikt/ds-react'
+import { ReactElement } from 'react'
 
 import DocumentTab from './DocumentTab'
 import styles from './DocumentTabs.module.css'

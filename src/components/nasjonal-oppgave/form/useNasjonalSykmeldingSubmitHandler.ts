@@ -1,20 +1,20 @@
+import { ServerError } from '@apollo/client'
 import { useMutation } from '@apollo/client/react'
 import { logger } from '@navikt/next-logger'
-import { SubmitHandler } from 'react-hook-form'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { ServerError } from '@apollo/client'
+import { SubmitHandler } from 'react-hook-form'
 
-import { mapFormValueToNasjonalSykmelding } from '../nasjonal-sykmelding-mapping'
-import { useModiaContext } from '../../../modia/modia-context'
-import { raise } from '../../../utils/tsUtils'
 import {
     NasjonalSykmeldingFragment,
     SaveOppgaveNasjonalDocument,
     SaveOppgaveNasjonalMutation,
     SykmeldingUnderArbeidStatus,
 } from '../../../graphql/queries/graphql.generated'
-import { redirectTilModia } from '../../../utils/modia'
+import { useModiaContext } from '../../../modia/modia-context'
 import { redirectTilGosys } from '../../../utils/gosys'
+import { redirectTilModia } from '../../../utils/modia'
+import { raise } from '../../../utils/tsUtils'
+import { mapFormValueToNasjonalSykmelding } from '../nasjonal-sykmelding-mapping'
 
 import { NasjonalFormValues } from './NasjonalSykmeldingFormTypes'
 

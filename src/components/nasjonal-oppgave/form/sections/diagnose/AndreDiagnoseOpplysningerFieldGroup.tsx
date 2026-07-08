@@ -1,12 +1,12 @@
-import React, { ReactElement } from 'react'
-import { useController } from 'react-hook-form'
 import { DatePicker, ErrorMessage, useDatepicker } from '@navikt/ds-react'
 import { formatISO } from 'date-fns'
+import React, { ReactElement } from 'react'
+import { useController } from 'react-hook-form'
 
+import { SelectedDate } from '../../../../FormComponents/dates/SelectedDate'
+import SoloCheckbox from '../../../../FormComponents/SingleCheckbox/SoloCheckbox'
 import { SMREG_SHORTHAND_FORMAT } from '../../../smregDateUtils'
 import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
-import SoloCheckbox from '../../../../FormComponents/SingleCheckbox/SoloCheckbox'
-import { SelectedDate } from '../../../../FormComponents/dates/SelectedDate'
 
 function AndreDiagnoseOpplysningerFieldGroup(): ReactElement {
     const { field: svangerskapField } = useController<NasjonalFormValues, 'medisinskVurdering.svangerskap'>({

@@ -1,13 +1,13 @@
+import { Button } from '@navikt/ds-react'
 import { ReactElement } from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
-import { Button } from '@navikt/ds-react'
 
-import DiagnosePicker from '../FormComponents/DiagnosePicker/DiagnosePicker'
 import FormSection from '../form-layout/FormSection'
 import { DiagnoseFormValue } from '../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import DiagnosePicker from '../FormComponents/DiagnosePicker/DiagnosePicker'
 
-import { UtenlanskFormValues } from './SykmeldingForm'
 import styles from './DiagnoseFormSection.module.css'
+import { UtenlanskFormValues } from './SykmeldingForm'
 
 export type DiagnoseFormSectionValues = {
     hoveddiagnose: DiagnoseFormValue

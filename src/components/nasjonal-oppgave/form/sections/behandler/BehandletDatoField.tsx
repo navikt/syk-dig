@@ -1,10 +1,10 @@
+import { DatePicker, useDatepicker } from '@navikt/ds-react'
 import React, { ReactElement } from 'react'
 import { useController } from 'react-hook-form'
-import { DatePicker, useDatepicker } from '@navikt/ds-react'
 
-import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
-import { SMREG_SHORTHAND_FORMAT } from '../../../smregDateUtils'
 import { SelectedDate } from '../../../../FormComponents/dates/SelectedDate'
+import { SMREG_SHORTHAND_FORMAT } from '../../../smregDateUtils'
+import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 
 function BehandletDatoField(): ReactElement {
     const { field, fieldState } = useController<NasjonalFormValues, 'behandler.behandletDato'>({

@@ -1,16 +1,16 @@
-import { describe, it, expect, vi } from 'vitest'
-import userEvent from '@testing-library/user-event'
 import { waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { describe, it, expect, vi } from 'vitest'
 
-import { createMock } from '../../../utils/test/apolloTestUtils'
 import { NavngiDokumentDocument } from '../../../graphql/queries/graphql.generated'
+import { createMock } from '../../../utils/test/apolloTestUtils'
 import { render, screen, within } from '../../../utils/testUtils'
 
 import DocumentsViewer from './DocumentView'
 
 describe('DocumentView', () => {
     it('should rename dokument', async () => {
-        const mutationMock = vi.fn()
+        const mutationMock = vi.fn<() => void>()
         const mock = [
             createMock({
                 request: {
@@ -49,7 +49,7 @@ describe('DocumentView', () => {
 
         // Åpne modalen
         await userEvent.click(screen.getByRole('button', { name: 'Rediger dokumentnavn' }))
-        expect(screen.getByRole('dialog', { name: 'Endre navn på dokument' }))
+        expect(screen.getByRole('dialog', { name: 'Endre navn på dokument' })).toBeInTheDocument()
 
         // Rediger navn
         const textbox = screen.getByRole('textbox', { name: 'Dokument tittel' })
@@ -103,7 +103,7 @@ describe('DocumentView', () => {
         )
 
         await userEvent.click(screen.getByRole('button', { name: 'Rediger dokumentnavn' }))
-        expect(screen.getByRole('dialog', { name: 'Endre navn på dokument' }))
+        expect(screen.getByRole('dialog', { name: 'Endre navn på dokument' })).toBeInTheDocument()
 
         const textbox = screen.getByRole('textbox', { name: 'Dokument tittel' })
         await userEvent.click(textbox)

@@ -1,27 +1,27 @@
 'use client'
 
+import { ErrorLike } from '@apollo/client'
 import { useQuery } from '@apollo/client/react'
 import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react'
 import React, { ReactElement } from 'react'
 import { range } from 'remeda'
-import { ErrorLike } from '@apollo/client'
 
 import {
     DigitaliseringOppgaveResultFragment,
     OppgaveByIdDocument,
     OppgaveByIdQuery,
 } from '../../graphql/queries/graphql.generated'
+import { useModiaContext } from '../../modia/modia-context'
+import ModiaAlert from '../../modia/ModiaAlert'
 import { raise } from '../../utils/tsUtils'
-import SykmeldingForm from '../Sykmelding/SykmeldingForm'
 import { FormSectionSkeleton } from '../form-layout/FormSection'
 import { InfoWithHeaderSkeleton, InputWithTitleSkeleton } from '../skeleton/Skeletons'
-import SplitDocumentView from '../split-view-layout/SplitDocumentView'
-import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
-import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
 import DocumentsViewer from '../split-view-layout/document/DocumentView'
+import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
+import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
 import { PaneView } from '../split-view-layout/persistent-layout'
-import ModiaAlert from '../../modia/ModiaAlert'
-import { useModiaContext } from '../../modia/modia-context'
+import SplitDocumentView from '../split-view-layout/SplitDocumentView'
+import SykmeldingForm from '../Sykmelding/SykmeldingForm'
 
 import OppgaveStatus from './status/OppgaveStatus'
 

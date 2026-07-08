@@ -1,11 +1,11 @@
 import 'vitest-axe/extend-expect'
 import 'vitest-dom/extend-expect'
-import * as matchers from 'vitest-dom/matchers'
-import * as vitestAxeMatchers from 'vitest-axe/matchers'
-import { vi, expect, afterEach } from 'vitest'
+import { cleanup } from '@testing-library/react'
 import * as mockRouter from 'next-router-mock'
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes'
-import { cleanup } from '@testing-library/react'
+import { vi, expect, afterEach } from 'vitest'
+import * as vitestAxeMatchers from 'vitest-axe/matchers'
+import * as matchers from 'vitest-dom/matchers'
 
 expect.extend(matchers)
 expect.extend(vitestAxeMatchers)
@@ -14,14 +14,14 @@ afterEach(() => {
     cleanup()
 })
 
-global.HTMLCanvasElement.prototype.getContext = vi.fn()
+global.HTMLCanvasElement.prototype.getContext = vi.fn<never>()
 
 const useRouter = mockRouter.useRouter
 
 export const MockNextNavigation = {
     ...mockRouter,
-    notFound: vi.fn(),
-    redirect: vi.fn().mockImplementation(function (url: string) {
+    notFound: vi.fn<never>(),
+    redirect: vi.fn<(url: string) => void>().mockImplementation(function (url: string) {
         mockRouter.memoryRouter.setCurrentUrl(url)
     }),
     usePathname: () => {

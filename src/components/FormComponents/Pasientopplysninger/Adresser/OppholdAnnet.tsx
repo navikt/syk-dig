@@ -1,5 +1,5 @@
-import { ReactElement } from 'react'
 import { BodyShort } from '@navikt/ds-react'
+import { ReactElement } from 'react'
 
 import { OppholdAnnetFragment } from '../../../../graphql/queries/graphql.generated'
 
@@ -11,7 +11,7 @@ function OppholdAnnet({ oppholdAnnet }: Props): ReactElement {
     return <BodyShort>{`Annet opphold: ${oppholdAnnetTypeToText(oppholdAnnet.type)}`}</BodyShort>
 }
 
-type OppholdAnnetType = 'MILITAER' | 'PENDLER' | 'UTENRIKS' | 'PAA_SVALBARD' | string
+type OppholdAnnetType = 'MILITAER' | 'PENDLER' | 'UTENRIKS' | 'PAA_SVALBARD' | (string & {})
 
 function oppholdAnnetTypeToText(value: OppholdAnnetType | null | undefined): string | null {
     if (value == null) return null

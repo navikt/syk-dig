@@ -1,14 +1,14 @@
-import React, { ReactElement } from 'react'
-import { Alert, HelpText, TextField } from '@navikt/ds-react'
-import { useController } from 'react-hook-form'
 import { useQuery } from '@apollo/client/react'
+import { Alert, HelpText, TextField } from '@navikt/ds-react'
+import React, { ReactElement } from 'react'
+import { useController } from 'react-hook-form'
 
-import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 import { BehandlerFragment, SykmelderDocument } from '../../../../../graphql/queries/graphql.generated'
+import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 
+import { hprCorrectLength, hprOnlyNumbers } from './behandler-utils'
 import styles from './BehandlerFieldGroup.module.css'
 import BehandlerInfo from './BehandlerInfo'
-import { hprCorrectLength, hprOnlyNumbers } from './behandler-utils'
 
 type Props = {
     behandlerInfo: BehandlerFragment | null

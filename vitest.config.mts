@@ -1,6 +1,6 @@
+import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv'
 import { defineConfig } from 'vitest/config'
-import react from '@vitejs/plugin-react'
 
 dotenv.config({
     path: '.env.test',

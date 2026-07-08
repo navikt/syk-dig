@@ -1,6 +1,6 @@
-import { useController } from 'react-hook-form'
 import { DateValidationT, DatePicker, useDatepicker } from '@navikt/ds-react'
 import { ReactElement, useState } from 'react'
+import { useController } from 'react-hook-form'
 
 import { toDate } from '../../../utils/dateUtils'
 import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'

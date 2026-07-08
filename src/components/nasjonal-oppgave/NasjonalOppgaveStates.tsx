@@ -1,18 +1,18 @@
+import { ErrorLike } from '@apollo/client'
+import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react'
 import React, { PropsWithChildren, ReactElement } from 'react'
 import { range } from 'remeda'
-import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react'
-import { ErrorLike } from '@apollo/client'
 
-import { raise } from '../../utils/tsUtils'
-import { FormSectionSkeleton } from '../form-layout/FormSection'
-import { InfoWithHeaderSkeleton, InputWithTitleSkeleton } from '../skeleton/Skeletons'
-import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
-import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
-import DocumentsViewer from '../split-view-layout/document/DocumentView'
 import {
     NasjonalFerdigstiltOppgaveBySykmeldingIdQuery,
     NasjonalOppgaveByIdQuery,
 } from '../../graphql/queries/graphql.generated'
+import { raise } from '../../utils/tsUtils'
+import { FormSectionSkeleton } from '../form-layout/FormSection'
+import { InfoWithHeaderSkeleton, InputWithTitleSkeleton } from '../skeleton/Skeletons'
+import DocumentsViewer from '../split-view-layout/document/DocumentView'
+import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
+import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
 
 export function NasjonalOppgaveSkeleton(): ReactElement {
     return (

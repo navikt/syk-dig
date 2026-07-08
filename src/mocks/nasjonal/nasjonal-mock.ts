@@ -30,7 +30,6 @@ export class NasjonalMock {
         }),
         oppgaveMedEnPeriode: createNasjonalOppgave({
             oppgaveId: '111111111',
-            ...createNasjonalOppgave,
             nasjonalSykmelding: {
                 ...createNasjonalOppgave().nasjonalSykmelding,
                 perioder: [

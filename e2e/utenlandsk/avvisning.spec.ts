@@ -1,7 +1,7 @@
 import test, { expect, Locator, Page } from '@playwright/test'
 
-import { clickAndWait, waitForGraphQL } from '../utils/request'
 import { Avvisingsgrunn } from '../../src/graphql/queries/graphql.generated'
+import { clickAndWait, waitForGraphQL } from '../utils/request'
 
 test('should allow avvising sykmelding', async ({ page }) => {
     // TODO: These are the old paths, keep them to test redirects, but remove them once gosys is migrated

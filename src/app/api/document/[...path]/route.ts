@@ -1,9 +1,9 @@
+import { proxyRouteHandler } from '@navikt/next-api-proxy'
 import { logger } from '@navikt/next-logger'
 import { getToken, requestOboToken } from '@navikt/oasis'
-import { proxyRouteHandler } from '@navikt/next-api-proxy'
 
-import { getServerEnv, isLocalOrDemo } from '../../../../utils/env'
 import { alternativeDocumentPdf, pdf } from '../../../../mocks/utenlendsk/utenlandsk-example-pdf'
+import { getServerEnv, isLocalOrDemo } from '../../../../utils/env'
 
 export async function GET(request: Request, { params }: RouteContext<'/api/document/[...path]'>): Promise<Response> {
     const path = (await params).path

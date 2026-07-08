@@ -1,6 +1,6 @@
-import { ReactElement } from 'react'
-import cn from 'clsx'
 import { Heading } from '@navikt/ds-react'
+import cn from 'clsx'
+import { ReactElement } from 'react'
 
 import { PdfSkeleton, TabsSkeleton } from '../../skeleton/Skeletons'
 

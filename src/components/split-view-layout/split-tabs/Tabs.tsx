@@ -1,6 +1,6 @@
-import { ReactElement } from 'react'
-import { Tabs } from '@navikt/ds-react'
 import { FilePdfIcon, TasklistStartIcon } from '@navikt/aksel-icons'
+import { Tabs } from '@navikt/ds-react'
+import { ReactElement } from 'react'
 
 import { cn } from '../../../utils/tw-utils'
 

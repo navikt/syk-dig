@@ -1,15 +1,15 @@
-import { ReactElement, useCallback } from 'react'
-import { useController } from 'react-hook-form'
+import { XMarkIcon } from '@navikt/aksel-icons'
 import { BodyShort, Button, Heading, Select } from '@navikt/ds-react'
 import cn from 'clsx'
-import { XMarkIcon } from '@navikt/aksel-icons'
+import { ReactElement, useCallback } from 'react'
+import { useController } from 'react-hook-form'
 
+import { NasjonalFormValues } from '../../nasjonal-oppgave/form/NasjonalSykmeldingFormTypes'
 import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
-import { NasjonalFormValues } from '../../nasjonal-oppgave/form/NasjonalSykmeldingFormTypes'
 
-import { DiagnoseSystem } from './diagnose-combobox/types'
 import DiagnoseCombobox from './diagnose-combobox/DiagnoseCombobox'
+import { DiagnoseSystem } from './diagnose-combobox/types'
 import styles from './DiagnosePicker.module.css'
 
 export type PossiblePickerFormNames =

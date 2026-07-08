@@ -1,5 +1,5 @@
-import React, { PropsWithChildren, ReactElement, ReactNode } from 'react'
 import { BodyShort, Heading } from '@navikt/ds-react'
+import React, { PropsWithChildren, ReactElement, ReactNode } from 'react'
 
 type Props = {
     title: string | ReactNode

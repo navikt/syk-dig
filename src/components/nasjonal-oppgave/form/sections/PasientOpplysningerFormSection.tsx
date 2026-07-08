@@ -1,12 +1,12 @@
-import React, { ReactElement } from 'react'
-import { BodyLong, Heading, Skeleton, TextField } from '@navikt/ds-react'
-import { useController, useFormContext } from 'react-hook-form'
 import { skipToken, useQuery } from '@apollo/client/react'
+import { BodyLong, Heading, Skeleton, TextField } from '@navikt/ds-react'
+import React, { ReactElement } from 'react'
+import { useController, useFormContext } from 'react-hook-form'
 
-import { getSectionTitle, sections } from '../../sections'
-import FormSection from '../../../form-layout/FormSection'
-import { NasjonalFormValues } from '../NasjonalSykmeldingFormTypes'
 import { PasientDocument } from '../../../../graphql/queries/graphql.generated'
+import FormSection from '../../../form-layout/FormSection'
+import { getSectionTitle, sections } from '../../sections'
+import { NasjonalFormValues } from '../NasjonalSykmeldingFormTypes'
 
 type Props = {
     ferdigstilt: boolean

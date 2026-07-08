@@ -1,6 +1,6 @@
-import React, { PropsWithChildren, ReactElement, useState } from 'react'
-import { BodyShort, Button, Modal, Select } from '@navikt/ds-react'
 import { useMutation } from '@apollo/client/react'
+import { BodyShort, Button, Modal, Select } from '@navikt/ds-react'
+import React, { PropsWithChildren, ReactElement, useState } from 'react'
 
 type Props = {
     avvis: (reason: string | null) => Promise<void>

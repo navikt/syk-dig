@@ -49,7 +49,11 @@ export type NasjonalFormValues = {
 }
 
 export type MulighetForArbeid =
-    AktivitetIkkeMuligPeriode | AvventendePeriode | GradertPeriode | BehandlingsdagerPeriode | ReisetilskuddPeriode
+    | AktivitetIkkeMuligPeriode
+    | AvventendePeriode
+    | GradertPeriode
+    | BehandlingsdagerPeriode
+    | ReisetilskuddPeriode
 
 export type FomTom = {
     fom: Date | null

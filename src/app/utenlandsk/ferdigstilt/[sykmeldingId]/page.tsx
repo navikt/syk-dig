@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
 import { Metadata } from 'next'
+import React, { ReactElement } from 'react'
 
 import { getPersistentPaneLayout } from '../../../../components/split-view-layout/persistent-layout'
 import UtenlandskSykmelding from '../../../../components/utenlandsk-sykmelding/UtenlandskSykmelding'

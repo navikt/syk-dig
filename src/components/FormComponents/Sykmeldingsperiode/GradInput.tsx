@@ -1,7 +1,7 @@
-import { TextField } from '@navikt/ds-react'
-import { useFormContext } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
+import { TextField } from '@navikt/ds-react'
 import { ReactElement } from 'react'
+import { useFormContext } from 'react-hook-form'
 
 import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'

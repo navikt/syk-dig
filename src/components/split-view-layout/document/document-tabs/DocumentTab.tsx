@@ -1,7 +1,7 @@
-import { ReactElement, useState } from 'react'
-import { Alert, Button, Modal, TextField, Tabs } from '@navikt/ds-react'
-import { PencilIcon } from '@navikt/aksel-icons'
 import { useMutation } from '@apollo/client/react'
+import { PencilIcon } from '@navikt/aksel-icons'
+import { Alert, Button, Modal, TextField, Tabs } from '@navikt/ds-react'
+import { ReactElement, useState } from 'react'
 
 import { NavngiDokumentDocument } from '../../../../graphql/queries/graphql.generated'
 
@@ -84,7 +84,7 @@ function EditDocumentModal({
                     }}
                     onKeyUp={(event) => {
                         if (event.key === 'Enter') {
-                            handleSave()
+                            void handleSave()
                         }
                     }}
                 />

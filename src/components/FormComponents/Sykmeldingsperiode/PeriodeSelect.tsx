@@ -1,10 +1,10 @@
 import { Select } from '@navikt/ds-react'
-import { useController } from 'react-hook-form'
 import { ReactElement } from 'react'
+import { useController } from 'react-hook-form'
 
+import { PeriodeType } from '../../../graphql/queries/graphql.generated'
 import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
-import { PeriodeType } from '../../../graphql/queries/graphql.generated'
 
 type FormName = `periode.${number}.sykmeldingstype`
 

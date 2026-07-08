@@ -1,5 +1,5 @@
-import Fuse from 'fuse.js'
 import { ICD10, ICPC2 } from '@navikt/diagnosekoder'
+import Fuse from 'fuse.js'
 
 import { DiagnoseSuggestion } from '../../../components/FormComponents/DiagnosePicker/diagnose-combobox/types'
 

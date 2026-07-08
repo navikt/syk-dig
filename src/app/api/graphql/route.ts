@@ -2,8 +2,8 @@ import { proxyRouteHandler } from '@navikt/next-api-proxy'
 import { logger } from '@navikt/next-logger'
 import { getToken, requestOboToken } from '@navikt/oasis'
 
-import { getServerEnv } from '../../../utils/env'
 import { isValidToken } from '../../../auth/rsc'
+import { getServerEnv } from '../../../utils/env'
 
 export async function POST(request: Request): Promise<Response> {
     logger.info('Proxying request to syk-dig GraphQL API')

@@ -1,17 +1,17 @@
-import React, { PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react'
-import { Button, Tooltip } from '@navikt/ds-react'
 import { ExpandIcon, SidebarLeftIcon, XMarkIcon } from '@navikt/aksel-icons'
+import { Button, Tooltip } from '@navikt/ds-react'
+import React, { PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react'
 import { Group, Panel, Separator } from 'react-resizable-panels'
 
-import { bundledEnv } from '../../utils/env'
 import analytics from '../../utils/analytics'
+import { bundledEnv } from '../../utils/env'
 import { cn } from '../../utils/tw-utils'
 
-import { basisLayout, useSplitDocumentState } from './useSplitDocumentState'
+import PageTitle from './page-title/PageTitle'
 import { PersistentPaneLayout } from './persistent-layout'
 import SplitTabs from './split-tabs/Tabs'
-import PageTitle from './page-title/PageTitle'
 import styles from './SplitDocumentView.module.css'
+import { basisLayout, useSplitDocumentState } from './useSplitDocumentState'
 
 type Props = {
     title: string

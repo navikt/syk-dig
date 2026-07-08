@@ -1,5 +1,5 @@
-import { ReactElement } from 'react'
 import { ConfirmationPanel, ConfirmationPanelProps } from '@navikt/ds-react'
+import { ReactElement } from 'react'
 
 function SimpleConfirmationPanel(props: Omit<ConfirmationPanelProps, 'className' | 'size'>): ReactElement {
     return (

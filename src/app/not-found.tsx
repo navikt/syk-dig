@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
 import { Alert, Heading } from '@navikt/ds-react'
+import React, { ReactElement } from 'react'
 
 function NotFound(): ReactElement {
     return (

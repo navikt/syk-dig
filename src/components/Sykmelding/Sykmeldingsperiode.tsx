@@ -1,13 +1,13 @@
-import { Button } from '@navikt/ds-react'
-import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
 import { XMarkIcon } from '@navikt/aksel-icons'
+import { Button } from '@navikt/ds-react'
 import { ReactElement } from 'react'
+import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
 
+import { PeriodeType } from '../../graphql/queries/graphql.generated'
 import FormSection from '../form-layout/FormSection'
-import PeriodeSelect from '../FormComponents/Sykmeldingsperiode/PeriodeSelect'
 import GradInput from '../FormComponents/Sykmeldingsperiode/GradInput'
 import PeriodePicker from '../FormComponents/Sykmeldingsperiode/PeriodePicker'
-import { PeriodeType } from '../../graphql/queries/graphql.generated'
+import PeriodeSelect from '../FormComponents/Sykmeldingsperiode/PeriodeSelect'
 
 import { UtenlanskFormValues } from './SykmeldingForm'
 import styles from './Sykmeldingsperiode.module.css'

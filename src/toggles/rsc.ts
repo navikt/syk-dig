@@ -1,15 +1,15 @@
-import { evaluateFlags, getDefinitions, IToggle } from '@unleash/nextjs'
-import { getToken, parseAzureUserToken } from '@navikt/oasis'
 import { logger } from '@navikt/next-logger'
-import * as R from 'remeda'
+import { getToken, parseAzureUserToken } from '@navikt/oasis'
+import { evaluateFlags, getDefinitions, IToggle } from '@unleash/nextjs'
 import { cookies, headers } from 'next/headers'
 import NodeCache from 'node-cache'
+import * as R from 'remeda'
 
 import { isLocalOrDemo } from '../utils/env'
 
-import { getUnleashEnvironment, localDevelopmentToggles } from './utils'
-import { EXPECTED_TOGGLES } from './toggles'
 import { UNLEASH_COOKIE_NAME } from './cookie'
+import { EXPECTED_TOGGLES } from './toggles'
+import { getUnleashEnvironment, localDevelopmentToggles } from './utils'
 
 export async function getToggles(): Promise<{ toggles: IToggle[] }> {
     if ((EXPECTED_TOGGLES as readonly string[]).length === 0) {
@@ -34,16 +34,18 @@ export async function getToggles(): Promise<{ toggles: IToggle[] }> {
     } catch (e) {
         logger.error(new Error('Failed to get flags from Unleash. Falling back to default flags.', { cause: e }))
         return {
-            toggles: EXPECTED_TOGGLES.map((it): IToggle => ({
-                name: it,
-                variant: {
-                    name: 'default',
-                    // Default to on if failed
-                    enabled: true,
-                },
-                impressionData: false,
-                enabled: false,
-            })),
+            toggles: EXPECTED_TOGGLES.map(
+                (it): IToggle => ({
+                    name: it,
+                    variant: {
+                        name: 'default',
+                        // Default to on if failed
+                        enabled: true,
+                    },
+                    impressionData: false,
+                    enabled: false,
+                }),
+            ),
         }
     }
 }

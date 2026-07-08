@@ -1,7 +1,7 @@
 import { lazyNextleton } from 'nextleton'
 
-import { MockSessionStore } from './MockSessionStore'
 import { type MockEngine } from './MockEngine'
+import { MockSessionStore } from './MockSessionStore'
 import { getSessionId } from './session'
 
 const sessionRecord = lazyNextleton('mock-session-store', () => new MockSessionStore())

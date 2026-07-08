@@ -1,5 +1,5 @@
-import { headers } from 'next/headers'
 import { GraphQLError } from 'graphql'
+import { headers } from 'next/headers'
 
 import { notNull } from '../utils/tsUtils'
 

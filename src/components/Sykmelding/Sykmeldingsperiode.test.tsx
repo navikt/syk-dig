@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
-import { FormProvider, useForm } from 'react-hook-form'
-import { axe } from 'vitest-axe'
 import { ReactElement } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { describe, it, expect } from 'vitest'
+import { axe } from 'vitest-axe'
 
 import { render } from '../../utils/testUtils'
 

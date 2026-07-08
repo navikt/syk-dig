@@ -1,15 +1,15 @@
+import { Checkbox, CheckboxGroup, TextField } from '@navikt/ds-react'
 import React, { ReactElement } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
-import { Checkbox, CheckboxGroup, TextField } from '@navikt/ds-react'
 import * as R from 'remeda'
 
-import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 import SoloCheckbox from '../../../../FormComponents/SingleCheckbox/SoloCheckbox'
 import {
     ArbeidsrelatertArsakType,
     ArbeidsrelatertArsakTypeSchema,
     ArbeidsrelatertArsakTypeValues,
 } from '../../../schema/sykmelding/Periode'
+import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 
 type Props = {
     parent: `mulighetForArbeid.${number}`

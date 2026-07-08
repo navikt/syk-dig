@@ -1,5 +1,5 @@
-import { cookies } from 'next/headers'
 import { logger } from '@navikt/next-logger'
+import { cookies } from 'next/headers'
 
 export type PersistentPaneLayout = { 'left-form': number; 'right-pdf': number } | undefined
 

@@ -1,6 +1,6 @@
+import { logger } from '@navikt/next-logger'
 import { IToggle } from '@unleash/nextjs'
 import { ReactElement, createContext, PropsWithChildren, useContext, useEffect } from 'react'
-import { logger } from '@navikt/next-logger'
 
 import { ExpectedToggles } from './toggles'
 

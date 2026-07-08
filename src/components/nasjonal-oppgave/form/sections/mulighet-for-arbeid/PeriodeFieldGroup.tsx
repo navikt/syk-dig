@@ -1,14 +1,14 @@
+import { Textarea, TextField } from '@navikt/ds-react'
 import React, { ReactElement } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
-import { Textarea, TextField } from '@navikt/ds-react'
 
-import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
-import SoloCheckbox from '../../../../FormComponents/SingleCheckbox/SoloCheckbox'
 import { numberOnChange } from '../../../../../utils/formUtils'
+import SoloCheckbox from '../../../../FormComponents/SingleCheckbox/SoloCheckbox'
+import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 
 import FomTomPicker from './FomTomPicker'
-import MedisinskArsakFieldGroup from './MedisinskArsakFieldGroup'
 import ForholdArbeidsplassenFieldGroup from './ForholdArbeidsplassenFieldGroup'
+import MedisinskArsakFieldGroup from './MedisinskArsakFieldGroup'
 
 type Props = {
     fieldIndex: number

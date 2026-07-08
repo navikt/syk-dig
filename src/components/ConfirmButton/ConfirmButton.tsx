@@ -1,6 +1,6 @@
-import { PropsWithChildren, ReactElement, ReactNode, useState } from 'react'
 import { BodyShort, Button, Modal } from '@navikt/ds-react'
 import { ButtonProps } from '@navikt/ds-react'
+import { PropsWithChildren, ReactElement, ReactNode, useState } from 'react'
 
 interface Props extends Pick<ButtonProps, 'variant' | 'icon'> {
     preModalCheck?: () => Promise<boolean>

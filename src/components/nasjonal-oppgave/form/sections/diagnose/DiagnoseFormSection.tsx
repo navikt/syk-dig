@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react'
 
-import { getSectionTitle, sections } from '../../../sections'
 import FormSection from '../../../../form-layout/FormSection'
+import { getSectionTitle, sections } from '../../../sections'
 
-import DiagnoseFieldGroup from './DiagnoseFieldGroup'
-import AnnenLovfestetFravaersgrunnFieldGroup from './AnnenLovfestetFravaersgrunnField'
 import AndreDiagnoseOpplysningerFieldGroup from './AndreDiagnoseOpplysningerFieldGroup'
+import AnnenLovfestetFravaersgrunnFieldGroup from './AnnenLovfestetFravaersgrunnField'
+import DiagnoseFieldGroup from './DiagnoseFieldGroup'
 
 function DiagnoseFormSection(): ReactElement {
     return (

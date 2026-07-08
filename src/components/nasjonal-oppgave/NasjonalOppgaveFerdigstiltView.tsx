@@ -1,14 +1,14 @@
 'use client'
 
-import React, { ReactElement } from 'react'
 import { useQuery } from '@apollo/client/react'
+import React, { ReactElement } from 'react'
 
-import SplitDocumentView from '../split-view-layout/SplitDocumentView'
-import { PaneView } from '../split-view-layout/persistent-layout'
 import {
     NasjonalFerdigstiltOppgaveBySykmeldingIdDocument,
     SykmeldingUnderArbeidStatus,
 } from '../../graphql/queries/graphql.generated'
+import { PaneView } from '../split-view-layout/persistent-layout'
+import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 
 import NasjonalSykmeldingForm from './form/NasjonalSykmeldingForm'
 import {

@@ -1,8 +1,8 @@
 'use client'
 
-import { ReactElement, useEffect } from 'react'
 import { Alert, Heading } from '@navikt/ds-react'
 import { logger } from '@navikt/next-logger'
+import { ReactElement, useEffect } from 'react'
 
 export default function Error({ error }: { error: Error & { digest?: string } }): ReactElement {
     useEffect(() => {

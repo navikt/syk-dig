@@ -1,11 +1,11 @@
-import React, { ReactElement, useState } from 'react'
 import { DatePicker, RangeValidationT, useRangeDatepicker } from '@navikt/ds-react'
+import React, { ReactElement, useState } from 'react'
 import { useController } from 'react-hook-form'
 
-import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
-import { SMREG_SHORTHAND_FORMAT } from '../../../smregDateUtils'
 import { toDate } from '../../../../../utils/dateUtils'
 import { SelectedRange } from '../../../../FormComponents/dates/SelectedDate'
+import { SMREG_SHORTHAND_FORMAT } from '../../../smregDateUtils'
+import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 
 import styles from './FomTomPicker.module.css'
 

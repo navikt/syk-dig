@@ -1,5 +1,5 @@
-import { headers } from 'next/headers'
 import { getToken, validateToken } from '@navikt/oasis'
+import { headers } from 'next/headers'
 
 import { isLocalOrDemo } from '../utils/env'
 

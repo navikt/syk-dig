@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest'
 
-import { toDate } from '../../utils/dateUtils'
 import {
     AnnenFraversArsakGrunn,
     ArbeidsrelatertArsakType,
@@ -9,10 +8,11 @@ import {
     NasjonalSykmeldingValues,
 } from '../../graphql/queries/graphql.generated'
 import { createNasjonalOppgave } from '../../mocks/nasjonal/nasjonal-data-creators'
+import { toDate } from '../../utils/dateUtils'
 
 import { NasjonalFormValues } from './form/NasjonalSykmeldingFormTypes'
-import { Periode } from './schema/sykmelding/Periode'
 import { mapFormPeriodToRegistrertPeriod, mapFormValueToNasjonalSykmelding } from './nasjonal-sykmelding-mapping'
+import { Periode } from './schema/sykmelding/Periode'
 
 /**
  * These tests are from the old smreg registrertSykmeldingUtils.test.ts file.

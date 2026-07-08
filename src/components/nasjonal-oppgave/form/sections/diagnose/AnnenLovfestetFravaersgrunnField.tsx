@@ -1,11 +1,11 @@
-import * as R from 'remeda'
+import { Checkbox, CheckboxGroup, TextField } from '@navikt/ds-react'
 import React, { ReactElement } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
-import { Checkbox, CheckboxGroup, TextField } from '@navikt/ds-react'
+import * as R from 'remeda'
 
+import SoloCheckbox from '../../../../FormComponents/SingleCheckbox/SoloCheckbox'
 import { AnnenFraverGrunnSchema, AnnenFraverGrunnValues } from '../../../schema/sykmelding/MedisinskVurdering'
 import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
-import SoloCheckbox from '../../../../FormComponents/SingleCheckbox/SoloCheckbox'
 
 function AnnenLovfestetFravaersgrunnField(): ReactElement {
     const { register } = useFormContext<NasjonalFormValues>()

@@ -59,12 +59,12 @@ export const errorLink = new ErrorLink(({ error }) => {
             const errorType = extensions?.errorType
             if (typeof errorType === 'string' && warnOnlyErrorTypes.includes(errorType)) {
                 logger.warn(
-                    `[GraphQL ${errorType}]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`,
+                    `[GraphQL ${errorType}]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${JSON.stringify(path)}`,
                 )
                 return
             } else {
                 logger.error(
-                    `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${path}`,
+                    `[GraphQL error]: Message: ${message}, Location: ${JSON.stringify(locations)}, Path: ${JSON.stringify(path)}`,
                 )
             }
         })

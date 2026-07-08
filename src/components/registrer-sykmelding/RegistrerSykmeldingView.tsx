@@ -1,9 +1,9 @@
 'use client'
 
-import React, { ReactElement, useState } from 'react'
 import { useLazyQuery, useMutation } from '@apollo/client/react'
-import Link from 'next/link'
 import { Alert, BodyShort, Button, Detail, Heading, Radio, RadioGroup, TextField } from '@navikt/ds-react'
+import Link from 'next/link'
+import React, { ReactElement, useState } from 'react'
 
 import {
     JournalpostByIdDocument,
@@ -11,10 +11,10 @@ import {
     JournalpostStatusEnum,
     SykmeldingFraJournalpostDocument,
 } from '../../graphql/queries/graphql.generated'
-import SplitDocumentView from '../split-view-layout/SplitDocumentView'
-import { PaneView } from '../split-view-layout/persistent-layout'
 import { useModiaContext } from '../../modia/modia-context'
 import { raise } from '../../utils/tsUtils'
+import { PaneView } from '../split-view-layout/persistent-layout'
+import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 
 import RegistrerSykmeldingDocuments from './RegistrerSykmeldingDocuments'
 
@@ -39,7 +39,7 @@ function RegistrerSykmeldingView({ layout }: PaneView): ReactElement {
 
     const hentJournalpost = (): void => {
         if (isValidJournalpostId) {
-            registrer({ variables: { id: journalpostId } })
+            void registrer({ variables: { id: journalpostId } })
         }
     }
 

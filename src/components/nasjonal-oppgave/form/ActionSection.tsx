@@ -1,20 +1,20 @@
-import React, { ReactElement, useState } from 'react'
-import { Alert, BodyShort, Button, ConfirmationPanel, Heading, List } from '@navikt/ds-react'
 import { useMutation } from '@apollo/client/react'
 import { ArrowLeftIcon } from '@navikt/aksel-icons'
+import { Alert, BodyShort, Button, ConfirmationPanel, Heading, List } from '@navikt/ds-react'
 import { logger } from '@navikt/next-logger'
+import React, { ReactElement, useState } from 'react'
 
-import { MutationResultFeedback } from '../../Sykmelding/ActionSection/MutationFeedbackSection'
-import FeedbackModal from '../../Sykmelding/ActionSection/FeedbackModal'
-import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
-import { redirectTilGosys } from '../../../utils/gosys'
 import { SaveOppgaveNasjonalMutation, SykmeldingUnderArbeidStatus } from '../../../graphql/queries/graphql.generated'
 import { useModiaContext } from '../../../modia/modia-context'
+import { bundledEnv, isLocalOrDemo } from '../../../utils/env'
+import { redirectTilGosys } from '../../../utils/gosys'
 import { raise } from '../../../utils/tsUtils'
+import FeedbackModal from '../../Sykmelding/ActionSection/FeedbackModal'
+import { MutationResultFeedback } from '../../Sykmelding/ActionSection/MutationFeedbackSection'
 
-import { useAvvisSykmeldingNasjonal, useTilbakeTilGosysNasjonal } from './useOtherSykmeldingActions'
-import SendToGosysButton from './SendToGosysButton'
 import AvvisButton from './AvvisButton'
+import SendToGosysButton from './SendToGosysButton'
+import { useAvvisSykmeldingNasjonal, useTilbakeTilGosysNasjonal } from './useOtherSykmeldingActions'
 
 type Props = {
     submitResult: useMutation.Result<SaveOppgaveNasjonalMutation>

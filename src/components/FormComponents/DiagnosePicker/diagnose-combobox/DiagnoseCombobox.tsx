@@ -1,7 +1,7 @@
-import { ReactElement, startTransition } from 'react'
-import useSWR from 'swr'
 import { Detail, Label } from '@navikt/ds-react'
 import { logger } from '@navikt/next-logger'
+import { ReactElement, startTransition } from 'react'
+import useSWR from 'swr'
 
 import {
     AkselifiedCombobox,

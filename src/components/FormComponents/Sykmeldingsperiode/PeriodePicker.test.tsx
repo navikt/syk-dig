@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
-import { FormProvider, useForm } from 'react-hook-form'
 import userEvent from '@testing-library/user-event'
 import { ReactElement } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { describe, it, expect } from 'vitest'
 
 import { render, screen } from '../../../utils/testUtils'
 

@@ -1,9 +1,9 @@
-import React, { ReactElement } from 'react'
 import { Heading, HelpText, Table, Tag } from '@navikt/ds-react'
+import React, { ReactElement } from 'react'
 
+import { BehandlerFragment, SykmelderFragment } from '../../../../../graphql/queries/graphql.generated'
 import FormInfo from '../../../../form-layout/FormInfo'
 import { AutorisasjonValues, HelsepersonellkategoriValues } from '../../../schema/Sykmelder'
-import { BehandlerFragment, SykmelderFragment } from '../../../../../graphql/queries/graphql.generated'
 
 type Props = {
     behandlerInfo: BehandlerFragment | null

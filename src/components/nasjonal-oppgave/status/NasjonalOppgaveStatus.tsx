@@ -1,5 +1,5 @@
-import { ReactElement } from 'react'
 import { Alert, BodyShort, Heading } from '@navikt/ds-react'
+import { ReactElement } from 'react'
 
 import { NasjonalOppgaveStatusEnum, NasjonalOppgaveStatusFragment } from '../../../graphql/queries/graphql.generated'
 import styles from '../../utenlandsk-oppgave/status/OppgaveStatus.module.css'

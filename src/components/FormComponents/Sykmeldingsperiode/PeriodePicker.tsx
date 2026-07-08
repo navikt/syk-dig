@@ -1,7 +1,7 @@
-import { useController, useFormContext } from 'react-hook-form'
 import { DatePicker, useRangeDatepicker } from '@navikt/ds-react'
 import { differenceInDays, isAfter, isBefore, isSameDay } from 'date-fns'
 import { ReactElement } from 'react'
+import { useController, useFormContext } from 'react-hook-form'
 
 import { toDate } from '../../../utils/dateUtils'
 import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'

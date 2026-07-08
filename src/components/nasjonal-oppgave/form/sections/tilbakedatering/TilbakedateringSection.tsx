@@ -3,8 +3,8 @@ import React, { ReactElement } from 'react'
 import FormSection from '../../../../form-layout/FormSection'
 import { getSectionTitle, sections } from '../../../sections'
 
-import TilbakedateringSectionGroup from './TilbakedateringSectionGroup'
 import IvaretaEgenIntesseSectionGroup from './IvaretaEgenIntesseSectionGroup'
+import TilbakedateringSectionGroup from './TilbakedateringSectionGroup'
 
 function TilbakedateringSection(): ReactElement {
     return (

@@ -1,8 +1,8 @@
-import React, { ReactElement } from 'react'
 import { Metadata } from 'next'
+import React, { ReactElement } from 'react'
 
-import UtenlandskOppgaveView from '../../../components/utenlandsk-oppgave/UtenlandskOppgaveView'
 import { getPersistentPaneLayout } from '../../../components/split-view-layout/persistent-layout'
+import UtenlandskOppgaveView from '../../../components/utenlandsk-oppgave/UtenlandskOppgaveView'
 
 export const metadata: Metadata = {
     title: 'Registrer mangler i utenlandsk sykmelding',

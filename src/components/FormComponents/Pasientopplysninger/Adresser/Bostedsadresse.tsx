@@ -3,9 +3,9 @@ import { ReactElement } from 'react'
 
 import { BostedsadresseFragment } from '../../../../graphql/queries/graphql.generated'
 
-import Vegadresse from './Vegadresse'
 import Matrikkeladresse from './Matrikkeladresse'
 import UtenlandskAdresse from './Utenlandskadresse'
+import Vegadresse from './Vegadresse'
 
 type BostedsadresseProps = {
     bostedsadresse: BostedsadresseFragment | null

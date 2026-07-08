@@ -36,7 +36,7 @@ export function useOppgaveParam(location: Location): OppgaveRoute {
             }
             return { oppgaveId }
         default: {
-            throw new Error(`Unknown location: ${location}`)
+            throw new Error(`Unknown location: ${location as string}`)
         }
     }
 }

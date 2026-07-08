@@ -1,6 +1,6 @@
-import React, { PropsWithChildren, ReactElement } from 'react'
 import * as Combobox from '@ariakit/react/combobox'
 import { Label, Loader } from '@navikt/ds-react'
+import React, { PropsWithChildren, ReactElement } from 'react'
 
 import { cn } from '../../../utils/tw-utils'
 
@@ -124,6 +124,7 @@ export function AkselifiedComboboxLoading(): ReactElement {
 
 export function AkselifiedComboboxNonSelectables({ children }: PropsWithChildren): ReactElement {
     return (
+        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
         <div className="navds-combobox__list_non-selectables" role="status">
             {children}
         </div>

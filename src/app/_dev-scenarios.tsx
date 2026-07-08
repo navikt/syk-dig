@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react'
-import Link from 'next/link'
 import { Heading, Alert } from '@navikt/ds-react'
+import Link from 'next/link'
+import React, { ReactElement } from 'react'
 
 function DevScenarios(): ReactElement {
     return (

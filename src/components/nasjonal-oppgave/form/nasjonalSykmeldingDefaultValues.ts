@@ -1,15 +1,15 @@
-import { DefaultValues } from 'react-hook-form'
 import { logger } from '@navikt/next-logger'
+import { DefaultValues } from 'react-hook-form'
 
-import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
-import { notNull, raise } from '../../../utils/tsUtils'
-import { safeToDate, toDate } from '../../../utils/dateUtils'
-import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
 import {
     HarArbeidsgiver,
     NasjonalPeriodeFragment,
     NasjonalSykmeldingFragment,
 } from '../../../graphql/queries/graphql.generated'
+import { safeToDate, toDate } from '../../../utils/dateUtils'
+import { notNull, raise } from '../../../utils/tsUtils'
+import { DiagnoseSystem } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { DiagnosekodeSystem } from '../schema/diagnosekoder/Diagnosekoder'
 
 import {
     AktivitetIkkeMuligPeriode,

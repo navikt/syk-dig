@@ -1,8 +1,8 @@
-import { PropsWithChildren, ReactElement, ReactNode } from 'react'
 import { Heading } from '@navikt/ds-react'
+import { PropsWithChildren, ReactElement, ReactNode } from 'react'
 
-import { SmallHeadingSkeleton } from '../skeleton/Skeletons'
 import { cn } from '../../utils/tw-utils'
+import { SmallHeadingSkeleton } from '../skeleton/Skeletons'
 
 export interface Props {
     id?: string

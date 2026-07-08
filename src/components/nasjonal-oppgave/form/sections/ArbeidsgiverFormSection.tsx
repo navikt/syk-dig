@@ -1,12 +1,12 @@
-import React, { ReactElement } from 'react'
 import { Select, TextField } from '@navikt/ds-react'
+import React, { ReactElement } from 'react'
 import { useController } from 'react-hook-form'
 
-import { getSectionTitle, sections } from '../../sections'
+import { numberOnChange } from '../../../../utils/formUtils'
 import FormSection from '../../../form-layout/FormSection'
 import { HarArbeidsgiverValues } from '../../schema/sykmelding/Arbeidsgiver'
+import { getSectionTitle, sections } from '../../sections'
 import { NasjonalFormValues } from '../NasjonalSykmeldingFormTypes'
-import { numberOnChange } from '../../../../utils/formUtils'
 
 import styles from './ArbeidsgiverFormSection.module.css'
 

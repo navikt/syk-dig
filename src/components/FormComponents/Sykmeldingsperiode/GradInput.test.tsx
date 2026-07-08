@@ -1,11 +1,11 @@
-import { describe, it, expect } from 'vitest'
-import { FormProvider, useForm } from 'react-hook-form'
-import { axe } from 'vitest-axe'
 import { ReactElement } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
+import { describe, it, expect } from 'vitest'
+import { axe } from 'vitest-axe'
 
+import { PeriodeType } from '../../../graphql/queries/graphql.generated'
 import { render, screen } from '../../../utils/testUtils'
 import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
-import { PeriodeType } from '../../../graphql/queries/graphql.generated'
 
 import GradInput from './GradInput'
 

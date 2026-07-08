@@ -1,5 +1,6 @@
 import React, { ReactElement, startTransition, useState } from 'react'
 
+import { countries } from '../../../../utils/countries'
 import {
     AkselifiedCombobox,
     AkselifiedComboboxDisclosure,
@@ -9,7 +10,6 @@ import {
     AkselifiedComboboxPopover,
     AkselifiedComboboxWrapper,
 } from '../../combobox/AkselifiedCombobox'
-import { countries } from '../../../../utils/countries'
 
 type Props = {
     id?: string

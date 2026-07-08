@@ -1,30 +1,20 @@
 import { CodegenConfig } from '@graphql-codegen/cli'
 
-const eslintDisabler = { add: { content: '/* eslint-disable */' } }
+const oxlintDisabler = { add: { content: '/* oxlint-disable */' } }
 
 const config: CodegenConfig = {
     overwrite: true,
     schema: ['schema.json', './src/**/*.graphqls'],
     documents: './src/**/*.graphql',
     hooks: {
-        afterAllFileWrite: ['prettier --write'],
+        afterAllFileWrite: ['oxfmt'],
     },
     generates: {
         './src/graphql/queries/possible-types.generated.ts': {
             plugins: ['fragment-matcher'],
         },
         './src/graphql/queries/graphql.generated.ts': {
-            plugins: [
-                'typescript',
-                'typescript-operations',
-                'typed-document-node',
-                {
-                    add: {
-                        placement: 'prepend',
-                        content: '/* eslint-disable @typescript-eslint/no-explicit-any */',
-                    },
-                },
-            ],
+            plugins: ['typescript', 'typescript-operations', 'typed-document-node', oxlintDisabler],
             config: {
                 exportFragmentSpreadSubTypes: true,
                 scalars: { Date: 'string', DateTime: 'string' },
@@ -33,7 +23,7 @@ const config: CodegenConfig = {
             },
         },
         './src/mocks/mock-resolvers.generated.ts': {
-            plugins: ['typescript', 'typescript-resolvers', eslintDisabler],
+            plugins: ['typescript', 'typescript-resolvers', oxlintDisabler],
             config: {
                 enumsAsTypes: true,
                 scalars: { DateTime: 'string', DateOnly: 'string', JSON: 'unknown' },

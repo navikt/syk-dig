@@ -1,5 +1,5 @@
-import React, { ReactElement, Ref } from 'react'
 import { Checkbox, CheckboxGroup, CheckboxGroupProps } from '@navikt/ds-react'
+import React, { ReactElement, Ref } from 'react'
 
 type Props = Omit<CheckboxGroupProps, 'onChange' | 'value'> & {
     ref: Ref<HTMLFieldSetElement>

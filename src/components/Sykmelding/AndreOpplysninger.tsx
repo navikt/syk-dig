@@ -1,5 +1,5 @@
-import { useController } from 'react-hook-form'
 import { ReactElement } from 'react'
+import { useController } from 'react-hook-form'
 
 import FormSection from '../form-layout/FormSection'
 import DatoSykmeldingenBleSkrevet from '../FormComponents/Pasientopplysninger/DatoSykmeldingenBleSkrevet'

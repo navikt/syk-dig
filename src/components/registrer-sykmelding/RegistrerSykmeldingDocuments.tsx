@@ -1,10 +1,10 @@
-import React, { ReactElement } from 'react'
 import { ErrorLike } from '@apollo/client'
+import React, { ReactElement } from 'react'
 
-import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
-import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
-import DocumentsViewer from '../split-view-layout/document/DocumentView'
 import { JournalpostByIdQuery } from '../../graphql/queries/graphql.generated'
+import DocumentsViewer from '../split-view-layout/document/DocumentView'
+import DocumentsViewerNoDocuments from '../split-view-layout/document/DocumentViewNoDocuments'
+import DocumentsViewerSkeleton from '../split-view-layout/document/DocumentViewSkeleton'
 
 type Props = {
     loading: boolean

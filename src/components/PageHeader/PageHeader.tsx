@@ -1,11 +1,11 @@
 'use client'
 
-import React, { ReactElement } from 'react'
-import Link from 'next/link'
 import { Select, InternalHeader } from '@navikt/ds-react'
+import Link from 'next/link'
+import React, { ReactElement } from 'react'
 
-import { bundledEnv } from '../../utils/env'
 import { useModiaContext } from '../../modia/modia-context'
+import { bundledEnv } from '../../utils/env'
 
 function PageHeader(): ReactElement {
     const modiaContext = useModiaContext()

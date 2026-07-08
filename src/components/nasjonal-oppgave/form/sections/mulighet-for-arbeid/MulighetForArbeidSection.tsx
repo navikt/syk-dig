@@ -1,15 +1,15 @@
+import { XMarkIcon } from '@navikt/aksel-icons'
+import { Button } from '@navikt/ds-react'
 import React, { ReactElement } from 'react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
-import { Button } from '@navikt/ds-react'
-import { XMarkIcon } from '@navikt/aksel-icons'
 
 import FormSection from '../../../../form-layout/FormSection'
 import { getSectionTitle, sections } from '../../../sections'
-import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 import { createEmptyAktivitetMuligPeriode } from '../../nasjonalSykmeldingDefaultValues'
+import { NasjonalFormValues } from '../../NasjonalSykmeldingFormTypes'
 
-import PeriodetypeSelectField from './PeriodetypeSelectField'
 import PeriodeFieldGroup from './PeriodeFieldGroup'
+import PeriodetypeSelectField from './PeriodetypeSelectField'
 
 function MulighetForArbeidSection(): ReactElement {
     const { control } = useFormContext<NasjonalFormValues>()

@@ -1,6 +1,6 @@
-import { ReactElement, useState } from 'react'
-import cn from 'clsx'
 import { Heading } from '@navikt/ds-react'
+import cn from 'clsx'
+import { ReactElement, useState } from 'react'
 
 import Pdf from '../../Pdf/Pdf'
 
