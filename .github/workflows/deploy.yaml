@@ -188,11 +188,9 @@ jobs:
         shardTotal: [4]
     steps:
       - uses: actions/checkout@v7
-      - run: corepack enable
-      - uses: actions/setup-node@v6
-        id: setup-node
+      - uses: navikt/tsm-workflows/actions/yarn@main
         with:
-          node-version: 24
+          READER_TOKEN: ${{ secrets.READER_TOKEN }}
       - uses: navikt/tsm-workflows/actions/playwright/run@main
         with:
           shardIndex: ${{ matrix.shardIndex }}
