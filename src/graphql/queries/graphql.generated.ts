@@ -1164,8 +1164,7 @@ export type NasjonalOppgaveResult_NasjonalOppgaveStatus_Fragment = {
 }
 
 export type NasjonalOppgaveResultFragment =
-    | NasjonalOppgaveResult_NasjonalOppgave_Fragment
-    | NasjonalOppgaveResult_NasjonalOppgaveStatus_Fragment
+    NasjonalOppgaveResult_NasjonalOppgave_Fragment | NasjonalOppgaveResult_NasjonalOppgaveStatus_Fragment
 
 export type NasjonalOppgaveStatusFragment = {
     __typename: 'NasjonalOppgaveStatus'
@@ -1269,8 +1268,7 @@ export type NasjonalSykmeldingResult_NasjonalSykmeldingStatus_Fragment = {
 }
 
 export type NasjonalSykmeldingResultFragment =
-    | NasjonalSykmeldingResult_NasjonalOppgave_Fragment
-    | NasjonalSykmeldingResult_NasjonalSykmeldingStatus_Fragment
+    NasjonalSykmeldingResult_NasjonalOppgave_Fragment | NasjonalSykmeldingResult_NasjonalSykmeldingStatus_Fragment
 
 export type NasjonalSykmeldingStatusFragment = {
     __typename: 'NasjonalSykmeldingStatus'
@@ -2465,8 +2463,7 @@ export type LagreOppgaveResult_ValidationResult_Fragment = {
 }
 
 export type LagreOppgaveResultFragment =
-    | LagreOppgaveResult_LagreNasjonalOppgaveStatus_Fragment
-    | LagreOppgaveResult_ValidationResult_Fragment
+    LagreOppgaveResult_LagreNasjonalOppgaveStatus_Fragment | LagreOppgaveResult_ValidationResult_Fragment
 
 export type TilbakeTilGosysNasjonalMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input']

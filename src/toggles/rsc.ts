@@ -34,18 +34,16 @@ export async function getToggles(): Promise<{ toggles: IToggle[] }> {
     } catch (e) {
         logger.error(new Error('Failed to get flags from Unleash. Falling back to default flags.', { cause: e }))
         return {
-            toggles: EXPECTED_TOGGLES.map(
-                (it): IToggle => ({
-                    name: it,
-                    variant: {
-                        name: 'default',
-                        // Default to on if failed
-                        enabled: true,
-                    },
-                    impressionData: false,
-                    enabled: false,
-                }),
-            ),
+            toggles: EXPECTED_TOGGLES.map((it): IToggle => ({
+                name: it,
+                variant: {
+                    name: 'default',
+                    // Default to on if failed
+                    enabled: true,
+                },
+                impressionData: false,
+                enabled: false,
+            })),
         }
     }
 }
