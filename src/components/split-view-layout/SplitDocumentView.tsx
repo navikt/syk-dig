@@ -1,9 +1,8 @@
 import { ExpandIcon, SidebarLeftIcon, XMarkIcon } from '@navikt/aksel-icons'
 import { Button, Tooltip } from '@navikt/ds-react'
-import React, { PropsWithChildren, ReactElement, ReactNode, useEffect, useRef } from 'react'
+import React, { PropsWithChildren, ReactElement, ReactNode } from 'react'
 import { Group, Panel, Separator } from 'react-resizable-panels'
 
-import analytics from '../../utils/analytics'
 import { bundledEnv } from '../../utils/env'
 import { cn } from '../../utils/tw-utils'
 
@@ -30,7 +29,6 @@ function SplitDocumentView({
     defaultLayout,
 }: PropsWithChildren<Props>): ReactElement {
     const { setView, viewState, refs, onLayout } = useSplitDocumentState(defaultLayout)
-    const initialMountComplete = useInitialMountComplete()
 
     return (
         <div
@@ -42,39 +40,17 @@ function SplitDocumentView({
                 open={viewState !== 'both'}
                 value={viewState}
                 onTabChange={(value) => {
-                    analytics.splitViewTabToggled(value)
                     setView(value)
                 }}
             />
             <Group orientation="horizontal" defaultLayout={defaultLayout ?? basisLayout} onLayoutChanged={onLayout}>
-                <Panel
-                    id="left-form"
-                    panelRef={refs.formPane}
-                    minSize="30%"
-                    collapsible
-                    onResize={(nextSize, _, prevSize) => {
-                        if (prevSize !== undefined && initialMountComplete) {
-                            const wasCollapsed = prevSize.asPercentage === 0
-                            const isCollapsed = nextSize.asPercentage === 0
-
-                            if (isCollapsed !== wasCollapsed) {
-                                if (wasCollapsed && !isCollapsed) {
-                                    analytics.splitViewToggled('form expand', true)
-                                } else if (!wasCollapsed && isCollapsed) {
-                                    analytics.splitViewToggled('form collapse', true)
-                                }
-                            }
-                        }
-                    }}
-                >
+                <Panel id="left-form" panelRef={refs.formPane} minSize="30%" collapsible>
                     <section id="form-panel" aria-labelledby="form-tab" className={styles.section} role="tabpanel">
                         <SplitDocumentViewTitle
                             title={title}
                             ingress={ingress}
                             showTabs={viewState !== 'both'}
                             toggleTabs={(enabled) => {
-                                if (initialMountComplete) analytics.splitViewToggled(`toggled by button: ${enabled}`)
-
                                 setView(enabled ? 'form' : 'both')
                             }}
                             closeReturnsTo={closeReturnsTo}
@@ -83,26 +59,7 @@ function SplitDocumentView({
                     </section>
                 </Panel>
                 <Separator className="w-2 hover:bg-border-subtle-hover data-[resize-handle-state=drag]:bg-border-action" />
-                <Panel
-                    id="right-pdf"
-                    panelRef={refs.pdfPane}
-                    minSize="20%"
-                    collapsible
-                    onResize={(nextSize, _, prevSize) => {
-                        if (prevSize !== undefined && initialMountComplete) {
-                            const wasCollapsed = prevSize.asPercentage === 0
-                            const isCollapsed = nextSize.asPercentage === 0
-
-                            if (isCollapsed !== wasCollapsed) {
-                                if (wasCollapsed && !isCollapsed) {
-                                    analytics.splitViewToggled('pdf expand', true)
-                                } else if (!wasCollapsed && isCollapsed) {
-                                    analytics.splitViewToggled('pdf collapse', true)
-                                }
-                            }
-                        }
-                    }}
-                >
+                <Panel id="right-pdf" panelRef={refs.pdfPane} minSize="20%" collapsible>
                     <div className={styles.pdf}>{documentView}</div>
                 </Panel>
             </Group>
@@ -170,17 +127,6 @@ function SplitDocumentViewTitle({
             }
         />
     )
-}
-
-function useInitialMountComplete(): boolean {
-    const initialMount = useRef(false)
-    useEffect(() => {
-        if (!initialMount.current) {
-            initialMount.current = true
-            return
-        }
-    }, [])
-    return initialMount.current
 }
 
 export default SplitDocumentView

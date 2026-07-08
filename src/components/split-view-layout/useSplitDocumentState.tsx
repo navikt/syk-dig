@@ -23,7 +23,7 @@ export function useSplitDocumentState(defaultLayout: PersistentPaneLayout): UseS
     const formPane = usePanelRef()
     const pdfPane = usePanelRef()
 
-    const anyCollapsed = panelSizes['']
+    const anyCollapsed = panelSizes['left-form'] === 0 || panelSizes['right-pdf'] === 0
     const viewState: ViewState = !anyCollapsed ? 'both' : panelSizes[0] === 0 ? 'pdf' : 'form'
 
     const onLayout = (layout: Layout): void => {
