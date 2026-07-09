@@ -24,7 +24,7 @@ function DiagnoseFieldGroup(): ReactElement {
                 <Heading size="xsmall" level="3" spacing id="bidiagnose-heading">
                     3.2 Bidiagnose
                 </Heading>
-                <div className="flex flex-col gap-8 divide-y-2 divide-border-divider [&>div]:pt-8 [&>div:first-child]:p-0">
+                <div className="flex flex-col gap-8 divide-y-2 divide-ax-border-neutral-subtle [&>div]:pt-8 [&>div:first-child]:p-0">
                     {fields.map((field, index) => (
                         <DiagnosePicker
                             key={field.id}

@@ -6,7 +6,7 @@ function SimpleConfirmationPanel(props: Omit<ConfirmationPanelProps, 'className'
         <ConfirmationPanel
             {...props}
             size="small"
-            className="[&>div]:border-none [&>div]:!bg-transparent [&>div]:pl-0"
+            className="[&>div]:border-none [&>div]:bg-transparent! [&>div]:pl-0"
         />
     )
 }

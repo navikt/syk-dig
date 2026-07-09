@@ -24,7 +24,7 @@ function SendToGosysButton({ tilbakeTilGosys, tilbakeTilGosysResult }: Props): R
                         utenlandsk sykmelding, en søknad om yrkesskadeerstatning eller noe annet.
                     </Alert>,
                     <Alert key="gosys-warning" variant="warning">
-                        <span className="font-bold">Obs!</span> Hvis en sykmelding feilaktig sendes til Gosys kan den
+                        <span className="font-ax-bold">Obs!</span> Hvis en sykmelding feilaktig sendes til Gosys kan den
                         aldri bli tilgjengelig for brukeren digitalt.
                     </Alert>,
                 ],

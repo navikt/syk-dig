@@ -58,7 +58,7 @@ function SplitDocumentView({
                         <div>{children}</div>
                     </section>
                 </Panel>
-                <Separator className="w-2 hover:bg-border-subtle-hover data-[resize-handle-state=drag]:bg-border-action" />
+                <Separator className="w-2 hover:bg-ax-border-neutral data-[resize-handle-state=drag]:bg-ax-border-accent" />
                 <Panel id="right-pdf" panelRef={refs.pdfPane} minSize="20%" collapsible>
                     <div className={styles.pdf}>{documentView}</div>
                 </Panel>

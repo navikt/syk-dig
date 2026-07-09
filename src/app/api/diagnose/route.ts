@@ -2,9 +2,8 @@ import { logger } from '@navikt/next-logger'
 import { NextRequest } from 'next/server'
 
 import { isValidToken } from '../../../auth/rsc'
-import { DiagnoseSystem } from '../../../components/FormComponents/DiagnosePicker/diagnose-combobox/types'
 
-import { searchSystem } from './search-system'
+import { searchDiagnose } from './search-system'
 
 export async function GET(request: NextRequest): Promise<Response> {
     const userLoggedIn = await isValidToken()
@@ -25,6 +24,6 @@ export async function GET(request: NextRequest): Promise<Response> {
     }
 
     return Response.json({
-        suggestions: searchSystem(system.toLowerCase() as Lowercase<DiagnoseSystem>, value),
+        suggestions: searchDiagnose(value, [system]),
     })
 }

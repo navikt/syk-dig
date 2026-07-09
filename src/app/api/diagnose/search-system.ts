@@ -1,33 +1,62 @@
-import { ICD10, ICPC2 } from '@navikt/diagnosekoder'
+import { ICD10, ICPC2 } from '@navikt/tsm-diagnoser'
 import Fuse from 'fuse.js'
+import * as R from 'remeda'
 
-import { DiagnoseSuggestion } from '../../../components/FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { Diagnose, DiagnoseSystem } from '../../../components/FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { raise } from '../../../utils/tsUtils'
 
-const fuseIcd10 = new Fuse(ICD10, { keys: ['code', 'text'], threshold: 0.2 })
-const fuseIcpc2 = new Fuse(ICPC2, { keys: ['code', 'text'], threshold: 0.2 })
+const icd10Fuse = new Fuse(
+    ICD10.map((it) => ({
+        ...it,
+        // Remove the period to match the format of the old diagnose-library
+        code: it.code.replace('.', ''),
+    })),
+    { keys: ['code', 'text', 'system'], threshold: 0.2 },
+)
+const icpc2Fuse = new Fuse(ICPC2, { keys: ['code', 'text', 'system'], threshold: 0.2 })
 
-export function searchSystem(system: 'icd10' | 'icpc2', value: string): DiagnoseSuggestion[] {
-    if (system === 'icd10') {
-        if ((value ?? '').trim() === '') {
-            return ICD10.slice(0, 100)
-        }
+export function searchDiagnose(query: string, systems: DiagnoseSystem[]): Diagnose[] {
+    return R.pipe(
+        systems,
+        R.map(getSystemFuse),
+        R.map((it) => it.search(query)),
+        R.flat(),
+        R.map(
+            (it) =>
+                ({
+                    system: it.item.system as DiagnoseSystem,
+                    code: it.item.code,
+                    text: it.item.text,
+                    score: it.score ?? null,
+                }) satisfies Diagnose & { score: number | null },
+        ),
+        R.take(100),
+    )
+}
 
-        return fuseIcd10
-            .search(value)
-            .map((it) => it.item)
-            .slice(0, 100)
-    } else {
-        if ((value ?? '').trim() === '') {
-            return ICPC2.slice(0, 100)
-        }
+function getSystemFuse(system: DiagnoseSystem): typeof icd10Fuse | typeof icpc2Fuse {
+    switch (system) {
+        case 'ICD10':
+            return icd10Fuse
+        case 'ICPC2':
+            return icpc2Fuse
+    }
+}
 
-        return (
-            fuseIcpc2
-                .search(value)
-                .map((it) => it.item)
-                // There's a weird quirk in @navikt/diagnosekoder where the items have some non-serializable attributes
-                .map((it) => ({ text: it.text, code: it.code }))
-                .slice(0, 100)
-        )
+export function getDiagnoseText(system: DiagnoseSystem, code: string): string {
+    const diagnose = getSystem(system).find((it) => it.code.replace('.', '') === code)
+    if (!diagnose) {
+        raise(`No diagnose found in ${system} with code ${code}`)
+    }
+
+    return diagnose.text
+}
+
+function getSystem(system: DiagnoseSystem): typeof ICD10 | typeof ICPC2 {
+    switch (system) {
+        case 'ICD10':
+            return ICD10
+        case 'ICPC2':
+            return ICPC2
     }
 }

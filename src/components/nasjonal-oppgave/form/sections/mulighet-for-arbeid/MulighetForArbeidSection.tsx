@@ -20,7 +20,7 @@ function MulighetForArbeidSection(): ReactElement {
 
     return (
         <FormSection id="mulighet-for-arbeid-seksjon" title={getSectionTitle(sections.MULIGHET_FOR_ARBEID)}>
-            <div className="flex flex-col gap-8 divide-y-2 divide-border-divider [&>section]:pt-8 [&>section:first-child]:p-0">
+            <div className="flex flex-col gap-8 divide-y-2 divide-ax-border-neutral-subtle [&>section]:pt-8 [&>section:first-child]:p-0">
                 {fields.map((field, index) => (
                     <section key={field.id} aria-label={`Periode ${index + 1}`}>
                         <div className="relative">

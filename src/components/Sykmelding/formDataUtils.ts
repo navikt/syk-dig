@@ -2,8 +2,9 @@ import { DefaultValues } from 'react-hook-form'
 
 import { DiagnoseFragment, OppgaveValuesFragment, PeriodeType } from '../../graphql/queries/graphql.generated'
 import { toDate } from '../../utils/dateUtils'
-import { DiagnoseFormValue, DiagnoseSystem } from '../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { DiagnoseSystem } from '../FormComponents/DiagnosePicker/diagnose-combobox/types'
 
+import { DiagnoseFormValue } from './DiagnoseFormSection'
 import { UtenlanskFormValues } from './SykmeldingForm'
 
 type DefaultFormValues = DefaultValues<UtenlanskFormValues>

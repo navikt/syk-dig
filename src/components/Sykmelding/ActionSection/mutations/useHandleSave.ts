@@ -16,7 +16,7 @@ import { useModiaContext } from '../../../../modia/modia-context'
 import { safeDate, safeString } from '../../../../utils/formUtils'
 import { notNull, raise } from '../../../../utils/tsUtils'
 import { Location, useOppgaveParam, useSykmeldingParam } from '../../../../utils/useOppgaveParam'
-import { DiagnoseFormValue } from '../../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { DiagnoseFormValue } from '../../DiagnoseFormSection'
 import { UtenlanskFormValues } from '../../SykmeldingForm'
 import { PeriodeFormValue } from '../../Sykmeldingsperiode'
 

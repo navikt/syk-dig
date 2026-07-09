@@ -31,7 +31,7 @@ export function SectionHeader({ headingId, title }: SectionHeaderProps): ReactEl
             level="2"
             size="xsmall"
             id={headingId}
-            className="mb-2 flex h-14 items-center bg-bg-subtle pl-4 uppercase"
+            className="mb-2 flex h-14 items-center bg-ax-bg-neutral-soft pl-4 uppercase"
         >
             {title}
         </Heading>

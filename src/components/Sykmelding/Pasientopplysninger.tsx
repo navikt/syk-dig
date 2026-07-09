@@ -1,8 +1,8 @@
 import { ReactElement } from 'react'
 
-import { Person } from '../../graphql/queries/graphql.generated'
+import { Person } from '../../graphql/queries/types.generated'
 import FormSection from '../form-layout/FormSection'
-import CountryPicker from '../FormComponents/CountryPicker/CountryPicker'
+import { CountryPicker } from '../FormComponents/CountryPicker/CountryPicker'
 import PersonInfo from '../FormComponents/Pasientopplysninger/PersonInfo'
 
 interface PasientopplysningerProps {

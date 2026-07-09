@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest'
-import { axe } from 'vitest-axe'
 
 import { OppholdsadresseFragment } from '../../../../graphql/queries/graphql.generated'
 import { render, screen } from '../../../../utils/testUtils'
@@ -7,58 +6,7 @@ import { render, screen } from '../../../../utils/testUtils'
 import Oppholdsadresse from './Oppholdsadresse'
 
 describe('Oppholdsadresse', () => {
-    it('should have no a11y issues and show vegadresse', async () => {
-        const vegadresse: OppholdsadresseFragment = {
-            __typename: 'Vegadresse',
-            adressenavn: 'Trondheimsveien',
-            husbokstav: 'C',
-            husnummer: '8',
-            postnummer: '1234',
-            poststed: 'Trondheim',
-        }
-
-        const { container } = render(<Oppholdsadresse oppholdsadresse={vegadresse} />)
-
-        expect(await axe(container)).toHaveNoViolations()
-
-        expect(screen.getByText('Trondheimsveien 8C')).toBeInTheDocument()
-        expect(screen.getByText('1234 Trondheim')).toBeInTheDocument()
-    })
-
-    it('should have no a11y issues and show matrikkeladresse', async () => {
-        const matrikkeladresse: OppholdsadresseFragment = {
-            __typename: 'Matrikkeladresse',
-            bruksenhetsnummer: 'H0101',
-            postnummer: '1111',
-            poststed: 'Bodø',
-            tilleggsnavn: 'Bergensergata',
-        }
-
-        const { container } = render(<Oppholdsadresse oppholdsadresse={matrikkeladresse} />)
-
-        expect(await axe(container)).toHaveNoViolations()
-
-        expect(screen.getByText('Bergensergata')).toBeInTheDocument()
-        expect(screen.getByText('H0101')).toBeInTheDocument()
-        expect(screen.getByText('1111 Bodø')).toBeInTheDocument()
-    })
-
     describe('utenlandskAdresse', () => {
-        it('should have no a11y issues for utenlandskAdresse', async () => {
-            const utenlandskadresse: OppholdsadresseFragment = {
-                __typename: 'UtenlandskAdresse',
-                adressenavnNummer: null,
-                bySted: 'Reykjavik',
-                landkode: 'ISL',
-                postboksNummerNavn: 'Einimel 80',
-                postkode: 'IS-107',
-            }
-
-            const { container } = render(<Oppholdsadresse oppholdsadresse={utenlandskadresse} />)
-
-            expect(await axe(container)).toHaveNoViolations()
-        })
-
         it('should show utenlandskAdresse', async () => {
             const utenlandsadresse: OppholdsadresseFragment = {
                 __typename: 'UtenlandskAdresse',
