@@ -1,0 +1,24 @@
+.comboboxWrapper {
+    min-width: 0;
+
+    :global(.aksel-combobox__wrapper),
+    :global(.aksel-combobox__wrapper-inner) {
+        min-width: 0;
+    }
+
+    :global(.aksel-combobox__selected-options) {
+        flex-wrap: nowrap;
+        min-width: 0;
+    }
+
+    :global(.aksel-combobox__selected-options) > li {
+        min-width: 0;
+    }
+
+    :global(.aksel-combobox__selected-options--no-bg) {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        min-width: 0;
+    }
+}

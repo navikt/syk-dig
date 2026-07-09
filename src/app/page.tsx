@@ -1,8 +1,8 @@
 import { GuidePanel } from '@navikt/ds-react'
 import { Metadata } from 'next'
-import Link from 'next/link'
 import { ReactElement } from 'react'
 
+import { AkselNextLink } from '../components/link/AkselNextLink'
 import { isLocalOrDemo } from '../utils/env'
 
 import DevScenarios from './_dev-scenarios'
@@ -20,7 +20,7 @@ function Home(): ReactElement {
                 med mangler.
             </GuidePanel>
             <div className="mt-8">
-                <Link href="/registrer-sykmelding">Registrer Sykmelding fra JournalpostID</Link>
+                <AkselNextLink href="/registrer-sykmelding">Registrer Sykmelding fra JournalpostID</AkselNextLink>
             </div>
             {isLocalOrDemo && <DevScenarios />}
         </div>

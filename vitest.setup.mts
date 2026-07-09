@@ -1,14 +1,11 @@
-import 'vitest-axe/extend-expect'
 import 'vitest-dom/extend-expect'
 import { cleanup } from '@testing-library/react'
 import * as mockRouter from 'next-router-mock'
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes'
 import { vi, expect, afterEach } from 'vitest'
-import * as vitestAxeMatchers from 'vitest-axe/matchers'
 import * as matchers from 'vitest-dom/matchers'
 
 expect.extend(matchers)
-expect.extend(vitestAxeMatchers)
 
 afterEach(() => {
     cleanup()

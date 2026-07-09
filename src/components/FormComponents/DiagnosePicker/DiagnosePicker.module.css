@@ -1,16 +1,5 @@
-.diagnosePicker {
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--a-spacing-8);
-}
-
-.field {
-    max-width: 20rem;
-}
-
 .diagnoseDescriptionText {
-    height: var(--a-spacing-12);
+    height: var(--ax-space-48);
     display: flex;
     align-items: center;
 }

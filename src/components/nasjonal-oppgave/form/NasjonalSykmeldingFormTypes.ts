@@ -4,7 +4,7 @@ import {
     HarArbeidsgiver,
     MedisinskArsakType,
 } from '../../../graphql/queries/graphql.generated'
-import { DiagnoseFormValue } from '../../FormComponents/DiagnosePicker/diagnose-combobox/types'
+import { DiagnoseFormValue } from '../../Sykmelding/DiagnoseFormSection'
 
 export type NasjonalFormValues = {
     pasientopplysninger: {

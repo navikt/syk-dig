@@ -11,7 +11,7 @@ function ModiaAlert({ error }: Props): ReactElement {
     return (
         <Alert variant="error" className="m-4 mt-0">
             <Heading level="2" size="medium" spacing>
-                Vi klarte ikke å hente dine enheter fra <span className="font-bold">Modia</span>
+                Vi klarte ikke å hente dine enheter fra <span className="font-ax-bold">Modia</span>
             </Heading>
             <BodyShort spacing>Du kan se på oppgaven, men du vil ikke kunne sende den inn. fungere.</BodyShort>
             <BodyShort spacing>

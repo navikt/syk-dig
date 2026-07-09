@@ -77,7 +77,7 @@ function PersonDisplay(): ReactElement {
                 <Skeleton width="67%" variant="rounded" />
             ) : (
                 error && (
-                    <BodyLong className="text-red-500">
+                    <BodyLong className="text-ax-danger-600">
                         En feil oppsto ved henting av pasient info. Ta kontakt dersom feilen vedvarer.
                     </BodyLong>
                 )

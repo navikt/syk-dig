@@ -46,7 +46,7 @@ function ActionSection({ submitResult, status, oppgaveId }: Props): ReactElement
     })
 
     return (
-        <div className="flex flex-col gap-8 p-8 border-t-2 border-border-default">
+        <div className="flex flex-col gap-8 p-8 border-t-2 border-ax-border-neutral">
             <OtherMutationsResult
                 tilbakeTilGosysResult={tilbakeTilGosysResult}
                 avvisSykmeldingResult={avvisSykmeldingResult}

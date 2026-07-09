@@ -1,10 +1,10 @@
 .periodePicker {
     display: flex;
-    margin-bottom: var(--a-spacing-4);
+    margin-bottom: var(--ax-space-16);
 }
 
 .dateRangePicker {
-    gap: var(--a-spacing-4);
+    gap: var(--ax-space-16);
     display: flex;
     flex-wrap: wrap;
     place-items: start;
@@ -12,7 +12,7 @@
 }
 
 .dateRangePicker :global(.navds-text-field__input[size]) {
-    width: calc(var(--a-spacing-32) * 1.4);
+    width: calc(var(--ax-space-128) * 1.4);
 }
 
 .dateRangeInput > :global(.navds-date__wrapper) {

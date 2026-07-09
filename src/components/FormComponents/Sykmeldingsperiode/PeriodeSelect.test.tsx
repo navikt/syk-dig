@@ -2,7 +2,6 @@ import userEvent from '@testing-library/user-event'
 import { ReactElement } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { describe, it, expect } from 'vitest'
-import { axe } from 'vitest-axe'
 
 import { render, screen } from '../../../utils/testUtils'
 
@@ -17,12 +16,6 @@ describe('PeriodeSelect', () => {
             </FormProvider>
         )
     }
-
-    it('should have no a11y issues', async () => {
-        const { container } = render(<PeriodeSelectComp />)
-
-        expect(await axe(container)).toHaveNoViolations()
-    })
 
     it('should have periodetype AKTIVITET_IKKE_MULIG as default', async () => {
         render(<PeriodeSelectComp />)

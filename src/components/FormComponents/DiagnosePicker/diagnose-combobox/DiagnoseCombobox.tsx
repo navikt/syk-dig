@@ -1,33 +1,86 @@
-import { Detail, Label } from '@navikt/ds-react'
+import { UNSAFE_Combobox as Combobox } from '@navikt/ds-react'
 import { logger } from '@navikt/next-logger'
-import { ReactElement, startTransition } from 'react'
+import React, { ReactElement, useState } from 'react'
 import useSWR from 'swr'
 
-import {
-    AkselifiedCombobox,
-    AkselifiedComboboxDisclosure,
-    AkselifiedComboboxItem,
-    AkselifiedComboboxLoading,
-    AkselifiedComboboxNonInteractiveFeedbackItem,
-    AkselifiedComboboxNonSelectables,
-    AkselifiedComboboxPopover,
-    AkselifiedComboboxWrapper,
-    useComboboxStore,
-    useStoreState,
-} from '../../combobox/AkselifiedCombobox'
-import { PossiblePickerFormNames } from '../DiagnosePicker'
+import { raise } from '../../../../utils/tsUtils'
+import { cn } from '../../../../utils/tw-utils'
 
-import { DiagnoseSuggestion, DiagnoseSystem } from './types'
+import styles from './DiagnoseCombobox.module.css'
+import { Diagnose, DiagnoseSystem } from './types'
 
 interface Props {
     id?: string
     className?: string
-    name: PossiblePickerFormNames
-    system: DiagnoseSystem
-    value: string | null
     label: string
-    onSelect: (value: DiagnoseSuggestion) => void
-    onChange: () => void
+    description?: string
+    system: DiagnoseSystem
+    value: Diagnose | null
+    onSelect: (value: Diagnose) => void
+    onBlur: () => void
+    error: string | undefined
+}
+
+export function DiagnoseCombobox({
+    id,
+    className,
+    label,
+    description,
+    system,
+    value,
+    onSelect,
+    onBlur,
+    error,
+}: Props): ReactElement {
+    const comboRef = React.useRef<HTMLInputElement>(null)
+    const endreRef = React.useRef<HTMLButtonElement>(null)
+
+    const [query, setQuery] = useState(value ? value.code : '')
+    const { isLoading, hasError, suggestions } = useSuggestions(query, system)
+    const serverSuggestionOptions = suggestions.map((it) => {
+        return {
+            label: `${it.text} - ${it.code}`,
+            value: createUniqueValue(it),
+        }
+    })
+
+    const handleOnToggleSelected = (value: string): void => {
+        const unwrappedValue = unwrapUniqueValue(value)
+        const selectedSuggestion = suggestions.find(
+            (it) =>
+                it.code.toLowerCase() === unwrappedValue.code.toLowerCase() &&
+                it.system.toLowerCase() === unwrappedValue.system.toLowerCase(),
+        )
+
+        if (selectedSuggestion == null) {
+            raise("Illegal state: Selected suggestion doesn't match with cache")
+        }
+
+        onSelect(selectedSuggestion)
+
+        requestAnimationFrame(() => {
+            endreRef.current?.focus()
+        })
+    }
+
+    return (
+        <Combobox
+            ref={comboRef}
+            id={id}
+            label={label}
+            description={description}
+            className={cn(styles.comboboxWrapper, className)}
+            value={query}
+            onChange={setQuery}
+            isLoading={isLoading}
+            error={hasError ? 'Klarte ikke å søke i diagnoser, prøv igjen senere' : error}
+            onBlur={onBlur}
+            filteredOptions={serverSuggestionOptions}
+            options={serverSuggestionOptions}
+            onToggleSelected={handleOnToggleSelected}
+            placeholder="Start å skrive for å søke etter diagnosekode"
+        />
+    )
 }
 
 function useSuggestions(
@@ -36,14 +89,14 @@ function useSuggestions(
 ): {
     isLoading: boolean
     hasError: boolean
-    suggestions: DiagnoseSuggestion[]
+    suggestions: Diagnose[]
 } {
     const { data, isLoading, error } = useSWR(
         () => {
             if (value.trim() === '') return null
             return [system, value]
         },
-        ([system, value]): Promise<{ suggestions: DiagnoseSuggestion[] } | { reason: string }> =>
+        ([system, value]): Promise<{ suggestions: Diagnose[] } | { reason: string }> =>
             fetch(`/api/diagnose?system=${system}&value=${encodeURIComponent(value)}`).then((it) => it.json()),
         {
             keepPreviousData: true,
@@ -58,60 +111,15 @@ function useSuggestions(
     return { isLoading, hasError: error != null, suggestions }
 }
 
-function DiagnoseCombobox({ id, className, name, system, value, label, onSelect, onChange }: Props): ReactElement {
-    const combobox = useComboboxStore({
-        defaultValue: value ?? '',
-        selectedValue: value ?? '',
-        setSelectedValue: (value) => {
-            const selectedSuggestion = suggestions.find((it) => it.code.toLowerCase() === value.toLowerCase())
-            onSelect(selectedSuggestion as DiagnoseSuggestion)
-        },
-        setValue: () => {
-            startTransition(() => {
-                onChange()
-            })
-        },
-    })
-    const state = useStoreState(combobox)
-    const { isLoading, hasError, suggestions } = useSuggestions(state.value, system)
-
-    return (
-        <AkselifiedComboboxWrapper labelId={`${id}-label`} label={label} className={className} store={combobox}>
-            <AkselifiedCombobox id={name} aria-labelledby={`${id}-label`} placeholder="Søk på kode eller beskrivelse">
-                <AkselifiedComboboxDisclosure loading={suggestions.length > 0 && isLoading} />
-            </AkselifiedCombobox>
-            <AkselifiedComboboxPopover>
-                <AkselifiedComboboxNonSelectables>
-                    {suggestions.length === 0 && isLoading && <AkselifiedComboboxLoading />}
-                    {(state.value.trim() === '' || (suggestions.length === 0 && !isLoading)) && (
-                        <AkselifiedComboboxNonInteractiveFeedbackItem>
-                            Søk på enten kode eller beskrivelse
-                        </AkselifiedComboboxNonInteractiveFeedbackItem>
-                    )}
-                    {suggestions.length === 0 && !isLoading && state.value.trim() !== '' && (
-                        <AkselifiedComboboxNonInteractiveFeedbackItem>
-                            {`Fant ingen diagnose med kode eller beskrivelse "${state.value}"`}
-                        </AkselifiedComboboxNonInteractiveFeedbackItem>
-                    )}
-                    {hasError && (
-                        <AkselifiedComboboxNonInteractiveFeedbackItem>
-                            {`Feil ved henting av ${system}-kode. Prøv igjen senere.`}
-                        </AkselifiedComboboxNonInteractiveFeedbackItem>
-                    )}
-                </AkselifiedComboboxNonSelectables>
-                {state.value &&
-                    suggestions.length > 0 &&
-                    suggestions.map((value) => (
-                        <AkselifiedComboboxItem key={value.code} value={value.code}>
-                            <Label>{value.code}</Label>
-                            <Detail className="text-right break-words ml-2 max-w-48 overflow-hidden">
-                                {value.text}
-                            </Detail>
-                        </AkselifiedComboboxItem>
-                    ))}
-            </AkselifiedComboboxPopover>
-        </AkselifiedComboboxWrapper>
-    )
+function createUniqueValue(suggestion: Diagnose): string {
+    return `${suggestion.code} - ${suggestion.system}`
 }
 
-export default DiagnoseCombobox
+function unwrapUniqueValue(value: string): Pick<Diagnose, 'code' | 'system'> {
+    const [code, system] = value.split(' - ')
+
+    return {
+        system: system as DiagnoseSystem,
+        code,
+    }
+}

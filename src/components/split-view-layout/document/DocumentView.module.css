@@ -11,9 +11,9 @@
 .heading {
     display: flex;
     align-items: center;
-    background-color: var(--a-bg-subtle);
-    min-height: var(--a-spacing-10);
-    padding-left: var(--a-spacing-4);
+    background-color: var(--ax-bg-neutral-soft);
+    min-height: var(--ax-space-40);
+    padding-left: var(--ax-space-16);
 }
 
 .tabsRoot :global(.navds-tabs__tablist) {

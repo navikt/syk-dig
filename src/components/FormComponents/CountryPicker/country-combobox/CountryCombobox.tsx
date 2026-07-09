@@ -1,73 +1,31 @@
-import React, { ReactElement, startTransition, useState } from 'react'
+import { UNSAFE_Combobox as Combobox } from '@navikt/ds-react'
+import React, { ReactElement } from 'react'
 
 import { countries } from '../../../../utils/countries'
-import {
-    AkselifiedCombobox,
-    AkselifiedComboboxDisclosure,
-    AkselifiedComboboxItem,
-    AkselifiedComboboxNonInteractiveFeedbackItem,
-    AkselifiedComboboxNonSelectables,
-    AkselifiedComboboxPopover,
-    AkselifiedComboboxWrapper,
-} from '../../combobox/AkselifiedCombobox'
+
+const countryOptions = countries.map((country) => ({ label: `${country.name} (${country.code})`, value: country.code }))
 
 type Props = {
     id?: string
+    value?: string | null
     onSelect: (countryCode: string | null) => void
-    onChange: () => void
-    initialValue: string | null
+    onBlur?: () => void
+    onFocus?: () => void
 }
 
-function CountryCombobox({ id, onChange, onSelect, initialValue }: Props): ReactElement {
-    const defaultCountry = countries.find((country) => country.code === initialValue)?.name
-    const [searchValue, setSearchValue] = useState(defaultCountry ?? '')
-    const suggestions = !searchValue.trim()
-        ? countries
-        : countries.filter(
-              (country) =>
-                  country.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-                  country.code.toLowerCase().includes(searchValue.toLowerCase()),
-          )
+export function CountryCombobox({ id, value, onSelect, onBlur }: Props): ReactElement {
+    const selectedCountry = countryOptions.find((option) => option.value === value)
 
     return (
-        <AkselifiedComboboxWrapper
-            defaultValue={defaultCountry ?? undefined}
-            labelId="country-typeahead-label"
+        <Combobox
+            id={id}
             label="Landet sykmeldingen ble skrevet"
-            setValue={(value) => {
-                const country = countries.find((country) => country.name === value)
-
-                startTransition(() => {
-                    if (country) {
-                        onSelect(country.code)
-                        setSearchValue(country.name)
-                    } else {
-                        onChange()
-                        setSearchValue(value)
-                    }
-                })
+            options={countryOptions}
+            selectedOptions={selectedCountry ? [selectedCountry] : []}
+            onToggleSelected={(value) => {
+                onSelect(value)
             }}
-        >
-            <AkselifiedCombobox id={id} aria-labelledby="country-typeahead-label" placeholder="Søk etter land">
-                <AkselifiedComboboxDisclosure />
-            </AkselifiedCombobox>
-            <AkselifiedComboboxPopover>
-                <AkselifiedComboboxNonSelectables>
-                    {suggestions.length === 0 && (
-                        <AkselifiedComboboxNonInteractiveFeedbackItem>
-                            {`Fant ingen land med navn eller kode "${searchValue}"`}
-                        </AkselifiedComboboxNonInteractiveFeedbackItem>
-                    )}
-                </AkselifiedComboboxNonSelectables>
-                {suggestions.length > 0 &&
-                    suggestions.map((value) => (
-                        <AkselifiedComboboxItem key={value.code} value={value.name}>
-                            {value.name}
-                        </AkselifiedComboboxItem>
-                    ))}
-            </AkselifiedComboboxPopover>
-        </AkselifiedComboboxWrapper>
+            onBlur={onBlur}
+        />
     )
 }
-
-export default CountryCombobox

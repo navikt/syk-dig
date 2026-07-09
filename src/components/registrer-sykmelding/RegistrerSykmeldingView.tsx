@@ -2,7 +2,6 @@
 
 import { useLazyQuery, useMutation } from '@apollo/client/react'
 import { Alert, BodyShort, Button, Detail, Heading, Radio, RadioGroup, TextField } from '@navikt/ds-react'
-import Link from 'next/link'
 import React, { ReactElement, useState } from 'react'
 
 import {
@@ -13,6 +12,7 @@ import {
 } from '../../graphql/queries/graphql.generated'
 import { useModiaContext } from '../../modia/modia-context'
 import { raise } from '../../utils/tsUtils'
+import { AkselNextLink } from '../link/AkselNextLink'
 import { PaneView } from '../split-view-layout/persistent-layout'
 import SplitDocumentView from '../split-view-layout/SplitDocumentView'
 
@@ -111,15 +111,15 @@ function Journalpost({ journalpost }: { journalpost: JournalpostFragment }): Rea
                 Journalpostdetaljer
             </Heading>
             <div className="flex flex-wrap gap-3 mb-8">
-                <div className="p-4 bg-bg-subtle">
+                <div className="p-4 bg-ax-bg-neutral-soft">
                     <Detail>ID</Detail>
                     <BodyShort>{journalpost.journalpostId}</BodyShort>
                 </div>
-                <div className="p-4 bg-bg-subtle">
+                <div className="p-4 bg-ax-bg-neutral-soft">
                     <Detail>Status</Detail>
                     <BodyShort>Journalstatus: {journalpost.journalstatus}</BodyShort>
                 </div>
-                <div className="p-4 bg-bg-subtle">
+                <div className="p-4 bg-ax-bg-neutral-soft">
                     <Detail>Fødselsnummer</Detail>
                     <BodyShort>{journalpost.fnr}</BodyShort>
                 </div>
@@ -129,7 +129,7 @@ function Journalpost({ journalpost }: { journalpost: JournalpostFragment }): Rea
             </Heading>
             <div className="flex flex-wrap gap-3">
                 {journalpost.dokumenter.map((value, index) => (
-                    <div key={value.dokumentInfoId} className="bg-bg-subtle p-4">
+                    <div key={value.dokumentInfoId} className="bg-ax-bg-neutral-soft p-4">
                         <Detail>Dokument {index + 1}</Detail>
                         <BodyShort>Tittel: {value.tittel}</BodyShort>
                         <BodyShort>DokumentId: {value.dokumentInfoId}</BodyShort>
@@ -223,18 +223,18 @@ function CreateSykmeldingForm({ journalpostId }: { journalpostId: string }): Rea
                         {createdOppgaveId && sykmeldingType === 'utenlandsk' && (
                             <BodyShort>
                                 Du kan digitalisere denne utenlandske sykmeldingen ved å{' '}
-                                <Link href={`/oppgave/${createdOppgaveId}?source=registrer-sykmelding`}>
+                                <AkselNextLink href={`/oppgave/${createdOppgaveId}?source=registrer-sykmelding`}>
                                     gå til oppgaven
-                                </Link>
+                                </AkselNextLink>
                                 .
                             </BodyShort>
                         )}
                         {createdOppgaveId && sykmeldingType === 'norsk' && (
                             <BodyShort>
                                 Du kan digitalisere denne nasjonale sykmeldingen ved å{' '}
-                                <Link href={`/nasjonal/${createdOppgaveId}?source=registrer-sykmelding`}>
+                                <AkselNextLink href={`/nasjonal/${createdOppgaveId}?source=registrer-sykmelding`}>
                                     gå til oppgaven
-                                </Link>
+                                </AkselNextLink>
                                 .
                             </BodyShort>
                         )}

@@ -12,7 +12,7 @@ type Props = {
 
 function BehandlerInfo({ behandlerInfo, sykmelder }: Props): ReactElement | null {
     return (
-        <div className="p-4 bg-surface-subtle">
+        <div className="p-4 bg-ax-bg-neutral-soft">
             <div className="flex">
                 <Heading level="3" size="medium" spacing>
                     Informasjon om behandleren

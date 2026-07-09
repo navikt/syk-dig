@@ -8,7 +8,7 @@ import { NasjonalFormValues } from '../../nasjonal-oppgave/form/NasjonalSykmeldi
 import { UtenlanskFormValues } from '../../Sykmelding/SykmeldingForm'
 import FieldError from '../FieldError/FieldError'
 
-import DiagnoseCombobox from './diagnose-combobox/DiagnoseCombobox'
+import { DiagnoseCombobox } from './diagnose-combobox/DiagnoseCombobox'
 import { DiagnoseSystem } from './diagnose-combobox/types'
 import styles from './DiagnosePicker.module.css'
 
@@ -44,9 +44,8 @@ function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props)
 
     return (
         <div>
-            <div className={styles.diagnosePicker}>
+            <div className="grid grid-cols-[12ch_minmax(0,1fr)_24ch] gap-3 items-start relative">
                 <Select
-                    className={styles.field}
                     label={
                         !specificLabels
                             ? 'Kodesystem'
@@ -62,9 +61,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props)
                 </Select>
                 <DiagnoseCombobox
                     key={field.value.system}
-                    className={styles.field}
                     id={`${name}-combobox`}
-                    name={name}
                     label={
                         !specificLabels
                             ? 'Diagnosekode'
@@ -73,16 +70,20 @@ function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props)
                               : '3.2.2 Kode'
                     }
                     system={field.value.system}
-                    value={field.value.code}
+                    value={
+                        field.value.code
+                            ? {
+                                  system: field.value.system,
+                                  code: field.value.code,
+                                  text: field.value.text ?? '',
+                              }
+                            : null
+                    }
                     onSelect={(suggestion) => field.onChange({ ...suggestion, system: field.value.system })}
-                    onChange={() => {
-                        if (field.value.code) {
-                            resetValues(field.value.system)
-                        }
-                    }}
+                    onBlur={field.onBlur}
+                    error={fieldState.error?.message}
                 />
                 <DiagnoseDescription
-                    className={styles.field}
                     text={field.value.text}
                     label={
                         !specificLabels
@@ -120,7 +121,7 @@ function DiagnoseDescription({
 }): ReactElement {
     return (
         <div className={cn(className, 'navds-form-field navds-form-field--medium')}>
-            <Heading level="3" size="xsmall">
+            <Heading level="3" size="xsmall" className="mb-1">
                 {label}
             </Heading>
             <BodyShort className={cn('h-12 flex items-start')}>{text ?? '-'}</BodyShort>

@@ -1,13 +1,13 @@
 .pageTitle {
-    padding: var(--a-spacing-6);
-    padding-left: var(--a-spacing-4);
+    padding: var(--ax-space-24);
+    padding-left: var(--ax-space-16);
     position: relative;
 }
 
 .titleActions {
     position: absolute;
-    right: var(--a-spacing-4);
-    top: var(--a-spacing-4);
+    right: var(--ax-space-16);
+    top: var(--ax-space-16);
     display: flex;
-    gap: var(--a-spacing-1);
+    gap: var(--ax-space-4);
 }
