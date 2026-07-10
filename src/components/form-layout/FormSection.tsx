@@ -15,7 +15,7 @@ function FormSection({ id, className, title, children }: PropsWithChildren<Props
     return (
         <section className="mt-4 last-of-type:mb-8" aria-labelledby={id}>
             <SectionHeader headingId={id} title={title} />
-            <div className={cn('p-4', className)}>{children}</div>
+            <div className={cn('px-4', className)}>{children}</div>
         </section>
     )
 }
@@ -31,7 +31,7 @@ export function SectionHeader({ headingId, title }: SectionHeaderProps): ReactEl
             level="2"
             size="xsmall"
             id={headingId}
-            className="mb-2 flex h-14 items-center bg-ax-bg-neutral-soft pl-4 uppercase"
+            className="mb-4 flex h-14 items-center bg-ax-bg-neutral-soft pl-4 uppercase"
         >
             {title}
         </Heading>
@@ -42,7 +42,7 @@ export function FormSectionSkeleton({ children }: PropsWithChildren<Omit<Props, 
     return (
         <div className="mt-4 last-of-type:mb-8">
             <SectionHeader title={<SmallHeadingSkeleton />} />
-            <div className="p-4">{children}</div>
+            <div className="px-4">{children}</div>
         </div>
     )
 }

@@ -44,7 +44,7 @@ function DiagnosePicker({ name, diagnoseType, onRemove, specificLabels }: Props)
 
     return (
         <div>
-            <div className="grid grid-cols-[12ch_minmax(0,1fr)_24ch] gap-3 items-start relative">
+            <div className="grid grid-cols-[16ch_minmax(0,1fr)_24ch] gap-3 items-start relative">
                 <Select
                     label={
                         !specificLabels
