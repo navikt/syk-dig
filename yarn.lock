@@ -5261,6 +5261,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nanoid@npm:^3.3.16":
+  version: 3.3.16
+  resolution: "nanoid@npm:3.3.16"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: 10c0/bbf2dcffe22d2b62d16de2711752070b539c0f644c7916f823ad6521986b2078cbe524f2d6240f58c46e9141ea0c7b87a029e100c0f7f175228cacaf30e41bba
+  languageName: node
+  linkType: hard
+
 "negotiator@npm:^1.0.0":
   version: 1.0.0
   resolution: "negotiator@npm:1.0.0"
@@ -5951,6 +5960,17 @@ __metadata:
     picocolors: "npm:^1.1.1"
     source-map-js: "npm:^1.2.1"
   checksum: 10c0/625de7a02f662f3a340964d14b487bd5097adf16f5f171e257d19005ba37aea8768ee446557500e88e91ca46b4d14d6cb4a0bf033c6ec0c8c0b660d85719f1ef
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^8.5.24":
+  version: 8.5.24
+  resolution: "postcss@npm:8.5.24"
+  dependencies:
+    nanoid: "npm:^3.3.16"
+    picocolors: "npm:^1.1.1"
+    source-map-js: "npm:^1.2.1"
+  checksum: 10c0/b3854840ffee4604249a1bad97291105a974009d63b068b716dbee1d2e034bb965353a9fb4d6e957ede475b2acf4167cd4b1d41074f8dd3ce2fe488b60c8ce44
   languageName: node
   linkType: hard
 
@@ -6829,7 +6849,7 @@ __metadata:
     pdfobject: "npm:^2.3.1"
     pino: "npm:^10.3.1"
     pino-pretty: "npm:^13.1.3"
-    postcss: "npm:^8.5.16"
+    postcss: "npm:^8.5.24"
     prom-client: "npm:^15.1.3"
     react: "npm:19.2.7"
     react-dom: "npm:19.2.7"
@@ -6839,7 +6859,7 @@ __metadata:
     rxjs: "npm:^7.8.2"
     swr: "npm:^2.4.2"
     tailwind-merge: "npm:^3.6.0"
-    tailwindcss: "npm:^4.3.2"
+    tailwindcss: "npm:^4.3.3"
     typescript: "npm:6.0.3"
     vite: "npm:^8.1.3"
     vitest: "npm:^4.1.10"
@@ -6880,10 +6900,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:4.3.2, tailwindcss@npm:^4.3.2":
+"tailwindcss@npm:4.3.2":
   version: 4.3.2
   resolution: "tailwindcss@npm:4.3.2"
   checksum: 10c0/5a377846f77590812df234446175c4c2a45111a9626fd135e46f4552a33faee0d10c4e51aa5bbec955583265d48b380fb66c96f5da2775c961d4c26157617d19
+  languageName: node
+  linkType: hard
+
+"tailwindcss@npm:^4.3.3":
+  version: 4.3.3
+  resolution: "tailwindcss@npm:4.3.3"
+  checksum: 10c0/7e9cd7553cd890ffa5350efb0ca8971ba5435257d0f98bf0714994ac8f1fee5c7cdf9a9da47fe83e8ac995d728410837ac49d3ef5ea66b5afe1db312086ffae2
   languageName: node
   linkType: hard
 
