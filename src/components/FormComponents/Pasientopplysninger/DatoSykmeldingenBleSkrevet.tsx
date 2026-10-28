@@ -25,7 +25,9 @@ function DatoSykmeldingenBleSkrevet(): ReactElement {
     })
 
     const { datepickerProps, inputProps } = useDatepicker({
+        // oxlint-disable-next-line react/purity
         toDate: new Date(),
+        // oxlint-disable-next-line react/purity
         today: new Date(),
         defaultSelected: field.value ? toDate(field.value) : undefined,
         onDateChange: (date: Date | undefined) => {

@@ -57,6 +57,7 @@ function SykmeldingForm({ values, person }: Props): ReactElement {
         shouldFocusError: false,
     })
 
+    // oxlint-disable-next-line react/incompatible-library
     const shouldShowAvvisActions = form.watch('mangelfullSykmelding') === true
 
     // RHF has a weird interaction with "reset" where the form is set to dirty, but is then immediately

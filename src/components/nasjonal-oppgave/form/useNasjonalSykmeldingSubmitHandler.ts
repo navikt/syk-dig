@@ -64,6 +64,7 @@ export function useSubmitNasjonalSykmelding({ oppgaveId, sykmelding, status }: U
                     )
                     return
                 }
+                // oxlint-disable-next-line typescript/only-throw-error
                 throw error
             },
         })
