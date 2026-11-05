@@ -44,6 +44,7 @@ spec:
         - /favicon.ico
   ingresses:
     - 'https://syk-dig.intern.dev.nav.no'
+    - 'https://syk-dig.ansatt.dev.nav.no'
   accessPolicy:
     outbound:
       rules:
